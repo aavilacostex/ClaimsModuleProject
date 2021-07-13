@@ -1,0 +1,16 @@
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.DTO.dll
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.DTO.pdb
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.DTO.xml
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.UTIL.dll
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\IBM.Data.DB2.iSeries.dll
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.UTIL.pdb
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.UTIL.xml
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\bin\Debug\IBM.Data.DB2.iSeries.xml
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.vbprojAssemblyReference.cache
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.Resources.resources
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.vbproj.GenerateResource.cache
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.vbproj.CoreCompileInputs.cache
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.vbproj.CopyComplete
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.dll
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.xml
+C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.pdb
