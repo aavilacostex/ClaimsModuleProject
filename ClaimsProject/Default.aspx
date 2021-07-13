@@ -73,7 +73,7 @@
                         <div id="pnAddFile" class="shadow-to-box">
                             <div class="row" style="padding: 30px 0;">
                                 <div class="col-md-3"></div>
-                                <div class="col-md-6"><span id="spnLoadExcel">file to import data</span></div>
+                                <div class="col-md-6"><span id="spnLoadExcel">file to import the data</span></div>
                                 <div class="col-md-3"></div>
                             </div>
                             <div class="row">
