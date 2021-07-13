@@ -3979,6 +3979,7 @@ Public Class _Default
             '    images.Add(String.Format("~/Images/ToProcess/{0}", System.IO.Path.GetFileName(item)))
             '    'images.Add("~/Images/back1.png")
             'Next
+            'pepe
 
             datViewer.DataSource = images
             datViewer.DataBind()
