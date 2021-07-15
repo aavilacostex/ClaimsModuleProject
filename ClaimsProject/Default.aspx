@@ -66,6 +66,56 @@
                 </div>
             </div>
 
+            <div id="integratedRow" class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="rowPageSize" class="row">
+                            <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed">
+                                <asp:Label ID="lblText1" Text="Show " runat="server"></asp:Label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 flex-item-2 padd-fixed">
+                                <asp:DropDownList name="ddlPageSize" ID="ddlPageSize" AutoPostBack="true" OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged" class="form-control" runat="server"></asp:DropDownList>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed">
+                                <asp:Label ID="lblText2" Text=" entries." runat="server"></asp:Label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="rowBtnOpt" class="row">
+                            <div class="col-xs-12 col-sm-3"></div>
+                            <div class="col-xs-12 col-sm-2 flex-item-1 padd-fixed">
+                                <asp:Button ID="btnExcel" class="btn btn-primary btn-lg float-right btnFullSize" runat="server" Text="Excel" />
+                            </div>
+                            <div class="col-xs-12 col-sm-2 flex-item-2 padd-fixed">
+                                <asp:Button ID="btnPdf" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Pdf" />
+                            </div>
+                            <div class="col-xs-12 col-sm-2 flex-item-3 padd-fixed">
+                                <asp:Button ID="btnCopy" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Copy" />
+                            </div>
+                            <div class="col-xs-12 col-sm-3"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="rowBtnSearch" class="row">
+                            <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed" style="float: right;">
+                                <asp:Label ID="lblSearch" Text="Search: " runat="server" Height="27px"></asp:Label>
+                            </div>
+                            <div class="col-xs-12 col-sm-5 flex-item-2 padd-fixed">
+                                <asp:TextBox name="txtSearch" ID="txtSearch" class="form-control" runat="server"></asp:TextBox>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 flex-item-2 padd-fixed">
+                                <asp:Button name="btnSearch" ID="btnSearch" class="btn btn-primary btn-sm btnFullSize1" Text="Search" runat="server"></asp:Button>
+                            </div>
+                            <%--<div class="spinner-grow text-warning"></div>--%>
+                        </div>
+                        <div id="notVisibleKeyPress" style="display: none" runat="server">
+                            <asp:Button ID="Button1" runat="server" Text="Button" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="loadFileSection" class="container hideProp" runat="server">
                 <div class="row">
                     <div class="col-md-3"></div>
@@ -148,57 +198,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>        
-            </div>
-
-            <div id="integratedRow" class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div id="rowPageSize" class="row">
-                            <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed">
-                                <asp:Label ID="lblText1" Text="Show " runat="server"></asp:Label>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 flex-item-2 padd-fixed">
-                                <asp:DropDownList name="ddlPageSize" ID="ddlPageSize" AutoPostBack="true" OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged" class="form-control" runat="server"></asp:DropDownList>
-                            </div>
-                            <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed">
-                                <asp:Label ID="lblText2" Text=" entries." runat="server"></asp:Label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div id="rowBtnOpt" class="row">
-                            <div class="col-xs-12 col-sm-3"></div>
-                            <div class="col-xs-12 col-sm-2 flex-item-1 padd-fixed">
-                                <asp:Button ID="btnExcel" class="btn btn-primary btn-lg float-right btnFullSize" runat="server" Text="Excel" />
-                            </div>
-                            <div class="col-xs-12 col-sm-2 flex-item-2 padd-fixed">
-                                <asp:Button ID="btnPdf" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Pdf" />
-                            </div>
-                            <div class="col-xs-12 col-sm-2 flex-item-3 padd-fixed">
-                                <asp:Button ID="btnCopy" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Copy" />
-                            </div>
-                            <div class="col-xs-12 col-sm-3"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div id="rowBtnSearch" class="row">
-                            <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed" style="float: right;">
-                                <asp:Label ID="lblSearch" Text="Search: " runat="server" Height="27px"></asp:Label>
-                            </div>
-                            <div class="col-xs-12 col-sm-5 flex-item-2 padd-fixed">
-                                <asp:TextBox name="txtSearch" ID="txtSearch" class="form-control" runat="server"></asp:TextBox>
-                            </div>
-                            <div class="col-xs-12 col-sm-3 flex-item-2 padd-fixed">
-                                <asp:Button name="btnSearch" ID="btnSearch" class="btn btn-primary btn-sm btnFullSize1" Text="Search" runat="server"></asp:Button>
-                            </div>
-                            <%--<div class="spinner-grow text-warning"></div>--%>
-                        </div>
-                        <div id="notVisibleKeyPress" style="display: none" runat="server">
-                            <asp:Button ID="Button1" runat="server" Text="Button" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>            
 
             <div class="container">
                 <div id="rowFilters" class="row">
@@ -1457,6 +1457,8 @@
                             <!-- panels to show -->
                             <!-- Add comments panels  -->
                             <div id="rowAddComments" runat="server">
+
+                                <!-- row add comments section -->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -1495,8 +1497,8 @@
                                                             <div class="col-md-6 padding0">
                                                                 <label for="sel-vndassigned">To</label>
                                                                 <div class="input-group-append">
-                                                                    <asp:TextBox ID="txtAddCommDateTo" name="txt-dateto" placeholder="MM/DD/AAAA" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <asp:TextBox ID="txtAddCommDateTo" name="txt-dateto" placeholder="HH:MM:SS" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1512,7 +1514,7 @@
                                                         </div>
 
                                                         <!-- row for int and ext comm -->
-                                                        <div class="form-row">
+                                                        <div class="form-row" style="border-bottom: 2px groove whitesmoke;">
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <asp:Label ID="lblAddIntComm" CssClass="label-style" Text="Internal Comment" runat="server"></asp:Label>
@@ -1525,38 +1527,62 @@
                                                                     <asp:RadioButton ID="rdAddExtComm" runat="server" />
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div>                                                        
 
                                                         <!-- row for add comment gridview -->
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="panel panel-default">
-                                                                    <div class="panel-body">
-                                                                        <div class="form-horizontal">
-                                                                            <asp:GridView ID="grvAddComm" AutoGenerateColumns="false" GridLines="None" ShowFooter="true" 
-                                                                                CssClass="table table-striped table-bordered" OnRowDataBound="grvAddComm_RowDataBound" 
-                                                                                OnRowEditing="grvAddComm_OnRowEditing" OnRowCommand="grvAddComm_RowCommand" OnRowUpdating="grvAddComm_OnRowUpdating"
-                                                                                runat="server" AutoGenerateEditButton="true" AutoGenerateDeleteButton ="true">
-                                                                                <Columns> 
-                                                                                    <asp:TemplateField>
-                                                                                        <ItemTemplate>
-                                                                                            <asp:TextBox ID="txtInnerComment" Text='<%# Eval("Comment") %>' runat="server"></asp:TextBox>
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <%--<asp:BoundField DataField="Comment" HeaderText="COMMENTS" ItemStyle-Width="6%" />--%>
-                                                                                    <asp:TemplateField>                                                                                        
-                                                                                        <FooterStyle HorizontalAlign="Right" />
-                                                                                        <FooterTemplate>
-                                                                                            <asp:linkButton ID="grvAddBtn" CommandName="AddNewRow" Text="Add New Row" runat="server"  />
-                                                                                        </FooterTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                </Columns>
-                                                                                <HeaderStyle BackColor="#0063A6" ForeColor="White" />
-                                                                            </asp:GridView>
-                                                                        </div>
+                                                        <div class="form-row" style="padding-top: 10px !important;">
+                                                            <div class="col-md-12"> 
+                                                                <div class="form-group">                                                                    
+                                                                    <asp:Label ID="lblMessage" CssClass="label-style" Text="Message" runat="server"></asp:Label>
+                                                                    <asp:TextBox ID="txtMessage" TextMode="MultiLine" CssClass="form-control fullTextBox" runat="server"></asp:TextBox>  
+                                                                    
+                                                                    <div style="float:right;padding-top: 10px;padding-bottom: 10px;">
+                                                                        <asp:Button ID="btnMessage" Text="Add New Comment" CssClass="btn btn-primary btnAdjustSize" OnClick="btnMessage_Click" runat="server" />
                                                                     </div>
+                                                                    
+
+                                                                    <%--<asp:GridView ID="grvAddComm" AutoGenerateColumns="false" GridLines="None" ShowFooter="true" 
+                                                                        CssClass="table table-striped table-bordered" OnRowDataBound="grvAddComm_RowDataBound" 
+                                                                        OnRowEditing="grvAddComm_OnRowEditing" OnRowCommand="grvAddComm_RowCommand" OnRowUpdating="grvAddComm_OnRowUpdating"
+                                                                        runat="server" AutoGenerateEditButton="true" AutoGenerateDeleteButton ="true">
+                                                                        <Columns> 
+                                                                            <asp:TemplateField>
+                                                                                <ItemTemplate>
+                                                                                    <asp:TextBox ID="txtInnerComment" Text='<%# Eval("Comment") %>' runat="server"></asp:TextBox>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <%--<asp:BoundField DataField="Comment" HeaderText="COMMENTS" ItemStyle-Width="6%" />--%>
+                                                                            <%-- <asp:TemplateField>                                                                                        
+                                                                                <FooterStyle HorizontalAlign="Right" />
+                                                                                <FooterTemplate>
+                                                                                    <asp:linkButton ID="grvAddBtn" CommandName="AddNewRow" Text="Add New Row" runat="server"  />
+                                                                                </FooterTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                        <HeaderStyle BackColor="#0063A6" ForeColor="White" />
+                                                                    </asp:GridView>--%>
+                                                                </div>                                                                
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <asp:ListBox ID="lstComments" EnableViewState=" true" ViewStateMode="Enabled" runat="server"> </asp:ListBox> 
                                                                 </div>
                                                             </div>
+                                                        </div>
+
+                                                        <!-- row for comment action buttons -->
+                                                        <div class="form-row last">
+                                                            <div class="col-md-4"></div>
+                                                            <div class="col-md-2">
+                                                                <asp:Button ID="btnSaveComment" Text="Save" OnClick="btnSaveComment_click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <asp:Button ID="btnExitComment" Text="Exit" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-4"></div>
                                                         </div>
 
                                                     </asp:Panel>
@@ -1564,10 +1590,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-3">&nbsp;</div>
-                                        </div>
+                                        </div>                                        
                                     </div>                                    
                                 </div>
 
+                                <!-- row add vnd comments section -->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -1575,52 +1602,116 @@
                                             <div class="col-md-6">
                                                 <div id="addVendorComments" class="container hideProp" runat="server">
 
-                                                    <div class="form-row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <asp:Label ID="lblAddClaimNo" CssClass="label-style" Text="Claim No." runat="server"></asp:Label>
-                                                                <asp:TextBox ID="txtAddClaimNo" CssClass="form-control fullTextBox" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <!-- panel for claim vnd comments -->
+                                                    <asp:Panel ID="pnVndClaimComm" GroupingText="Add Vendor Claim Comments" runat="server">
 
-                                                    <div id="rowAddVndCommInit" class="form-row">
-                                                        <div class="col-md-1"></div>
-                                                        <div class="col-md-5 padding0">
-                                                            <label for="sel-vndassigned">From</label>
-                                                            <div class="input-group-append">
-                                                                <asp:TextBox ID="txtAddVndCommDateInit" name="txt-dateinit" placeholder="MM/DD/AAAA" class="form-control autosuggestdateinit" runat="server"></asp:TextBox>
-                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        <!-- row for claimNo -->
+                                                        <div class="form-row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <asp:Label ID="lblAddClaimNo" CssClass="label-style" Text="Claim No." runat="server"></asp:Label>
+                                                                    <asp:TextBox ID="txtAddClaimNo" CssClass="form-control fullTextBox" runat="server" />
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-1"></div>
-                                                        <div class="col-md-5 padding0">
-                                                            <label for="sel-vndassigned">To</label>
-                                                            <div class="input-group-append">
-                                                                <asp:TextBox ID="txtAddVndCommDateTo" name="txt-dateto" placeholder="MM/DD/AAAA" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
-                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="form-row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <asp:Label ID="lblAddVndSubject" CssClass="label-style" Text="Return No." runat="server"></asp:Label>
-                                                                <asp:TextBox ID="txtAddVndSubject" CssClass="form-control fullTextBox" runat="server" />
+                                                        <!-- row for dates -->
+                                                        <div id="rowAddVndCommInit" class="form-row">                                                            
+                                                            <div class="col-md-6 padding0">
+                                                                <label for="sel-vndassigned">From</label>
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtAddVndCommDateInit" name="txt-dateinit" placeholder="MM/DD/AAAA" class="form-control autosuggestdateinit" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                </div>
+                                                            </div>                                                            
+                                                            <div class="col-md-6 padding0">
+                                                                <label for="sel-vndassigned">To</label>
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtAddVndCommDateTo" name="txt-dateto" placeholder="HH:MM:SS" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-clock"></i></span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+
+                                                        <!-- row for vnd subject -->
+                                                        <div class="form-row" style="border-bottom: 2px groove whitesmoke;">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <asp:Label ID="lblAddVndSubject" CssClass="label-style" Text="Subject" runat="server"></asp:Label>
+                                                                    <asp:TextBox ID="txtAddVndSubject" CssClass="form-control fullTextBox" runat="server" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- row for add comment gridview -->
+                                                        <div class="form-row" style="padding-top: 10px;">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <asp:Label ID="lblVndMessage" CssClass="label-style" Text="Message" runat="server"></asp:Label>
+                                                                    <asp:TextBox ID="txtVndMessage" TextMode="MultiLine" CssClass="form-control fullTextBox" runat="server"></asp:TextBox>
+
+                                                                    <div style="float: right; padding-top: 10px; padding-bottom: 10px;">
+                                                                        <asp:Button ID="btnVndMessage" Text="Add New Comment" CssClass="btn btn-primary btnAdjustSize" OnClick="btnVndMessage_Click" runat="server" />
+                                                                    </div>
+
+
+                                                                    <%--<asp:GridView ID="grvAddComm" AutoGenerateColumns="false" GridLines="None" ShowFooter="true" 
+                                                                        CssClass="table table-striped table-bordered" OnRowDataBound="grvAddComm_RowDataBound" 
+                                                                        OnRowEditing="grvAddComm_OnRowEditing" OnRowCommand="grvAddComm_RowCommand" OnRowUpdating="grvAddComm_OnRowUpdating"
+                                                                        runat="server" AutoGenerateEditButton="true" AutoGenerateDeleteButton ="true">
+                                                                        <Columns> 
+                                                                            <asp:TemplateField>
+                                                                                <ItemTemplate>
+                                                                                    <asp:TextBox ID="txtInnerComment" Text='<%# Eval("Comment") %>' runat="server"></asp:TextBox>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <%--<asp:BoundField DataField="Comment" HeaderText="COMMENTS" ItemStyle-Width="6%" />--%>
+                                                                    <%-- <asp:TemplateField>                                                                                        
+                                                                                <FooterStyle HorizontalAlign="Right" />
+                                                                                <FooterTemplate>
+                                                                                    <asp:linkButton ID="grvAddBtn" CommandName="AddNewRow" Text="Add New Row" runat="server"  />
+                                                                                </FooterTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                        <HeaderStyle BackColor="#0063A6" ForeColor="White" />
+                                                                    </asp:GridView>--%>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <asp:ListBox ID="lstVndMessage" EnableViewState=" true" ViewStateMode="Enabled" runat="server"></asp:ListBox>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- row for comment action buttons -->
+                                                        <div class="form-row last">
+                                                            <div class="col-md-4"></div>
+                                                            <div class="col-md-2">
+                                                                <asp:Button ID="btnVndSaveComment" Text="Save" OnClick="btnVndSaveComment_click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <asp:Button ID="btnVndExitComment" Text="Exit" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-4"></div>
+                                                        </div>
+
+                                                    </asp:Panel>
 
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>                                
 
                             </div>
                             <!-- See comments panels  -->
                             <div id="rowSeeComments" runat="server">
+
+                                <!-- row see comments section -->
                                 <div class="row">
                                     <div id="seeCommentsR" class="container hideProp" runat="server">
                                         <!-- Warning No and Return No values -->
@@ -1639,6 +1730,7 @@
                                             </div>
                                         </div>
 
+                                        <!-- row gridview see comments -->
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="panel panel-default">
@@ -1651,7 +1743,7 @@
                                                                     OnRowCommand="grvSeeComm_RowCommand">
                                                                     <Columns>
                                                                         <asp:BoundField DataField="CWWRNO" HeaderText="ID" ItemStyle-Width="3%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
-                                                                        <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
+                                                                        <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%"  />
                                                                         <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="15%" />
                                                                         <asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="6%" />
                                                                         <asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="6%" />
@@ -1693,12 +1785,29 @@
                                             </div>
                                         </div>
 
+                                         <!-- row actions btns see vnd comments -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3"></div>
+                                            <div class="form-group col-md-6" style="padding-top: 20px;">
+                                                <div class="row">
+                                                    <div class="col-md-6" style="float: right; text-align: right !important;">
+                                                        <asp:Button ID="btnPrintSeeClaim" Text="Print" class="btn btn-primary btnAdjustSize" runat="server" />
+                                                    </div>
+                                                    <div class="col-md-6" style="float: left;">
+                                                        <asp:Button ID="btnExitSeeClaim" Text="   Exit   " class="btn btn-primary btnAdjustSize" runat="server" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3"></div>
+                                        </div>
+
                                     </div>
                                 </div>
 
+                                <!-- row see vnd comments section -->
                                 <div class="row">
                                     <div id="seeVendorComments" class="container hideProp" runat="server">
-
+                                        <!-- Cust No value -->
                                         <div class="form-row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -1708,6 +1817,7 @@
                                             </div>
                                         </div>
 
+                                        <!-- row gridview see vnd comments -->
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="panel panel-default">
@@ -1761,15 +1871,16 @@
                                             </div>
                                         </div>
 
+                                        <!-- row actions btns see vnd comments -->
                                         <div class="form-row">
                                             <div class="form-group col-md-3"></div>
                                             <div class="form-group col-md-6" style="padding-top: 20px;">
                                                 <div class="row">
                                                     <div class="col-md-6" style="float: right; text-align: right !important;">
-                                                        <asp:Button ID="btnPrintSeeVndClaim" Text="Print" class="btn btn-primary btn-lg btnFullSize" runat="server" />
+                                                        <asp:Button ID="btnPrintSeeVndClaim" Text="Print" class="btn btn-primary btnAdjustSize" runat="server" />
                                                     </div>
                                                     <div class="col-md-6" style="float: left;">
-                                                        <asp:Button ID="btnExitSeeVndClaim" Text="   Exit   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
+                                                        <asp:Button ID="btnExitSeeVndClaim" Text="   Exit   " class="btn btn-primary btnAdjustSize" runat="server" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1777,6 +1888,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
@@ -1830,6 +1942,14 @@
     </script>  
 
     <script type="text/javascript">
+
+        //starting test function for add textboxes
+
+        
+
+        //ending test function for add textboxes
+
+
 
         //from above
 
@@ -1958,7 +2078,7 @@
             } else {
                 $j('#<%=hdGridViewContent.ClientID %>').val("1");
                 $j('#<%=hdNavTabsContent.ClientID %>').val("0");
-            }
+            }            
             
             //var hd1 = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
             //$j('#MainContent_addNewPartManual2').closest('.container').removeClass('hideProp')
@@ -1979,6 +2099,8 @@
                 $j('#MainContent_navsSection').addClass('hideProp')
                 
             }
+
+            $j('#<%=hdAddClaimFile.ClientID %>').val("0");
 
             <%--var iGridViewClass = document.getElementById('<%=hdSelectedClass.ClientID%>').value;
             iAccess.toggleClass('divCustomClass divCustomClassOk');--%>           
@@ -2226,8 +2348,8 @@
             //debugger
 
             var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-            if (hdFile == "0")
-                $j('#<%=hdAddClaimFile.ClientID %>').val("1")
+            if (hdFile == "0") { $j('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            else { $j('#<%=hdAddClaimFile.ClientID %>').val("0"); }
         });
 
         $j('body').on('click', '#MainContent_btnImportExcel', function (e) {
@@ -2238,20 +2360,52 @@
                 $j('#<%=hdFileImportFlag.ClientID %>').val("1")
         });
 
+        $j('body').on('click', '#MainContent_btnExitComment', function (e) {
+            //debugger
+
+            $j('#<%=hdAddComments.ClientID %>').val("0")
+            $j('#<%=hdAddVndComments.ClientID %>').val("0")            
+
+            $j('#<%=hdSeeComments.ClientID %>').val("0")
+            $j('#<%=hdSeeVndComments.ClientID %>').val("0")
+        });
+
         $j('body').on('click', '#MainContent_btnAddComments', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdDisplayAddVndClaim.ClientID%>').value
-            if (hdFile == "0")
-                $j('#<%=hdDisplayAddVndClaim.ClientID %>').val("1")
+            if (hdFile == "0") {
+                //$j('#<%=hdDisplayAddVndClaim.ClientID %>').val("1")
+                $j('#<%=hdAddComments.ClientID %>').val("0")
+                $j('#<%=hdAddVndComments.ClientID %>').val("1")
+            }
+            else {
+                $j('#<%=hdAddComments.ClientID %>').val("1")
+                $j('#<%=hdAddVndComments.ClientID %>').val("0")
+            }
+
+            $j('#<%=hdSeeComments.ClientID %>').val("0")
+            $j('#<%=hdSeeVndComments.ClientID %>').val("0")
         });
 
         $j('body').on('click', '#MainContent_btnSeeComments', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
-            if (hdFile == "0")
-                $j('#<%=hdDisplaySeeVndClaim.ClientID %>').val("1")
+            if (hdFile == "0") {
+                <%--$j('#<%=hdDisplaySeeVndClaim.ClientID %>').val("1")
+                $j('#<%=hdDisplayAddVndClaim.ClientID %>').val("0")--%>
+
+                $j('#<%=hdSeeComments.ClientID %>').val("0")
+                $j('#<%=hdSeeVndComments.ClientID %>').val("1")
+            }
+            else {
+                $j('#<%=hdSeeComments.ClientID %>').val("1")
+                $j('#<%=hdSeeVndComments.ClientID %>').val("0")
+            }
+
+            $j('#<%=hdAddComments.ClientID %>').val("0")
+            $j('#<%=hdAddVndComments.ClientID %>').val("0")
         });
 
         $j('body').on('click', '#MainContent_btnExitSeeVndClaim', function (e) {
@@ -2262,13 +2416,13 @@
                 $j('#<%=hdDisplaySeeVndClaim.ClientID %>').val("0")
         });
 
-        $j('body').on('click', '#MainContent_btnAddComments', function (e) {
+        <%--$j('body').on('click', '#MainContent_btnAddComments', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdAddComments.ClientID%>').value
             if (hdFile == "0")
                 $j('#<%=hdAddComments.ClientID %>').val("1")
-        });
+        });--%>
 
         $j('body').on('click', '#MainContent_btnSave', function (e) {
             //debugger
@@ -2625,13 +2779,9 @@
             claimNoAutoComplete();
             PartNoAutoComplete();
             CustomerNoAutoComplete();
-        });        
+        });  
 
-        function pageLoad(event, args) {
-            debugger
-          
-            console.log("BeginPageLoad");
-
+        function execDatePickers() {
             $j('#MainContent_txtDateEntered').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
@@ -2744,7 +2894,31 @@
                     yearRange: '1940:2100'
                 });
 
+            $j('#MainContent_txtAddCommDateInit').datepicker(
+                {
+                    dateFormat: 'mm/dd/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:2100'
+                });
+
+            $j('#MainContent_txtAddVndCommDateInit').datepicker(
+                {
+                    dateFormat: 'mm/dd/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:2100'
+                });
+
             $j.datepicker.setDefaults($j.datepicker.regional['en']);
+        }
+
+        function pageLoad(event, args) {
+            debugger
+          
+            console.log("BeginPageLoad");
+
+            execDatePickers();
            
             //$j("#navsSection").removeAttr("style");
 
@@ -2758,9 +2932,8 @@
                 } 
 
                 var hdAddClaimFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-                if (hdAddClaimFile == "1") {
-                    $j('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp')
-                } 
+                if (hdAddClaimFile == "1") { $j('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
+                else { $j('#MainContent_AddFilesSection').addClass('hideProp'); }
 
                 var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
                 if (hdDisplaySeeVndClaim == "1") {
@@ -2968,6 +3141,18 @@
                 //}
             });--%>
 
+            rangePicker1();
+
+            //rangePicker2();
+
+            //rangePicker3();
+
+            fixVisibilityColumns();
+
+            console.log("EndPageLoad");
+        }
+
+        function rangePicker1() {
             var dateFormat = "mm/dd/yy",
                 from = $j("#<%= txtDateInit.ClientID %>")
                     .datepicker({
@@ -3001,11 +3186,79 @@
 
                 return date;
             }
+        }
 
-            fixVisibilityColumns();
+        function rangePicker2() {
+            var dateFormat = "mm/dd/yy",
+                from = $j("#<%= txtAddCommDateInit.ClientID %>")
+                    .datepicker({
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        dateFormat: 'mm/dd/yy',
+                        autoClose: true,
+                        numberOfMonths: 1
+                    })
+                    .on("change", function () {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+                to = $j("#<%= txtAddCommDateTo.ClientID %>").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    dateFormat: 'mm/dd/yy',
+                    autoClose: true,
+                    numberOfMonths: 1
+                })
+                    .on("change", function () {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
 
-            console.log("EndPageLoad");
-        }  
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+        }
+
+        function rangePicker3() {
+            var dateFormat = "mm/dd/yy",
+                from = $j("#<%= txtAddVndCommDateInit.ClientID %>")
+                    .datepicker({
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        dateFormat: 'mm/dd/yy',
+                        autoClose: true,
+                        numberOfMonths: 1
+                    })
+                    .on("change", function () {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+                to = $j("#<%= txtAddVndCommDateTo.ClientID %>").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    dateFormat: 'mm/dd/yy',
+                    autoClose: true,
+                    numberOfMonths: 1
+                })
+                    .on("change", function () {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+        }
 
     </script>
 

@@ -11,3 +11,16 @@ C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.UTIL\
 C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.xml
 C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.pdb
 C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.vbprojAssemblyReference.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\bin\Debug\ClaimsProject.UTIL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\bin\Debug\ClaimsProject.UTIL.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\bin\Debug\ClaimsProject.UTIL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\bin\Debug\IBM.Data.DB2.iSeries.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\bin\Debug\IBM.Data.DB2.iSeries.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.vbprojAssemblyReference.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.Resources.resources
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.vbproj.GenerateResource.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.vbproj.CoreCompileInputs.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.vbproj.CopyComplete
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.pdb

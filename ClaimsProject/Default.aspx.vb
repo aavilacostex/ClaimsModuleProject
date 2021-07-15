@@ -61,8 +61,15 @@ Public Class _Default
                     'End If
 
                 End If
+            End If
+
+            If hdDisplaySeeVndClaim.Value <> "0" Or hdSeeComments.Value = "1" Then
+
+                Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
+                Dim grv As GridView = DirectCast(ph.FindControl("grvSeeVndComm"), GridView)
+                Dim grv1 As GridView = DirectCast(ph.FindControl("grvSeeComm"), GridView)
                 If grv1.DataSource Is Nothing Then
-                    Dim ds = DirectCast(Session("GridComm"), DataSet)
+                    Dim ds = DirectCast(Session("GridComm"), DataSet) 'Session("GridComm")
                     grvSeeComm.DataSource = ds
                     grvSeeComm.DataBind()
 
@@ -77,17 +84,19 @@ Public Class _Default
                 End If
             End If
 
-            If hdDisplayAddVndClaim.Value <> "0" Then
-                Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
-                Dim grv As GridView = DirectCast(ph.FindControl("grvAddComm"), GridView)
-                If grv.DataSource Is Nothing Then
-                    Dim ds = DirectCast(Session("dsComment"), DataSet)
-                    If ds IsNot Nothing Then
-                        grvAddComm.DataSource = ds
-                        grvAddComm.DataBind()
-                    End If
-                End If
-            End If
+
+
+            'If hdDisplayAddVndClaim.Value <> "0" Then
+            '    Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
+            '    Dim grv As GridView = DirectCast(ph.FindControl("grvAddComm"), GridView)
+            '    If grv.DataSource Is Nothing Then
+            '        Dim ds = DirectCast(Session("dsComment"), DataSet)
+            '        If ds IsNot Nothing Then
+            '            grvAddComm.DataSource = ds
+            '            grvAddComm.DataBind()
+            '        End If
+            '    End If
+            'End If
 
             Dim controlName As String = Page.Request.Params("__EVENTTARGET")
                 If Not String.IsNullOrEmpty(controlName) Then
@@ -619,62 +628,67 @@ Public Class _Default
     End Sub
 
 
-    Protected Sub grvAddComm_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grvAddComm.RowDataBound
-        Try
-            If e.Row.RowType = DataControlRowType.DataRow Then
-                e.Row.Attributes("ondblclick") = Page.ClientScript.GetPostBackClientHyperlink(grvAddComm, "Edit$" & e.Row.RowIndex)
-                e.Row.Attributes("style") = "cursor:pointer"
-            ElseIf e.Row.RowType = DataControlRowType.Footer Then
-                Dim lnk As LinkButton = DirectCast(e.Row.Cells(0).FindControl("grvAddBtn"), LinkButton)
+#Region "Old add comment gridview"
 
-            End If
-        Catch ex As Exception
+    'Protected Sub grvAddComm_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grvAddComm.RowDataBound
+    '    Try
+    '        If e.Row.RowType = DataControlRowType.DataRow Then
+    '            e.Row.Attributes("ondblclick") = Page.ClientScript.GetPostBackClientHyperlink(grvAddComm, "Edit$" & e.Row.RowIndex)
+    '            e.Row.Attributes("style") = "cursor:pointer"
+    '        ElseIf e.Row.RowType = DataControlRowType.Footer Then
+    '            Dim lnk As LinkButton = DirectCast(e.Row.Cells(0).FindControl("grvAddBtn"), LinkButton)
 
-        End Try
-    End Sub
+    '        End If
+    '    Catch ex As Exception
 
-    Protected Sub grvAddComm_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles grvAddComm.RowCommand
-        Try
-            If e.CommandName = "AddNewRow" Then
-                AddNewComment()
-            End If
-            '
-        Catch ex As Exception
+    '    End Try
+    'End Sub
 
-        End Try
-    End Sub
+    'Protected Sub grvAddComm_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles grvAddComm.RowCommand
+    '    Try
+    '        If e.CommandName = "AddNewRow" Then
+    '            AddNewComment()
+    '        End If
+    '        '
+    '    Catch ex As Exception
 
-    Protected Sub grvAddComm_OnRowEditing(sender As Object, e As GridViewEditEventArgs) Handles grvAddComm.RowEditing
-        Try
-            grvAddComm.EditIndex = e.NewEditIndex
-            grvAddComm.DataBind()
-            grvAddComm.Rows(e.NewEditIndex).Attributes.Remove("ondblclick")
-            'grvAddComm.Rows(e.NewEditIndex).Cells(1).FindControl("")
-        Catch ex As Exception
+    '    End Try
+    'End Sub
 
-        End Try
-    End Sub
+    'Protected Sub grvAddComm_OnRowEditing(sender As Object, e As GridViewEditEventArgs) Handles grvAddComm.RowEditing
+    '    Try
+    '        grvAddComm.EditIndex = e.NewEditIndex
+    '        grvAddComm.DataBind()
+    '        grvAddComm.Rows(e.NewEditIndex).Attributes.Remove("ondblclick")
+    '        'grvAddComm.Rows(e.NewEditIndex).Cells(1).FindControl("")
+    '    Catch ex As Exception
 
-    Protected Sub grvAddComm_OnRowUpdating(sender As Object, e As GridViewUpdateEventArgs)
-        Dim row As GridViewRow = grvAddComm.Rows(e.RowIndex)
-        Dim txt As TextBox = DirectCast(row.Cells(1).FindControl("txtInnerComment"), TextBox)
-        'Dim comment As String = TryCast(row.Cells(1).Controls(0), TextBox).Text
-        Dim comment As String = txt.Text
+    '    End Try
+    'End Sub
 
-        Dim ds = DirectCast(Session("dsComment"), DataSet)
-        ds.Tables(0).Rows(row.RowIndex)("Comment") = comment
-        'Dim dt As DataTable = TryCast(ViewState("dt"), DataTable)
-        'dt.Rows(row.RowIndex)("Name") = comment
-        'ViewState("dt") = dt
-        Session("dsComment") = ds
-        grvAddComm.EditIndex = -1
-        grvAddComm.DataBind()
-    End Sub
+    'Protected Sub grvAddComm_OnRowUpdating(sender As Object, e As GridViewUpdateEventArgs)
+    '    Dim row As GridViewRow = grvAddComm.Rows(e.RowIndex)
+    '    Dim txt As TextBox = DirectCast(row.Cells(1).FindControl("txtInnerComment"), TextBox)
+    '    'Dim comment As String = TryCast(row.Cells(1).Controls(0), TextBox).Text
+    '    Dim comment As String = txt.Text
 
-    Protected Sub lnkClose_OnCancel(sender As Object, e As EventArgs)
-        grvAddComm.EditIndex = -1
-        grvAddComm.DataBind()
-    End Sub
+    '    Dim ds = DirectCast(Session("dsComment"), DataSet)
+    '    ds.Tables(0).Rows(row.RowIndex)("Comment") = comment
+    '    'Dim dt As DataTable = TryCast(ViewState("dt"), DataTable)
+    '    'dt.Rows(row.RowIndex)("Name") = comment
+    '    'ViewState("dt") = dt
+    '    Session("dsComment") = ds
+    '    grvAddComm.EditIndex = -1
+    '    grvAddComm.DataBind()
+    'End Sub
+
+    'Protected Sub lnkClose_OnCancel(sender As Object, e As EventArgs)
+    '    grvAddComm.EditIndex = -1
+    '    grvAddComm.DataBind()
+    'End Sub
+
+#End Region
+
 
 
 #End Region
@@ -1222,22 +1236,6 @@ Public Class _Default
         End Try
     End Sub
 
-    Protected Sub btnAddComments_Click(sender As Object, e As EventArgs) Handles btnAddComments.Click
-        Try
-            'AddComments()
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
-    Protected Sub btnSeeComments_Click(sender As Object, e As EventArgs) Handles btnSeeComments.Click
-        Try
-            SeeCommentsMethod()
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
     'load excel file
     Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Dim exMessage As String = Nothing
@@ -1261,7 +1259,7 @@ Public Class _Default
     End Sub
 
     'add files to claim
-    Protected Sub btnSaveFile_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+    Protected Sub btnSaveFile_Click(sender As Object, e As EventArgs) Handles btnSaveFile.Click
         Dim exMessage As String = Nothing
         Dim strResult As String = Nothing
         Try
@@ -2165,6 +2163,100 @@ Public Class _Default
             SeeFiles()
         Catch ex As Exception
 
+        End Try
+    End Sub
+
+    Protected Sub btnAddFiles_Click(sender As Object, e As EventArgs) Handles btnAddFiles.Click
+        Try
+            SeeFiles()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub btnAddComments_Click(sender As Object, e As EventArgs) Handles btnAddComments.Click
+        Try
+            AddComments()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub btnSeeComments_Click(sender As Object, e As EventArgs) Handles btnSeeComments.Click
+        Try
+            SeeCommentsMethod()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub btnVndSaveComment_click(sender As Object, e As EventArgs) Handles btnVndSaveComment.Click
+        Try
+            fnAddVndComments()
+            Session("LstMessages") = Nothing
+
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Protected Sub btnSaveComment_click(sender As Object, e As EventArgs) Handles btnSaveComment.Click
+        Try
+
+            fnAddComments()
+
+            Session("LstMessages") = Nothing
+
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Protected Sub btnVndMessage_Click(sender As Object, e As EventArgs) Handles btnVndMessage.Click
+        Dim lstMEssages As List(Of String) = New List(Of String)()
+        Try
+
+            Dim message = txtVndMessage.Text
+            txtVndMessage.Text = Nothing
+
+            If Session("LstMessages") IsNot Nothing Then
+                lstMEssages = DirectCast(Session("LstMessages"), List(Of String))
+            End If
+
+            lstMEssages.Add(message)
+            Session("LstMessages") = lstMEssages
+
+            For Each item As String In lstMEssages
+                lstVndMessage.Items.Add(item)
+            Next
+
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Protected Sub btnMessage_Click(sender As Object, e As EventArgs) Handles btnMessage.Click
+        Dim lstMEssages As List(Of String) = New List(Of String)()
+        Try
+            Dim message = txtMessage.Text
+            txtMessage.Text = Nothing
+
+            If Session("LstMessages") IsNot Nothing Then
+                lstMEssages = DirectCast(Session("LstMessages"), List(Of String))
+            End If
+
+            lstMEssages.Add(message)
+            Session("LstMessages") = lstMEssages
+
+            For Each item As String In lstMEssages
+                lstComments.Items.Add(item)
+            Next
+
+            'lstComments.DataSource = lstMEssages
+            'lstComments.DataBind()
+
+        Catch ex As Exception
+            Dim pp = ex.Message
         End Try
     End Sub
 
@@ -3970,6 +4062,26 @@ Public Class _Default
 
 #Region "Utils"
 
+    Public Sub clearVndClaimsFields()
+        Try
+            txtAddVndCommDateInit.Text = Nothing
+            txtAddVndCommDateTo.Text = Nothing
+            txtAddVndSubject.Text = Nothing
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Public Sub clearClaimsFields()
+        Try
+            txtAddCommDateInit.Text = Nothing
+            txtAddCommDateTo.Text = Nothing
+            txtAddSubject.Text = Nothing
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
     Public Sub LoadImages(images As List(Of String))
         Try
             'Dim filesinDir As String() = Directory.GetFiles(Server.MapPath("~/Images/ToProcess/"))
@@ -4675,6 +4787,81 @@ Public Class _Default
 
 #Region "Comments functions"
 
+    Public Function getFlagStatus() As String
+        Try
+            Dim FlagIE = If(rdAddIntComm.Checked, "I", "E")
+            Return FlagIE
+        Catch ex As Exception
+
+        End Try
+    End Function
+
+    Public Sub fnAddComments()  ' aqui estoy revisando el funcionamiento
+        Dim codComment As Integer = 0
+        Dim codDetComment As Integer = 1
+        Dim lstComments As List(Of String) = New List(Of String)()
+        Try
+
+            Dim FlagIE = getFlagStatus()
+            lstComments = DirectCast(Session("LstMessages"), List(Of String))
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                If Not String.IsNullOrEmpty(txtAddWrnNo.Text) Then
+                    If Not String.IsNullOrEmpty(txtAddSubject.Text) Then
+                        codComment = objBL.getmax("QS36F.CLMWCH", "CWCHCO") + 1
+                        Dim rsIns = objBL.InsertComment(txtAddWrnNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), Now().ToString().Split(" ")(1), txtAddSubject.Text, Session("userid").ToString(), FlagIE)
+                        If rsIns > 0 Then
+
+                            For Each li As String In lstComments
+                                Dim rsIns1 = objBL.InsertCommentDetailwPart(txtAddWrnNo.Text, codComment.ToString(), codDetComment.ToString(), li.ToString(), txtPartNoData.Text.Trim())
+                                If rsIns1 > 0 Then
+                                    codDetComment = codDetComment + 1
+                                End If
+                            Next
+
+                        End If
+                    End If
+                End If
+            End Using
+            clearClaimsFields()
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Public Sub fnAddVndComments()
+        Dim codComment As Integer = 0
+        Dim codDetComment As Integer = 1
+        Dim lstComments As List(Of String) = New List(Of String)()
+        Try
+            Dim FlagIE = getFlagStatus()
+            lstComments = DirectCast(Session("LstMessages"), List(Of String))
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                If Not String.IsNullOrEmpty(txtAddClaimNo.Text) Then
+                    If Not String.IsNullOrEmpty(txtAddVndSubject.Text) Then
+                        codComment = objBL.getmax("QS36F.CLMCMT", "CCCODE") + 1
+                        Dim rsIns = objBL.InsertSuppClaimCommHeader(txtAddClaimNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), txtAddVndSubject.Text, Now().ToString().Split(" ")(1), Session("userid").ToString())
+                        If rsIns > 0 Then
+
+                            For Each li As String In lstComments
+                                Dim rsIns1 = objBL.InsertSuppClaimCommDetail1(txtAddClaimNo.Text, codComment.ToString(), codDetComment.ToString(), li.ToString())
+                                If rsIns1 > 0 Then
+                                    codDetComment = codDetComment + 1
+                                End If
+                            Next
+
+                        End If
+                    End If
+                End If
+            End Using
+            clearClaimsFields()
+
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
     Public Sub fnSeeComments()
         Try
             txtRetNo.Text = txtClaimNoData.Text.Trim()
@@ -4724,7 +4911,6 @@ Public Class _Default
             Dim pp = msg
         End Try
     End Sub
-
 
 #End Region
 
@@ -4801,28 +4987,28 @@ Public Class _Default
 
     Public Sub AddNewComment()
         Try
-            If Session("dsComment") IsNot Nothing Then
-                Dim dsComment = DirectCast(Session("dsComment"), DataSet)
-                Dim dtCurrentRow As DataRow = Nothing
-                If dsComment.Tables(0).Rows.Count > 0 Then
-                    Dim rowMax = dsComment.Tables(0).Rows.Count
-                    Dim txt As TextBox = New TextBox()
-                    txt.Enabled = False
-                    txt.Text = Nothing
+            'If Session("dsComment") IsNot Nothing Then
+            '    Dim dsComment = DirectCast(Session("dsComment"), DataSet)
+            '    Dim dtCurrentRow As DataRow = Nothing
+            '    If dsComment.Tables(0).Rows.Count > 0 Then
+            '        Dim rowMax = dsComment.Tables(0).Rows.Count
+            '        Dim txt As TextBox = New TextBox()
+            '        txt.Enabled = False
+            '        txt.Text = Nothing
 
-                    dtCurrentRow = dsComment.Tables(0).NewRow()
-                    dtCurrentRow("Comment") = txt.Text
-                    dsComment.Tables(0).Rows.Add(dtCurrentRow)
-                    dsComment.Tables(0).AcceptChanges()
-                    Session("dsComment") = dsComment
+            '        dtCurrentRow = dsComment.Tables(0).NewRow()
+            '        dtCurrentRow("Comment") = txt.Text
+            '        dsComment.Tables(0).Rows.Add(dtCurrentRow)
+            '        dsComment.Tables(0).AcceptChanges()
+            '        Session("dsComment") = dsComment
 
-                    grvAddComm.DataSource = dsComment
-                    grvAddComm.DataBind()
+            '        grvAddComm.DataSource = dsComment
+            '        grvAddComm.DataBind()
 
-                    'grvAddComm.Rows(rowMax).Cells(0).Controls.Add(txt)
+            '        'grvAddComm.Rows(rowMax).Cells(0).Controls.Add(txt)
 
-                End If
-            End If
+            '    End If
+            'End If
         Catch ex As Exception
             Dim msg = ex.Message
             Dim pp = msg
@@ -4848,31 +5034,80 @@ Public Class _Default
                                 vendorClaimNo = dsGet.Tables(0).Rows(0).Item("CHVENO").ToString().Trim()
                                 claimNo = dsGet.Tables(0).Rows(0).Item("CHCLNO").ToString().Trim()
 
-                                hdVendorClaimNo.Value = dsGet.Tables(0).Rows(0).Item("CHCLNO").ToString().Trim()
-                                hdDisplaySeeVndClaim.Value = "1"
+                                hdVendorClaimNo.Value = claimNo
+                                hdDisplayAddVndClaim.Value = "1"
                                 'message: This Claim Warning No. corresponds to Vendor Claim No: "  + vendorClaimNo
-                                fnSeeVndComments() 'frmclaimsseevendorcomments
+                                'frmclaimsseevendorcomments
                                 'comment here
-                                hdSeeVndComments.Value = "1"
-                                hdSeeComments.Value = "0"
-
+                                hdAddVndComments.Value = "1"
+                                hdAddComments.Value = "0"
+                                'fnAddVndComments()
                             Else
                                 'no data msg
                             End If
                         End If
+
+                        txtAddClaimNo.Text = claimNo
+                        txtAddVndCommDateTo.Text = Now().ToString().Split(" ")(1) + " " + Now().ToString().Split(" ")(2)
+                        txtAddVndCommDateInit.Text = Now().ToString().Split(" ")(0)
+                        'txtAddRetNo.Text = txtClaimNoData.Text
+                        'txtAddWrnNo.Text = hdSeq.Value.ToString()
                     Else
                         'sow seecomments form
-                        fnSeeComments()
-                        hdSeeVndComments.Value = "0"
-                        hdSeeComments.Value = "1"
+                        'frmclaimscomments
+                        hdDisplayAddVndClaim.Value = "0"
+                        hdAddVndComments.Value = "0"
+                        hdAddComments.Value = "1"
+                        'fnAddComments()
+                        txtAddCommDateTo.Text = Now().ToString().Split(" ")(1) + " " + Now().ToString().Split(" ")(2)
+                        txtAddCommDateInit.Text = Now().ToString().Split(" ")(0)
+
+                        txtAddRetNo.Text = txtClaimNoData.Text
+                        txtAddWrnNo.Text = hdSeq.Value.ToString()
                     End If
 
 #End Region
                 ElseIf Not String.IsNullOrEmpty(wrnNo) Then
 #Region "Has Warning No"
 
+                    Dim dsGet = New DataSet()
+                    Dim dsGet1 = New DataSet()
+                    Dim rsGet = objBL.GetClaimWrnRelationByWrnNo(wrnNo, dsGet)
+                    If rsGet > 0 Then
+                        If dsGet IsNot Nothing Then
+                            If dsGet.Tables(0).Rows.Count > 0 Then
+                                Dim rsGet1 = objBL.GetSuppClaimHeader(dsGet.Tables(0).Rows(0).Item("CRCLNO").ToString().Trim(), dsGet1)
+                                If rsGet1 > 0 Then
+                                    If dsGet1 IsNot Nothing Then
+                                        If dsGet1.Tables(0).Rows.Count > 0 Then
+                                            vendorClaimNo = dsGet1.Tables(0).Rows(0).Item("CHVENO").ToString().Trim()
+                                            claimNo = dsGet1.Tables(0).Rows(0).Item("CHCLNO").ToString().Trim()
+                                            hdVendorClaimNo.Value = claimNo
 
+                                            hdAddVndComments.Value = "1"
+                                            hdAddComments.Value = "0"
+                                            'fnAddVndComments()
+                                        End If
+                                    End If
+                                End If
+                            End If
+                        End If
 
+                        txtAddVndCommDateTo.Text = Now().ToString().Split(" ")(1) + " " + Now().ToString().Split(" ")(2)
+                        txtAddVndCommDateInit.Text = Now().ToString().Split(" ")(0)
+                        txtAddClaimNo.Text = claimNo
+                        'txtAddRetNo.Text = txtClaimNoData.Text
+                        'txtAddWrnNo.Text = hdSeq.Value.ToString()
+                    Else
+                        hdAddVndComments.Value = "0"
+                        hdAddComments.Value = "1"
+                        'fnAddComments()
+                        txtAddCommDateTo.Text = Now().ToString().Split(" ")(1) + " " + Now().ToString().Split(" ")(2)
+                        txtAddCommDateInit.Text = Now().ToString().Split(" ")(0)
+
+                        txtAddRetNo.Text = txtClaimNoData.Text
+                        txtAddWrnNo.Text = hdSeq.Value.ToString()
+                    End If
 #End Region
                 End If
 
@@ -4953,9 +5188,12 @@ Public Class _Default
                                     If rsGet3 > 0 Then
                                         If dsGet3 IsNot Nothing Then
                                             If dsGet3.Tables(0).Rows.Count > 0 Then
-                                                fnSeeVndComments()
+                                                vendorClaimNo = dsGet3.Tables(0).Rows(0).Item("CHVENO").ToString().Trim()
+                                                claimNo = dsGet3.Tables(0).Rows(0).Item("CHCLNO").ToString().Trim()
+                                                hdVendorClaimNo.Value = claimNo
                                                 hdSeeVndComments.Value = "1"
                                                 hdSeeComments.Value = "0"
+                                                fnSeeVndComments()
                                                 'asign values tu variable
                                                 'show see vendor comments form
                                                 'MsgBox "This Claim Warning No. corresponds to Vendor Claim No: " & vendorClaimNo, vbOKOnly + vbInformation, "CTP System"
@@ -4965,6 +5203,7 @@ Public Class _Default
                                 Else
                                     'no data msg
                                 End If
+
                             Else
                                 'no data msg
                             End If
@@ -4989,7 +5228,7 @@ Public Class _Default
 
                                 If Not String.IsNullOrEmpty(vendorClaimNo) Then
                                     Dim dsGet1 = New DataSet()
-                                    Dim rsGet1 = objBL.GetWClaimCommentsUnifyDatabyWrnNo(wrnNo, dsGet1)
+                                    Dim rsGet1 = objBL.GetWClaimCommentsUnifyDatabyWrnNo(wrnNo, dsGet1) ' no este metodo
                                     If rsGet1 > 0 Then
                                         If dsGet1 IsNot Nothing Then
                                             If dsGet1.Tables(0).Rows.Count > 0 Then
@@ -5059,13 +5298,15 @@ Public Class _Default
                                 If rsGet3 > 0 Then
                                     If dsGet3 IsNot Nothing Then
                                         If dsGet3.Tables(0).Rows.Count > 0 Then
-                                            hdVendorClaimNo.Value = dsGet3.Tables(0).Rows(0).Item("CHCLNO").ToString().Trim()
+                                            vendorClaimNo = dsGet3.Tables(0).Rows(0).Item("CHVENO").ToString().Trim()
+                                            claimNo = dsGet3.Tables(0).Rows(0).Item("CHCLNO").ToString().Trim()
+                                            hdVendorClaimNo.Value = claimNo
                                             hdDisplaySeeVndClaim.Value = "1"
                                             'message: This Claim Warning No. corresponds to Vendor Claim No: "  + vendorClaimNo
-                                            fnSeeVndComments() 'frmclaimsseevendorcomments
-                                            'comment here
                                             hdSeeVndComments.Value = "1"
                                             hdSeeComments.Value = "0"
+                                            fnSeeVndComments() 'frmclaimsseevendorcomments
+                                            'comment here
                                         Else
                                             'no data
                                         End If
@@ -5079,9 +5320,10 @@ Public Class _Default
                     Else
                         'call frmseecomments
                         'Comments here
-                        fnSeeComments()  'frmseecomments
                         hdSeeVndComments.Value = "0"
                         hdSeeComments.Value = "1"
+                        hdDisplaySeeVndClaim.Value = "0"
+                        fnSeeComments()  'frmseecomments
                     End If
 
 #End Region
@@ -5094,28 +5336,28 @@ Public Class _Default
 
     Public Sub createEmptyFirstGridRow()
         Try
-            Dim dt As DataTable = New DataTable()
+            'Dim dt As DataTable = New DataTable()
 
-            Dim column1 As DataColumn = New DataColumn("Comment")
-            column1.DataType = System.Type.GetType("System.String")
-            dt.Columns.Add(column1)
+            'Dim column1 As DataColumn = New DataColumn("Comment")
+            'column1.DataType = System.Type.GetType("System.String")
+            'dt.Columns.Add(column1)
 
-            Dim dr As DataRow
-            dr = dt.NewRow()
+            'Dim dr As DataRow
+            'dr = dt.NewRow()
 
-            'Dim txt As TextBox = New TextBox()
-            'dr.Item("Comment") = txt
+            ''Dim txt As TextBox = New TextBox()
+            ''dr.Item("Comment") = txt
 
-            'dr.Item("Comment") = ""
-            'dt.Rows.Add(dr)
-            'dt.AcceptChanges()
+            ''dr.Item("Comment") = ""
+            ''dt.Rows.Add(dr)
+            ''dt.AcceptChanges()
 
-            Dim ds As DataSet = New DataSet()
-            ds.Tables.Add(dt)
+            'Dim ds As DataSet = New DataSet()
+            'ds.Tables.Add(dt)
 
-            Session("dsComment") = ds
-            grvAddComm.DataSource = ds
-            grvAddComm.DataBind()
+            'Session("dsComment") = ds
+            'grvAddComm.DataSource = ds
+            'grvAddComm.DataBind()
 
         Catch ex As Exception
             Dim msg = ex.Message

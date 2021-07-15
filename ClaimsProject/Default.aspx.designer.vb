@@ -41,78 +41,6 @@ Partial Public Class _Default
     Protected WithEvents btnImportExcel As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''loadFileSection control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents loadFileSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''fuOPenEx control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents fuOPenEx As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
-    '''btnSave control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''btnBack control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''AddFilesSection control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents AddFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''fuAddClaimFile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents fuAddClaimFile As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
-    '''btnSaveFile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSaveFile As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''btnBackFile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnBackFile As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''lblText1 control.
     '''</summary>
     '''<remarks>
@@ -210,6 +138,78 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''loadFileSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents loadFileSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''fuOPenEx control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fuOPenEx As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''btnSave control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''AddFilesSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents AddFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''fuAddClaimFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fuAddClaimFile As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''btnSaveFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveFile As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnBackFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBackFile As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''rdCustomer control.
@@ -2714,13 +2714,58 @@ Partial Public Class _Default
     Protected WithEvents rdAddExtComm As Global.System.Web.UI.WebControls.RadioButton
 
     '''<summary>
-    '''grvAddComm control.
+    '''lblMessage control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents grvAddComm As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtMessage As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnMessage As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lstComments control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lstComments As Global.System.Web.UI.WebControls.ListBox
+
+    '''<summary>
+    '''btnSaveComment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveComment As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnExitComment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnExitComment As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''addVendorComments control.
@@ -2730,6 +2775,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents addVendorComments As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnVndClaimComm control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnVndClaimComm As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
     '''lblAddClaimNo control.
@@ -2784,6 +2838,60 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtAddVndSubject As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblVndMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblVndMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtVndMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtVndMessage As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnVndMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnVndMessage As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lstVndMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lstVndMessage As Global.System.Web.UI.WebControls.ListBox
+
+    '''<summary>
+    '''btnVndSaveComment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnVndSaveComment As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnVndExitComment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnVndExitComment As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''rowSeeComments control.
@@ -2847,6 +2955,24 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents grvSeeComm As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''btnPrintSeeClaim control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPrintSeeClaim As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnExitSeeClaim control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnExitSeeClaim As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''seeVendorComments control.

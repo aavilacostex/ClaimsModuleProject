@@ -20,3 +20,25 @@ C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.BL\ob
 C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.xml
 C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.pdb
 C:\Users\aavila\source\repos\Web-Base Projects\ClaimsProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.vbprojAssemblyReference.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.BL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.BL.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.BL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.DAL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.DTO.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.UTIL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\IBM.Data.DB2.iSeries.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.DAL.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.DAL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.DTO.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.DTO.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.UTIL.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\ClaimsProject.UTIL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\bin\Debug\IBM.Data.DB2.iSeries.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.vbprojAssemblyReference.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.Resources.resources
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.vbproj.GenerateResource.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.vbproj.CoreCompileInputs.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.vbproj.CopyComplete
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.BL\obj\Debug\ClaimsProject.BL.pdb

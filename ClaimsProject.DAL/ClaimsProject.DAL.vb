@@ -895,7 +895,7 @@ Public Class ClaimsProject : Implements IDisposable
 
             Dim Sql = "select clmwch.cwwrno, cwchda, cwchti, ususer, clmwch.cwchco, " &
               "clmwcd.cwcdco , ucase(cwchsu) CWCHSU, ucase(cwcdtx) CWCDTX, cwptno from qs36f.clmwch left outer join qs36f.clmwcd on " &
-              "clmwch.cwwrno = clmwcd.cwwrno and clmwch.cwchco = clmwcd.cwchco where clmwch.cwwrno = " & claimno
+              "clmwch.cwwrno = clmwcd.cwwrno and clmwch.cwchco = clmwcd.cwchco where clmwch.crclno = " & claimno
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1062,6 +1062,21 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function InsertSuppClaimCommDetail1(vndClaimNo As String, cod_comment As String, cod_detcomment As String, commentTxt As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "insert into qs36f.clmcmd(CCCLNO, CCCODE, CCDCOD, CCTEXT) values(" & vndClaimNo &
+                                ", " & cod_comment & ", " & cod_detcomment & ", '" & commentTxt & "')"
+
+            objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
 
 #End Region
 
@@ -1137,6 +1152,20 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             'type user = 'I'
             Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & message & "')"
+            objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+    Public Function InsertCommentDetailwPart(code As String, codComm As String, detComm As String, message As String, partNo As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            'type user = 'I'
+            Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX,CWPTNO) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & message & "','" & partNo & "')"
             objDatos.InsertDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception

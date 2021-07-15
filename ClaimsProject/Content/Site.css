@@ -389,13 +389,13 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     border-bottom: 2px groove whitesmoke;
 }
 
-#MainContent_pnClaimComm .input-group-append > .input-group-addon {
+#MainContent_pnClaimComm .input-group-append > .input-group-addon, #MainContent_pnVndClaimComm .input-group-append > .input-group-addon {
     background-color: #fbba42 !important;
     padding: 0 10px 0 10px !important;
     border-radius: 0 4px 4px 0 !important;
 }
 
-#MainContent_pnClaimComm .input-group-append {
+#MainContent_pnClaimComm .input-group-append, #MainContent_pnVndClaimComm .input-group-append {
     padding: 0 10px 0 0 !important;
 }
 
@@ -403,10 +403,21 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 0 !important;
 }
 
-#MainContent_pnInformation, #MainContent_pnContact, #MainContent_pnISDet, #MainContent_pnClaimComm, #MainContent_pnRestock {
+#MainContent_pnInformation, #MainContent_pnContact, #MainContent_pnISDet, #MainContent_pnVndClaimComm, #MainContent_pnClaimComm, #MainContent_pnRestock {
     width: 100%;
     border: 1px solid #fbba42;
     padding: 0 8px;
+}
+
+#rowAddCommInit, #rowAddVndCommInit {
+    margin-bottom: 10px !important;
+    padding: 0 0 0 7px !important;
+}
+
+#rowAddVndCommInit label, #rowAddCommInit label {
+    text-transform: uppercase;
+    color: #666666;
+    margin: 0 auto;
 }
 
 .control-label {
@@ -1561,6 +1572,9 @@ input[type=file]::-ms-value {
     display: flex !important;
 }
 
+#MainContent_addCommentsR .form-row .col-md-12 .form-group select, #MainContent_addVendorComments .form-row .col-md-12 .form-group select {
+    min-width: 100% !important;
+}
 
 /*#rowRadios {
     width: 100% !important;

@@ -545,6 +545,17 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function InsertSuppClaimCommDetail1(vndClaimNo As String, cod_comment As String, cod_detcomment As String, commentTxt As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.InsertSuppClaimCommDetail1(vndClaimNo, cod_comment, cod_detcomment, commentTxt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
 #End Region
 
 #Region "Inserts"
@@ -614,6 +625,17 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDal = New DAL.ClaimsProject()
             result = objDal.InsertCommentDetail(code, codComm, detComm, message)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function InsertCommentDetailwPart(code As String, codComm As String, detComm As String, message As String, partNo As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.InsertCommentDetailwPart(code, codComm, detComm, message, partNo)
             Return result
         Catch ex As Exception
             Return result
