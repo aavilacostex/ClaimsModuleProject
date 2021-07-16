@@ -200,102 +200,309 @@
                 </div>        
             </div>            
 
-            <div class="container">
+            <div id="searchFilters" class="container-fluid">
                 <div id="rowFilters" class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-5">
-                        <div class="accordion-wrapper">
-                            <div id="accordion_2">
-                                <div class="card">
-                                    <div class="card-header" id="headingOne_2">
-                                        <h5 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" data-target="#collapseOne_2" aria-expanded="false" aria-controls="collapseOne_2">
-                                                <span class="">FILTER DATA  <i class="fa fa-angle-down faicon"></i></span>
-                                            </a>
-                                        </h5>
-                                    </div>
 
-                                    <!--FORM TO GET DATA FOR FILTERING DATA-->
-                                    <!--ACCORDION CONTENT-->
-                                    <div id="collapseOne_2" class="collapse" aria-labelledby="headingOne_2" data-parent="#accordion_2" style="">
-                                        <div class="card-body">
-                                            <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <asp:Panel ID="pnClaimData" CssClass="pnFilterStyles" GroupingText="General Claims Data" runat="server">
+                                    <label>Item Count : </label>
+                                    <asp:Label ID="lblTotalClaims" Text="" runat="server" />
+                                </asp:Panel>
+                            </div>
+                            <div class="col-md-6">
 
-                                                <div id="claimsbuilder" class="form-group col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>Customer</p>
-                                                                <asp:RadioButton ID="rdCustomer" OnCheckedChanged="rdCustomer_CheckedChanged" onclick="yesnoCheck('rowCustomer');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
+                                <asp:Panel ID="pnFilters" CssClass="pnFilterStyles" GroupingText="Claim Filters" runat="server">
+
+                                    <div id="FirstRow">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <!--search by Claim Number-->
+                                                        <div id="rowClaimNo" class="rowClaimNo">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">   
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtClaimNo" name="txt-claimNo" placeholder="Claim Number" class="form-control autosuggestclaim" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-hashtag center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>PartNo</p>
-                                                                <asp:RadioButton ID="rdPartNo" OnCheckedChanged="rdPartNo_CheckedChanged" onclick="javascript:yesnoCheck('rowPartNo');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
-                                                        </div>                                                        
                                                     </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>Date</p>
-                                                                <asp:RadioButton ID="rdDate" OnCheckedChanged="rdDate_CheckedChanged" onclick="javascript:yesnoCheck('rowDateInit');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>ClaimNo</p>
-                                                                <asp:RadioButton ID="rdClaimNo" OnCheckedChanged="rdClaimNo_CheckedChanged" onclick="yesnoCheck('rowClaimNo');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
-                                                        </div>                                                        
-                                                    </div>                                                    
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>StatusOut</p>
-                                                                <asp:RadioButton ID="rdStatusOut" OnCheckedChanged="rdStatusOut_CheckedChanged" onclick="yesnoCheck('rowExtStatus');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>StatusIn</p>
-                                                                <asp:RadioButton ID="rdStatusIn" OnCheckedChanged="rdStatusIn_CheckedChanged" onclick="yesnoCheck('rowIntStatus');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
-                                                        </div>                                                        
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="form-check">
-                                                                <p>User</p>
-                                                                <asp:RadioButton ID="rdUser" OnCheckedChanged="rdUser_CheckedChanged" onclick="yesnoCheck('rowUser');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
-                                                                <span class="checkmark-claims"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-md-6">
+                                                    <div class="col-md-6">
+                                                        <!--search by Part Number-->
+                                                        <div id="rowPartNo" class="rowPartNo">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">                                                            
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtPartNo" name="txt-partNo" placeholder="Part Number"  class="form-control autosuggestpart" runat="server"></asp:TextBox>
+                                                                     <span class="input-group-addon"><i class="fa fa-cogs center-vert font-awesome-custom"></i></span>
+                                                                </div>
                                                             
-                                                        </div>                                                        
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                                <!-- cross site forgery's attack avoiding -->
-                                                <div class="col-md-1">
-                                                    <input type="hidden" name="csrf" value="b3f24ac9359094f7b4629613138570a6-106b16695033660d3701da01a206aeba">
+                                    <div id="SecondRow">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <!--search by Initial Date-->
+
+                                                    <!-- <div id="rowDateInit" class="rowDateInit"> -->                                                  
+                                                    <div class="col-md-6">
+                                                        <div id="rowDateInit" class="rowDateInit">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">  
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtDateInit" name="txt-dateinit" placeholder=" FROM MM/DD/AAAA" class="form-control autosuggestdateinit" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>                                                        
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <div class="col-md-6">
+                                                        <div id="rowDateTo" class="rowDateTo">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">  
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtDateTo" name="txt-dateto" placeholder="TO MM/DD/AAAA" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>                                                        
+                                                        </div>
+                                                    </div>  
+
                                                 </div>
                                                 
                                             </div>
-                                            <div class="row">
-                                                <!-- SUBMIT BUTTON AND CONVERT TO EXCEL THE ACTUAL PAGE -->
-                                                <%--<div id="rowBtnFilters" class="row make-it-flex">--%>
+                                        </div>
+                                    </div>                                   
+                                
+                                    <div id="ThirdRow">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <!--search by ExtStatus-->
+                                                        <div id="rowExtStatus">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                               <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" placeholder="External Status" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                   <span class="input-group-addon"><i class="fa fa-sign-out-alt center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <!--search by IntStatus-->
+                                                        <div id="rowIntStatus">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" placeholder="Internal Status" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-sign-in-alt center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="FourRow">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <!--search by Customer-->
+                                                        <div id="rowCustomer" class="rowCustomer">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:TextBox ID="txtCustomer" name="txt-Customer" placeholder="Customer No." class="form-control autosuggestcustomer" runat="server"></asp:TextBox>
+                                                                    <span class="input-group-addon"><i class="fa fa-user-tie center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <!--search by User-->
+                                                        <div id="rowUser">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="FiveRow">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <!--search by reason-->
+                                                        <div id="rowReason">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" placeholder="Reason" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-sliders-h center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <!--search by Diagnose-->
+                                                        <div id="rowDiagnose">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="SixRow" style="display:none !important;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <!--search by Type-->
+                                                        <div id="rowType">
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-10">
+                                                                <label for="sel-vndassigned">Claim Type</label>
+                                                                <br>
+                                                                <asp:DropDownList ID="ddlClaimType" name="sel-vndassigned" placeholder="Claim Type" class="form-control" OnSelectedIndexChanged="ddlClaimType_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Type." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </asp:Panel>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+
+                    <div style="display: none !important;">
+                        <div class="col-md-5">
+                            <div class="accordion-wrapper">
+                                <div id="accordion_2">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne_2">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseOne_2" aria-expanded="false" aria-controls="collapseOne_2">
+                                                    <span class="">FILTER DATA  <i class="fa fa-angle-down faicon"></i></span>
+                                                </a>
+                                            </h5>
+                                        </div>
+
+                                        <!--FORM TO GET DATA FOR FILTERING DATA-->
+                                        <!--ACCORDION CONTENT-->
+                                        <div id="collapseOne_2" class="collapse" aria-labelledby="headingOne_2" data-parent="#accordion_2" style="">
+                                            <div class="card-body">
+                                                <div class="row">
+
+                                                    <div id="claimsbuilder" class="form-group col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>Customer</p>
+                                                                    <asp:RadioButton ID="rdCustomer" OnCheckedChanged="rdCustomer_CheckedChanged" onclick="yesnoCheck('rowCustomer');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>PartNo</p>
+                                                                    <asp:RadioButton ID="rdPartNo" OnCheckedChanged="rdPartNo_CheckedChanged" onclick="javascript:yesnoCheck('rowPartNo');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>Date</p>
+                                                                    <asp:RadioButton ID="rdDate" OnCheckedChanged="rdDate_CheckedChanged" onclick="javascript:yesnoCheck('rowDateInit');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>ClaimNo</p>
+                                                                    <asp:RadioButton ID="rdClaimNo" OnCheckedChanged="rdClaimNo_CheckedChanged" onclick="yesnoCheck('rowClaimNo');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>StatusOut</p>
+                                                                    <asp:RadioButton ID="rdStatusOut" OnCheckedChanged="rdStatusOut_CheckedChanged" onclick="yesnoCheck('rowExtStatus');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>StatusIn</p>
+                                                                    <asp:RadioButton ID="rdStatusIn" OnCheckedChanged="rdStatusIn_CheckedChanged" onclick="yesnoCheck('rowIntStatus');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="form-check">
+                                                                    <p>User</p>
+                                                                    <asp:RadioButton ID="rdUser" OnCheckedChanged="rdUser_CheckedChanged" onclick="yesnoCheck('rowUser');" class="form-check" GroupName="radiofilters" AutoPostBack="true" runat="server"></asp:RadioButton>
+                                                                    <span class="checkmark-claims"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- cross site forgery's attack avoiding -->
+                                                    <div class="col-md-1">
+                                                        <input type="hidden" name="csrf" value="b3f24ac9359094f7b4629613138570a6-106b16695033660d3701da01a206aeba">
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <!-- SUBMIT BUTTON AND CONVERT TO EXCEL THE ACTUAL PAGE -->
+                                                    <%--<div id="rowBtnFilters" class="row make-it-flex">--%>
 
                                                     <div class="col-sm-6" style="float: right;">
                                                         <asp:Button ID="submit" class="btn btn-primary btn-lg float-right btnFullSize" runat="server" Text="Submit" />
@@ -304,8 +511,42 @@
                                                         <asp:Button ID="convert" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Reset" />
                                                     </div>
 
-                                                <%--</div>--%>
+                                                    <%--</div>--%>
+                                                </div>
                                             </div>
+                                            <!-- COLLAPSE CONTENT END -->
+                                        </div>
+                                        <!-- CARD END -->
+                                    </div>
+                                    <!-- ACCORDION END -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
+                            <div class="accordion-wrapper">
+                                <div id="accordion">
+                                    <div class="card">
+                                        <!--ACCORDION DEFAULT VALUES HEADER-->
+                                        <div class="card-header" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    <span class="">GENERAL CLAIMS DATA <i class="fa fa-angle-down faicon"></i></span>
+                                                </a>
+                                            </h5>
+                                        </div>
+
+                                        <!--ACCORDION: CONTENT-->
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                                            <div id="claimsCardBody" class="card-body">
+                                                <ul class="checklist">
+                                                    <li><i class="fa fa-check"></i>COUNT ITEMS:
+                                                    
+                                                    
+                                                    </li>
+                                                </ul>
+                                            </div>
+
                                         </div>
                                         <!-- COLLAPSE CONTENT END -->
                                     </div>
@@ -314,140 +555,9 @@
                                 <!-- ACCORDION END -->
                             </div>
                         </div>
+                        <%--<div class="col-md-1"></div>--%>
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-5">
-                        <div class="accordion-wrapper">
-                            <div id="accordion">
-                                <div class="card">
-                                    <!--ACCORDION DEFAULT VALUES HEADER-->
-                                    <div class="card-header" id="headingOne">
-                                        <h5 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                <span class="">GENERAL CLAIMS DATA <i class="fa fa-angle-down faicon"></i></span>
-                                            </a>
-                                        </h5>
-                                    </div>
-
-                                    <!--ACCORDION: CONTENT-->
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" style="">
-                                        <div id="claimsCardBody" class="card-body">
-                                            <ul class="checklist">
-                                                <li><i class="fa fa-check"></i>COUNT ITEMS:
-                                                    <asp:Label ID="lblTotalClaims" Text="" runat="server" />
-                                                    
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <!--search by Claim Number-->
-                                        <div id="rowClaimNo" class="rowClaimNo" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim Number</label>
-                                                <br>
-                                                <asp:TextBox ID="txtClaimNo" name="txt-claimNo" class="form-control autosuggestclaim" runat="server"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <!--search by Customer-->
-                                        <div id="rowCustomer" class="rowCustomer" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Customer Number</label>
-                                                <br>
-                                                <asp:TextBox ID="txtCustomer" name="txt-Customer" class="form-control autosuggestcustomer" runat="server"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <!--search by Part Number-->
-                                        <div id="rowPartNo" class="rowPartNo" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Part Number</label>
-                                                <br>
-                                                <asp:TextBox ID="txtPartNo" name="txt-partNo" class="form-control autosuggestpart" runat="server"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <!--search by Initial Date-->
-                                        <div id="rowDateInit" class="rowDateInit" style="display: none;">
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-5 padding0">
-                                                <label for="sel-vndassigned">From</label>
-                                                <div class="input-group-append">    
-                                                    <asp:TextBox ID="txtDateInit" name="txt-dateinit" placeholder="MM/DD/AAAA" class="form-control autosuggestdateinit" runat="server"></asp:TextBox>
-                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                </div>                                                
-                                            </div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-5 padding0">
-                                                <label for="sel-vndassigned">To</label>
-                                                <div class="input-group-append">
-                                                    <asp:TextBox ID="txtDateTo" name="txt-dateto" placeholder="MM/DD/AAAA" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
-                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                </div>                                                
-                                            </div>
-                                        </div>
-                                        <!--search by reason-->
-                                        <div id="rowReason" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim Reason</label>
-                                                <br>
-                                                <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <!--search by Diagnose-->
-                                        <div id="rowDiagnose" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim Diagnose</label>
-                                                <br>
-                                                <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <!--search by ExtStatus-->
-                                        <div id="rowExtStatus" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim External Status</label>
-                                                <br>
-                                                <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <!--search by IntStatus-->
-                                        <div id="rowIntStatus" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim Internal Status</label>
-                                                <br>
-                                                <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <!--search by User-->
-                                        <div id="rowUser" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim User</label>
-                                                <br>
-                                                <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <!--search by Type-->
-                                        <div id="rowType" style="display: none;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <label for="sel-vndassigned">Claim Type</label>
-                                                <br>
-                                                <asp:DropDownList ID="ddlClaimType" name="sel-vndassigned" class="form-control" OnSelectedIndexChanged="ddlClaimType_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Type." EnableViewState="true" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- COLLAPSE CONTENT END -->
-                                </div>
-                                <!-- CARD END -->
-                            </div>
-                            <!-- ACCORDION END -->
-                        </div>
-                    </div>
-                    <%--<div class="col-md-1"></div>--%>
+                    
                 </div>
 
                 <div id="hiddenFields" class="row">

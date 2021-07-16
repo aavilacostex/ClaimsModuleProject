@@ -17,6 +17,7 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" />
 
     <link href="Content/lightbox.css" rel="stylesheet" media="screen" />
     <link href="Content/bootstrap.min.css" rel="stylesheet" />

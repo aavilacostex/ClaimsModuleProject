@@ -706,18 +706,18 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     color: red;
     float: right;
 }
-
+/*
 #MainContent_txtDateTo {
     width: 85% !important;
-}
+}*/
 
-#rowDateInit .input-group-addon {
+/*#rowDateInit .input-group-addon {
     padding: 5px !important;
-}
+}*/
 
-#MainContent_txtDateInit {
+/*#MainContent_txtDateInit {
     width: 85% !important;
-}
+}*/
 
 .dropdown:hover .dropdown-menu {
     display: block;
@@ -778,17 +778,28 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     background-color: #F7F7FD;
 }
 
-#rowDiagnose, #rowReason, #rowExtStatus, #rowIntStatus, #rowUser, #rowClaimNo, #rowPartNo, #rowCustomer, #rowType {
-    padding: 6px 30px 26px 30px;
-    border-left: 4px solid #fbba42;
+#rowReason, #rowExtStatus, #rowClaimNo, #rowCustomer, #rowDateInit {
+    padding: 6px 15px 6px 15px;
+    /*border-left: 4px solid #fbba42;*/
+    background-color: #F7F7FD;
+    margin-left: -5px;
+}
+
+#rowDiagnose, #rowUser, #rowIntStatus, #rowPartNo, #rowDateTo {
+    padding: 6px 15px 6px 15px;
+    /*border-left: 4px solid #fbba42;*/
     background-color: #F7F7FD;
 }
 
-#rowDateInit {
+#searchFilters .form-row {
+    background-color: #F7F7FD !important;
+}
+
+/*#rowDateInit {
     padding: 6px 30px 26px 3px;
     border-left: 4px solid #fbba42;
     background-color: #F7F7FD;
-}
+}*/
 
 .accordion-wrapper .card:last-child .card-body {
     margin-bottom: 0;
@@ -1277,9 +1288,25 @@ input[type="color"]:focus,
     color: white !important;
 }
 
+.form-control {
+    border-radius: 5px 0 0 5px !important;
+    height: calc(1.7em + .75rem + 2px) !important;
+    font-size: 12px !important;
+}
+
+.input-group-addon {
+    padding: 3px 4px 3px 8px !important;
+    background-color: #fbba42 !important;
+    border-radius: 0 5px 5px 0;   
+}
+
+.input-group-addon > i {
+    padding-right: 10px !important;
+}
+
 .font-awesome-custom {
     color: white !important;
-    font-size: 24px !important;
+    font-size: 14px !important;
 }
 
 #MainContent_lnkSearchVendorNo, #MainContent_lnkSearchPartNo {
@@ -1574,6 +1601,32 @@ input[type=file]::-ms-value {
 
 #MainContent_addCommentsR .form-row .col-md-12 .form-group select, #MainContent_addVendorComments .form-row .col-md-12 .form-group select {
     min-width: 100% !important;
+}
+
+.pnFilterStyles {
+    padding: 6px 15px 26px 15px;
+    margin-bottom: 20px;
+    background-color: #F7F7FD;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    border-left: 4px solid #fbba42;
+}
+
+.pnFilterStyles > fieldset > legend {
+    color: black !important;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ui-datepicker {
+    width: auto !important;
+    border: 1px solid #fbba42 !important;
 }
 
 /*#rowRadios {

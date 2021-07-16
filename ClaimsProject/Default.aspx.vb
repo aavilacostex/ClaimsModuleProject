@@ -6570,6 +6570,7 @@ Public Class _Default
                     'cmbstatus
 
                     Dim ListItem2 As ListItem = New ListItem()
+                    ddl.Items.Add(New WebControls.ListItem("NA - SELECT STATUS", "-1"))
                     ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
                     ddl.Items.Add(New WebControls.ListItem("ALL OPEN", "1"))
                     ddl.Items.Add(New WebControls.ListItem("ALL CLOSED", "2"))
@@ -6589,7 +6590,7 @@ Public Class _Default
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
 
-                                Dim initialLi As ListItem = New ListItem("", "")
+                                Dim initialLi As ListItem = New ListItem("NA - SELECT STATUS", "-1")
                                 ddlSearchIntStatus.Items.Add(initialLi)
 
                                 For Each dw As DataRow In dsData.Tables(0).Rows
