@@ -175,6 +175,31 @@ Public Class _Default
 
 #End Region
 
+    Private Function GetClaimDataByDemand() As DataSet
+        Dim result As Integer = 0
+        Dim dsResult = New DataSet()
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                result = objBL.GetClaimsDataUpdated("C", dsResult)
+                If result > 0 Then
+                    If dsResult IsNot Nothing Then
+                        If dsResult.Tables(0).Rows.Count > 0 Then
+                            Return dsResult
+                        Else
+                            Return Nothing
+                        End If
+                    Else
+                        Return Nothing
+                    End If
+                Else
+                    Return Nothing
+                End If
+            End Using
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
     Protected Sub GetClaimsReport(strWhere As String, flag As Integer, Optional ByVal dsSessionResult As DataSet = Nothing, Optional ByVal strDates As String() = Nothing)
         Dim dsResult = New DataSet()
         Dim dsResult1 = New DataSet()
@@ -2257,6 +2282,90 @@ Public Class _Default
 
         Catch ex As Exception
             Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Public Sub PrepareQuery()
+        Dim strBuild As String = Nothing
+        Try
+            If Not String.IsNullOrEmpty(txtClaimNo.Text.Trim()) Then
+                strBuild += " AND MHMRNR = '" + txtClaimNo.Text.Trim() + "', "
+            End If
+            If Not String.IsNullOrEmpty(txtPartNo.Text.Trim()) Then
+                strBuild += " AND MHPTNR = '" + txtPartNo.Text.Trim() + "', "
+            End If
+
+            If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) Then
+            End If
+
+
+            If Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
+            End If
+
+            If ddlSearchIntStatus.SelectedIndex > 0 Then
+                strBuild += " AND CWSTDE like '%" + ddlSearchIntStatus.SelectedItem.Text.Trim() + "%', "
+            End If
+            If ddlSearchExtStatus.SelectedIndex > 0 Then
+                'list returned in prepareExternal method
+            End If
+            If Not String.IsNullOrEmpty(txtCustomer.Text.Trim()) Then
+                strBuild += " AND MHCUNR = '" + txtCustomer.Text.Trim() + "', "
+            End If
+            If ddlSearchUser.SelectedIndex > 0 Then
+                strBuild += " AND CWUSER = '" + ddlSearchUser.SelectedItem.Text.Trim() + "', "
+            End If
+            If ddlSearchReason.SelectedIndex > 0 Then
+                strBuild += " AND MHREASN = '" + ddlSearchReason.SelectedItem.Text.Trim() + "', "
+            End If
+            If ddlSearchDiagnose.SelectedIndex > 0 Then
+                strBuild += " AND MHDIAG = '" + ddlSearchDiagnose.SelectedItem.Text.Trim() + "', "
+            End If
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Protected Sub btnSearchFilter_Click(sender As Object, e As EventArgs) Handles btnSearchFilter.Click
+        Dim dsClaimsData = New DataSet()
+        Dim goAhead As Boolean = False
+        Dim dsQuery As DataSet = New DataSet()
+
+        Dim lstExtSts As List(Of String) = New List(Of String)()
+
+        Try
+
+            dsClaimsData = DirectCast(Session("ClaimsSingleData"), DataSet)
+            If dsClaimsData IsNot Nothing Then
+                If dsClaimsData.Tables(0).Rows.Count > 0 Then
+                    goAhead = True
+                End If
+            End If
+
+            If goAhead Then
+
+                dsQuery = dsClaimsData
+
+                PrepareQuery()
+
+                'checking external status criteria
+                'If ddlSearchExtStatus.SelectedIndex > 0 Then
+                '    Dim criteria = ddlSearchExtStatus.SelectedItem.Text
+
+                '    prepareExternStatus(criteria, lstExtSts)
+
+                '    For Each dwExt As DataRow In dsQuery.Tables(0).Rows
+                '        If lstExtSts.Contains(dwExt.Item("CNT03").ToString().ToLower()) Then
+
+                '        End If
+                '    Next
+
+                'End If
+
+            End If
+
+        Catch ex As Exception
+
         End Try
     End Sub
 
@@ -4916,6 +5025,50 @@ Public Class _Default
 
 #Region "Auxiliar Methods"
 
+    Public Sub prepareExternStatus(criteria As String, ByRef lstValues As List(Of String))
+        Dim dsResult As DataSet = New DataSet()
+        Dim lstStsOpen As List(Of String) = New List(Of String)()
+        Dim lstStsClose As List(Of String) = New List(Of String)()
+        Dim lstStsVoid As List(Of String) = New List(Of String)()
+        Dim lstStsAll As List(Of String) = New List(Of String)()
+        lstValues = New List(Of String)()
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                Dim rsResult = objBL.addToDdlClaimSts(dsResult)
+                If rsResult > 0 Then
+                    If dsResult IsNot Nothing Then
+                        If dsResult.Tables(0).Rows.Count > 0 Then
+
+                            For Each dw As DataRow In dsResult.Tables(0).Rows
+                                If dw.Item("CATSTS").ToString().Trim().ToUpper().Equals("U") Then
+                                    lstStsOpen.Add(dw.Item("CNT03").ToString().Trim().ToLower())
+                                ElseIf String.IsNullOrWhiteSpace(dw.Item("CATSTS").ToString().Trim()) Then
+                                    lstStsClose.Add(dw.Item("CNT03").ToString().Trim().ToLower())
+                                ElseIf dw.Item("CNT03").ToString().Trim().Equals("9") Then
+                                    lstStsVoid.Add(dw.Item("CNT03").ToString().Trim().ToLower())
+                                End If
+
+                                lstStsAll.Add(dw.Item("CNT03").ToString().Trim().ToLower())
+                            Next
+                        End If
+                    End If
+                End If
+
+                If criteria.ToLower().Contains("open") Then
+                    lstValues = lstStsOpen
+                ElseIf criteria.ToLower().Contains("close") Then
+                    lstValues = lstStsClose
+                ElseIf criteria.ToLower().Contains("void") Then
+                    lstValues = lstStsVoid
+                Else
+                    lstValues = lstStsAll
+                End If
+            End Using
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Public Sub SaveFile(fu As FileUpload, path As String)
 
         Try
@@ -7160,6 +7313,11 @@ Public Class _Default
         End Try
 
     End Function
+
+#End Region
+
+#Region "Work with Objects"
+
 
 #End Region
 

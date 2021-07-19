@@ -193,10 +193,10 @@ Public Class ClaimsProject : Implements IDisposable
 
         Dim strDataArray As String()
         Try
-            strUser = dsData.Tables(0).Rows(0).ItemArray(11).ToString().ToUpper()
+            strUser = dsData.Tables(0).Rows(0).Item("CWUSER").ToString().ToUpper()
             For Each dr As DataRow In dsData.Tables(0).Rows
-                If Not strUser.Contains(dr.ItemArray(11).ToString().ToUpper()) Then
-                    strUser += "," + dr.ItemArray(11).ToString()
+                If Not strUser.Contains(dr.Item("CWUSER").ToString().ToUpper()) Then
+                    strUser += "," + dr.Item("CWUSER").ToString().ToUpper()
                 End If
             Next
 
@@ -1021,6 +1021,34 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function getReasonDescByCode(code As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.getReasonDescByCode(code, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+    Public Function getDiagnoseDescByCode(code As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.getDiagnoseDescByCode(code, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
     Public Function getDataByDiagnose(diagnose As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
@@ -1540,6 +1568,20 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDal = New DAL.ClaimsProject()
             result = objDal.addToDdlClaimIntSts(dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function addToDdlClaimSts(ByRef dsResult As DataSet) As Integer
+        Dim dsResult1 = New DataSet()
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.addToDdlClaimSts(dsResult)
             Return result
         Catch ex As Exception
             Return result

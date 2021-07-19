@@ -329,6 +329,24 @@ Partial Public Class _Default
     Protected WithEvents ddlSearchDiagnose As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''btnSearchFilter control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSearchFilter As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnClearFilter control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnClearFilter As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''ddlClaimType control.
     '''</summary>
     '''<remarks>

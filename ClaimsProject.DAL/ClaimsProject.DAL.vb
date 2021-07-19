@@ -319,6 +319,39 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+
+    Public Function getReasonDescByCode(code As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "select cntde1 from qs36f.cntrll where cnt01 = '188' and trim(cnt03)= '" & Trim(code) & "' and cnt02 = ''"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function getDiagnoseDescByCode(code As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "SELECT CNTDE1 FROM qs36f.CNTRLL WHERE CNT01 = '189' AND TRIM(CNT02) = '' AND SUBSTR(CNT03,1,1) = 'C' and CNT03 Like '" & Trim(code) & "%'"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function getDataByStatus2(status As String, ByRef dsResult As DataSet) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1
@@ -622,12 +655,12 @@ Public Class ClaimsProject : Implements IDisposable
 
                 Dim Sql = "SELECT MHMRNR,WRN,CWSTAT,MHDATE,SUBSTR(b.CNTDE2,1,8) MHTDES,mhcunr,mhtomr, 
                             case mhpcnt when 1 then (select min(mdptnr) from qs36f.csmred where mdmrnr=mhmrnr) when 0 then 'N/A' else 'See Details' end mhptnr, 
-                            d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, SUBSTR(f.CNTDE1,1,18) cwstde,
+                            d.CNT03,d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, SUBSTR(f.CNTDE1,1,18) cwstde,
                             case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
                             else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end actdt,
-                            cunam mhcuna, cuslm, CWWRNO                            
+                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER                           
                             from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
-                            (SELECT COUNT(DISTINCT MDPTNR) FROM qs36f.CSMRED WHERE MDMRNR = MHMRNR) MHPCNT, MHSTAT, CWWRNO FROM qs36f.CSMREH 
+                            (SELECT COUNT(DISTINCT MDPTNR) FROM qs36f.CSMRED WHERE MDMRNR = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER FROM qs36f.CSMREH 
                             LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN " & strwhere & ") a " & strjoin & " order by 1 desc"
 
                 result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
@@ -1588,7 +1621,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT CNT03, CNTDE1 STSDES, SUBSTR(CNTDE2,44,1) CATSTS FROM CNTRLL WHERE CNT01 = '186' AND TRIM(CNT02) = ''"
+            Sql = "SELECT CNT03, CNTDE1 STSDES, SUBSTR(CNTDE2,44,1) CATSTS FROM qs36f.CNTRLL WHERE CNT01 = '186' AND TRIM(CNT02) = ''"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

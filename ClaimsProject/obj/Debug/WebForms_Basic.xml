@@ -253,6 +253,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._pnFilters">
+<summary>
+pnFilters control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._txtClaimNo">
 <summary>
 txtClaimNo control.
@@ -337,6 +346,24 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._ddlSearchDiagnose">
 <summary>
 ddlSearchDiagnose control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnSearchFilter">
+<summary>
+btnSearchFilter control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnClearFilter">
+<summary>
+btnClearFilter control.
 </summary>
 <remarks>
 Auto-generated field.

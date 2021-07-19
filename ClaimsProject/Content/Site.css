@@ -37,6 +37,14 @@ textarea {
     }
 }
 
+.rightCls {
+    float: right !important;
+}
+
+.leftCls {
+    float: left !important;
+}
+
 #MainNavBar {
     float: right !important;
     padding: 20px 0 0 0;
@@ -45,13 +53,13 @@ textarea {
     letter-spacing: 0.3px;
 }
 
-    #MainNavBar ul li > a {
-        color: black;
-    }
+#MainNavBar ul li > a {
+    color: black;
+}
 
-        #MainNavBar ul li > a:hover {
-            color: #fbba42;
-        }
+#MainNavBar ul li > a:hover {
+    color: #fbba42;
+}
 
 .support-bar-area {
     background-color: #333;

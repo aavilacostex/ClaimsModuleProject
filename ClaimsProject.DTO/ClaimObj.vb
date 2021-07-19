@@ -2,6 +2,7 @@
 
     Sub MySub()
         _selfClaimObj = New ClaimObj
+        _objClaimData = New ClaimsData
     End Sub
 
     Private _objClaimData As ClaimsData

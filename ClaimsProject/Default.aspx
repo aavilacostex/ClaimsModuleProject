@@ -292,7 +292,7 @@
                                                         <div id="rowExtStatus">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" placeholder="External Status" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" placeholder="External Status" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" title="Search by Ext Status." EnableViewState="true" runat="server"></asp:DropDownList>
                                                                    <span class="input-group-addon"><i class="fa fa-sign-out-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -304,7 +304,7 @@
                                                         <div id="rowIntStatus">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" placeholder="Internal Status" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" placeholder="Internal Status" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" title="Search by int Status." EnableViewState="true" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sign-in-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
@@ -336,7 +336,7 @@
                                                         <div id="rowUser">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" title="Search by User." EnableViewState="true" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -357,7 +357,7 @@
                                                         <div id="rowReason">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" placeholder="Reason" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" placeholder="Reason" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sliders-h center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -369,7 +369,7 @@
                                                         <div id="rowDiagnose">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" AutoPostBack="true" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
@@ -380,7 +380,24 @@
                                         </div>
                                     </div>
 
-                                    <div id="SixRow" style="display:none !important;">
+                                    <div id="SixRow">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <!--btn search-->
+                                                        <asp:Button ID="btnSearchFilter" Text="Search by Criteria" OnClick="btnSearchFilter_Click" CssClass="btn btn-primary rightCls" runat="server" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <!--btn clear fields-->
+                                                        <asp:Button ID="btnClearFilter" Text="   Clear Filters   " CssClass="btn btn-primary" runat="server" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="SevenRow" style="display:none !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
