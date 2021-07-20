@@ -634,12 +634,13 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function GetClaimsDataUpdated(claimType As String, ByRef dsResult As DataSet) As Integer
+    Public Function GetClaimsDataUpdated(claimType As String, ByRef dsResult As DataSet, Optional strFilters As String = Nothing) As Integer
         Dim result As Integer = -1
         dsResult = New DataSet()
         Dim exMessage As String = " "
         Dim strwhere As String = Nothing
         Dim strjoin As String = Nothing
+        Dim newQuery As String = Nothing
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
@@ -654,14 +655,18 @@ Public Class ClaimsProject : Implements IDisposable
                 strjoin = " join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) left join qs36f.clwrrel e on a.wrn=e.crwrno join qs36f.cntrll f on trim(f.cnt03)=trim(cwstat) where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and f.cnt01='193' and f.cnt02='  ' "
 
                 Dim Sql = "SELECT MHMRNR,WRN,CWSTAT,MHDATE,SUBSTR(b.CNTDE2,1,8) MHTDES,mhcunr,mhtomr, 
-                            case mhpcnt when 1 then (select min(mdptnr) from qs36f.csmred where mdmrnr=mhmrnr) when 0 then 'N/A' else 'See Details' end mhptnr, 
-                            d.CNT03,d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, SUBSTR(f.CNTDE1,1,18) cwstde,
+                            case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end mhptnr,  
+                            d.CNT03,d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, trim(f.CNT03) CWSTS, SUBSTR(f.CNTDE1,1,18) cwstde,
                             case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
                             else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end actdt,
                             cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER                           
                             from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
-                            (SELECT COUNT(DISTINCT MDPTNR) FROM qs36f.CSMRED WHERE MDMRNR = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER FROM qs36f.CSMREH 
-                            LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN " & strwhere & ") a " & strjoin & " order by 1 desc"
+                            (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER FROM qs36f.CSMREH 
+                            LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN " & strwhere & ") a " & strjoin & " {0} order by 1 desc"
+
+
+                newQuery = String.Format(Sql, strFilters)
+                Sql = newQuery
 
                 result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
                 Return result
@@ -1637,7 +1642,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "select distinct RIGHT(cnt03,2) cnt03, cntde1 from qs36f.cntrll where cnt01 = '189'  and cnt03 like 'C%' order by 1"
+            Sql = "select distinct RIGHT(cnt03,2) cnt03, trim(cnt03) || '-' || trim(cntde1) as cntde1 from qs36f.cntrll where cnt01 = '189'  and cnt03 like 'C%' order by 1"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1653,7 +1658,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "select distinct RIGHT(cnt03,2) cnt03, cntde1 from qs36f.cntrll where cnt01 = '188' and cnt03 like 'C%' and cnt02 = '' order by 1"
+            Sql = "select distinct RIGHT(cnt03,2) cnt03, trim(cnt03) || '-' || trim(cntde1) as cntde1 from qs36f.cntrll where cnt01 = '188' and cnt03 like 'C%' and cnt02 = '' order by 1"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

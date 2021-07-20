@@ -590,6 +590,24 @@ Partial Public Class _Default
     Protected WithEvents hdStatusOut As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdStatusIn control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdStatusIn As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdUserSelected control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdUserSelected As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''selectedFilter control.
     '''</summary>
     '''<remarks>

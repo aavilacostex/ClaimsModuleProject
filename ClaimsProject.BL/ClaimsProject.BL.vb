@@ -1271,13 +1271,13 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function GetClaimsDataUpdated(claimType As String, ByRef dsResult As DataSet) As Integer
+    Public Function GetClaimsDataUpdated(claimType As String, ByRef dsResult As DataSet, Optional strFilters As String = Nothing) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
         Dim exMessage As String = " "
         Try
             Dim objDal = New DAL.ClaimsProject()
-            result = objDal.GetClaimsDataUpdated(claimType, dsResult)
+            result = objDal.GetClaimsDataUpdated(claimType, dsResult, strFilters)
             Return result
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString

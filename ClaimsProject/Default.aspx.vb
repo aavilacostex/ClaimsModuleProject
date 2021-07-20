@@ -888,37 +888,37 @@ Public Class _Default
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
         Try
-            If ddlSearchReason.SelectedIndex = 0 Then
-                loadSessionClaims()
-            ElseIf ddlSearchReason.SelectedIndex > 0 Then
-                Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                Dim dsFilter As DataSet = New DataSet()
-                Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-                Dim valueToCompare As String = ddlSearchReason.SelectedItem.Text.ToString()
-                For Each dr As DataRow In dsData.Tables(0).Rows
-                    If dr.ItemArray(2).ToString() = valueToCompare Then
-                        Dim dtr As DataRow = dtFilter.NewRow()
-                        dtr.ItemArray = dr.ItemArray
-                        dtFilter.Rows.Add(dtr)
-                        'sentence = " and reason = " + valueToCompare + " "
-                        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                    End If
-                Next
-                If dtFilter IsNot Nothing Then
-                    If dtFilter.Rows.Count > 0 Then
-                        dsFilter.Tables.Add(dtFilter)
-                        Session("DataFilter") = dsFilter
-                        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                        GetClaimsReport("", 1, dsFilter)
-                    Else
-                        lblTotalClaims.Text = 0
-                        grvClaimReport.DataSource = Nothing
-                        grvClaimReport.DataBind()
-                    End If
-                End If
-            Else
-                'error message
-            End If
+            'If ddlSearchReason.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchReason.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchReason.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(2).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error message
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -929,37 +929,37 @@ Public Class _Default
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
         Try
-            If ddlSearchUser.SelectedIndex = 0 Then
-                loadSessionClaims()
-            ElseIf ddlSearchUser.SelectedIndex > 0 Then
-                Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                Dim dsFilter As DataSet = New DataSet()
-                Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-                Dim valueToCompare As String = ddlSearchUser.SelectedItem.Text.ToString()
-                For Each dr As DataRow In dsData.Tables(0).Rows
-                    If dr.ItemArray(13).ToString() = valueToCompare Then
-                        Dim dtr As DataRow = dtFilter.NewRow()
-                        dtr.ItemArray = dr.ItemArray
-                        dtFilter.Rows.Add(dtr)
-                        'sentence = " and reason = " + valueToCompare + " "
-                        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                    End If
-                Next
-                If dtFilter IsNot Nothing Then
-                    If dtFilter.Rows.Count > 0 Then
-                        dsFilter.Tables.Add(dtFilter)
-                        Session("DataFilter") = dsFilter
-                        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                        GetClaimsReport("", 1, dsFilter)
-                    Else
-                        lblTotalClaims.Text = 0
-                        grvClaimReport.DataSource = Nothing
-                        grvClaimReport.DataBind()
-                    End If
-                End If
-            Else
-                'error
-            End If
+            'If ddlSearchUser.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchUser.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchUser.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(13).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -969,37 +969,37 @@ Public Class _Default
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
         Try
-            If ddlSearchIntStatus.SelectedIndex = 0 Then
-                loadSessionClaims()
-            ElseIf ddlSearchIntStatus.SelectedIndex > 0 Then
-                Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                Dim dsFilter As DataSet = New DataSet()
-                Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-                Dim valueToCompare As String = ddlSearchIntStatus.SelectedItem.Text.ToString()
-                For Each dr As DataRow In dsData.Tables(0).Rows
-                    If dr.ItemArray(11).ToString() = valueToCompare Then
-                        Dim dtr As DataRow = dtFilter.NewRow()
-                        dtr.ItemArray = dr.ItemArray
-                        dtFilter.Rows.Add(dtr)
-                        'sentence = " and reason = " + valueToCompare + " "
-                        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                    End If
-                Next
-                If dtFilter IsNot Nothing Then
-                    If dtFilter.Rows.Count > 0 Then
-                        dsFilter.Tables.Add(dtFilter)
-                        Session("DataFilter") = dsFilter
-                        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                        GetClaimsReport("", 1, dsFilter)
-                    Else
-                        lblTotalClaims.Text = 0
-                        grvClaimReport.DataSource = Nothing
-                        grvClaimReport.DataBind()
-                    End If
-                End If
-            Else
-                'error
-            End If
+            'If ddlSearchIntStatus.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchIntStatus.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchIntStatus.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(11).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -1009,37 +1009,37 @@ Public Class _Default
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
         Try
-            If ddlSearchExtStatus.SelectedIndex = 0 Then
-                loadSessionClaims()
-            ElseIf ddlSearchExtStatus.SelectedIndex > 0 Then
-                Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                Dim dsFilter As DataSet = New DataSet()
-                Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-                Dim valueToCompare As String = ddlSearchExtStatus.SelectedItem.Text.ToString()
-                For Each dr As DataRow In dsData.Tables(0).Rows
-                    If dr.ItemArray(6).ToString() = valueToCompare Then
-                        Dim dtr As DataRow = dtFilter.NewRow()
-                        dtr.ItemArray = dr.ItemArray
-                        dtFilter.Rows.Add(dtr)
-                        'sentence = " and reason = " + valueToCompare + " "
-                        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                    End If
-                Next
-                If dtFilter IsNot Nothing Then
-                    If dtFilter.Rows.Count > 0 Then
-                        dsFilter.Tables.Add(dtFilter)
-                        Session("DataFilter") = dsFilter
-                        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                        GetClaimsReport("", 1, dsFilter)
-                    Else
-                        lblTotalClaims.Text = 0
-                        grvClaimReport.DataSource = Nothing
-                        grvClaimReport.DataBind()
-                    End If
-                End If
-            Else
-                'error
-            End If
+            'If ddlSearchExtStatus.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchExtStatus.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchExtStatus.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(6).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -1049,37 +1049,37 @@ Public Class _Default
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
         Try
-            If ddlSearchDiagnose.SelectedIndex = 0 Then
-                loadSessionClaims()
-            ElseIf ddlSearchDiagnose.SelectedIndex > 0 Then
-                Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                Dim dsFilter As DataSet = New DataSet()
-                Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-                Dim valueToCompare As String = ddlSearchDiagnose.SelectedItem.Text.ToString()
-                For Each dr As DataRow In dsData.Tables(0).Rows
-                    If dr.ItemArray(3).ToString() = valueToCompare Then
-                        Dim dtr As DataRow = dtFilter.NewRow()
-                        dtr.ItemArray = dr.ItemArray
-                        dtFilter.Rows.Add(dtr)
-                        'sentence = " and reason = " + valueToCompare + " "
-                        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                    End If
-                Next
-                If dtFilter IsNot Nothing Then
-                    If dtFilter.Rows.Count > 0 Then
-                        dsFilter.Tables.Add(dtFilter)
-                        Session("DataFilter") = dsFilter
-                        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                        GetClaimsReport("", 1, dsFilter)
-                    Else
-                        lblTotalClaims.Text = 0
-                        grvClaimReport.DataSource = Nothing
-                        grvClaimReport.DataBind()
-                    End If
-                End If
-            Else
-                'error
-            End If
+            'If ddlSearchDiagnose.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchDiagnose.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchDiagnose.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(3).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -2285,40 +2285,43 @@ Public Class _Default
         End Try
     End Sub
 
-    Public Sub PrepareQuery()
-        Dim strBuild As String = Nothing
+    Public Sub PrepareQuery(ByRef strBuild As String)
+        strBuild = Nothing
         Try
             If Not String.IsNullOrEmpty(txtClaimNo.Text.Trim()) Then
-                strBuild += " AND MHMRNR = '" + txtClaimNo.Text.Trim() + "', "
+                strBuild += " AND TRIM(MHMRNR) = '" + txtClaimNo.Text.Trim() + "'"
             End If
             If Not String.IsNullOrEmpty(txtPartNo.Text.Trim()) Then
-                strBuild += " AND MHPTNR = '" + txtPartNo.Text.Trim() + "', "
+                strBuild += " AND TRIM(MHPTNR) = '" + txtPartNo.Text.Trim() + "'"
             End If
-
-            If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) Then
+            If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) And Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
+                Dim minDate = txtDateInit.Text.Trim().Split(" ")(0)
+                Dim maxDate = txtDateTo.Text.Trim().Split(" ")(0)
+                strBuild += " AND (CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" + minDate + "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" + maxDate + "')) "
+                '7/19/2021
+                '6/10/2017
             End If
-
-
-            If Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
-            End If
-
             If ddlSearchIntStatus.SelectedIndex > 0 Then
-                strBuild += " AND CWSTDE like '%" + ddlSearchIntStatus.SelectedItem.Text.Trim() + "%', "
+                strBuild += " AND TRIM(f.CNT03) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
             End If
             If ddlSearchExtStatus.SelectedIndex > 0 Then
+                Dim strValues As String = Nothing
+                Dim selection As String = ddlSearchExtStatus.SelectedItem.Text.Trim().ToLower()
+                prepareExternStatus(selection, strValues)
+                strBuild += " AND TRIM(d.CNT03) IN (" + strValues + ")"
                 'list returned in prepareExternal method
             End If
             If Not String.IsNullOrEmpty(txtCustomer.Text.Trim()) Then
-                strBuild += " AND MHCUNR = '" + txtCustomer.Text.Trim() + "', "
+                strBuild += " AND TRIM(MHCUNR) = '" + txtCustomer.Text.Trim() + "'"
             End If
             If ddlSearchUser.SelectedIndex > 0 Then
-                strBuild += " AND CWUSER = '" + ddlSearchUser.SelectedItem.Text.Trim() + "', "
+                strBuild += " AND TRIM(CWUSER) = '" + ddlSearchUser.SelectedItem.Text.Trim() + "'"  'ok
             End If
             If ddlSearchReason.SelectedIndex > 0 Then
-                strBuild += " AND MHREASN = '" + ddlSearchReason.SelectedItem.Text.Trim() + "', "
+                strBuild += " AND TRIM(MHREASN) = '" + Trim(ddlSearchReason.SelectedItem.Text.Trim().Split("-")(0)) + "'"
             End If
             If ddlSearchDiagnose.SelectedIndex > 0 Then
-                strBuild += " AND MHDIAG = '" + ddlSearchDiagnose.SelectedItem.Text.Trim() + "', "
+                strBuild += " AND TRIM(MHDIAG) = '" + Trim(ddlSearchDiagnose.SelectedItem.Text.Trim().Split("-")(0)) + "'"
             End If
         Catch ex As Exception
 
@@ -2328,41 +2331,41 @@ Public Class _Default
 
     Protected Sub btnSearchFilter_Click(sender As Object, e As EventArgs) Handles btnSearchFilter.Click
         Dim dsClaimsData = New DataSet()
+        Dim dsResult = New DataSet()
         Dim goAhead As Boolean = False
         Dim dsQuery As DataSet = New DataSet()
+        Dim strBuiltQuery As String = Nothing
+        Dim result As Integer = -1
 
         Dim lstExtSts As List(Of String) = New List(Of String)()
 
         Try
 
-            dsClaimsData = DirectCast(Session("ClaimsSingleData"), DataSet)
-            If dsClaimsData IsNot Nothing Then
-                If dsClaimsData.Tables(0).Rows.Count > 0 Then
-                    goAhead = True
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                dsClaimsData = DirectCast(Session("ClaimsSingleData"), DataSet)
+                If dsClaimsData IsNot Nothing Then
+                    If dsClaimsData.Tables(0).Rows.Count > 0 Then
+                        goAhead = True
+                    End If
                 End If
-            End If
 
-            If goAhead Then
+                If goAhead Then
+                    'dsQuery = dsClaimsData
+                    PrepareQuery(strBuiltQuery)
 
-                dsQuery = dsClaimsData
+                    If Not String.IsNullOrEmpty(strBuiltQuery) Then
+                        result = objBL.GetClaimsDataUpdated("C", dsResult, strBuiltQuery)
+                    Else
+                        result = objBL.GetClaimsDataUpdated("C", dsResult)
+                    End If
 
-                PrepareQuery()
+                    Session("DataSource") = dsResult
+                    loadSessionClaims()
 
-                'checking external status criteria
-                'If ddlSearchExtStatus.SelectedIndex > 0 Then
-                '    Dim criteria = ddlSearchExtStatus.SelectedItem.Text
+                End If
 
-                '    prepareExternStatus(criteria, lstExtSts)
-
-                '    For Each dwExt As DataRow In dsQuery.Tables(0).Rows
-                '        If lstExtSts.Contains(dwExt.Item("CNT03").ToString().ToLower()) Then
-
-                '        End If
-                '    Next
-
-                'End If
-
-            End If
+            End Using
 
         Catch ex As Exception
 
@@ -5025,13 +5028,13 @@ Public Class _Default
 
 #Region "Auxiliar Methods"
 
-    Public Sub prepareExternStatus(criteria As String, ByRef lstValues As List(Of String))
+    Public Sub prepareExternStatus(criteria As String, ByRef strValues As String)
         Dim dsResult As DataSet = New DataSet()
         Dim lstStsOpen As List(Of String) = New List(Of String)()
         Dim lstStsClose As List(Of String) = New List(Of String)()
         Dim lstStsVoid As List(Of String) = New List(Of String)()
         Dim lstStsAll As List(Of String) = New List(Of String)()
-        lstValues = New List(Of String)()
+        strValues = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 Dim rsResult = objBL.addToDdlClaimSts(dsResult)
@@ -5054,15 +5057,35 @@ Public Class _Default
                     End If
                 End If
 
+
+
                 If criteria.ToLower().Contains("open") Then
-                    lstValues = lstStsOpen
-                ElseIf criteria.ToLower().Contains("close") Then
-                    lstValues = lstStsClose
+                    'lstValues = lstStsOpen
+                    For Each item As String In lstStsOpen
+                        strValues += "'" + item.Trim().ToLower() + "',"
+                    Next
+                ElseIf criteria.ToLower().Contains("closed") Then
+                    'lstValues = lstStsClose
+                    For Each item As String In lstStsClose
+                        strValues += "'" + item.Trim().ToLower() + "',"
+                    Next
                 ElseIf criteria.ToLower().Contains("void") Then
-                    lstValues = lstStsVoid
+                    'lstValues = lstStsVoid
+                    For Each item As String In lstStsVoid
+                        strValues += "'" + item.Trim().ToLower() + "',"
+                    Next
                 Else
-                    lstValues = lstStsAll
+                    'lstValues = lstStsAll
+                    For Each item As String In lstStsAll
+                        strValues += "'" + item.Trim().ToLower() + "',"
+                    Next
                 End If
+
+
+                If Not String.IsNullOrEmpty(strValues) Then
+                    strValues = strValues.Remove(strValues.Length - 1, 1)
+                End If
+
             End Using
         Catch ex As Exception
 
@@ -6669,16 +6692,22 @@ Public Class _Default
         Dim exMessage As String = " "
         Try
             If ddl.ID = "ddlSearchReason" Then
-                ddlSearchReason.SelectedIndex = If(Not String.IsNullOrEmpty(hdReason.Value), CInt(hdReason.Value) + 1, 0)
+                ddlSearchReason.SelectedIndex = If(Not String.IsNullOrEmpty(hdReason.Value), CInt(ddlSearchReason.Items.IndexOf(ddlSearchReason.Items.FindByValue(hdReason.Value))), 0)
                 ddlSearchReason_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlSearchDiagnose" Then
-                ddlSearchDiagnose.SelectedIndex = If(Not String.IsNullOrEmpty(hdDiagnose.Value), CInt(hdDiagnose.Value) + 1, 0)
+                ddlSearchDiagnose.SelectedIndex = If(Not String.IsNullOrEmpty(hdDiagnose.Value), CInt(ddlSearchDiagnose.Items.IndexOf(ddlSearchDiagnose.Items.FindByValue(hdDiagnose.Value))), 0)
                 ddlSearchDiagnose_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlSearchExtStatus" Then
-                ddlSearchExtStatus.SelectedIndex = If(Not String.IsNullOrEmpty(hdStatusOut.Value), CInt(hdStatusOut.Value) + 1, 0)
-                ddlSearchExtStatus_SelectedIndexChanged(ddl, Nothing)
+                ddlSearchExtStatus.SelectedIndex = If(Not String.IsNullOrEmpty(hdStatusOut.Value), CInt(ddlSearchExtStatus.Items.IndexOf(ddlSearchExtStatus.Items.FindByValue(hdStatusOut.Value))), 0)
+                'ddlSearchExtStatus_SelectedIndexChanged(ddl, Nothing)
+            ElseIf ddl.ID = "ddlSearchIntStatus" Then
+                ddlSearchIntStatus.SelectedIndex = If(Not String.IsNullOrEmpty(hdStatusIn.Value), CInt(ddlSearchIntStatus.Items.IndexOf(ddlSearchIntStatus.Items.FindByValue(hdStatusIn.Value))), 0)
+                ddlSearchIntStatus_SelectedIndexChanged(ddl, Nothing)
+            ElseIf ddl.ID = "ddlSearchUser" Then
+                ddlSearchUser.SelectedIndex = If(Not String.IsNullOrEmpty(hdUserSelected.Value), CInt(ddlSearchUser.Items.IndexOf(ddlSearchUser.Items.FindByValue(hdUserSelected.Value))), 0)
+                ddlSearchUser_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlDiagnoseData" Then
-                ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
+                'ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
@@ -6909,36 +6938,36 @@ Public Class _Default
     Protected Sub hdClaimNoSelected_ValueChanged(sender As Object, e As EventArgs)
         Dim exMessage As String = " "
         Try
-            Dim dsData = DirectCast(Session("DataSource"), DataSet)
-            Dim dsFilter As DataSet = New DataSet()
-            Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-            Dim valueToCompare As String = hdClaimNoSelected.Value
-            txtClaimNo.Text = valueToCompare
+            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            'Dim dsFilter As DataSet = New DataSet()
+            'Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            'Dim valueToCompare As String = hdClaimNoSelected.Value
+            'txtClaimNo.Text = valueToCompare
 
-            'Dim controlName As String = Page.Request.Params("__EVENTTARGET")
+            ''Dim controlName As String = Page.Request.Params("__EVENTTARGET")
 
-            'If Not LCase(controlName).Contains("ddl") Then
-            For Each dr As DataRow In dsData.Tables(0).Rows
-                If dr.ItemArray(0).ToString() = valueToCompare Then
-                    Dim dtr As DataRow = dtFilter.NewRow()
-                    dtr.ItemArray = dr.ItemArray
-                    dtFilter.Rows.Add(dtr)
-                    'sentence = " and reason = " + valueToCompare + " "
-                    'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                End If
-            Next
-            If dtFilter IsNot Nothing Then
-                If dtFilter.Rows.Count > 0 Then
-                    dsFilter.Tables.Add(dtFilter)
-                    Session("DataFilter") = dsFilter
-                    lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                    GetClaimsReport("", 1, dsFilter)
-                Else
-                    lblTotalClaims.Text = 0
-                    grvClaimReport.DataSource = Nothing
-                    grvClaimReport.DataBind()
-                End If
-            End If
+            ''If Not LCase(controlName).Contains("ddl") Then
+            'For Each dr As DataRow In dsData.Tables(0).Rows
+            '    If dr.ItemArray(0).ToString() = valueToCompare Then
+            '        Dim dtr As DataRow = dtFilter.NewRow()
+            '        dtr.ItemArray = dr.ItemArray
+            '        dtFilter.Rows.Add(dtr)
+            '        'sentence = " and reason = " + valueToCompare + " "
+            '        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '    End If
+            'Next
+            'If dtFilter IsNot Nothing Then
+            '    If dtFilter.Rows.Count > 0 Then
+            '        dsFilter.Tables.Add(dtFilter)
+            '        Session("DataFilter") = dsFilter
+            '        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '        GetClaimsReport("", 1, dsFilter)
+            '    Else
+            '        lblTotalClaims.Text = 0
+            '        grvClaimReport.DataSource = Nothing
+            '        grvClaimReport.DataBind()
+            '    End If
+            'End If
             'End If
 
         Catch ex As Exception
@@ -6950,34 +6979,34 @@ Public Class _Default
     Protected Sub hdPartNoSelected_ValueChanged(sender As Object, e As EventArgs)
         Dim exMessage As String = " "
         Try
-            Dim dsData = DirectCast(Session("DataSource"), DataSet)
-            Dim dsFilter As DataSet = New DataSet()
-            Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-            Dim valueToCompare As String = hdPartNoSelected.Value
-            txtPartNo.Text = valueToCompare
+            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            'Dim dsFilter As DataSet = New DataSet()
+            'Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            'Dim valueToCompare As String = hdPartNoSelected.Value
+            'txtPartNo.Text = valueToCompare
 
 
-            For Each dr As DataRow In dsData.Tables(0).Rows
-                If dr.ItemArray(7).ToString() = valueToCompare Then
-                    Dim dtr As DataRow = dtFilter.NewRow()
-                    dtr.ItemArray = dr.ItemArray
-                    dtFilter.Rows.Add(dtr)
-                    'sentence = " and reason = " + valueToCompare + " "
-                    'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                End If
-            Next
-            If dtFilter IsNot Nothing Then
-                If dtFilter.Rows.Count > 0 Then
-                    dsFilter.Tables.Add(dtFilter)
-                    Session("DataFilter") = dsFilter
-                    lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                    GetClaimsReport("", 1, dsFilter)
-                Else
-                    lblTotalClaims.Text = 0
-                    grvClaimReport.DataSource = Nothing
-                    grvClaimReport.DataBind()
-                End If
-            End If
+            'For Each dr As DataRow In dsData.Tables(0).Rows
+            '    If dr.ItemArray(7).ToString() = valueToCompare Then
+            '        Dim dtr As DataRow = dtFilter.NewRow()
+            '        dtr.ItemArray = dr.ItemArray
+            '        dtFilter.Rows.Add(dtr)
+            '        'sentence = " and reason = " + valueToCompare + " "
+            '        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '    End If
+            'Next
+            'If dtFilter IsNot Nothing Then
+            '    If dtFilter.Rows.Count > 0 Then
+            '        dsFilter.Tables.Add(dtFilter)
+            '        Session("DataFilter") = dsFilter
+            '        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '        GetClaimsReport("", 1, dsFilter)
+            '    Else
+            '        lblTotalClaims.Text = 0
+            '        grvClaimReport.DataSource = Nothing
+            '        grvClaimReport.DataBind()
+            '    End If
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -6987,34 +7016,34 @@ Public Class _Default
     Protected Sub hdCustomerNoSelected_ValueChanged(sender As Object, e As EventArgs)
         Dim exMessage As String = " "
         Try
-            Dim dsData = DirectCast(Session("DataSource"), DataSet)
-            Dim dsFilter As DataSet = New DataSet()
-            Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-            Dim valueToCompare As String = hdCustomerNoSelected.Value
-            txtCustomer.Text = valueToCompare
+            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            'Dim dsFilter As DataSet = New DataSet()
+            'Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            'Dim valueToCompare As String = hdCustomerNoSelected.Value
+            'txtCustomer.Text = valueToCompare
 
 
-            For Each dr As DataRow In dsData.Tables(0).Rows
-                If dr.ItemArray(4).ToString() = valueToCompare Then
-                    Dim dtr As DataRow = dtFilter.NewRow()
-                    dtr.ItemArray = dr.ItemArray
-                    dtFilter.Rows.Add(dtr)
-                    'sentence = " and reason = " + valueToCompare + " "
-                    'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                End If
-            Next
-            If dtFilter IsNot Nothing Then
-                If dtFilter.Rows.Count > 0 Then
-                    dsFilter.Tables.Add(dtFilter)
-                    Session("DataFilter") = dsFilter
-                    lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                    GetClaimsReport("", 1, dsFilter)
-                Else
-                    lblTotalClaims.Text = 0
-                    grvClaimReport.DataSource = Nothing
-                    grvClaimReport.DataBind()
-                End If
-            End If
+            'For Each dr As DataRow In dsData.Tables(0).Rows
+            '    If dr.ItemArray(4).ToString() = valueToCompare Then
+            '        Dim dtr As DataRow = dtFilter.NewRow()
+            '        dtr.ItemArray = dr.ItemArray
+            '        dtFilter.Rows.Add(dtr)
+            '        'sentence = " and reason = " + valueToCompare + " "
+            '        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '    End If
+            'Next
+            'If dtFilter IsNot Nothing Then
+            '    If dtFilter.Rows.Count > 0 Then
+            '        dsFilter.Tables.Add(dtFilter)
+            '        Session("DataFilter") = dsFilter
+            '        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '        GetClaimsReport("", 1, dsFilter)
+            '    Else
+            '        lblTotalClaims.Text = 0
+            '        grvClaimReport.DataSource = Nothing
+            '        grvClaimReport.DataBind()
+            '    End If
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -7024,34 +7053,34 @@ Public Class _Default
     Protected Sub hdDateInitSelected_ValueChanged(sender As Object, e As EventArgs)
         Dim exMessage As String = " "
         Try
-            Dim dsData = DirectCast(Session("DataSource"), DataSet)
-            Dim dsFilter As DataSet = New DataSet()
-            Dim dtFilter As DataTable = dsData.Tables(0).Clone()
-            Dim valueToCompare As String = hdDateInitSelected.Value
-            txtDateInit.Text = valueToCompare
+            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            'Dim dsFilter As DataSet = New DataSet()
+            'Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            'Dim valueToCompare As String = hdDateInitSelected.Value
+            'txtDateInit.Text = valueToCompare
 
 
-            For Each dr As DataRow In dsData.Tables(0).Rows
-                If dr.ItemArray(5).ToString() = valueToCompare Then
-                    Dim dtr As DataRow = dtFilter.NewRow()
-                    dtr.ItemArray = dr.ItemArray
-                    dtFilter.Rows.Add(dtr)
-                    'sentence = " and reason = " + valueToCompare + " "
-                    'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
-                End If
-            Next
-            If dtFilter IsNot Nothing Then
-                If dtFilter.Rows.Count > 0 Then
-                    dsFilter.Tables.Add(dtFilter)
-                    Session("DataFilter") = dsFilter
-                    lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
-                    GetClaimsReport("", 1, dsFilter)
-                Else
-                    lblTotalClaims.Text = 0
-                    grvClaimReport.DataSource = Nothing
-                    grvClaimReport.DataBind()
-                End If
-            End If
+            'For Each dr As DataRow In dsData.Tables(0).Rows
+            '    If dr.ItemArray(5).ToString() = valueToCompare Then
+            '        Dim dtr As DataRow = dtFilter.NewRow()
+            '        dtr.ItemArray = dr.ItemArray
+            '        dtFilter.Rows.Add(dtr)
+            '        'sentence = " and reason = " + valueToCompare + " "
+            '        'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '    End If
+            'Next
+            'If dtFilter IsNot Nothing Then
+            '    If dtFilter.Rows.Count > 0 Then
+            '        dsFilter.Tables.Add(dtFilter)
+            '        Session("DataFilter") = dsFilter
+            '        lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '        GetClaimsReport("", 1, dsFilter)
+            '    Else
+            '        lblTotalClaims.Text = 0
+            '        grvClaimReport.DataSource = Nothing
+            '        grvClaimReport.DataBind()
+            '    End If
+            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -7159,10 +7188,10 @@ Public Class _Default
             con.Open()
 
             Dim DbCommand As OdbcCommand = con.CreateCommand()
-            Dim Sql = " SELECT DISTINCT (CSMREH.MHMRNR) ClAIM# FROM CSMREH, CLMWRN, CLMINTSTS WHERE CSMREH.MHRTTY <> 'B' 
-                    and CSMREH.MHMRNR = CLMWRN.CWDOCN and CLMWRN.CWWRNO = CLMINTSTS.INCLNO 
-                    and CVTDCDTF(CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(CSMREH.MHMRDT,'MDY') <= '{1}' 
-                    and VARCHAR_FORMAT(CSMREH.MHMRNR) LIKE '%{2}%' ORDER BY CSMREH.MHMRNR DESC 
+            Dim Sql = " SELECT DISTINCT (QS36F.CSMREH.MHMRNR) ClAIM# FROM QS36F.CSMREH, QS36F.CLMWRN, QS36F.CLMINTSTS WHERE QS36F.CSMREH.MHRTTY <> 'B' 
+                    and QS36F.CSMREH.MHMRNR = QS36F.CLMWRN.CWDOCN and QS36F.CLMWRN.CWWRNO = QS36F.CLMINTSTS.INCLNO 
+                    and CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and VARCHAR_FORMAT(QS36F.CSMREH.MHMRNR) LIKE '%{2}%' ORDER BY QS36F.CSMREH.MHMRNR DESC 
                     FETCH FIRST 10 ROWS ONLY"
 
             Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
@@ -7201,10 +7230,10 @@ Public Class _Default
             con.Open()
 
             Dim DbCommand As OdbcCommand = con.CreateCommand()
-            Dim Sql = " SELECT DISTINCT (CLMWRN.CWPTNO) PART# FROM CSMREH, CLMWRN, CLMINTSTS WHERE CSMREH.MHRTTY <> 'B' 
-                    and CSMREH.MHMRNR = CLMWRN.CWDOCN and CLMWRN.CWWRNO = CLMINTSTS.INCLNO 
-                    and CVTDCDTF(CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(CSMREH.MHMRDT,'MDY') <= '{1}' 
-                    and VARCHAR_FORMAT(CLMWRN.CWPTNO) LIKE '%{2}%' ORDER BY CLMWRN.CWPTNO DESC 
+            Dim Sql = " SELECT DISTINCT (QS36F.CLMWRN.CWPTNO) PART# FROM QS36F.CSMREH, QS36F.CLMWRN, QS36F.CLMINTSTS WHERE QS36F.CSMREH.MHRTTY <> 'B' 
+                    and QS36F.CSMREH.MHMRNR = QS36F.CLMWRN.CWDOCN and QS36F.CLMWRN.CWWRNO = QS36F.CLMINTSTS.INCLNO 
+                    and CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and VARCHAR_FORMAT(QS36F.CLMWRN.CWPTNO) LIKE '%{2}%' ORDER BY QS36F.CLMWRN.CWPTNO DESC 
                     FETCH FIRST 10 ROWS ONLY"
 
             Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
@@ -7243,10 +7272,10 @@ Public Class _Default
             con.Open()
 
             Dim DbCommand As OdbcCommand = con.CreateCommand()
-            Dim Sql = " SELECT DISTINCT (CSMREH.MHCUNR) CUSTOMER FROM CSMREH, CLMWRN, CLMINTSTS WHERE CSMREH.MHRTTY <> 'B' 
-                    and CSMREH.MHMRNR = CLMWRN.CWDOCN and CLMWRN.CWWRNO = CLMINTSTS.INCLNO 
-                    and CVTDCDTF(CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(CSMREH.MHMRDT,'MDY') <= '{1}' 
-                    and VARCHAR_FORMAT(CSMREH.MHCUNR) LIKE '%{2}%' ORDER BY CSMREH.MHCUNR DESC 
+            Dim Sql = " SELECT DISTINCT (QS36F.CSMREH.MHCUNR) CUSTOMER FROM QS36F.CSMREH, QS36F.CLMWRN, QS36F.CLMINTSTS WHERE QS36F.CSMREH.MHRTTY <> 'B' 
+                    and QS36F.CSMREH.MHMRNR = QS36F.CLMWRN.CWDOCN and QS36F.CLMWRN.CWWRNO = QS36F.CLMINTSTS.INCLNO 
+                    and CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and VARCHAR_FORMAT(QS36F.CSMREH.MHCUNR) LIKE '%{2}%' ORDER BY QS36F.CSMREH.MHCUNR DESC 
                     FETCH FIRST 10 ROWS ONLY"
 
             Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)

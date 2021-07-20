@@ -17,7 +17,9 @@
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchDiagnose" />
             <asp:AsyncPostBackTrigger ControlID ="ddlDiagnoseData"  />
             <asp:AsyncPostBackTrigger ControlID ="ddlLocation"  />
-            <asp:AsyncPostBackTrigger ControlID ="ddlSearchExtStatus" /> 
+            <%--<asp:AsyncPostBackTrigger ControlID ="ddlSearchExtStatus" />--%> 
+            <%--<asp:AsyncPostBackTrigger ControlID ="ddlSearchIntStatus" /> 
+            <asp:AsyncPostBackTrigger ControlID ="ddlSearchUser" /> --%>
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
         </Triggers>
@@ -292,7 +294,7 @@
                                                         <div id="rowExtStatus">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" placeholder="External Status" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" title="Search by Ext Status." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" placeholder="External Status" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" title="Search by Ext Status." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                    <span class="input-group-addon"><i class="fa fa-sign-out-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -304,7 +306,7 @@
                                                         <div id="rowIntStatus">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" placeholder="Internal Status" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" title="Search by int Status." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" placeholder="Internal Status" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" title="Search by int Status." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sign-in-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
@@ -336,7 +338,7 @@
                                                         <div id="rowUser">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" title="Search by User." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" title="Search by User." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -357,7 +359,7 @@
                                                         <div id="rowReason">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" placeholder="Reason" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" title="Search by Claim Reason." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" placeholder="Reason" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" title="Search by Claim Reason." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sliders-h center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -369,7 +371,7 @@
                                                         <div id="rowDiagnose">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
@@ -597,6 +599,8 @@
                     <asp:HiddenField ID="hdReason" Value="" runat="server" />
                     <asp:HiddenField ID="hdDiagnose" Value="" runat="server" />
                     <asp:HiddenField ID="hdStatusOut" Value="" runat="server" />
+                    <asp:HiddenField ID="hdStatusIn" Value="" runat="server" />
+                    <asp:HiddenField ID="hdUserSelected" Value="" runat="server" />
 
                     <asp:HiddenField ID="selectedFilter" Value=""  runat="server" />
 
@@ -2068,15 +2072,7 @@
         var $j = jQuery.noConflict();
     </script>  
 
-    <script type="text/javascript">
-
-        //starting test function for add textboxes
-
-        
-
-        //ending test function for add textboxes
-
-
+    <script type="text/javascript">  
 
         //from above
 
@@ -2373,18 +2369,29 @@
 
             if (filter == "MainContent_ddlSearchReason") {
                 var hdRe = document.getElementById('<%=hdReason.ClientID%>').value;
-                $j("#<%=ddlSearchReason.ClientID%>").prop('selectedIndex', parseInt(hdRe) + 1);
+                $j("#<%=ddlSearchReason.ClientID%>").prop('selectedIndex', parseInt(hdRe));
 
             }
             else if (filter == "MainContent_ddlSearchDiagnose") {
                 var hdDia = document.getElementById('<%=hdDiagnose.ClientID%>').value;
-                $j("#<%=ddlSearchDiagnose.ClientID%>").prop('selectedIndex', parseInt(hdDia) + 1);
+                $j("#<%=ddlSearchDiagnose.ClientID%>").prop('selectedIndex', parseInt(hdDia));
 
             }
             else if (filter == "MainContent_ddlSearchExtStatus") {
                 var hdSt = document.getElementById('<%=hdStatusOut.ClientID%>').value;
                 $j("#<%=ddlSearchExtStatus.ClientID%>").prop('selectedIndex', parseInt(hdSt) + 1);
-            }                     
+
+            }    
+            else if (filter == "MainContent_ddlSearchIntStatus") {
+                var hdSti = document.getElementById('<%=hdStatusIn.ClientID%>').value;
+                $j("#<%=ddlSearchIntStatus.ClientID%>").prop('selectedIndex', parseInt(hdSti) + 1);
+
+            }
+            else if (filter == "MainContent_ddlSearchUser") {
+                var hdUs = document.getElementById('<%=hdUserSelected.ClientID%>').value;
+                $j("#<%=ddlSearchUser.ClientID%>").prop('selectedIndex', parseInt(hdUs) + 1);
+
+            }
         }
 
         function yesnoCheckCustom(id) {
@@ -2590,6 +2597,28 @@
 
         });
 
+        $j('body').on('change', "#<%=ddlSearchIntStatus.ClientID %>", function () {
+            var value = document.getElementById("<%=ddlSearchIntStatus.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $j('#<%=hdStatusIn.ClientID %>').val(getindex);
+
+            <%--var value1 = document.getElementById("<%=ddlSearchIntStatus.ClientID %>").id;
+            $j('#<%=selectedFilter.ClientID %>').val(value1);--%>
+
+        });
+
+        $j('body').on('change', "#<%=ddlSearchUser.ClientID %>", function () {
+            var value = document.getElementById("<%=ddlSearchUser.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $j('#<%=hdUserSelected.ClientID %>').val(getindex);
+
+            <%--var value1 = document.getElementById("<%=ddlSearchIntStatus.ClientID %>").id;
+            $j('#<%=selectedFilter.ClientID %>').val(value1);--%>
+
+        });
+
         $j('body').on('change', "#<%=ddlSearchDiagnose.ClientID %>", function () {
             var value = document.getElementById("<%=ddlSearchDiagnose.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
@@ -2635,12 +2664,15 @@
         //Autocomplete Method Begin
 
         function claimNoAutoComplete() {
+
+            debugger
+
             $j(".autosuggestclaim").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
-                        url: "Claims-Report.aspx/GetAutoCompleteDataClaimNo",
+                        url: "Default.aspx/GetAutoCompleteDataClaimNo",
                         data: "{'prefixText':'" + document.getElementById("<%=txtClaimNo.ClientID %>").value + "'}",
                         dataType: "json",
                         autoFocus: true,
@@ -2655,7 +2687,7 @@
                 select: function (event, ui) {
                     var autocomplete_value = ui.item;
                     $j("#<%=hdClaimNoSelected.ClientID %>").val(autocomplete_value.value);
-                    __doPostBack("#<%=hdClaimNoSelected.ClientID %>", "");
+                    //__doPostBack("#<%=hdClaimNoSelected.ClientID %>", "");
                 }
             });
         }
@@ -2663,10 +2695,10 @@
         function PartNoAutoComplete() {
             $j(".autosuggestpart").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
-                        url: "Claims-Report.aspx/GetAutoCompleteDataPartNo",
+                        url: "Default.aspx/GetAutoCompleteDataPartNo",
                         data: "{'prefixText':'" + document.getElementById("<%=txtPartNo.ClientID %>").value + "'}",
                         dataType: "json",
                         autoFocus: true,
@@ -2682,7 +2714,7 @@
                     var autocomplete_value = ui.item;
                     //alert(autocomplete_value.value);
                     $j("#<%=hdPartNoSelected.ClientID %>").val(autocomplete_value.value);
-                    __doPostBack("#<%=hdPartNoSelected.ClientID %>", "");
+                    //__doPostBack("#<%=hdPartNoSelected.ClientID %>", "");
                 }
             });
         }
@@ -2690,10 +2722,10 @@
         function CustomerNoAutoComplete() {
             $j(".autosuggestcustomer").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
-                        url: "Claims-Report.aspx/GetAutoCompleteDataCustomerNo",
+                        url: "Default.aspx/GetAutoCompleteDataCustomerNo",
                         data: "{'prefixText':'" + document.getElementById("<%=txtCustomer.ClientID %>").value + "'}",
                         dataType: "json",
                         autoFocus: true,
@@ -2708,7 +2740,7 @@
                 select: function (event, ui) {
                     var autocomplete_value = ui.item;
                     $j("#<%=hdCustomerNoSelected.ClientID %>").val(autocomplete_value.value);
-                    __doPostBack("#<%=hdCustomerNoSelected.ClientID %>", "");
+                   // __doPostBack("#<%=hdCustomerNoSelected.ClientID %>", "");
                 }
             });
         }
@@ -2734,9 +2766,9 @@
             var collapse1 = document.getElementById('collapseOne');
             afterDdlCheck(hd1, collapse1);   
 
-            claimNoAutoComplete()
-            PartNoAutoComplete()
-            CustomerNoAutoComplete() 
+            //claimNoAutoComplete()
+            //PartNoAutoComplete()
+            //CustomerNoAutoComplete() 
             
             divexpandcollapse(divname)
             
@@ -3230,7 +3262,7 @@
             setHeight($j('#MainContent_txtCustStatement'));
             
             var hdFil = document.getElementById('<%=selectedFilter.ClientID%>').value;
-            processDDLSelection(hdFil)
+            //processDDLSelection(hdFil)
 
             //$j('#MainContent_txtDateTo').datepicker(
             //    {
@@ -3292,13 +3324,14 @@
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-                to = $j("#<%= txtDateTo.ClientID %>").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    dateFormat: 'mm/dd/yy',
-                    autoClose: true,
-                    numberOfMonths: 1
-                })
+                to = $j("#<%= txtDateTo.ClientID %>")
+                    .datepicker({
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        dateFormat: 'mm/dd/yy',
+                        autoClose: true,
+                        numberOfMonths: 1
+                    })
                     .on("change", function () {
                         from.datepicker("option", "maxDate", getDate(this));
                     });
