@@ -896,7 +896,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #rowBtnOpt {
-    padding: 15px 1px !important;
+    padding: 15px 1px 60px 1px !important;
 }
 
 #rowBtnSearch, #rowPageSize {

@@ -7406,11 +7406,15 @@ Public Class _Default
             Dim DbCommand As OdbcCommand = con.CreateCommand()
             Dim Sql = " SELECT DISTINCT (QS36F.CSMREH.MHMRNR) ClAIM# FROM QS36F.CSMREH, QS36F.CLMWRN, QS36F.CLMINTSTS WHERE QS36F.CSMREH.MHRTTY <> 'B' 
                     and QS36F.CSMREH.MHMRNR = QS36F.CLMWRN.CWDOCN and QS36F.CLMWRN.CWWRNO = QS36F.CLMINTSTS.INCLNO 
-                    and CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and CTPINV.CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CTPINV.CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
                     and VARCHAR_FORMAT(QS36F.CSMREH.MHMRNR) LIKE '%{2}%' ORDER BY QS36F.CSMREH.MHMRNR DESC 
                     FETCH FIRST 10 ROWS ONLY"
 
-            Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
+            Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
+            Dim todayDate = DateTime.Now
+            Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
+
+            Dim sqlResult = String.Format(Sql, fromDate.ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
             DbCommand.CommandText = sqlResult
             Dim DbReader As OdbcDataReader = DbCommand.ExecuteReader()
 
@@ -7448,11 +7452,15 @@ Public Class _Default
             Dim DbCommand As OdbcCommand = con.CreateCommand()
             Dim Sql = " SELECT DISTINCT (QS36F.CLMWRN.CWPTNO) PART# FROM QS36F.CSMREH, QS36F.CLMWRN, QS36F.CLMINTSTS WHERE QS36F.CSMREH.MHRTTY <> 'B' 
                     and QS36F.CSMREH.MHMRNR = QS36F.CLMWRN.CWDOCN and QS36F.CLMWRN.CWWRNO = QS36F.CLMINTSTS.INCLNO 
-                    and CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and CTPINV.CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CTPINV.CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
                     and VARCHAR_FORMAT(QS36F.CLMWRN.CWPTNO) LIKE '%{2}%' ORDER BY QS36F.CLMWRN.CWPTNO DESC 
                     FETCH FIRST 10 ROWS ONLY"
 
-            Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
+            Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
+            Dim todayDate = DateTime.Now
+            Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
+
+            Dim sqlResult = String.Format(Sql, fromDate.ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
             DbCommand.CommandText = sqlResult
             Dim DbReader As OdbcDataReader = DbCommand.ExecuteReader()
 
@@ -7490,11 +7498,15 @@ Public Class _Default
             Dim DbCommand As OdbcCommand = con.CreateCommand()
             Dim Sql = " SELECT DISTINCT (QS36F.CSMREH.MHCUNR) CUSTOMER FROM QS36F.CSMREH, QS36F.CLMWRN, QS36F.CLMINTSTS WHERE QS36F.CSMREH.MHRTTY <> 'B' 
                     and QS36F.CSMREH.MHMRNR = QS36F.CLMWRN.CWDOCN and QS36F.CLMWRN.CWWRNO = QS36F.CLMINTSTS.INCLNO 
-                    and CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and CTPINV.CVTDCDTF(QS36F.CSMREH.MHMRDT, 'MDY') >= '{0}' AND CTPINV.CVTDCDTF(QS36F.CSMREH.MHMRDT,'MDY') <= '{1}' 
                     and VARCHAR_FORMAT(QS36F.CSMREH.MHCUNR) LIKE '%{2}%' ORDER BY QS36F.CSMREH.MHCUNR DESC 
                     FETCH FIRST 10 ROWS ONLY"
 
-            Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
+            Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
+            Dim todayDate = DateTime.Now
+            Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
+
+            Dim sqlResult = String.Format(Sql, fromDate.ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
             DbCommand.CommandText = sqlResult
             Dim DbReader As OdbcDataReader = DbCommand.ExecuteReader()
 
@@ -7532,11 +7544,15 @@ Public Class _Default
             Dim DbCommand As OdbcCommand = con.CreateCommand()
             Dim Sql = " SELECT DISTINCT (CSMREH.MHCUNR) CUSTOMER FROM CSMREH, CLMWRN, CLMINTSTS WHERE CSMREH.MHRTTY <> 'B' 
                     and CSMREH.MHMRNR = CLMWRN.CWDOCN and CLMWRN.CWWRNO = CLMINTSTS.INCLNO 
-                    and CVTDCDTF(CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(CSMREH.MHMRDT,'MDY') <= '{1}' 
+                    and CTPINV.CVTDCDTF(CSMREH.MHMRDT, 'MDY') >= '{0}' AND CTPINV.CVTDCDTF(CSMREH.MHMRDT,'MDY') <= '{1}' 
                     and VARCHAR_FORMAT(CSMREH.MHMRNR) LIKE '%{2}%' ORDER BY CSMREH.MHMRNR DESC 
                     FETCH FIRST 5 ROWS ONLY"
 
-            Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
+            Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
+            Dim todayDate = DateTime.Now
+            Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
+
+            Dim sqlResult = String.Format(Sql, fromDate.ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
             DbCommand.CommandText = sqlResult
             Dim DbReader As OdbcDataReader = DbCommand.ExecuteReader()
 

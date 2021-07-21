@@ -2044,7 +2044,7 @@
                     </div>
                     <div class="col-md-1 padding2">
                         <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="Close" runat="server">
-                            <i class="fa fa-sign-out fa-2x"" aria-hidden="true"> </i> 
+                            <i class="fa fa-sign-out-alt fa-2x"" aria-hidden="true"> </i> 
                         </asp:LinkButton>
                         <%--<asp:Button ID="btnCloseTab" CssClass="btn btn-primary btnFullSize" Text="Close" OnClick="btnCloseTab_Click" runat="server" />--%>
                     </div>                                     
@@ -3203,9 +3203,11 @@
                 var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
                 if (hdGridVisualization == "1") {
                     $j('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
                 }
                 else {
                     $j('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
                     $j("#MainContent_navsSection").removeAttr("style");
                 }
 
@@ -3213,9 +3215,13 @@
                 if (hdTabsVisualization == "1") {
                     $j('#MainContent_navsSection').closest('.container').removeClass('hideProp')
                     $j("#MainContent_navsSection").removeAttr("style");
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
                 }
                 else {
                     $j('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
                 }
 
                 fixVisibilityColumns();
