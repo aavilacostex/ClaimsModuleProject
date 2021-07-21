@@ -212,6 +212,15 @@ Partial Public Class _Default
     Protected WithEvents btnBackFile As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''rowFilters control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rowFilters As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''pnClaimData control.
     '''</summary>
     '''<remarks>

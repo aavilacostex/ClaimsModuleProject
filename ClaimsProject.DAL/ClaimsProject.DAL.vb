@@ -659,9 +659,9 @@ Public Class ClaimsProject : Implements IDisposable
                             d.CNT03,d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, trim(f.CNT03) CWSTS, SUBSTR(f.CNTDE1,1,18) cwstde,
                             case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
                             else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end actdt,
-                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER                           
+                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO                          
                             from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
-                            (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER FROM qs36f.CSMREH 
+                            (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO  FROM qs36f.CSMREH 
                             LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN " & strwhere & ") a " & strjoin & " {0} order by 1 desc"
 
 

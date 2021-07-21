@@ -31,6 +31,9 @@ Public Class _Default
 
             ' getClaimNumbers("130644", Today.AddYears(-2))
         Else
+            Dim controlName As String = Page.Request.Params("__EVENTTARGET")
+            GetDDLValidation(controlName)
+
             loadSessionClaims()
             LoadDropDownLists(ddlDiagnoseData)
             LoadDropDownLists(ddlSearchDiagnose)
@@ -98,14 +101,17 @@ Public Class _Default
             '    End If
             'End If
 
-            Dim controlName As String = Page.Request.Params("__EVENTTARGET")
-                If Not String.IsNullOrEmpty(controlName) Then
-                    If ((LCase(controlName).Contains("ddl"))) Then
-                        Dim ddlTrig As DropDownList = DirectCast(Me.Form.FindControl(controlName), DropDownList)
-                        executesDropDownList(ddlTrig)
-                    End If
+            If Not String.IsNullOrEmpty(controlName) Then
+                If ((LCase(controlName).Contains("ddl"))) Then
+                    Dim ddlTrig As DropDownList = DirectCast(Me.Form.FindControl(controlName), DropDownList)
+                    executesDropDownList(ddlTrig)
+                Else
+                    Session("isDDL") = False
                 End If
+            Else
+                Session("isDDL") = False
             End If
+        End If
     End Sub
 
 #Region "Not in Use"
@@ -175,6 +181,22 @@ Public Class _Default
 
 #End Region
 
+    Private Sub GetDDLValidation(cntlName As String)
+        Try
+            If LCase(cntlName).Contains("ddl") Then
+                If LCase(cntlName).Contains("ddlpagesize") Then
+                    Session("isDDL") = False
+                Else
+                    Session("isDDL") = True
+                End If
+            Else
+                Session("isDDL") = False
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Private Function GetClaimDataByDemand() As DataSet
         Dim result As Integer = 0
         Dim dsResult = New DataSet()
@@ -217,6 +239,8 @@ Public Class _Default
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 If dsSessionResult IsNot Nothing Then
                     If dsSessionResult.Tables(0).Rows.Count > 0 Then
+                        Session("ItemCounts") = dsSessionResult.Tables(0).Rows.Count.ToString()
+
                         grvClaimReport.DataSource = dsSessionResult.Tables(0)
                         grvClaimReport.DataBind()
                     End If
@@ -313,9 +337,9 @@ Public Class _Default
 
                     If (result > 0 And dsResult IsNot Nothing And dsResult.Tables(0).Rows.Count > 0) Then
                         Session("DataSource") = dsResult
-                        Session("PageAmounts") = 10
+                        Session("PageAmounts") = "10"
                         Session("currentPage") = 1
-                        Session("ItemCounts") = dsResult.Tables(0).Rows.Count
+                        Session("ItemCounts") = dsResult.Tables(0).Rows.Count.ToString()
                         lblTotalClaims.Text = dsResult.Tables(0).Rows.Count
 
                         grvClaimReport.DataSource = dsResult.Tables(0)
@@ -328,15 +352,46 @@ Public Class _Default
         End Try
     End Sub
 
-    Private Sub loadSessionClaims()
+    Private Sub loadSessionClaims(Optional ds As DataSet = Nothing, Optional loadNothing As Boolean = False)
         Dim exMessage As String = " "
         Try
-            If Session("DataSource") IsNot Nothing Then
-                Dim allSessionClaims = DirectCast(Session("DataSource"), DataSet)
-                lblTotalClaims.Text = allSessionClaims.Tables(0).Rows.Count
-                grvClaimReport.DataSource = allSessionClaims.Tables(0)
+            If Not loadNothing Then
+                If ds IsNot Nothing Then
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        lblTotalClaims.Text = ds.Tables(0).Rows.Count
+
+                        Session("DataSource") = ds
+                        Session("ItemCounts") = ds.Tables(0).Rows.Count.ToString()
+
+                        grvClaimReport.DataSource = ds.Tables(0)
+                        grvClaimReport.DataBind()
+                    End If
+                ElseIf Session("DataSource") IsNot Nothing Then
+                    Dim allSessionClaims = DirectCast(Session("DataSource"), DataSet)
+                    'Session("ItemCounts") = allSessionClaims.Tables(0).Rows.Count()
+                    lblTotalClaims.Text = allSessionClaims.Tables(0).Rows.Count
+
+                    Session("ItemCounts") = allSessionClaims.Tables(0).Rows.Count.ToString()
+
+                    grvClaimReport.DataSource = allSessionClaims.Tables(0)
+                    grvClaimReport.DataBind()
+                Else
+                    lblTotalClaims.Text = 0
+
+                    Session("ItemCounts") = lblTotalClaims.Text.ToString()
+
+                    grvClaimReport.DataSource = Nothing
+                    grvClaimReport.DataBind()
+                End If
+            Else
+                lblTotalClaims.Text = 0
+
+                Session("ItemCounts") = lblTotalClaims.Text.ToString()
+
+                grvClaimReport.DataSource = Nothing
                 grvClaimReport.DataBind()
             End If
+
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
         End Try
@@ -391,8 +446,8 @@ Public Class _Default
                     x += 1
                 Next
             ElseIf (e.Row.RowType = DataControlRowType.Pager) Then
-                Dim strTotal = DirectCast(Session("ItemCounts"), Integer).ToString()
-                Dim strNumberOfPages = DirectCast(Session("PageAmounts"), Integer).ToString()
+                Dim strTotal = DirectCast(Session("ItemCounts"), String).ToString()
+                Dim strNumberOfPages = DirectCast(Session("PageAmounts"), String).ToString()
                 Dim strCurrentPage = ((DirectCast(Session("currentPage"), Integer))).ToString()
 
                 Dim strGrouping = String.Format("Showing {0} to {1} of {2} entries ", strCurrentPage, strNumberOfPages, strTotal)
@@ -416,9 +471,14 @@ Public Class _Default
         Dim exMessage As String = " "
         Try
             grvClaimReport.PageIndex = e.NewPageIndex
-            Dim rs = TryCast(Session("DataFilter"), DataSet)
-            If rs IsNot Nothing Then
-                GetClaimsReport("", 1, rs)
+
+            Session("currentPage") = (CInt(e.NewPageIndex + 1) * 10) - 9
+            Dim vall = If((CInt(e.NewPageIndex + 1) * 10) > CInt(DirectCast(Session("ItemCounts"), String)), CInt(DirectCast(Session("ItemCounts"), String)), (CInt(e.NewPageIndex + 1) * 10))
+            Session("PageAmounts") = vall.ToString()
+
+            Dim ds = TryCast(Session("DataSource"), DataSet)
+            If ds IsNot Nothing Then
+                loadSessionClaims()
             Else
                 GetClaimsReport("", 1)
             End If
@@ -1090,7 +1150,39 @@ Public Class _Default
     End Sub
 
     Protected Sub ddlPageSize_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Dim intValue As Integer
+        Dim dsSetDataSource = New DataSet()
+        Dim exMessage As String = Nothing
 
+        Try
+            If Integer.TryParse(ddlPageSize.SelectedValue, intValue) Then
+                grvClaimReport.AllowPaging = True
+                grvClaimReport.PageSize = If(ddlPageSize.SelectedValue > 10, CInt(ddlPageSize.SelectedValue), 10)
+
+                Dim CurrentPage = (DirectCast(Session("currentPage"), Integer))
+                Session("PageAmounts") = (grvClaimReport.PageSize * CurrentPage).ToString()
+
+                'Dim ItemConttt = (DirectCast(Session("ItemCounts"), Integer))
+
+                'Session("PageAmountsDdl") = grvWishList.PageSize
+
+                Dim dsLoad = DirectCast(Session("DataSource"), DataSet)
+                If dsLoad IsNot Nothing Then
+                    If dsLoad.Tables(0).Rows.Count > 0 Then
+                        loadSessionClaims(dsLoad)
+                    End If
+                Else
+                    loadSessionClaims(Nothing, True)
+                End If
+
+            Else
+                loadSessionClaims(Nothing, True)
+            End If
+            updatePagerSettings(grvClaimReport)
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+        End Try
     End Sub
 
     Protected Sub ddlDiagnoseData_SelectedIndexChanged(sender As Object, e As EventArgs)
@@ -2285,50 +2377,6 @@ Public Class _Default
         End Try
     End Sub
 
-    Public Sub PrepareQuery(ByRef strBuild As String)
-        strBuild = Nothing
-        Try
-            If Not String.IsNullOrEmpty(txtClaimNo.Text.Trim()) Then
-                strBuild += " AND TRIM(MHMRNR) = '" + txtClaimNo.Text.Trim() + "'"
-            End If
-            If Not String.IsNullOrEmpty(txtPartNo.Text.Trim()) Then
-                strBuild += " AND TRIM(MHPTNR) = '" + txtPartNo.Text.Trim() + "'"
-            End If
-            If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) And Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
-                Dim minDate = txtDateInit.Text.Trim().Split(" ")(0)
-                Dim maxDate = txtDateTo.Text.Trim().Split(" ")(0)
-                strBuild += " AND (CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" + minDate + "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" + maxDate + "')) "
-                '7/19/2021
-                '6/10/2017
-            End If
-            If ddlSearchIntStatus.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(f.CNT03) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
-            End If
-            If ddlSearchExtStatus.SelectedIndex > 0 Then
-                Dim strValues As String = Nothing
-                Dim selection As String = ddlSearchExtStatus.SelectedItem.Text.Trim().ToLower()
-                prepareExternStatus(selection, strValues)
-                strBuild += " AND TRIM(d.CNT03) IN (" + strValues + ")"
-                'list returned in prepareExternal method
-            End If
-            If Not String.IsNullOrEmpty(txtCustomer.Text.Trim()) Then
-                strBuild += " AND TRIM(MHCUNR) = '" + txtCustomer.Text.Trim() + "'"
-            End If
-            If ddlSearchUser.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(CWUSER) = '" + ddlSearchUser.SelectedItem.Text.Trim() + "'"  'ok
-            End If
-            If ddlSearchReason.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(MHREASN) = '" + Trim(ddlSearchReason.SelectedItem.Text.Trim().Split("-")(0)) + "'"
-            End If
-            If ddlSearchDiagnose.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(MHDIAG) = '" + Trim(ddlSearchDiagnose.SelectedItem.Text.Trim().Split("-")(0)) + "'"
-            End If
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
     Protected Sub btnSearchFilter_Click(sender As Object, e As EventArgs) Handles btnSearchFilter.Click
         Dim dsClaimsData = New DataSet()
         Dim dsResult = New DataSet()
@@ -2336,6 +2384,7 @@ Public Class _Default
         Dim dsQuery As DataSet = New DataSet()
         Dim strBuiltQuery As String = Nothing
         Dim result As Integer = -1
+        Dim methodMessage As String = Nothing
 
         Dim lstExtSts As List(Of String) = New List(Of String)()
 
@@ -2361,11 +2410,36 @@ Public Class _Default
                     End If
 
                     Session("DataSource") = dsResult
-                    loadSessionClaims()
+                    loadSessionClaims(dsResult)
+
+                    If dsResult Is Nothing Then
+                        methodMessage = "There is not result for the selected criteria. Please try again with other filters!!"
+                        SendMessage(methodMessage, messageType.warning)
+                    ElseIf dsResult.Tables(0).Rows.Count <= 0 Then
+                        methodMessage = "There is not result for the selected criteria. Please try again with other filters!!"
+                        SendMessage(methodMessage, messageType.warning)
+                    Else
+
+                    End If
 
                 End If
 
             End Using
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub btnClearFilter_Click(sender As Object, e As EventArgs) Handles btnClearFilter.Click
+        Try
+
+            ClearInputCustom(rowFilters)
+
+            Dim ds = DirectCast(Session("ClaimsBckData"), DataSet)
+            Session("PageAmounts") = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("PageAmounts")), ConfigurationManager.AppSettings("PageAmounts"), "10")
+            Session("currentPage") = 1
+            loadSessionClaims(ds)
 
         Catch ex As Exception
 
@@ -4174,6 +4248,143 @@ Public Class _Default
 
 #Region "Utils"
 
+    ''' <summary>
+    ''' Prepare the filters criteria to add to main query
+    ''' </summary>
+    ''' <param name="strBuild"></param>
+    Public Sub PrepareQuery(ByRef strBuild As String)
+        strBuild = Nothing
+        Try
+            If Not String.IsNullOrEmpty(txtClaimNo.Text.Trim()) Then
+                strBuild += " AND TRIM(MHMRNR) = '" + txtClaimNo.Text.Trim() + "'"
+            End If
+            If Not String.IsNullOrEmpty(txtPartNo.Text.Trim()) Then
+                strBuild += " AND TRIM(CWPTNO) = '" + txtPartNo.Text.Trim() + "'"
+            End If
+            If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) And Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
+                Dim minDate = txtDateInit.Text.Trim().Split(" ")(0)
+                Dim maxDate = txtDateTo.Text.Trim().Split(" ")(0)
+                strBuild += " AND (CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" + minDate + "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" + maxDate + "')) "
+                '7/19/2021
+                '6/10/2017
+            End If
+            If ddlSearchIntStatus.SelectedIndex > 0 Then
+                strBuild += " AND TRIM(f.CNT03) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
+            End If
+            If ddlSearchExtStatus.SelectedIndex > 0 Then
+                Dim strValues As String = Nothing
+                Dim selection As String = ddlSearchExtStatus.SelectedItem.Text.Trim().ToLower()
+                prepareExternStatus(selection, strValues)
+                strBuild += " AND TRIM(d.CNT03) IN (" + strValues + ")"
+                'list returned in prepareExternal method
+            End If
+            If Not String.IsNullOrEmpty(txtCustomer.Text.Trim()) Then
+                strBuild += " AND TRIM(MHCUNR) = '" + txtCustomer.Text.Trim() + "'"
+            End If
+            If ddlSearchUser.SelectedIndex > 0 Then
+                strBuild += " AND TRIM(CWUSER) = '" + ddlSearchUser.SelectedItem.Text.Trim() + "'"  'ok
+            End If
+            If ddlSearchReason.SelectedIndex > 0 Then
+                strBuild += " AND TRIM(MHREASN) = '" + Trim(ddlSearchReason.SelectedItem.Text.Trim().Split("-")(0)) + "'"
+            End If
+            If ddlSearchDiagnose.SelectedIndex > 0 Then
+                strBuild += " AND TRIM(MHDIAG) = '" + Trim(ddlSearchDiagnose.SelectedItem.Text.Trim().Split("-")(0)) + "'"
+            End If
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Public Sub ClearInputCustom(parent As Control)
+        Dim exMessage As String = Nothing
+        Try
+            For Each ctl As Control In parent.Controls
+
+                If (ctl.Controls.Count > 0) Then
+                    ClearInputCustom(ctl)
+                Else
+                    If TypeOf ctl Is TextBox Then
+                        DirectCast(ctl, TextBox).Text = String.Empty
+                    End If
+                    If TypeOf ctl Is Label Then
+                        'DirectCast(ctl, Label).Text = String.Empty
+                    End If
+                    If TypeOf ctl Is DropDownList Then
+                        If (DirectCast(ctl, DropDownList).Enabled Or Not (DirectCast(ctl, DropDownList)).Enabled) Then
+                            DirectCast(ctl, DropDownList).ClearSelection()
+                        End If
+                    End If
+                    If TypeOf ctl Is ListBox Then
+                        If (DirectCast(ctl, ListBox).Enabled Or Not (DirectCast(ctl, ListBox)).Enabled) Then
+                            DirectCast(ctl, ListBox).ClearSelection()
+                            DirectCast(ctl, ListBox).Items.Clear()
+                        End If
+                    End If
+                    If TypeOf ctl Is CheckBox Then
+                        DirectCast(ctl, CheckBox).Checked = False
+                    End If
+                End If
+
+            Next
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Public Sub updatePagerSettings(grv As GridView)
+        Dim exMessage As String = Nothing
+        Try
+
+#Region "Need works"
+
+            'Dim amount = DirectCast(Session("PageAmountsDdl"), Integer)
+            'Dim strTotal = (DirectCast(Session("ItemCounts"), Integer)).ToString()
+            'Dim pIndex = If(Session("PageIndex") IsNot Nothing, DirectCast(Session("PageIndex"), Integer), 1)
+            ''Dim strNumberOfPages = DirectCast(Session("PageAmounts"), Integer).ToString()
+            'Dim strNumberOfPages = If((DirectCast(Session("PageAmountsDdl"), Integer) * pIndex) > DirectCast(Session("ItemCounts"), Integer), DirectCast(Session("ItemCounts"), Integer).ToString(), (DirectCast(Session("PageAmountsDdl"), Integer) * pIndex).ToString())
+
+            'Session("PageIndex") = If(DirectCast(Session("PageIndex"), Integer) * amount > CInt(strTotal), (CInt(strTotal) / amount), DirectCast(Session("PageIndex"), Integer))
+            'Session("currentPage") = (DirectCast(Session("PageIndex"), Integer) * amount) - (amount - 1)
+
+            'Dim strCurrentPage = ((DirectCast(Session("currentPage"), Integer))).ToString()
+
+#End Region
+
+            Dim strTotal = DirectCast(Session("ItemCounts"), String)
+            Dim strNumberOfPages = DirectCast(Session("PageAmounts"), String).ToString()
+            Dim strCurrentPage = ((DirectCast(Session("currentPage"), Integer))).ToString()
+
+            Dim strGrouping = String.Format("Showing {0} to {1} of {2} entries ", strCurrentPage, strNumberOfPages, strTotal)
+            lblGrvGroup.Text = strGrouping
+
+            Dim sortCell As New HtmlTableCell()
+            sortCell.Controls.Add(lblGrvGroup)
+
+            Dim row1 As HtmlTableRow = New HtmlTableRow
+            row1.Cells.Add(sortCell)
+            ndtt.Rows.Add(row1)
+
+            Dim pepe = grv.FooterRow
+            Dim ppe = grv.PagerTemplate
+
+            Dim BottomPagerRow = grv.BottomPagerRow
+            BottomPagerRow.Cells(0).Controls.AddAt(0, ndtt)
+
+            'For Each item As GridViewRow In grv.Rows
+            '    If item.RowType = DataControlRowType.Pager Then
+            '        item.Cells(0).Controls.AddAt(0, ndtt)
+            '    End If
+            'Next
+
+            'e.Row.Cells(0).Controls.AddAt(0, ndtt)
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
     Public Sub clearVndClaimsFields()
         Try
             txtAddVndCommDateInit.Text = Nothing
@@ -5742,6 +5953,11 @@ Public Class _Default
             Session("SelectedRadio") = Nothing
             Session("userid") = "AALZATE"
             Session("fullObj") = Nothing
+            Session("isDDL") = False
+
+            Session("PageSize") = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("PageSize")), ConfigurationManager.AppSettings("PageSize"), "1000")
+            Session("PageAmounts") = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("PageAmounts")), ConfigurationManager.AppSettings("PageAmounts"), "10")
+            Session("currentPage") = 1
 
             Dim dsUsrBranch = New DataSet()
             Session("usrBranch") = getuserbranch(dsUsrBranch)

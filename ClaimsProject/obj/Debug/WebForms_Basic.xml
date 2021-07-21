@@ -235,6 +235,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._rowFilters">
+<summary>
+rowFilters control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._pnClaimData">
 <summary>
 pnClaimData control.
@@ -3141,6 +3150,12 @@ btnCloseTab control.
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
+</member>
+<member name="M:ClaimsProject._Default.PrepareQuery(System.String@)">
+ <summary>
+ Prepare the filters criteria to add to main query
+ </summary>
+ <param name="strBuild"></param>
 </member>
 <member name="F:ClaimsProject._Default1._updatepnl">
 <summary>

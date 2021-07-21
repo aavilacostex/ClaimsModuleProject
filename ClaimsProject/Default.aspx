@@ -203,7 +203,7 @@
             </div>            
 
             <div id="searchFilters" class="container-fluid">
-                <div id="rowFilters" class="row">
+                <div id="rowFilters" class="row" runat="server">
 
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
@@ -392,7 +392,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <!--btn clear fields-->
-                                                        <asp:Button ID="btnClearFilter" Text="   Clear Filters   " CssClass="btn btn-primary" runat="server" />
+                                                        <asp:Button ID="btnClearFilter" Text="   Clear Filters   " OnClick="btnClearFilter_Click" CssClass="btn btn-primary" runat="server" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -605,7 +605,7 @@
                     <asp:HiddenField ID="selectedFilter" Value=""  runat="server" />
 
                     <table id="ndtt" runat="server"></table>
-                    <asp:Label ID="lblGrvGroup" Text="test" runat="server"></asp:Label>
+                    <asp:Label ID="lblGrvGroup" Text="" runat="server"></asp:Label>
 
                     <asp:HiddenField ID="hdGridViewContent" Value="1"  runat="server" />
                     <asp:HiddenField ID="hdNavTabsContent" Value="0"  runat="server" />
