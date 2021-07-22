@@ -2035,6 +2035,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._lnkInitialReview">
+<summary>
+lnkInitialReview control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._txtInitialReview">
 <summary>
 txtInitialReview control.
@@ -2065,6 +2074,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._chkAcknowledgeEmail">
 <summary>
 chkAcknowledgeEmail control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lnkAcknowledgeEmail">
+<summary>
+lnkAcknowledgeEmail control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -2107,6 +2125,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._lnkInfoCust">
+<summary>
+lnkInfoCust control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._txtInfoCust">
 <summary>
 txtInfoCust control.
@@ -2137,6 +2164,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._chkPartRequested">
 <summary>
 chkPartRequested control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lnkPartRequested">
+<summary>
+lnkPartRequested control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -2179,6 +2215,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._lnkPartReceived">
+<summary>
+lnkPartReceived control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._txtPartReceived">
 <summary>
 txtPartReceived control.
@@ -2209,6 +2254,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._chkTechReview">
 <summary>
 chkTechReview control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lnkTechReview">
+<summary>
+lnkTechReview control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -2251,6 +2305,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._lnkWaitSupReview">
+<summary>
+lnkWaitSupReview control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._txtWaitSupReview">
 <summary>
 txtWaitSupReview control.
@@ -2281,6 +2344,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._chkClaimCompleted">
 <summary>
 chkClaimCompleted control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lnkClaimCompleted">
+<summary>
+lnkClaimCompleted control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -2470,6 +2542,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._txtConsDamageTotal">
 <summary>
 txtConsDamageTotal control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnGetTotalCDValue">
+<summary>
+btnGetTotalCDValue control.
 </summary>
 <remarks>
 Auto-generated field.

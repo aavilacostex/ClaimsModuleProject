@@ -2012,6 +2012,15 @@ Partial Public Class _Default
     Protected WithEvents chkInitialReview As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lnkInitialReview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkInitialReview As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''txtInitialReview control.
     '''</summary>
     '''<remarks>
@@ -2046,6 +2055,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkAcknowledgeEmail As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkAcknowledgeEmail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkAcknowledgeEmail As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''txtAcknowledgeEmail control.
@@ -2084,6 +2102,15 @@ Partial Public Class _Default
     Protected WithEvents chkInfoCust As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lnkInfoCust control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkInfoCust As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''txtInfoCust control.
     '''</summary>
     '''<remarks>
@@ -2118,6 +2145,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkPartRequested As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkPartRequested control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkPartRequested As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''txtPartRequested control.
@@ -2156,6 +2192,15 @@ Partial Public Class _Default
     Protected WithEvents chkPartReceived As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lnkPartReceived control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkPartReceived As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''txtPartReceived control.
     '''</summary>
     '''<remarks>
@@ -2190,6 +2235,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkTechReview As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkTechReview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkTechReview As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''txtTechReview control.
@@ -2228,6 +2282,15 @@ Partial Public Class _Default
     Protected WithEvents chkWaitSupReview As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lnkWaitSupReview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkWaitSupReview As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''txtWaitSupReview control.
     '''</summary>
     '''<remarks>
@@ -2262,6 +2325,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkClaimCompleted As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkClaimCompleted control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkClaimCompleted As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''txtClaimCompleted control.
@@ -2451,6 +2523,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtConsDamageTotal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnGetTotalCDValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnGetTotalCDValue As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''pnSubTotalClaim control.

@@ -1268,12 +1268,12 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function UpdateWConsDamage(code As String, status As String, amount As String) As Integer
+    Public Function UpdateWConsDamage(code As String, status As String, amount As String, partAm As String, laborAm As String, freightAm As String, miscAm As String) As Integer
         Dim Sql As String
         Dim affectedRows As Integer = -1
         Try
             Dim objDatos = New ClsRPGClientHelper()
-            Sql = "UPDATE qs36f.CLMINTSTS SET INCOSTSUG$ = " & amount & " WHERE INSTAT = '" + status + "' And INCLNO = " & code
+            Sql = "UPDATE qs36f.CLMINTSTS SET INCOSTSUG$ = " & amount & ", COSTDMGPTN = " & partAm & ", COSTDMGLBR = " & laborAm & ", COSTDMGFRE = " & freightAm & ", COSTDMGMIS = " & miscAm & " WHERE INSTAT = '" + status + "' And INCLNO = " & code
             objDatos.UpdateDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception

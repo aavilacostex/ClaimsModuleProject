@@ -690,11 +690,11 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function UpdateWConsDamage(code As String, status As String, amount As String) As Integer
+    Public Function UpdateWConsDamage(code As String, status As String, amount As String, partAm As String, laborAm As String, freightAm As String, miscAm As String) As Integer
         Dim result As Integer = -1
         Try
             Dim objDal = New DAL.ClaimsProject()
-            result = objDal.UpdateWConsDamage(code, status, amount)
+            result = objDal.UpdateWConsDamage(code, status, amount, partAm, laborAm, freightAm, miscAm)
             Return result
         Catch ex As Exception
             Return result

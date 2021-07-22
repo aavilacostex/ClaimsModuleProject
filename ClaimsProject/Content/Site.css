@@ -852,6 +852,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     min-width: 50% !important;
 }
 
+.btnSmallSize {
+    font-size: 11px !important;
+    padding: 0 4px !important;
+    margin: 0 0 3px 2% !important;
+}
+
 .btnFullSize1 {
     min-width: 100% !important;
     padding: 7px 0 !important;
@@ -887,9 +893,9 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     transition: all 0.3s ease-in !important;
 }
 
-    .btn-primary:hover {
-        background-color: #212529 !important;
-    }
+.btn-primary:hover {
+    background-color: #212529 !important;
+}
 
 .btn-lg {
     padding: .8rem 1rem !important;

@@ -787,12 +787,14 @@ Public Class _Default
                 txtCDLabor.Enabled = True
                 txtCDMisc.Enabled = True
                 txtCDPart.Enabled = True
+                txtConsDamageTotal.Enabled = False
                 cleanCDValues()
             Else
                 txtCDFreight.Enabled = False
                 txtCDLabor.Enabled = False
                 txtCDMisc.Enabled = False
                 txtCDPart.Enabled = False
+                txtConsDamageTotal.Enabled = False
                 cleanCDValues()
             End If
         Catch ex As Exception
@@ -1431,6 +1433,7 @@ Public Class _Default
             hdNavTabsContent.Value = "0"
             hdCurrentActiveTab.Value = "#claimoverview"
             CleanCommentsValues()
+            ClearInputCustom(navsSection)
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
@@ -1485,7 +1488,9 @@ Public Class _Default
 #Region "Save Comments"
                 resultProc = UpdateCommentsInNWHeader(txtCustStatement.Text.Trim(), claimNo, strMessageOut)
                 If Not resultProc Then
-                    lstMessages.Add(strMessageOut)
+                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                        lstMessages.Add(strMessageOut)
+                    End If
                     'method to prepare the message
                     Exit Sub
                 End If
@@ -1493,7 +1498,9 @@ Public Class _Default
 #Region "Contact Info"
                 resultProc = UpdateContactInfoByClaimNo(claimNo, strMessageOut)
                 If Not resultProc Then
-                    lstMessages.Add(strMessageOut)
+                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                        lstMessages.Add(strMessageOut)
+                    End If
                     'method to prepare the message
                     Exit Sub
                 End If
@@ -1501,7 +1508,9 @@ Public Class _Default
 #Region "Approval process"
                 resultProc = UpdateContactAndDiagnose(claimNo, strMessageOut)
                 If Not resultProc Then
-                    lstMessages.Add(strMessageOut)
+                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                        lstMessages.Add(strMessageOut)
+                    End If
                     'method to prepare the message
                     Exit Sub
                 End If
@@ -1516,7 +1525,9 @@ Public Class _Default
 
                 resultProc = UpdateDiagnoseValue(claimNo, strMessageOut)
                 If Not resultProc Then
-                    lstMessages.Add(strMessageOut)
+                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                        lstMessages.Add(strMessageOut)
+                    End If
                     'method to prepare the message
                     'Exit Sub
                 End If
@@ -1526,7 +1537,9 @@ Public Class _Default
 
                 resultProc = UpdateWHeaderValues(wrnNo, strMessageOut)
                 If Not resultProc Then
-                    lstMessages.Add(strMessageOut)
+                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                        lstMessages.Add(strMessageOut)
+                    End If
                     'method to prepare the message
                     'Exit Sub
                 End If
@@ -1536,7 +1549,9 @@ Public Class _Default
 
                 resultProc = PrepareDataTofullProcess(claimNo, strMessageOut)
                 If Not resultProc Then
-                    lstMessages.Add(strMessageOut)
+                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                        lstMessages.Add(strMessageOut)
+                    End If
                     'method to prepare the message
                     'Exit Sub
                 End If
@@ -1550,7 +1565,9 @@ Public Class _Default
 
                     resultProc = UpdateNWHeaderStatus(claimNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1559,7 +1576,9 @@ Public Class _Default
 #Region "Initial Review"
                     resultProc = InitialStatusProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1567,7 +1586,9 @@ Public Class _Default
 #Region "Aknolowdge Email"
                     resultProc = AcknowledgeEmailProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1575,7 +1596,9 @@ Public Class _Default
 #Region "Info Requested"
                     resultProc = InfoRequestedProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1583,7 +1606,9 @@ Public Class _Default
 #Region "Part Requested"
                     resultProc = PartRequestedProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1591,7 +1616,9 @@ Public Class _Default
 #Region "Part Received"
                     resultProc = PartReceivedProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1599,7 +1626,9 @@ Public Class _Default
 #Region "Tech Review"
                     resultProc = TechReviewProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1607,7 +1636,9 @@ Public Class _Default
 #Region "Waiting Supplier"
                     resultProc = WaitingSupplierProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1615,7 +1646,9 @@ Public Class _Default
 #Region "Save Engine Info"
                     resultProc = SaveEngineInfo(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1623,7 +1656,9 @@ Public Class _Default
 #Region "Save New Claim Desc"
                     resultProc = SaveNewClaimDescProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1631,7 +1666,9 @@ Public Class _Default
 #Region "Quarantine if selected"
                     resultProc = QuarantineProcess(wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1639,7 +1676,9 @@ Public Class _Default
 #Region "Auth to put costs"
                     resultProc = AuthToPutCostsProcess(claimNo, wrnNo, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1657,7 +1696,9 @@ Public Class _Default
 #Region "Get email and user of person in charge to approve claims >500 and <=1500"
                     resultProc = GetEmailAndUserAuthApp500To1500(strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1679,7 +1720,9 @@ Public Class _Default
 
                     resultProc = GetUserAndLimitForCMGeneration(wrnNo, strMessageOut, totalClaimValue, totalLimit, totalConsDamage, resultFreight, resultParts, resultAmoApproved)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1687,7 +1730,9 @@ Public Class _Default
 #Region "Claim Approved and Completed < $500"
                     resultProc = ClaimApprovedCompletedUnder500(wrnNo, totalClaimValue, totalLimit, totalConsDamage, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1704,7 +1749,9 @@ Public Class _Default
 #Region "Save Authorizacion by Sales Over $500"
                     resultProc = SaveAuthForOver500Sales(wrnNo, totalClaimValue, resultFreight, resultParts, resultAmoApproved, dbLimit, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1712,7 +1759,9 @@ Public Class _Default
 #Region "If claim > $500 and Credit Memo was generated, the Claim can be closed for Quality Claims person in charge"
                     resultProc = ClaimOver500AndCMGenCloseClaim(wrnNo, totalClaimValue, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -2446,6 +2495,29 @@ Public Class _Default
         End Try
     End Sub
 
+    Protected Sub btnGetTotalCDValue_Click(sender As Object, e As EventArgs) Handles btnGetTotalCDValue.Click
+        Try
+            Dim partvalue = If(String.IsNullOrEmpty(txtCDPart.Text), 0, CInt(txtCDPart.Text.Trim()))
+            Dim laborvalue = If(String.IsNullOrEmpty(txtCDLabor.Text), 0, CInt(txtCDLabor.Text.Trim()))
+            Dim freightvalue = If(String.IsNullOrEmpty(txtCDFreight.Text), 0, CInt(txtCDFreight.Text.Trim()))
+            Dim miscvalue = If(String.IsNullOrEmpty(txtCDMisc.Text), 0, CInt(txtCDMisc.Text.Trim()))
+
+            Dim totalValue = partvalue + laborvalue + freightvalue + miscvalue
+            txtConsDamageTotal.Text = totalValue.ToString().Trim()
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    'Protected Sub btnCloseTab_Click(sender As Object, e As EventArgs) Handles btnCloseTab.Click
+    '    Try
+    '        ClearInputCustom(navsSection)
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Sub
+
 
 #Region "Action Methods"
 
@@ -2508,6 +2580,7 @@ Public Class _Default
         Dim lstContactDataMiss As List(Of String) = New List(Of String)()
         Dim result As Boolean = False
         Dim strContactErrors As String = Nothing
+        strMessage = Nothing
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -2548,6 +2621,7 @@ Public Class _Default
 
     Public Function UpdateContactAndDiagnose(claimno As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -2699,6 +2773,7 @@ Public Class _Default
 
     Public Function UpdateDiagnoseValue(claimNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -2706,7 +2781,7 @@ Public Class _Default
                 Dim selectedValue As String = Nothing
                 If hdSelectedDiagnose.Value = "0" Then
                     If Not String.IsNullOrEmpty(txtDiagnoseData.Text.Trim()) Then
-                        selectedValue = txtDiagnoseData.Text.Trim()
+                        selectedValue = txtDiagnoseData.Text
                         ddlDiagnoseData.SelectedIndex = ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByText(selectedValue))
                     Else
                         Return result
@@ -2740,6 +2815,7 @@ Public Class _Default
 
     Public Function UpdateWHeaderValues(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -2769,6 +2845,7 @@ Public Class _Default
 
     Public Function UpdateNWHeaderStatus(claimNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Dim dsGet = New DataSet()
             'claimNo = txtClaimNoData.Text.Trim()
@@ -2815,6 +2892,7 @@ Public Class _Default
 
     Public Function InitialStatusProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -2840,6 +2918,7 @@ Public Class _Default
                                     txtActualStatus.Enabled = False
 
                                     result = True
+                                    lnkInitialReview.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -2888,6 +2967,7 @@ Public Class _Default
 
     Public Function AcknowledgeEmailProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -2913,6 +2993,7 @@ Public Class _Default
                                     txtActualStatus.Enabled = False
 
                                     result = True
+                                    lnkAcknowledgeEmail.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -2961,6 +3042,7 @@ Public Class _Default
 
     Public Function InfoRequestedProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -2987,6 +3069,7 @@ Public Class _Default
                                     txtActualStatus.Enabled = False
 
                                     result = True
+                                    lnkInfoCust.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -3035,6 +3118,7 @@ Public Class _Default
 
     Public Function PartRequestedProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3058,6 +3142,8 @@ Public Class _Default
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
                                     txtActualStatus.Enabled = False
+
+                                    lnkPartRequested.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -3106,6 +3192,7 @@ Public Class _Default
 
     Public Function PartReceivedProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -3132,6 +3219,7 @@ Public Class _Default
                                     txtActualStatus.Enabled = False
 
                                     result = True
+                                    lnkPartReceived.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -3178,6 +3266,7 @@ Public Class _Default
 
     Public Function TechReviewProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -3204,6 +3293,7 @@ Public Class _Default
                                     txtActualStatus.Enabled = False
 
                                     result = True
+                                    lnkTechReview.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -3251,6 +3341,7 @@ Public Class _Default
 
     Public Function WaitingSupplierProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3276,6 +3367,7 @@ Public Class _Default
                                     txtActualStatus.Enabled = False
 
                                     result = True
+                                    lnkWaitSupReview.Enabled = False
                                 Else
                                     'log error
                                     strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
@@ -3323,6 +3415,7 @@ Public Class _Default
 
     Public Function SaveEngineInfo(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3374,6 +3467,7 @@ Public Class _Default
     Public Function SaveNewClaimDescProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         Dim intValidation As Integer = 0
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3460,6 +3554,7 @@ Public Class _Default
 
     Public Function QuarantineProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3488,7 +3583,9 @@ Public Class _Default
 
                         Return result
                     End If
-
+                Else
+                    strMessage = "No quarantine for this claim."
+                    Return result
                 End If
 
             End Using
@@ -3502,6 +3599,7 @@ Public Class _Default
     Public Function AuthToPutCostsProcess(claimNo As String, wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         Dim intValidation As Integer = 0
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3512,11 +3610,11 @@ Public Class _Default
                 If myitem.Count = 1 Then
                     If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) Then
                         Dim dsClaimData = New DataSet()
-                        Dim rsClaimData = objBL.getClaimData(wrnNo, "B", dsClaimData)
+                        Dim rsClaimData = objBL.getClaimData(wrnNo, "C", dsClaimData)
                         If rsClaimData > 0 Then
                             If dsClaimData IsNot Nothing Then
                                 If dsClaimData.Tables(0).Rows.Count > 0 Then
-                                    Dim rsUpd = objBL.UpdateWConsDamage(wrnNo, "B", txtConsDamageTotal.Text.Trim())
+                                    Dim rsUpd = objBL.UpdateWConsDamage(wrnNo, "C", txtConsDamageTotal.Text.Trim(), txtCDPart.Text.Trim(), txtCDLabor.Text.Trim(), txtCDFreight.Text.Trim(), txtCDMisc.Text.Trim())
                                     If rsUpd > 0 Then
                                         intValidation += 1
                                     Else
@@ -3578,6 +3676,7 @@ Public Class _Default
 
     Public Function GetEmailAndUserAuthApp500To1500(ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3620,6 +3719,7 @@ Public Class _Default
                                                    ByRef resultFreight As Double, ByRef resultParts As Double, ByRef resultAmoApproved As Double) As Boolean
         Dim result As Boolean = False
         Dim intValidation As Integer = 0
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3707,6 +3807,7 @@ Public Class _Default
 
     Public Function ClaimApprovedCompletedUnder500(wrnNo As String, totalClaimValue As Double, totalLimit As Double, totalConsDamage As Double, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3798,6 +3899,7 @@ Public Class _Default
     'Send Email to person in charge to approved if Claim > $500
     Public Function SendEmailToPIChAppClaimOver500(wrnNo As String, totalClaimValue As Double, totalLimit As Double, ByRef dbLimit As Double, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3903,6 +4005,7 @@ Public Class _Default
                                             resultAmoApproved As Double, dbLimit As Double, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         Dim intValidation As Integer = 0
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -3928,6 +4031,10 @@ Public Class _Default
                                     txtTotalAmount.Text = totalClaimValue.ToString()
                                     txtTotalAmount.Enabled = False
                                     txtConsDamageTotal.Enabled = False
+                                    txtCDPart.Enabled = False
+                                    txtCDLabor.Enabled = False
+                                    txtCDFreight.Enabled = False
+                                    txtCDMisc.Enabled = False
 
                                     'send message pending
                                     chkApproved.Enabled = False
@@ -3975,6 +4082,7 @@ Public Class _Default
     Public Function ClaimOver500AndCMGenCloseClaim(wrnNo As String, totalClaimValue As Double, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         Dim intValidation As Integer = 0
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -4054,6 +4162,7 @@ Public Class _Default
     Public Function Param186StatusIfDenied(code As String, status As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         Dim intValidation As Integer = 0
+        strMessage = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -4098,6 +4207,7 @@ Public Class _Default
 
     Public Function PrepareDataTofullProcess(code As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
+        strMessage = Nothing
         Try
             Dim dsGet = New DataSet()
             Dim rsGet As Integer = 0
@@ -4540,10 +4650,10 @@ Public Class _Default
     End Function
 
     Public Sub cleanCDValues()
-        txtCDPart.Text = ""
-        txtCDMisc.Text = ""
-        txtCDLabor.Text = ""
-        txtCDFreight.Text = ""
+        'txtCDPart.Text = ""
+        'txtCDMisc.Text = ""
+        'txtCDLabor.Text = ""
+        'txtCDFreight.Text = ""
     End Sub
 
     Public Function getuserbranch(Optional ByRef dsResult As DataSet = Nothing) As String
@@ -6522,6 +6632,7 @@ Public Class _Default
                                         chkInitialReview.Enabled = False
                                         txtInitialReview.Enabled = False
                                         txtInitialReviewDate.Enabled = False
+                                        lnkInitialReview.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "B"
@@ -6532,6 +6643,7 @@ Public Class _Default
                                         chkAcknowledgeEmail.Enabled = False
                                         txtAcknowledgeEmail.Enabled = False
                                         txtAcknowledgeEmailDate.Enabled = False
+                                        lnkAcknowledgeEmail.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "D"
@@ -6542,6 +6654,7 @@ Public Class _Default
                                         chkInfoCust.Enabled = False
                                         txtInfoCust.Enabled = False
                                         txtInfoCustDate.Enabled = False
+                                        lnkInfoCust.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "F"
@@ -6552,6 +6665,7 @@ Public Class _Default
                                         chkPartRequested.Enabled = False
                                         txtPartRequested.Enabled = False
                                         txtPartRequestedDate.Enabled = False
+                                        lnkPartRequested.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "G"
@@ -6562,6 +6676,7 @@ Public Class _Default
                                         chkPartReceived.Enabled = False
                                         txtPartReceived.Enabled = False
                                         txtPartReceivedDate.Enabled = False
+                                        lnkPartReceived.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "H"
@@ -6572,6 +6687,7 @@ Public Class _Default
                                         chkTechReview.Enabled = False
                                         txtTechReview.Enabled = False
                                         txtTechReviewDate.Enabled = False
+                                        lnkTechReview.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "J"
@@ -6582,6 +6698,7 @@ Public Class _Default
                                         chkWaitSupReview.Enabled = False
                                         txtWaitSupReview.Enabled = False
                                         txtWaitSupReviewDate.Enabled = False
+                                        lnkWaitSupReview.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "K"
@@ -6658,10 +6775,11 @@ Public Class _Default
                 If rs > 0 Then
                     If ds IsNot Nothing Then
                         If ds.Tables(0).Rows.Count > 0 Then
-                            Dim cost = ds.Tables(0).Rows(0).Item("INCOSTSUG$").ToString().Trim()
-                            If Not String.IsNullOrEmpty(cost) Then
-                                txtConsDamageTotal.Text = cost
-                            End If
+                            txtConsDamageTotal.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("INCOSTSUG$").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("INCOSTSUG$").ToString().Trim())
+                            txtCDLabor.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGLBR").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGLBR").ToString().Trim())
+                            txtCDPart.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGPTN").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGPTN").ToString().Trim())
+                            txtCDFreight.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGFRE").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGFRE").ToString().Trim())
+                            txtCDMisc.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGMIS").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGMIS").ToString().Trim())
                         End If
                     End If
                 End If
@@ -6716,6 +6834,11 @@ Public Class _Default
                             If Not String.IsNullOrEmpty(txtAmountApproved.Text) Then
                                 If CInt(txtAmountApproved.Text) > 0 Then
                                     txtConsDamageTotal.Enabled = False
+                                    txtCDMisc.Enabled = False
+                                    txtCDLabor.Enabled = False
+                                    txtCDPart.Enabled = False
+                                    txtCDFreight.Enabled = False
+
                                     txtFreight.Enabled = False
                                     txtParts.Enabled = False
                                 End If

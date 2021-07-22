@@ -1273,6 +1273,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblInitialReview" Text="Initial Review" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkInitialReview" runat="server" />
+                                                    <asp:LinkButton ID="lnkInitialReview" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInitialReview" CssClass="form-control" runat="server" />                                                            
@@ -1288,6 +1291,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblAcknowledgeEmail" Text="Acknowledge Email" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkAcknowledgeEmail" runat="server" />
+                                                    <asp:LinkButton ID="lnkAcknowledgeEmail" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtAcknowledgeEmail" CssClass="form-control" runat="server" />                                                            
@@ -1303,6 +1309,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblInfoCust" Text="Info Requested to Customer" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkInfoCust" runat="server" />
+                                                    <asp:LinkButton ID="lnkInfoCust" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInfoCust" CssClass="form-control" runat="server" />                                                            
@@ -1318,6 +1327,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblPartRequested" Text="Part Requested" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkPartRequested" runat="server" />
+                                                    <asp:LinkButton ID="lnkPartRequested" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtPartRequested" CssClass="form-control" runat="server" />                                                            
@@ -1333,6 +1345,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblPartReceived" Text="Part Received" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkPartReceived" runat="server" />
+                                                    <asp:LinkButton ID="lnkPartReceived" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtPartReceived" CssClass="form-control" runat="server" />                                                            
@@ -1348,6 +1363,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblTechReview" Text="Technical Review" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkTechReview" runat="server" />
+                                                    <asp:LinkButton ID="lnkTechReview" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtTechReview" CssClass="form-control" runat="server" />                                                            
@@ -1363,6 +1381,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblWaitSupReview" Text="Waiting Supplier Review" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkWaitSupReview" runat="server" />
+                                                    <asp:LinkButton ID="lnkWaitSupReview" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtWaitSupReview" CssClass="form-control" runat="server" />                                                            
@@ -1378,6 +1399,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblClaimCompleted" Text="Claim Completed" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkClaimCompleted" runat="server" />
+                                                    <asp:LinkButton ID="lnkClaimCompleted" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtClaimCompleted" CssClass="form-control" runat="server" />                                                            
@@ -1429,25 +1453,33 @@
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDLabor" Text="Labor Cost" CssClass="control-label" runat="server"> </asp:Label>
-                                                        <asp:TextBox ID="txtCDLabor" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDLabor" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled"  runat="server"></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDPart" Text="Part Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDPart" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDPart" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDFreight" Text="Freight Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDFreight" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDFreight" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDMisc" Text="Misc Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDMisc" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDMisc" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                 </div> 
-                                                <div class="form-row paddingtop8 last">
+                                                <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="Label3" Text="Total Cons. Damage Value" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtConsDamageTotal" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtConsDamageTotal" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row last">
+                                                    <div class="col-md-6">
+                                                        
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <asp:Button ID="btnGetTotalCDValue" Text="Calculate Cons. Damage" CssClass="btn btn-primary btnAdjustSize float-right" OnClick="btnGetTotalCDValue_Click" runat="server" />
                                                     </div>
                                                 </div>
                                             </asp:Panel>
@@ -2043,7 +2075,7 @@
                         <%--<asp:Button ID="btnSaveTab" CssClass="btn btn-primary btnFullSize" Text="Save" OnClick="btnSaveTab_Click" runat="server" />--%>
                     </div>
                     <div class="col-md-1 padding2">
-                        <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="Close" runat="server">
+                        <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Close" runat="server">
                             <i class="fa fa-sign-out-alt fa-2x"" aria-hidden="true"> </i> 
                         </asp:LinkButton>
                         <%--<asp:Button ID="btnCloseTab" CssClass="btn btn-primary btnFullSize" Text="Close" OnClick="btnCloseTab_Click" runat="server" />--%>
