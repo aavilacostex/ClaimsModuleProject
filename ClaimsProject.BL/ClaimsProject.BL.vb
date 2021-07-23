@@ -584,7 +584,8 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDal = New DAL.ClaimsProject()
 
             Dim adjustedDatenow = datenow.Split(" ")(0)
-            Dim adjustedHournow = hournow.Split(".")(0).Replace(":", ".")
+            'Dim adjustedHournow = hournow.Split(".")(0).Replace(":", ".")
+            Dim adjustedHournow = hournow
 
             result = objDal.InsertInternalStatus(code, chkinitial, userid, adjustedDatenow, adjustedHournow, flag)
             Return result

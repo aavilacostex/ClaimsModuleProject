@@ -1666,6 +1666,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._lnkQuarantine">
+<summary>
+lnkQuarantine control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._txtQuarantine">
 <summary>
 txtQuarantine control.
@@ -1912,6 +1921,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._chkClaimAuth">
 <summary>
 chkClaimAuth control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lnkClaimAuth">
+<summary>
+lnkClaimAuth control.
 </summary>
 <remarks>
 Auto-generated field.

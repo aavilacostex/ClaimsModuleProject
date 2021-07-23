@@ -7,7 +7,8 @@ Imports System.Reflection
 Imports System.Web.Services
 Imports ClaimsProject.DTO
 Imports ClosedXML.Excel
-Imports CTPWEB.DTO
+Imports System.Web
+
 
 Public Class _Default
     Inherits System.Web.UI.Page
@@ -100,6 +101,8 @@ Public Class _Default
             '        End If
             '    End If
             'End If
+
+            LoadImages()
 
             If Not String.IsNullOrEmpty(controlName) Then
                 If ((LCase(controlName).Contains("ddl"))) Then
@@ -773,8 +776,6 @@ Public Class _Default
     'End Sub
 
 #End Region
-
-
 
 #End Region
 
@@ -2510,6 +2511,243 @@ Public Class _Default
         End Try
     End Sub
 
+#Region "Buttons for internal status update"
+
+    Private Sub UpdateInternalStatusGeneric(txt As TextBox, txt1 As TextBox, chk As CheckBox, lnk As LinkButton, flag As Boolean)
+        'strMessage = Nothing
+        Try
+            'Dim wrnNo = hdSeq.Value.Trim()
+            'Dim claimNo = txtClaimNoData.Text.Trim()
+
+            txt.Text = Session("userid").ToString().ToUpper()
+            txt1.Text = DateTime.Now().ToString().Split(" ")(0)
+
+            'InitialStatusProcess(wrnNo, strMessage)
+
+            txt.Enabled = flag
+            txt1.Enabled = flag
+            'chk.Enabled = flag
+
+            'lnk.Attributes("href") = "javascript:void(0)"
+            'lnk.Attributes("class").Replace("aspNetDisabled", "")
+            'lnk.Attributes.Add("class", "btn btn-primary btnSmallSize")
+
+
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Protected Sub lnkInitialReview_Click(sender As Object, e As EventArgs) Handles lnkInitialReview.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkInitialReview.Checked Then
+                UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
+                InitialStatusProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, True)
+                    'display an error in process
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkAcknowledgeEmail_Click(sender As Object, e As EventArgs) Handles lnkAcknowledgeEmail.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkAcknowledgeEmail.Checked Then
+                UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
+                AcknowledgeEmailProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkInfoCust_Click(sender As Object, e As EventArgs) Handles lnkInfoCust.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkInfoCust.Checked Then
+                UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, False)
+                InfoRequestedProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkPartRequested_Click(sender As Object, e As EventArgs) Handles lnkPartRequested.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkPartRequested.Checked Then
+                UpdateInternalStatusGeneric(txtPartRequested, txtPartRequested, chkPartRequested, lnkPartRequested, False)
+                PartRequestedProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtPartRequested, txtPartRequested, chkPartRequested, lnkPartRequested, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnklnkPartReceived_Click(sender As Object, e As EventArgs) Handles lnkPartReceived.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkPartReceived.Checked Then
+                UpdateInternalStatusGeneric(txtPartReceived, txtPartReceivedDate, chkPartReceived, lnkPartReceived, False)
+                PartReceivedProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtPartReceived, txtPartReceivedDate, chkPartReceived, lnkPartReceived, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkTechReview_Click(sender As Object, e As EventArgs) Handles lnkTechReview.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkTechReview.Checked Then
+                UpdateInternalStatusGeneric(txtTechReview, txtTechReviewDate, chkTechReview, lnkTechReview, False)
+                TechReviewProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtTechReview, txtTechReviewDate, chkTechReview, lnkTechReview, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkWaitSupReview_Click(sender As Object, e As EventArgs) Handles lnkWaitSupReview.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkWaitSupReview.Checked Then
+                UpdateInternalStatusGeneric(txtWaitSupReview, txtWaitSupReviewDate, chkWaitSupReview, lnkWaitSupReview, False)
+                WaitingSupplierProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtWaitSupReview, txtWaitSupReviewDate, chkWaitSupReview, lnkWaitSupReview, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkClaimCompleted_Click(sender As Object, e As EventArgs) Handles lnkClaimCompleted.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkClaimCompleted.Checked Then
+                UpdateInternalStatusGeneric(txtClaimCompleted, txtClaimCompletedDate, chkClaimCompleted, lnkClaimCompleted, False)
+                'que viene aca?
+
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkQuarantine_Click(sender As Object, e As EventArgs) Handles lnkQuarantine.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkQuarantine.Checked Then
+                UpdateInternalStatusGeneric(txtQuarantine, txtQuarantineDate, chkQuarantine, lnkQuarantine, False)
+                QuarantineProcess(wrnNo, strMessage)
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtQuarantine, txtQuarantineDate, chkQuarantine, lnkQuarantine, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub lnkClaimAuth_Click(sender As Object, e As EventArgs) Handles lnkClaimAuth.Click
+        Dim strMessage As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If chkClaimAuth.Checked Then
+                UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, False)
+                'SaveAuthForOver500Sales
+                'ClaimOver500AndCMGenCloseClaim
+                If Not String.IsNullOrEmpty(strMessage) Then
+                    UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, True)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
+                SendMessage(methodMessage, messageType.info)
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+#End Region
+
     'Protected Sub btnCloseTab_Click(sender As Object, e As EventArgs) Handles btnCloseTab.Click
     '    Try
     '        ClearInputCustom(navsSection)
@@ -2904,7 +3142,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtInitialReview.Text = Session("userid").ToString()
+                        txtInitialReview.Text = Session("userid").ToString().ToUpper()
                         txtInitialReviewDate.Text = datenow
                         chkInitialReview.Enabled = False
 
@@ -2915,6 +3153,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     result = True
@@ -2948,7 +3187,7 @@ Public Class _Default
                         'insertion error
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
 
-                        txtInitialReview.Text = Session("userid").ToString()
+                        txtInitialReview.Text = Session("userid").ToString().ToUpper()
                         txtInitialReviewDate.Text = datenow
                         chkInitialReview.Enabled = False
 
@@ -2979,7 +3218,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtAcknowledgeEmail.Text = Session("userid").ToString()
+                        txtAcknowledgeEmail.Text = Session("userid").ToString().ToUpper()
                         txtAcknowledgeEmailDate.Text = datenow
                         chkAcknowledgeEmail.Enabled = False
 
@@ -2990,6 +3229,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     result = True
@@ -3024,7 +3264,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtAcknowledgeEmail.Text = Session("userid").ToString()
+                        txtAcknowledgeEmail.Text = Session("userid").ToString().ToUpper()
                         txtAcknowledgeEmailDate.Text = datenow
                         chkAcknowledgeEmail.Enabled = False
 
@@ -3055,7 +3295,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtInfoCust.Text = Session("userid").ToString()
+                        txtInfoCust.Text = Session("userid").ToString().ToUpper()
                         txtInfoCustDate.Text = datenow
                         chkInfoCust.Enabled = False
 
@@ -3066,6 +3306,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     result = True
@@ -3100,7 +3341,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtInfoCust.Text = Session("userid").ToString()
+                        txtInfoCust.Text = Session("userid").ToString().ToUpper()
                         txtInfoCustDate.Text = datenow
                         chkInfoCust.Enabled = False
 
@@ -3130,7 +3371,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtPartRequested.Text = Session("userid").ToString()
+                        txtPartRequested.Text = Session("userid").ToString().ToUpper()
                         txtPartRequested.Text = datenow
                         chkPartRequested.Enabled = False
 
@@ -3141,6 +3382,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     lnkPartRequested.Enabled = False
@@ -3174,7 +3416,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtPartRequested.Text = Session("userid").ToString()
+                        txtPartRequested.Text = Session("userid").ToString().ToUpper()
                         txtPartRequested.Text = datenow
                         chkPartRequested.Enabled = False
 
@@ -3205,7 +3447,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtPartReceived.Text = Session("userid").ToString()
+                        txtPartReceived.Text = Session("userid").ToString().ToUpper()
                         txtPartReceivedDate.Text = datenow
                         chkPartReceived.Enabled = False
 
@@ -3216,6 +3458,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     result = True
@@ -3249,7 +3492,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtPartReceived.Text = Session("userid").ToString()
+                        txtPartReceived.Text = Session("userid").ToString().ToUpper()
                         txtPartReceivedDate.Text = datenow
                         chkPartReceived.Enabled = False
 
@@ -3279,7 +3522,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtTechReview.Text = Session("userid").ToString()
+                        txtTechReview.Text = Session("userid").ToString().ToUpper()
                         txtTechReviewDate.Text = datenow
                         chkTechReview.Enabled = False
 
@@ -3290,6 +3533,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     result = True
@@ -3323,7 +3567,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtTechReview.Text = Session("userid").ToString()
+                        txtTechReview.Text = Session("userid").ToString().ToUpper()
                         txtTechReviewDate.Text = datenow
                         chkTechReview.Enabled = False
 
@@ -3353,7 +3597,7 @@ Public Class _Default
 
                     Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
                     If rsInsInitReview > 0 Then
-                        txtWaitSupReview.Text = Session("userid").ToString()
+                        txtWaitSupReview.Text = Session("userid").ToString().ToUpper()
                         txtWaitSupReviewDate.Text = datenow
                         chkWaitSupReview.Enabled = False
 
@@ -3364,6 +3608,7 @@ Public Class _Default
                                 If dsIntStatus.Tables(0).Rows.Count > 0 Then
                                     txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                         Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
                                     txtActualStatus.Enabled = False
 
                                     result = True
@@ -3397,7 +3642,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtWaitSupReview.Text = Session("userid").ToString()
+                        txtWaitSupReview.Text = Session("userid").ToString().ToUpper()
                         txtWaitSupReviewDate.Text = datenow
                         chkWaitSupReview.Enabled = False
 
@@ -3835,6 +4080,7 @@ Public Class _Default
                                         If dsUpdStat.Tables(0).Rows.Count > 0 Then
                                             txtActualStatus.Text = UCase(Left(dsUpdStat.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)) +
                                                                     LCase(Mid(dsUpdStat.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 2))
+                                            txtActualStatus.Text.ToUpper()
                                             txtActualStatus.Enabled = False
 
                                             Dim rsUpdWHeader1 = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
@@ -4116,6 +4362,7 @@ Public Class _Default
                                     If dsGet.Tables(0).Rows.Count > 0 Then
                                         txtActualStatus.Text = UCase(Left(dsGet.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
                                                                       LCase(Mid(dsGet.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 2)))
+                                        txtActualStatus.Text.ToUpper()
                                         txtActualStatus.Enabled = False
 
                                         Dim dec = cmdCloseClaim(strMessage)
@@ -4247,6 +4494,35 @@ Public Class _Default
 
 #Region "Work with Images"
 
+    Public Sub LoadImages(Optional images As List(Of String) = Nothing)
+        Try
+            'Dim filesinDir As String() = Directory.GetFiles(Server.MapPath("~/Images/ToProcess/"))
+            'Dim images As List(Of String) = New List(Of String)(filesinDir.Count())
+
+            'For Each item As String In filesinDir
+            '    images.Add(String.Format("~/Images/ToProcess/{0}", System.IO.Path.GetFileName(item)))
+            '    'images.Add("~/Images/back1.png")
+            'Next
+            'pepe
+
+            If datViewer.Items.Count = 0 Then
+                If Session("DatViewer") IsNot Nothing Then
+                    Dim lstImg = DirectCast(Session("DatViewer"), List(Of String))
+                    If lstImg.Count > 0 Then
+                        datViewer.DataSource = lstImg
+                        datViewer.DataBind()
+                    End If
+                End If
+            Else
+                datViewer.DataSource = images
+                datViewer.DataBind()
+            End If
+
+        Catch ex As Exception
+            Dim pp = ex.Message
+        End Try
+    End Sub
+
     Public Sub FixImages(claimNo As String)
         Dim filepath As String = Nothing
         Dim dctFI As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
@@ -4259,6 +4535,7 @@ Public Class _Default
                     If dctFI IsNot Nothing Then
                         prepareListFromVD(dctFI, lstImg)
                         If lstImg IsNot Nothing Then
+                            Session("DatViewer") = lstImg
                             LoadImages(lstImg)
                         End If
                     End If
@@ -4510,25 +4787,6 @@ Public Class _Default
             txtAddCommDateInit.Text = Nothing
             txtAddCommDateTo.Text = Nothing
             txtAddSubject.Text = Nothing
-        Catch ex As Exception
-            Dim pp = ex.Message
-        End Try
-    End Sub
-
-    Public Sub LoadImages(images As List(Of String))
-        Try
-            'Dim filesinDir As String() = Directory.GetFiles(Server.MapPath("~/Images/ToProcess/"))
-            'Dim images As List(Of String) = New List(Of String)(filesinDir.Count())
-
-            'For Each item As String In filesinDir
-            '    images.Add(String.Format("~/Images/ToProcess/{0}", System.IO.Path.GetFileName(item)))
-            '    'images.Add("~/Images/back1.png")
-            'Next
-            'pepe
-
-            datViewer.DataSource = images
-            datViewer.DataBind()
-
         Catch ex As Exception
             Dim pp = ex.Message
         End Try
@@ -4834,6 +5092,7 @@ Public Class _Default
                         If dsResult.Tables(0).Rows.Count > 0 Then
                             Dim val = dsResult.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim()
                             txtActualStatus.Text = UCase(Left(val, 1)) & LCase(Mid(val, 2))
+                            txtActualStatus.Text.ToUpper()
                         End If
                     End If
                 End If
@@ -6526,7 +6785,7 @@ Public Class _Default
                         End If
                     End If
                 End If
-                txtActualStatus.Text = hdcwstde.Value
+                txtActualStatus.Text = hdcwstde.Value.Trim().ToUpper()
             End Using
         Catch ex As Exception
 
@@ -6626,8 +6885,8 @@ Public Class _Default
                                 Select Case intStatus
                                     Case "I"
                                         chkInitialReview.Checked = True
-                                        txtInitialReview.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtInitialReviewDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtInitialReview.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtInitialReviewDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkInitialReview.Enabled = False
                                         txtInitialReview.Enabled = False
@@ -6637,8 +6896,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "B"
                                         chkAcknowledgeEmail.Checked = True
-                                        txtAcknowledgeEmail.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtAcknowledgeEmailDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtAcknowledgeEmail.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtAcknowledgeEmailDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkAcknowledgeEmail.Enabled = False
                                         txtAcknowledgeEmail.Enabled = False
@@ -6648,8 +6907,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "D"
                                         chkInfoCust.Checked = True
-                                        txtInfoCust.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtInfoCustDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtInfoCust.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtInfoCustDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkInfoCust.Enabled = False
                                         txtInfoCust.Enabled = False
@@ -6659,8 +6918,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "F"
                                         chkPartRequested.Checked = True
-                                        txtPartRequested.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtPartRequestedDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtPartRequested.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtPartRequestedDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkPartRequested.Enabled = False
                                         txtPartRequested.Enabled = False
@@ -6670,8 +6929,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "G"
                                         chkPartReceived.Checked = True
-                                        txtPartReceived.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtPartReceivedDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtPartReceived.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtPartReceivedDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkPartReceived.Enabled = False
                                         txtPartReceived.Enabled = False
@@ -6681,8 +6940,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "H"
                                         chkTechReview.Checked = True
-                                        txtTechReview.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtTechReviewDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtTechReview.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtTechReviewDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkTechReview.Enabled = False
                                         txtTechReview.Enabled = False
@@ -6692,8 +6951,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "J"
                                         chkWaitSupReview.Checked = True
-                                        txtWaitSupReview.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtWaitSupReviewDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtWaitSupReview.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtWaitSupReviewDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkWaitSupReview.Enabled = False
                                         txtWaitSupReview.Enabled = False
@@ -6703,8 +6962,8 @@ Public Class _Default
                                         setInternalStatus(intStatus)
                                     Case "K"
                                         chkClaimCompleted.Checked = True
-                                        txtClaimCompleted.Text = dw.Item("INUSER").ToString().Trim()
-                                        txtClaimCompletedDate.Text = dw.Item("INCLDT").ToString().Trim()
+                                        txtClaimCompleted.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        txtClaimCompletedDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
 
                                         chkClaimCompleted.Enabled = False
                                         txtClaimCompleted.Enabled = False
@@ -6981,11 +7240,38 @@ Public Class _Default
 
     Public Sub BuildDates()
         Try
-            Dim currdate = Now().Date().ToString() 'force  yyyy-mm-dd
-            Dim currhour = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+            Dim culture As IFormatProvider = New CultureInfo("en-US", True)
+            Dim cultureInf As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
+            Dim dtfi As DateTimeFormatInfo = cultureInf.DateTimeFormat
+            dtfi.DateSeparator = "-"
+            Dim dtOut As DateTime = New DateTime()
+            ''Dim currdate = Now().Date().ToString().Replace("/", "-") 'force  yyyy-mm-dd
+            Dim strDate = DateTime.Now().ToString().Split(" ")(0)
 
-            datenow = currdate.Split(" ")(0)
-            hournow = currhour.Split(".")(0).Replace(":", ".")
+            Dim fixDate = strDate.Split("/")
+            Dim strFixDateRs As String = Nothing
+            For Each item As String In fixDate
+                If item.Length < 2 Then
+                    strFixDateRs += "0" + item + "-"
+                Else
+                    strFixDateRs += item + "-"
+                End If
+            Next
+
+            strFixDateRs = strFixDateRs.Remove(strFixDateRs.Length - 1, 1)
+            'strDate = "07-23-2021"
+            Dim currdate = DateTime.TryParseExact(strFixDateRs, "MM-dd-yyyy", culture, Nothing, dtOut)
+            If currdate Then
+                Dim strDt1 = dtOut.ToString("yyyy-MM-dd", dtfi)
+                Dim currhour = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+
+                datenow = strDt1
+                hournow = currhour.Split(".")(0).Replace(":", ".")
+            End If
+
+            'Dim dt1 = DateTime.ParseExact(strDate, "MM-dd-yyyy", CultureInfo.InvariantCulture)
+            'datenow = currdate.Split(" ")(0)
+
         Catch ex As Exception
 
         End Try

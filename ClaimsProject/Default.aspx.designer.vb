@@ -1643,6 +1643,15 @@ Partial Public Class _Default
     Protected WithEvents chkQuarantine As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lnkQuarantine control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkQuarantine As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''txtQuarantine control.
     '''</summary>
     '''<remarks>
@@ -1893,6 +1902,15 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkClaimAuth As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkClaimAuth control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkClaimAuth As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''txtClaimAuth control.

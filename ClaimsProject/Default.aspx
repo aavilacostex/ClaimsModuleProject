@@ -1110,6 +1110,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblQuarantine" Text="Quarantine Required?" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkQuarantine" runat="server" />
+                                                    <asp:LinkButton ID="lnkQuarantine" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtQuarantine" CssClass="form-control" runat="server" />                                                            
@@ -1194,7 +1197,7 @@
 
                                             <div class="form-row last">
                                                 <div class="col-md-8">
-                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" runat="server">
+                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled"  runat="server">
                                                         <ItemTemplate>                                                                                                                       
                                                             <a id="alink" href='<%# Container.DataItem %>' rel="lightbox[roadtrip1]" runat="server">
                                                                 <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
@@ -1217,6 +1220,9 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkClaimAuth" runat="server" />
+                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtClaimAuth" CssClass="form-control" runat="server" />                                                            
@@ -2697,8 +2703,6 @@
 
         function claimNoAutoComplete() {
 
-            debugger
-
             $j(".autosuggestclaim").autocomplete({
                 source: function (request, response) {
                     $j.ajax({
@@ -3261,7 +3265,11 @@
                 setHeight($j('#MainContent_txtCustStatement'));
 
                 activeTab();
+
+                fixesSmallBtnClass();                
+
             }
+            
 
             <%--var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
                 if (hdGridVisualization == "1") {
@@ -3347,6 +3355,91 @@
             fixVisibilityColumns();
 
             console.log("EndPageLoad");
+        }
+
+        function fixesSmallBtnClass() {
+
+            $j('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+
+
+            if ($j('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
+                
+                $j('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
+
+                $j('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
+
+
+            }
+
+            if ($j('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {                
+                
+                $j('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
+
+            }
+
+            if ($j('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
+               
+                $j('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+
+            }
+
+            if ($j('#<%=chkPartRequested.ClientID %>').is(':checked')) {
+                
+                $j('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
+
+            }
+
+            if ($j('#<%=chkPartReceived.ClientID %>').is(':checked')) {
+               
+                $j('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
+
+            }
+
+            if ($j('#<%=chkTechReview.ClientID %>').is(':checked')) {
+                
+                $j('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+
+            }
+
+            if ($j('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
+                
+                $j('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+            }
+
         }
 
         function rangePicker1() {

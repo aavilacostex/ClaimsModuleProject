@@ -372,18 +372,18 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     border-bottom: 1px solid #fbba42;
 }
 
-    #ntab > .nav-item > .nav-link {
-        border-bottom-color: #fbba42;
-    }
+#ntab > .nav-item > .nav-link {
+    border-bottom-color: #fbba42;
+}
 
-        #ntab > .nav-item > .nav-link.active {
-            color: black !important;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: #fce4b6 !important;
-            border-bottom-color: transparent;
-        }
+#ntab > .nav-item > .nav-link.active {
+    color: black !important;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #fce4b6 !important;
+    border-bottom-color: transparent;
+}
 
 #tabc h3 {
     padding: 3px;
@@ -395,6 +395,17 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 2px;
     border-radius: 10px 10px 0 0;
     border-bottom: 2px groove whitesmoke;
+    background-color: #fbba42 !important;
+}
+
+#MainContent_txtRetNo, #MainContent_txtWrnNo {
+    width: 30% !important;
+    text-align: center !important;
+    margin: 0 auto;
+}
+
+#MainContent_seeCommentsR .form-row, #MainContent_seeVendorComments .form-row {
+    text-align: center !important;
 }
 
 #MainContent_pnClaimComm .input-group-append > .input-group-addon, #MainContent_pnVndClaimComm .input-group-append > .input-group-addon {
@@ -832,6 +843,25 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 .float-right {
     float: right !important;
+}
+
+#MainContent_txtActualStatus {
+    text-transform: uppercase !important;
+}
+
+#MainContent_grvSeeComm, #MainContent_grvSeeVndComm {
+    background-color: lightyellow !important;
+}
+
+#MainContent_grvSeeComm td, #MainContent_grvSeeComm th, #MainContent_grvSeeVndComm td, #MainContent_grvSeeVndComm th {
+    text-align: center !important;
+    padding: 3px !important;
+    font-size: 12px !important;
+}
+
+.disableCtr {
+    pointer-events: none !important;
+    cursor: default !important;
 }
 
 .padd-fixed {
