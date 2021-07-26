@@ -311,31 +311,13 @@ Partial Public Class _Default
     Protected WithEvents txtCustomer As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''ddlSearchUser control.
+    '''ddlClaimTypeOk control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ddlSearchUser As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''ddlSearchReason control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ddlSearchReason As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''ddlSearchDiagnose control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ddlSearchDiagnose As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlClaimTypeOk As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''btnSearchFilter control.
@@ -363,6 +345,42 @@ Partial Public Class _Default
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlClaimType As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''pnExtraFilters control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnExtraFilters As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''ddlSearchUser control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlSearchUser As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''ddlSearchReason control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlSearchReason As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''ddlSearchDiagnose control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlSearchDiagnose As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''rdCustomer control.

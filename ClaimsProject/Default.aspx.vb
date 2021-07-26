@@ -1201,6 +1201,14 @@ Public Class _Default
 
     End Sub
 
+    Protected Sub ddlClaimTypeOk_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 #End Region
 
 #Region "TextBox"
@@ -1480,6 +1488,11 @@ Public Class _Default
         Dim strMessageOut As String = Nothing
         Dim lstMessages As List(Of String) = New List(Of String)()
         Dim resultProc As Boolean = False
+
+        'test user
+        Session("userid") = "AALZATE"
+        'test user
+
         Try
             'must send email to customer here. Check this email template
             'we have claim number but do not have warning number
@@ -1675,7 +1688,7 @@ Public Class _Default
                     End If
 #End Region
 #Region "Auth to put costs"
-                    resultProc = AuthToPutCostsProcess(claimNo, wrnNo, strMessageOut)
+                    resultProc = AuthToPutCostsProcess(claimNo, wrnNo, strMessageOut) ' consequental damages
                     If Not resultProc Then
                         If Not String.IsNullOrEmpty(strMessageOut) Then
                             lstMessages.Add(strMessageOut)
@@ -1934,7 +1947,7 @@ Public Class _Default
                     Dim wrnNo = hdSeq.Value.Trim()
                     Dim claimNo = txtClaimNoData.Text.Trim()
                     hdSwLimitAmt.Value = 0
-                    Dim user = Session("userid").ToString()
+                    Dim user = Session("userid").ToString().ToUpper()
 
                     Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                         Dim dsGet = New DataSet()
@@ -2114,7 +2127,7 @@ Public Class _Default
                     Dim wrnNo = hdSeq.Value.Trim()
                     Dim claimNo = txtClaimNoData.Text.Trim()
                     hdSwLimitAmt.Value = 0
-                    Dim user = Session("userid").ToString()
+                    Dim user = Session("userid").ToString().ToUpper()
 
                     Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                         Dim dsGet = New DataSet()
@@ -2609,10 +2622,10 @@ Public Class _Default
             Dim claimNo = txtClaimNoData.Text.Trim()
 
             If chkPartRequested.Checked Then
-                UpdateInternalStatusGeneric(txtPartRequested, txtPartRequested, chkPartRequested, lnkPartRequested, False)
+                UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, False)
                 PartRequestedProcess(wrnNo, strMessage)
                 If Not String.IsNullOrEmpty(strMessage) Then
-                    UpdateInternalStatusGeneric(txtPartRequested, txtPartRequested, chkPartRequested, lnkPartRequested, True)
+                    UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, True)
                 End If
             Else
                 Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
@@ -2731,14 +2744,18 @@ Public Class _Default
 
             If chkClaimAuth.Checked Then
                 UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, False)
+                'SendEmailToPIChAppClaimOver500(wrnNo,)
                 'SaveAuthForOver500Sales
                 'ClaimOver500AndCMGenCloseClaim
                 If Not String.IsNullOrEmpty(strMessage) Then
                     UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, True)
                 End If
+                txtAmountApproved.Enabled = True
+                Dim methodMessage = "Please set the value for the claim amount approved, then save the navigation tab!"
+                SendMessage(methodMessage, messageType.info)
             Else
                 Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
-                SendMessage(methodMessage, messageType.info)
+                SendMessage(methodMessage, messageType.warning)
             End If
 
         Catch ex As Exception
@@ -3140,7 +3157,7 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtInitialReview.Text = Session("userid").ToString().ToUpper()
                         txtInitialReviewDate.Text = datenow
@@ -3210,13 +3227,15 @@ Public Class _Default
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If chkAcknowledgeEmail.Checked And chkAcknowledgeEmail.Enabled = True And chkInitialReview.Enabled = False Then
+                If chkAcknowledgeEmail.Checked And chkAcknowledgeEmail.Enabled = True Then
+                    'And chkInitialReview.Enabled = False
+
                     chkinitial.Value = "B"
                     BuildDates()
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtAcknowledgeEmail.Text = Session("userid").ToString().ToUpper()
                         txtAcknowledgeEmailDate.Text = datenow
@@ -3293,7 +3312,7 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtInfoCust.Text = Session("userid").ToString().ToUpper()
                         txtInfoCustDate.Text = datenow
@@ -3369,10 +3388,10 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtPartRequested.Text = Session("userid").ToString().ToUpper()
-                        txtPartRequested.Text = datenow
+                        txtPartRequestedDate.Text = datenow
                         chkPartRequested.Enabled = False
 
                         Dim dsIntStatus = New DataSet()
@@ -3445,7 +3464,7 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtPartReceived.Text = Session("userid").ToString().ToUpper()
                         txtPartReceivedDate.Text = datenow
@@ -3520,7 +3539,7 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtTechReview.Text = Session("userid").ToString().ToUpper()
                         txtTechReviewDate.Text = datenow
@@ -3595,7 +3614,7 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                     If rsInsInitReview > 0 Then
                         txtWaitSupReview.Text = Session("userid").ToString().ToUpper()
                         txtWaitSupReviewDate.Text = datenow
@@ -3808,9 +3827,9 @@ Public Class _Default
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsQuarantine = objBL.InsertInternalStatus(wrnNo, "Q", Session("userid").ToString(), datenow, hournow, True)
+                    Dim rsQuarantine = objBL.InsertInternalStatus(wrnNo, "Q", Session("userid").ToString().ToUpper(), datenow, hournow, True)
                     If rsQuarantine > 0 Then
-                        txtQuarantine.Text = Session("userid").ToString()
+                        txtQuarantine.Text = Session("userid").ToString().ToUpper()
                         txtQuarantineDate.Text = datenow
                         chkQuarantine.Enabled = False
                         txtQuarantine.Enabled = False
@@ -3820,7 +3839,7 @@ Public Class _Default
                         strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
                         result = True
 
-                        txtQuarantine.Text = Session("userid").ToString()
+                        txtQuarantine.Text = Session("userid").ToString().ToUpper()
                         txtQuarantineDate.Text = datenow
                         chkQuarantine.Enabled = False
                         txtQuarantine.Enabled = False
@@ -3849,16 +3868,17 @@ Public Class _Default
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim strUsers = ConfigurationManager.AppSettings("AuthUsersForPutCost")
-                Dim currentUser = UCase(Session("userid").ToString().Trim())
+                Dim currentUser = UCase(Session("userid").ToString().Trim().ToUpper())
                 Dim lstUsers = If(Not String.IsNullOrEmpty(strUsers), strUsers.Split(","), Nothing)
                 Dim myitem = lstUsers.AsEnumerable().Where(Function(value) UCase(value.ToString().Trim()).Contains(currentUser))
                 If myitem.Count = 1 Then
                     If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) Then
                         Dim dsClaimData = New DataSet()
-                        Dim rsClaimData = objBL.getClaimData(wrnNo, "C", dsClaimData)
-                        If rsClaimData > 0 Then
-                            If dsClaimData IsNot Nothing Then
-                                If dsClaimData.Tables(0).Rows.Count > 0 Then
+                        Dim condAccess = "C"
+                        Dim rsClaimData = objBL.getClaimData(wrnNo, condAccess, dsClaimData)
+                        If rsClaimData > 0 Or (rsClaimData = 0 And condAccess = "C") Then
+                            If dsClaimData IsNot Nothing Or (rsClaimData = 0 And condAccess = "C") Then
+                                If dsClaimData.Tables(0).Rows.Count > 0 Or (rsClaimData = 0 And condAccess = "C") Then
                                     Dim rsUpd = objBL.UpdateWConsDamage(wrnNo, "C", txtConsDamageTotal.Text.Trim(), txtCDPart.Text.Trim(), txtCDLabor.Text.Trim(), txtCDFreight.Text.Trim(), txtCDMisc.Text.Trim())
                                     If rsUpd > 0 Then
                                         intValidation += 1
@@ -3971,7 +3991,7 @@ Public Class _Default
                 'CNTRLL parm 186 status (if Approved)
                 'Get User and Limit to generate credit memo
                 Dim dsUserCM = New DataSet()
-                Dim user = Session("userid").ToString()
+                Dim user = Session("userid").ToString().ToUpper()
                 Dim rsUserCM = objBL.GetUserToGenCM(user, dsUserCM)
                 If rsUserCM > 0 Then
                     If dsUserCM IsNot Nothing Then
@@ -4067,11 +4087,11 @@ Public Class _Default
                             BuildDates()
                             'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                             'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
-                            Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                            Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                             If rsIns > 0 Then
                                 chkClaimCompleted.Enabled = False
                                 txtDateEntered.Text = datenow
-                                txtClaimCompleted.Text = Session("userid").ToString()
+                                txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
 
                                 Dim dsUpdStat = New DataSet()
                                 Dim rsUpdStat = objBL.getDataByInternalStsLet(chkinitial.Value, dsUpdStat)
@@ -4160,13 +4180,13 @@ Public Class _Default
                                 'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
                                 chkinitial.Value = "K"
 
-                                Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                                Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                                 If rsIns > 0 Then
                                     chkApproved.Enabled = False
                                     chkDeclined.Enabled = False
                                     chkClaimCompleted.Enabled = False
                                     txtClaimCompletedDate.Text = datenow
-                                    txtClaimCompleted.Text = Session("userid").ToString()
+                                    txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
                                     txtClaimCompleted.Enabled = False
                                     txtClaimCompletedDate.Enabled = False
 
@@ -4264,11 +4284,11 @@ Public Class _Default
                                 'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
                                 'Dim datenow = Now().Date()
 
-                                Dim rfFullUpd = objBL.UpdateWOverSales500(wrnNo, "B", "Y", Session("userid").ToString(), resultFreight, resultParts, resultAmoApproved, datenow)
+                                Dim rfFullUpd = objBL.UpdateWOverSales500(wrnNo, "B", "Y", Session("userid").ToString().ToUpper(), resultFreight, resultParts, resultAmoApproved, datenow)
                                 If rfFullUpd > 0 Then
                                     intValidation += 1
 
-                                    txtClaimAuth.Text = Session("userid").ToString()
+                                    txtClaimAuth.Text = Session("userid").ToString().ToUpper()
                                     txtClaimAuthDate.Text = datenow
                                     chkClaimAuth.Enabled = False
                                     txtClaimAuth.Enabled = False
@@ -4332,12 +4352,12 @@ Public Class _Default
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If chkClaimAuth.Checked And chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True And chkApproved.Checked And chkAcknowledgeEmail.Checked Then
-                    If totalClaimValue > 500 Then
+                If chkClaimAuth.Checked And chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True And chkApproved.Checked And chkAcknowledgeEmail.Checked And totalClaimValue > 500 Then
+                    'If totalClaimValue > 500 Then
 
-                    End If
+                    'End If
                     Dim strUsers = ConfigurationManager.AppSettings("AuthUsersForPutCost")
-                    Dim currentUser = UCase(Session("userid").ToString().Trim())
+                    Dim currentUser = UCase(Session("userid").ToString().Trim().ToUpper())
                     Dim lstUsers = If(Not String.IsNullOrEmpty(strUsers), strUsers.Split(","), Nothing)
                     Dim myitem = lstUsers.AsEnumerable().Where(Function(value) UCase(value.ToString().Trim()).Contains(currentUser))
                     If myitem.Count = 1 Then
@@ -4346,11 +4366,11 @@ Public Class _Default
                         'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                         'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                        Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString(), datenow, hournow)
+                        Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                         If rsIns > 0 Then
                             intValidation += 1
 
-                            txtClaimCompleted.Text = Session("userid").ToString()
+                            txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
                             txtClaimCompletedDate.Text = datenow
                             chkClaimCompleted.Enabled = False
 
@@ -4655,6 +4675,38 @@ Public Class _Default
                 '7/19/2021
                 '6/10/2017
             End If
+
+            If ddlClaimTypeOk.SelectedIndex > 0 Then
+                'here add validation for type of claim
+                Dim strValues As String = Nothing
+                Dim dctValues As Dictionary(Of String, String) = Nothing
+                prepareClaimClasificaction(dctValues)
+                If ddlClaimTypeOk.SelectedIndex.ToString() = "1" Then
+                    For Each item In dctValues
+                        If item.Key = "WARR" Then
+                            strValues = item.Value
+                        End If
+                    Next
+                ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "2" Then
+                    For Each item In dctValues
+                        If item.Key = "NWARR" Then
+                            strValues = item.Value
+                        End If
+                    Next
+                ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "3" Then
+                    For Each item In dctValues
+                        If item.Key = "INT" Then
+                            strValues = item.Value
+                        End If
+                    Next
+                Else
+                    For Each item In dctValues
+                        strValues += item.Value
+                    Next
+                End If
+                strBuild += "AND TRIM(MHRTTY) IN (" + strValues + ")"
+            End If
+
             If ddlSearchIntStatus.SelectedIndex > 0 Then
                 strBuild += " AND TRIM(f.CNT03) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
             End If
@@ -4877,7 +4929,7 @@ Public Class _Default
                 BuildDates()
                 'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                 'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
-                Dim userid = Session("userid").ToString()
+                Dim userid = Session("userid").ToString().ToUpper()
 
                 Dim cod_comment = objBL.getmax("QS36F.CLMWCH", "CWCHCO") + 1
                 If cod_comment > 0 Then
@@ -5262,7 +5314,7 @@ Public Class _Default
 
 #Region "Set the authorization data entry fields"
 
-                                    If Session("userid").ToString() = "AALZATE" Or Session("userid").ToString() = UCase(hdCLMuser.Value) Then
+                                    If Session("userid").ToString().ToUpper() = "AALZATE" Or Session("userid").ToString().ToUpper() = UCase(hdCLMuser.Value) Then
                                         chkClaimAuth.Checked = False
                                         chkClaimAuth.Enabled = True
                                         txtClaimAuth.Text = ""
@@ -5501,7 +5553,7 @@ Public Class _Default
                 If Not String.IsNullOrEmpty(txtAddWrnNo.Text) Then
                     If Not String.IsNullOrEmpty(txtAddSubject.Text) Then
                         codComment = objBL.getmax("QS36F.CLMWCH", "CWCHCO") + 1
-                        Dim rsIns = objBL.InsertComment(txtAddWrnNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), Now().ToString().Split(" ")(1), txtAddSubject.Text, Session("userid").ToString(), FlagIE)
+                        Dim rsIns = objBL.InsertComment(txtAddWrnNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), Now().ToString().Split(" ")(1), txtAddSubject.Text, Session("userid").ToString().ToUpper(), FlagIE)
                         If rsIns > 0 Then
 
                             For Each li As String In lstComments
@@ -5533,7 +5585,7 @@ Public Class _Default
                 If Not String.IsNullOrEmpty(txtAddClaimNo.Text) Then
                     If Not String.IsNullOrEmpty(txtAddVndSubject.Text) Then
                         codComment = objBL.getmax("QS36F.CLMCMT", "CCCODE") + 1
-                        Dim rsIns = objBL.InsertSuppClaimCommHeader(txtAddClaimNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), txtAddVndSubject.Text, Now().ToString().Split(" ")(1), Session("userid").ToString())
+                        Dim rsIns = objBL.InsertSuppClaimCommHeader(txtAddClaimNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), txtAddVndSubject.Text, Now().ToString().Split(" ")(1), Session("userid").ToString().ToUpper())
                         If rsIns > 0 Then
 
                             For Each li As String In lstComments
@@ -5607,6 +5659,50 @@ Public Class _Default
 #End Region
 
 #Region "Auxiliar Methods"
+
+    Public Sub prepareClaimClasificaction(ByRef dctValues As Dictionary(Of String, String))
+        Dim ds As DataSet = Nothing
+        Dim warr As String = Nothing
+        Dim nwarr As String = Nothing
+        Dim inter As String = Nothing
+        dctValues = Nothing
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                Dim result = objBL.GetClaimGeneralClasificaction(ds)
+                If result > 0 Then
+                    If ds IsNot Nothing Then
+                        If ds.Tables(0).Rows.Count > 0 Then
+                            For Each dw As DataRow In ds.Tables(0).Rows
+                                If dw.Item("CATTYP").ToString().Trim().ToUpper().Equals("W") Then
+                                    warr += dw.Item("CNT03").ToString().Trim().ToUpper() + ","
+                                ElseIf dw.Item("CATTYP").ToString().Trim().ToUpper().Equals("W") Then
+                                    nwarr += dw.Item("CNT03").ToString().Trim().ToUpper() + ","
+                                Else
+                                    inter += dw.Item("CNT03").ToString().Trim().ToUpper() + ","
+                                End If
+                            Next
+
+                            If Not String.IsNullOrEmpty(warr) Then
+                                dctValues.Add("WARR", warr.Remove(warr.Length - 1, 1))
+                            End If
+                            If Not String.IsNullOrEmpty(nwarr) Then
+                                dctValues.Add("NWARR", nwarr.Remove(nwarr.Length - 1, 1))
+                            End If
+                            If Not String.IsNullOrEmpty(inter) Then
+                                dctValues.Add("INT", inter.Remove(inter.Length - 1, 1))
+                            End If
+
+
+                        End If
+                    End If
+                End If
+
+            End Using
+        Catch ex As Exception
+
+        End Try
+    End Sub
 
     Public Sub prepareExternStatus(criteria As String, ByRef strValues As String)
         Dim dsResult As DataSet = New DataSet()
@@ -6348,6 +6444,7 @@ Public Class _Default
             LoadDropDownLists(ddlSearchUser)
             LoadDropDownLists(ddlSearchIntStatus)
             LoadDropDownLists(ddlClaimType)
+            LoadDropDownLists(ddlClaimTypeOk)
 
         Catch ex As Exception
 
@@ -6868,6 +6965,7 @@ Public Class _Default
 
     Public Sub GetInternalStatus(intValue)
         Dim ds = New DataSet()
+        Dim strDateOut As String = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 'internal status process
@@ -6886,7 +6984,8 @@ Public Class _Default
                                     Case "I"
                                         chkInitialReview.Checked = True
                                         txtInitialReview.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtInitialReviewDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtInitialReviewDate.Text = strDateOut
 
                                         chkInitialReview.Enabled = False
                                         txtInitialReview.Enabled = False
@@ -6897,7 +6996,8 @@ Public Class _Default
                                     Case "B"
                                         chkAcknowledgeEmail.Checked = True
                                         txtAcknowledgeEmail.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtAcknowledgeEmailDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtAcknowledgeEmailDate.Text = strDateOut
 
                                         chkAcknowledgeEmail.Enabled = False
                                         txtAcknowledgeEmail.Enabled = False
@@ -6908,7 +7008,8 @@ Public Class _Default
                                     Case "D"
                                         chkInfoCust.Checked = True
                                         txtInfoCust.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtInfoCustDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtInfoCustDate.Text = strDateOut
 
                                         chkInfoCust.Enabled = False
                                         txtInfoCust.Enabled = False
@@ -6919,7 +7020,8 @@ Public Class _Default
                                     Case "F"
                                         chkPartRequested.Checked = True
                                         txtPartRequested.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtPartRequestedDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtPartRequestedDate.Text = strDateOut
 
                                         chkPartRequested.Enabled = False
                                         txtPartRequested.Enabled = False
@@ -6930,7 +7032,8 @@ Public Class _Default
                                     Case "G"
                                         chkPartReceived.Checked = True
                                         txtPartReceived.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtPartReceivedDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtPartReceivedDate.Text = strDateOut
 
                                         chkPartReceived.Enabled = False
                                         txtPartReceived.Enabled = False
@@ -6941,7 +7044,8 @@ Public Class _Default
                                     Case "H"
                                         chkTechReview.Checked = True
                                         txtTechReview.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtTechReviewDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtTechReviewDate.Text = strDateOut
 
                                         chkTechReview.Enabled = False
                                         txtTechReview.Enabled = False
@@ -6952,7 +7056,8 @@ Public Class _Default
                                     Case "J"
                                         chkWaitSupReview.Checked = True
                                         txtWaitSupReview.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtWaitSupReviewDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtWaitSupReviewDate.Text = strDateOut
 
                                         chkWaitSupReview.Enabled = False
                                         txtWaitSupReview.Enabled = False
@@ -6963,7 +7068,8 @@ Public Class _Default
                                     Case "K"
                                         chkClaimCompleted.Checked = True
                                         txtClaimCompleted.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
-                                        txtClaimCompletedDate.Text = dw.Item("INCLDT").ToString().Trim().Split(" ")(0)
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtClaimCompletedDate.Text = strDateOut
 
                                         chkClaimCompleted.Enabled = False
                                         txtClaimCompleted.Enabled = False
@@ -7004,6 +7110,7 @@ Public Class _Default
 
     Public Sub GetQuarantineReq(value As String)
         Dim ds = New DataSet()
+        Dim strDateOut As String = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 Dim rs = objBL.getIfQuarantineReq(value, ds)
@@ -7012,8 +7119,9 @@ Public Class _Default
                         If ds.Tables(0).Rows.Count > 0 Then
                             chkQuarantine.Checked = True
                             txtQuarantine.Text = ds.Tables(0).Rows(0).Item("INUSER").ToString().Trim()
-                            Dim dtQ = ds.Tables(0).Rows(0).Item("INCLDT").ToString()
-                            txtQuarantineDate.Text = If(Not String.IsNullOrEmpty(dtQ), dtQ.Split(" ")(0).ToString(), "")
+                            Dim dtQ = ds.Tables(0).Rows(0).Item("INCLDT").ToString().Trim()
+                            BuildDates(dtQ, strDateOut)
+                            txtQuarantineDate.Text = If(Not String.IsNullOrEmpty(dtQ), strDateOut, "")
                             chkQuarantine.Enabled = False
                             txtQuarantine.Enabled = False
                             txtQuarantineDate.Enabled = False
@@ -7238,7 +7346,7 @@ Public Class _Default
 
 #End Region
 
-    Public Sub BuildDates()
+    Public Sub BuildDates(Optional strDateIn As String = Nothing, Optional ByRef strDateOut As String = Nothing)
         Try
             Dim culture As IFormatProvider = New CultureInfo("en-US", True)
             Dim cultureInf As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
@@ -7246,7 +7354,10 @@ Public Class _Default
             dtfi.DateSeparator = "-"
             Dim dtOut As DateTime = New DateTime()
             ''Dim currdate = Now().Date().ToString().Replace("/", "-") 'force  yyyy-mm-dd
-            Dim strDate = DateTime.Now().ToString().Split(" ")(0)
+
+            Dim strDate = If(String.IsNullOrEmpty(strDateIn), DateTime.Now().ToString().Split(" ")(0), strDateIn.Split(" ")(0))
+
+            'Dim strDate = DateTime.Now().ToString().Split(" ")(0)
 
             Dim fixDate = strDate.Split("/")
             Dim strFixDateRs As String = Nothing
@@ -7267,6 +7378,10 @@ Public Class _Default
 
                 datenow = strDt1
                 hournow = currhour.Split(".")(0).Replace(":", ".")
+            End If
+
+            If Not String.IsNullOrEmpty(strDateIn) Then
+                strDateOut = datenow
             End If
 
             'Dim dt1 = DateTime.ParseExact(strDate, "MM-dd-yyyy", CultureInfo.InvariantCulture)
@@ -7418,13 +7533,13 @@ Public Class _Default
                 'ddl.Items.Add(New WebControls.ListItem("PENDING OTHERS", "3"))
                 'ddl.Items.Add(New WebControls.ListItem("FINALIZED", "4"))
 
-                'ElseIf ddl.ID = "ddlClaimType" Then
-                '    'cmbType
-                '    Dim ListItem As ListItem = New ListItem()
-                '    ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
-                '    ddl.Items.Add(New WebControls.ListItem("WARRANTY TYPES", "1"))
-                '    ddl.Items.Add(New WebControls.ListItem("NON-WARRANTY TYPES", "2"))
-                '    ddl.Items.Add(New WebControls.ListItem("INTERNAL TYPES", "3"))
+            ElseIf ddl.ID = "ddlClaimTypeOk" Then
+                'cmbType
+                Dim ListItem As ListItem = New ListItem()
+                ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
+                ddl.Items.Add(New WebControls.ListItem("WARRANTY TYPES", "1"))
+                ddl.Items.Add(New WebControls.ListItem("NON-WARRANTY TYPES", "2"))
+                ddl.Items.Add(New WebControls.ListItem("INTERNAL TYPES", "3"))
 
             ElseIf ddl.ID = "ddlSearchUser" Then
                 If ddl.Items.Count = 0 Then

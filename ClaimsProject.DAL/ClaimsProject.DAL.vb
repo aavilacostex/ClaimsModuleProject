@@ -167,7 +167,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT TRIM(SUBSTR(CNTDE1,1,10)) USRLIMIT, DEC(TRANSLATE(SUBSTR(CNTDE2,1,7),'0',' '),7,0) CMLIMIT FROM qs36f.CNTRLL WHERE CNT01 = '952' AND SUBSTR(CNTDE1,1,10) = '" & user & "'"
+            Sql = "SELECT TRIM(SUBSTR(CNTDE1,1,10)) USRLIMIT, DEC(TRANSLATE(SUBSTR(CNTDE2,1,7),'0',' '),7,0) CMLIMIT FROM qs36f.CNTRLL WHERE CNT01 = '952' AND  trim(SUBSTR(CNTDE1,1,10)) = '" & user & "'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -361,6 +361,22 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             Sql = "SELECT SUBSTR(CNTDE1,1,15) CWSTDE FROM qs36f.CNTRLL WHERE CNT01 = '193' AND CNT02 = '  ' AND TRIM(CNT03) = '" & Trim(status) & "'"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetClaimGeneralClasificaction(ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "SELECT CNT03, CNTDE1 TYPDES, SUBSTR(CNTDE2,44,1) CATTYP FROM qs36f.CNTRLL WHERE CNT01 = '185' AND TRIM(CNT02) = ''"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

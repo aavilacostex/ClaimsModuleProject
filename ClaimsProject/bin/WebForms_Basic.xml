@@ -334,27 +334,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlSearchUser">
+<member name="F:ClaimsProject._Default._ddlClaimTypeOk">
 <summary>
-ddlSearchUser control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._ddlSearchReason">
-<summary>
-ddlSearchReason control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._ddlSearchDiagnose">
-<summary>
-ddlSearchDiagnose control.
+ddlClaimTypeOk control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -382,6 +364,42 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._ddlClaimType">
 <summary>
 ddlClaimType control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._pnExtraFilters">
+<summary>
+pnExtraFilters control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._ddlSearchUser">
+<summary>
+ddlSearchUser control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._ddlSearchReason">
+<summary>
+ddlSearchReason control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._ddlSearchDiagnose">
+<summary>
+ddlSearchDiagnose control.
 </summary>
 <remarks>
 Auto-generated field.
