@@ -1471,6 +1471,18 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetIfOperationInProcess(userid As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetIfOperationInProcess(userid, dsResult)
+            Return result
+        Catch ex As Exception
+
+        End Try
+    End Function
+
     Public Function getLastCommentByNumber(value As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1

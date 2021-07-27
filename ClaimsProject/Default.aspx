@@ -1307,10 +1307,10 @@
 
                                             <div class="form-row last">
                                                 <div class="col-md-6">
-                                                    <asp:Button ID="btnRestock" Text="Re-Stock Part" CssClass="btn btn-primary" runat="server" />
+                                                    <asp:Button ID="btnRestock" Text="Re-Stock Part" OnClick="btnRestock_Click" CssClass="btn btn-primary" runat="server" />
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:Button ID="btnUndoRestock" Text="Undo Re-Stock" CssClass="btn btn-primary" runat="server" />
+                                                    <asp:Button ID="btnUndoRestock" Text="Undo Re-Stock" OnClick="btnUndoRestock_Click" CssClass="btn btn-primary" runat="server" />
                                                 </div>
                                             </div>
 

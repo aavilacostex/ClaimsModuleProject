@@ -2524,6 +2524,37 @@ Public Class _Default
         End Try
     End Sub
 
+    Protected Sub btnRestock_Click(sender As Object, e As EventArgs) Handles btnRestock.Click
+        Dim userid = Session("userid").ToString().Trim().ToUpper()
+        Dim dsResult As DataSet = New DataSet()
+        Dim methodMessage As String = Nothing
+        Try
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                Dim rsResult = objBL.GetIfOperationInProcess(userid, dsResult)
+                If rsResult <= 0 Then
+                    methodMessage = "This user already has an operation in process, please try again later or call to IT Department."
+                    SendMessage(methodMessage, messageType.warning)
+                Else
+                    'restock process
+                End If
+
+            End Using
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub btnUndoRestock_Click(sender As Object, e As EventArgs) Handles btnUndoRestock.Click
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 #Region "Buttons for internal status update"
 
     Private Sub UpdateInternalStatusGeneric(txt As TextBox, txt1 As TextBox, chk As CheckBox, lnk As LinkButton, flag As Boolean)
@@ -3875,6 +3906,7 @@ Public Class _Default
                     If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) Then
                         Dim dsClaimData = New DataSet()
                         Dim condAccess = "C"
+                        'revisar si tiene que ser con status especifico????
                         Dim rsClaimData = objBL.getClaimData(wrnNo, condAccess, dsClaimData)
                         If rsClaimData > 0 Or (rsClaimData = 0 And condAccess = "C") Then
                             If dsClaimData IsNot Nothing Or (rsClaimData = 0 And condAccess = "C") Then
@@ -4685,18 +4717,21 @@ Public Class _Default
                     For Each item In dctValues
                         If item.Key = "WARR" Then
                             strValues = item.Value
+                            Exit For
                         End If
                     Next
                 ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "2" Then
                     For Each item In dctValues
                         If item.Key = "NWARR" Then
                             strValues = item.Value
+                            Exit For
                         End If
                     Next
                 ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "3" Then
                     For Each item In dctValues
                         If item.Key = "INT" Then
                             strValues = item.Value
+                            Exit For
                         End If
                     Next
                 Else
@@ -5665,7 +5700,7 @@ Public Class _Default
         Dim warr As String = Nothing
         Dim nwarr As String = Nothing
         Dim inter As String = Nothing
-        dctValues = Nothing
+        dctValues = New Dictionary(Of String, String)()
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -5675,22 +5710,26 @@ Public Class _Default
                         If ds.Tables(0).Rows.Count > 0 Then
                             For Each dw As DataRow In ds.Tables(0).Rows
                                 If dw.Item("CATTYP").ToString().Trim().ToUpper().Equals("W") Then
-                                    warr += dw.Item("CNT03").ToString().Trim().ToUpper() + ","
-                                ElseIf dw.Item("CATTYP").ToString().Trim().ToUpper().Equals("W") Then
-                                    nwarr += dw.Item("CNT03").ToString().Trim().ToUpper() + ","
+                                    warr += "'" + dw.Item("CNT03").ToString().Trim().ToUpper() + "',"
+                                ElseIf dw.Item("CATTYP").ToString().Trim().ToUpper().Equals("N") Then
+                                    nwarr += "'" + dw.Item("CNT03").ToString().Trim().ToUpper() + "',"
                                 Else
-                                    inter += dw.Item("CNT03").ToString().Trim().ToUpper() + ","
+                                    inter += "'" + dw.Item("CNT03").ToString().Trim().ToUpper() + "',"
                                 End If
                             Next
 
-                            If Not String.IsNullOrEmpty(warr) Then
-                                dctValues.Add("WARR", warr.Remove(warr.Length - 1, 1))
+                            Dim warr1 = If(String.IsNullOrEmpty(warr), warr, warr.Remove(warr.Length - 1, 1))
+                            Dim nwarr1 = If(String.IsNullOrEmpty(nwarr), nwarr, nwarr.Remove(nwarr.Length - 1, 1))
+                            Dim inter1 = If(String.IsNullOrEmpty(inter), inter, inter.Remove(inter.Length - 1, 1))
+
+                            If Not String.IsNullOrEmpty(warr1) Then
+                                dctValues.Add("WARR", warr1)
                             End If
-                            If Not String.IsNullOrEmpty(nwarr) Then
-                                dctValues.Add("NWARR", nwarr.Remove(nwarr.Length - 1, 1))
+                            If Not String.IsNullOrEmpty(nwarr1) Then
+                                dctValues.Add("NWARR", nwarr1)
                             End If
-                            If Not String.IsNullOrEmpty(inter) Then
-                                dctValues.Add("INT", inter.Remove(inter.Length - 1, 1))
+                            If Not String.IsNullOrEmpty(inter1) Then
+                                dctValues.Add("INT", inter1)
                             End If
 
 
@@ -7118,7 +7157,7 @@ Public Class _Default
                     If ds IsNot Nothing Then
                         If ds.Tables(0).Rows.Count > 0 Then
                             chkQuarantine.Checked = True
-                            txtQuarantine.Text = ds.Tables(0).Rows(0).Item("INUSER").ToString().Trim()
+                            txtQuarantine.Text = ds.Tables(0).Rows(0).Item("INUSER").ToString().Trim().ToUpper()
                             Dim dtQ = ds.Tables(0).Rows(0).Item("INCLDT").ToString().Trim()
                             BuildDates(dtQ, strDateOut)
                             txtQuarantineDate.Text = If(Not String.IsNullOrEmpty(dtQ), strDateOut, "")

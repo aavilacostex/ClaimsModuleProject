@@ -801,7 +801,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 6px 15px 6px 15px;
     /*border-left: 4px solid #fbba42;*/
     background-color: #F7F7FD;
-    margin-left: -5px;
+    /*margin-left: -5px;*/
 }
 
 #rowDiagnose, #rowUser, #rowIntStatus, #rowPartNo, #rowDateTo {

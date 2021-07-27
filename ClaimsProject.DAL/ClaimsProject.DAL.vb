@@ -31,6 +31,22 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+    Public Function GetIfOperationInProcess(userid As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "SELECT * FROM QS36F.RETINPF WHERE RTUSER ='" & userid & "'"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+
+        End Try
+    End Function
+
     Public Function getLastCommentByNumber(value As String, ByRef dsResult As DataSet) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1
