@@ -930,12 +930,16 @@
                             <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
                         </li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div id="tabc" class="tab-content">
+
                         <div class="tab-pane active" id="claimoverview">
                             <div class="col-md-12">
                                 <h3><asp:Label ID="lblFirstTabDesc" Text="CLAIM NO. " runat="server"></asp:Label></h3>
@@ -1323,7 +1327,8 @@
                             <div class="col-md-12">
                                 <h3><asp:Label ID="lblThirdTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6 margin0">
                                         <asp:Panel ID="pnInternalStatus" GroupingText="Internal Status" runat="server">
 
                                             <div class="form-row">                                                
@@ -1479,10 +1484,90 @@
 
                                         </asp:Panel>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">                                        
+                                        <asp:Panel ID="pnExternalStatus" GroupingText="External Status" CssClass="hidecol" runat="server">
+
+                                            <div class="form-row"> 
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6">
+                                                    <asp:Label ID="lblClaimStatus" Text="Claim Status" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:TextBox ID="txtClaimStatus" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+
+                                            <div class="form-row last"> 
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6">
+                                                    <asp:Label ID="lblTotalAmount" Text="Total Amount Approved" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:TextBox ID="txtTotalAmount" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+
+                                        </asp:Panel>
+
+                                        <br />
+                                        
+                                    </div>
+                                </div> 
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <asp:Panel ID="pnActions" GroupingText="Actions" runat="server">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <%--<asp:Panel ID="pnSubActionComment" GroupingText="Comments" runat="server">
+                                                        <div class="form-row last">
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnAddComment" Text="Add Comments" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnSeeComments" Text="See Comments" OnClick="btnSeeComments_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                        </div>
+                                                    </asp:Panel>--%>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <asp:Panel ID="pnSubActionFiles" GroupingText="Files" runat="server">
+                                                        <div class="form-row last">
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnAddFiles" Text="Add Files" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnSeeFiles" Text="See Files" OnClick="btnSeeFiles_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                        </div>
+                                                    </asp:Panel>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">
+                                                        <div class="form-row last">
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnCloseClaim" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                        </div>
+                                                    </asp:Panel>
+                                                </div>
+                                            </div>
+                                        </asp:Panel>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="tab-pane" id="claimcredit">
+                            <!-- Tab Description text -->  
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 margin0">
+                                <h3><asp:Label ID="lblFiveTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>    
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <asp:Panel ID="pnTotals" GroupingText="Totals" runat="server">
 
-                                            <asp:Panel ID="pnSubTotalClaimed" GroupingText="Subtotal Claimed" runat="server">
+                                            <asp:Panel ID="pnSubTotalClaimed" GroupingText="claim value" runat="server">
                                                 <div class="form-row last paddingtop8">
                                                     <div class="col-md-12">
                                                         <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
@@ -1578,78 +1663,11 @@
                                             <br />
                                             
                                         </asp:Panel>
-                                        <asp:Panel ID="pnExternalStatus" GroupingText="External Status" CssClass="hidecol" runat="server">
-
-                                            <div class="form-row"> 
-                                                <div class="col-md-3"></div>
-                                                <div class="col-md-6">
-                                                    <asp:Label ID="lblClaimStatus" Text="Claim Status" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtClaimStatus" CssClass="form-control" runat="server"></asp:TextBox>
-                                                </div>
-                                                <div class="col-md-3"></div>
-                                            </div>
-
-                                            <div class="form-row last"> 
-                                                <div class="col-md-3"></div>
-                                                <div class="col-md-6">
-                                                    <asp:Label ID="lblTotalAmount" Text="Total Amount Approved" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtTotalAmount" CssClass="form-control" runat="server"></asp:TextBox>
-                                                </div>
-                                                <div class="col-md-3"></div>
-                                            </div>
-
-                                        </asp:Panel>
-
-                                        <br />
-                                        
-                                    </div>
-                                </div> 
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <asp:Panel ID="pnActions" GroupingText="Actions" runat="server">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <%--<asp:Panel ID="pnSubActionComment" GroupingText="Comments" runat="server">
-                                                        <div class="form-row last">
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnAddComment" Text="Add Comments" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnSeeComments" Text="See Comments" OnClick="btnSeeComments_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </asp:Panel>--%>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <asp:Panel ID="pnSubActionFiles" GroupingText="Files" runat="server">
-                                                        <div class="form-row last">
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnAddFiles" Text="Add Files" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnSeeFiles" Text="See Files" OnClick="btnSeeFiles_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </asp:Panel>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">
-                                                        <div class="form-row last">
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnCloseClaim" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </asp:Panel>
-                                                </div>
-                                            </div>
-                                        </asp:Panel>
                                     </div>
                                 </div>
-                            </div>                            
+
+                            </div>
+                            <div class="col-md-3"></div>
                         </div>
                         <div class="tab-pane" id="claim-comments">
                             <!-- Tab Description text -->

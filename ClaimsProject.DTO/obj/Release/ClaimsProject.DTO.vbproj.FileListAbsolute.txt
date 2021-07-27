@@ -1,0 +1,16 @@
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\ClaimsProject.DTO.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\ClaimsProject.DTO.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\ClaimsProject.DTO.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\ClaimsProject.UTIL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\IBM.Data.DB2.iSeries.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\ClaimsProject.UTIL.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\ClaimsProject.UTIL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\IBM.Data.DB2.iSeries.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.vbprojAssemblyReference.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.Resources.resources
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.vbproj.GenerateResource.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.vbproj.CoreCompileInputs.cache
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.vbproj.CopyComplete
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.pdb

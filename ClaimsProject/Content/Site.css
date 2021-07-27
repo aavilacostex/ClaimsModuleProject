@@ -439,6 +439,10 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     margin: 0 auto;
 }
 
+.margin0 {
+    margin: 0 auto !important;
+}
+
 .control-label {
     font-size: 13px;
     font-weight: 500;
