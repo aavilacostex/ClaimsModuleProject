@@ -973,6 +973,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._hdGetCommentTab">
+<summary>
+hdGetCommentTab control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._hdShowCloseBtn">
+<summary>
+hdShowCloseBtn control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._addProdDev">
 <summary>
 addProdDev control.
@@ -2458,69 +2476,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnActions">
-<summary>
-pnActions control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._pnSubActionFiles">
-<summary>
-pnSubActionFiles control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._btnAddFiles">
-<summary>
-btnAddFiles control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._btnSeeFiles">
-<summary>
-btnSeeFiles control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._pnSubActionFinal">
-<summary>
-pnSubActionFinal control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._btnPurchasing">
-<summary>
-btnPurchasing control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject._Default._btnCloseClaim">
-<summary>
-btnCloseClaim control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:ClaimsProject._Default._lblFiveTabDesc">
 <summary>
 lblFiveTabDesc control.
@@ -2704,6 +2659,33 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._btnGetTotalCDValue">
 <summary>
 btnGetTotalCDValue control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._pnPartialCredit">
+<summary>
+pnPartialCredit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lblPartCred">
+<summary>
+lblPartCred control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._txtPartCred">
+<summary>
+txtPartCred control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -3241,18 +3223,54 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rowBtn">
+<member name="F:ClaimsProject._Default._rowPnActions">
 <summary>
-rowBtn control.
+rowPnActions control.
 </summary>
 <remarks>
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnNew">
+<member name="F:ClaimsProject._Default._pnActions">
 <summary>
-btnNew control.
+pnActions control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._pnSubActionFiles">
+<summary>
+pnSubActionFiles control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnAddFiles">
+<summary>
+btnAddFiles control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnSeeFiles">
+<summary>
+btnSeeFiles control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._pnSubActionFinal">
+<summary>
+pnSubActionFinal control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -3271,6 +3289,60 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject._Default._btnCloseTab">
 <summary>
 btnCloseTab control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._rwCloseClaim">
+<summary>
+rwCloseClaim control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._pnCloseClaim">
+<summary>
+pnCloseClaim control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnPurchasing">
+<summary>
+btnPurchasing control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnCloseClaim">
+<summary>
+btnCloseClaim control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._btnCloseClaim1">
+<summary>
+btnCloseClaim1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._rowBtn">
+<summary>
+rowBtn control.
 </summary>
 <remarks>
 Auto-generated field.

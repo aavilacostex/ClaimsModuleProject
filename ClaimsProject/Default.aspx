@@ -704,7 +704,9 @@
                     <asp:HiddenField ID="hdSeeComments" Value="0" runat="server" /> <!-- handle the See panel div -->
                     <asp:HiddenField ID="hdAddVndComments" Value="0" runat="server" />  <!-- handle the Add vendor claim panel div -->
                     <asp:HiddenField ID="hdAddComments" Value="0" runat="server" />   <!-- handle the Add panel div -->
-                    
+
+                    <asp:HiddenField ID="hdGetCommentTab" Value="0" runat="server" />                    
+                    <asp:HiddenField ID="hdShowCloseBtn" Value="0" runat="server" />
 
                 </div>
             </div>            
@@ -841,7 +843,7 @@
                                             <asp:BoundField DataField="CWWRNO" HeaderText="docNo" ItemStyle-Width="10%"  ItemStyle-CssClass="hidecol"  HeaderStyle-CssClass="hidecol"  />
                                             <asp:TemplateField HeaderText="STATUS" ItemStyle-Width="13%" >
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("mhstde").ToString() %>'></asp:Label>
+                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("cwstde").ToString() %>'></asp:Label>
                                                     <%--</td>  removido
                                                     <tr>
                                                         <td colspan="100%" class="padding0">
@@ -1511,51 +1513,7 @@
                                         
                                     </div>
                                 </div> 
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <asp:Panel ID="pnActions" GroupingText="Actions" runat="server">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <%--<asp:Panel ID="pnSubActionComment" GroupingText="Comments" runat="server">
-                                                        <div class="form-row last">
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnAddComment" Text="Add Comments" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnSeeComments" Text="See Comments" OnClick="btnSeeComments_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </asp:Panel>--%>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <asp:Panel ID="pnSubActionFiles" GroupingText="Files" runat="server">
-                                                        <div class="form-row last">
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnAddFiles" Text="Add Files" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnSeeFiles" Text="See Files" OnClick="btnSeeFiles_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </asp:Panel>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">
-                                                        <div class="form-row last">
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <asp:Button ID="btnCloseClaim" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </asp:Panel>
-                                                </div>
-                                            </div>
-                                        </asp:Panel>
-                                    </div>
-                                </div>
+                                <br />                                
                             </div>                            
                         </div>
                         <div class="tab-pane" id="claimcredit">
@@ -1572,16 +1530,18 @@
                                                     <div class="col-md-12">
                                                         <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
                                                         <div class="form-row paddingtop8">
-                                                            <div class="col-md-2">
-                                                                <asp:Label ID="lblParts" CssClass="control-label" Text="Parts" runat="server" />
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-3">
+                                                                <asp:Label ID="lblParts" CssClass="control-label" Text="Unit Cost Value" runat="server" />
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <asp:TextBox ID="txtParts" CssClass="form-control" runat="server" />
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-2 hideProp">
                                                                 <asp:Label ID="lblFreight" CssClass="control-label" Text="Freight" runat="server" />
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-4 hideProp">
                                                                 <asp:TextBox ID="txtFreight" CssClass="form-control" runat="server" />
                                                             </div>
                                                         </div>
@@ -1633,6 +1593,25 @@
                                                 </div>
                                             </asp:Panel>
 
+                                            <br />
+
+                                            <asp:Panel ID="pnPartialCredit" GroupingText="Partial Credit"  runat="server">
+                                                <div class="form-row last paddingtop8">
+                                                    <div class="col-md-12">
+                                                        <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
+                                                        <div class="form-row paddingtop8">
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-3">
+                                                                <asp:Label ID="lblPartCred" CssClass="control-label" Text="Credit To Apply" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <asp:TextBox ID="txtPartCred" CssClass="form-control" runat="server" /> 
+                                                            </div>
+                                                            <div class="col-md-3"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </asp:Panel>
                                             <br />
 
                                             <asp:Panel ID="pnSubTotalClaim" GroupingText="Claim" runat="server">
@@ -1954,13 +1933,13 @@
 
                             </div>
                             <!-- See comments panels  -->
-                            <div id="rowSeeComments" runat="server">
+                            <div id="rowSeeComments" class="hideProp" runat="server">
 
                                 <!-- row see comments section -->
                                 <div class="row">
                                     <div id="seeCommentsR" class="container hideProp" runat="server">
                                         <!-- Warning No and Return No values -->
-                                        <div class="form-row">
+                                        <div class="form-row hideProp">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <asp:Label ID="lblWrnNo" CssClass="label-style" Text="Warning No." runat="server"></asp:Label>
@@ -1977,7 +1956,8 @@
 
                                         <!-- row gridview see comments -->
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8">
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
                                                         <div class="form-horizontal">
@@ -1988,12 +1968,12 @@
                                                                     OnRowCommand="grvSeeComm_RowCommand">
                                                                     <Columns>
                                                                         <asp:BoundField DataField="CWWRNO" HeaderText="ID" ItemStyle-Width="3%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
-                                                                        <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%"  />
-                                                                        <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="15%" />
-                                                                        <asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="CWCFLA" HeaderText="Int / Ext " ItemStyle-Width="6%" />
+                                                                        <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"   />
+                                                                        <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="15%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />
+                                                                        <asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="30%" />
+                                                                        <asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="30%" />
+                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="15%" />
+                                                                        <asp:BoundField DataField="CWCFLA" HeaderText="Int / Ext " ItemStyle-Width="6%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />
                                                                         <asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkExpander1" runat="server" TabIndex="1" ToolTip="Get Comment Detail" CssClass="click-in2" CommandName="commentDet"
@@ -2009,7 +1989,7 @@
                                                                                             <asp:GridView ID="grvSeeCommDet" runat="server" AutoGenerateColumns="false" GridLines="None">
                                                                                                 <Columns>
                                                                                                     <asp:BoundField DataField="CWCHCO" HeaderText="ID" ItemStyle-Width="5%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
-                                                                                                    <asp:BoundField DataField="CWCDTX" HeaderText="COMMENT" ItemStyle-Width="5%" />
+                                                                                                    <asp:BoundField DataField="CWCDTX" HeaderText="COMMENT" ItemStyle-Width="5%" ItemStyle-CssClass="centered" />
                                                                                                 </Columns>
                                                                                                 <HeaderStyle BackColor="#95B4CA" ForeColor="White" />
                                                                                             </asp:GridView>
@@ -2028,6 +2008,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-2"></div>
                                         </div>
 
                                          <!-- row actions btns see vnd comments -->
@@ -2053,7 +2034,7 @@
                                 <div class="row">
                                     <div id="seeVendorComments" class="container hideProp" runat="server">
                                         <!-- Cust No value -->
-                                        <div class="form-row">
+                                        <div class="form-row hideProp">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <asp:Label ID="lblSeeVndComm" CssClass="label-style" Text="Claim No." runat="server"></asp:Label>
@@ -2141,27 +2122,93 @@
                     </div>                            
                 </div>
 
+                <!-- Actions for Files Management -->
+                <div id="rowPnActions" class="row" runat="server">
+                    <div class="col-md-12">
+                        <asp:Panel ID="pnActions" GroupingText="Actions" runat="server">
+                            <div class="row">
+                                <div class="col-md-2 hideProp">
+                                    <%--<asp:Panel ID="pnSubActionComment" GroupingText="Comments" runat="server">
+                                                        <div class="form-row last">
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnAddComment" Text="Add Comments" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Button ID="btnSeeComments" Text="See Comments" OnClick="btnSeeComments_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
+                                                            </div>
+                                                        </div>
+                                                    </asp:Panel>--%>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:Panel ID="pnSubActionFiles" GroupingText="Files" runat="server">
+                                        <div class="form-row last">
+                                            <div class="col-md-1">&nbsp;</div>
+                                            <div class="col-md-5">
+                                                <asp:LinkButton id="btnAddFiles" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="Add Files" runat="server">
+                                                    <i class="fa fa-folder-plus fa-1x"" aria-hidden="true"> </i>  Add Files
+                                                </asp:LinkButton>
+                                                <%--<asp:Button ID="btnAddFiles" Text="Add Files" CssClass="btn btn-primary btnAdjustSize" runat="server" />--%>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <asp:LinkButton ID="btnSeeFiles" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSeeFiles_Click" ToolTip="See Files" runat="server">
+                                                    <i class="fa fa-folder-open fa-1x"" aria-hidden="true"> </i>  See Files
+                                                </asp:LinkButton>
+                                                <%--<asp:Button ID="btnSeeFiles" Text="See Files" OnClick="btnSeeFiles_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />--%>
+                                            </div>
+                                            <div class="col-md-1">&nbsp;</div>
+                                        </div>
+                                    </asp:Panel>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">                                        
+                                        <div class="form-row last">
+                                            <div class="col-md-1">&nbsp;</div>
+                                            <div class="col-md-1 padding2 hideProp">
+                                                <%--<asp:LinkButton ID="btnNew" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="New" runat="server">
+                                                    <i class="fa fa-file fa-2x"" aria-hidden="true"> </i> 
+                                                </asp:LinkButton>--%>
+                                                <%--<asp:Button ID="btnNew" CssClass="btn btn-primary btnFullSize" Text="New" runat="server" />--%>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <asp:LinkButton ID="btnSaveTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSaveTab_Click" ToolTip="Save Changes" runat="server">
+                                                    <i class="fa fa-save fa-1x"" aria-hidden="true"> </i>  Save Changes
+                                                </asp:LinkButton>
+                                                <%--<asp:Button ID="btnSaveTab" CssClass="btn btn-primary btnFullSize" Text="Save" OnClick="btnSaveTab_Click" runat="server" />--%>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Back to Main" runat="server">
+                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Back to Main
+                                                </asp:LinkButton>
+                                                <%--<asp:Button ID="btnCloseTab" CssClass="btn btn-primary btnFullSize" Text="Close" OnClick="btnCloseTab_Click" runat="server" />--%>
+                                            </div>
+                                            <div class="col-md-1">&nbsp;</div>
+                                        </div>
+                                    </asp:Panel>
+                                </div>
+                                <div id="rwCloseClaim" class="col-md-4 hideProp" runat="server">
+                                    <asp:Panel ID="pnCloseClaim" GroupingText="Close Action" runat="server">
+                                        <div class="form-row last">
+                                            <div class="col-md-3">
+                                                <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Close Claim" runat="server">
+                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Close Claim
+                                                </asp:LinkButton>
+                                                <asp:Button ID="btnCloseClaim1" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                    </asp:Panel>
+                                </div>
+                            </div>
+                        </asp:Panel>
+                    </div>
+                </div>
+
                 <!-- General Btns for section -->
                 <div id="rowBtn" class="row" runat="server">
-                    <div class="col-md-9"> &nbsp;</div>
-                    <div class="col-md-1 padding2">
-                        <asp:LinkButton ID="btnNew" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="New" runat="server">
-                            <i class="fa fa-file fa-2x"" aria-hidden="true"> </i> 
-                        </asp:LinkButton>
-                        <%--<asp:Button ID="btnNew" CssClass="btn btn-primary btnFullSize" Text="New" runat="server" />--%>
-                    </div>
-                    <div class="col-md-1 padding2">
-                        <asp:LinkButton ID="btnSaveTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSaveTab_Click" ToolTip="Save" runat="server">
-                            <i class="fa fa-save fa-2x"" aria-hidden="true"> </i> 
-                        </asp:LinkButton>
-                        <%--<asp:Button ID="btnSaveTab" CssClass="btn btn-primary btnFullSize" Text="Save" OnClick="btnSaveTab_Click" runat="server" />--%>
-                    </div>
-                    <div class="col-md-1 padding2">
-                        <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Close" runat="server">
-                            <i class="fa fa-sign-out-alt fa-2x"" aria-hidden="true"> </i> 
-                        </asp:LinkButton>
-                        <%--<asp:Button ID="btnCloseTab" CssClass="btn btn-primary btnFullSize" Text="Close" OnClick="btnCloseTab_Click" runat="server" />--%>
-                    </div>                                     
+                                                        
                 </div>
              
             </div>
@@ -2276,14 +2323,38 @@
             //debugger
 
             alert(value);
+        }   
+
+        function DefaulSeeComm() {
+            debugger
+
+            var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
+            if (hdSeeCommDef == "1") {
+                $j('#MainContent_rowSeeComments').removeClass('hideProp');                
+            }
+            else {
+                $j('#MainContent_rowSeeComments').addClass('hideProp');                
+            }
         }
 
         $j('body').on('click', '.nav > li > a', function (e) {
-
             debugger
+
             var data = $j(this).attr("href");
-            $j('#<%=hdCurrentActiveTab.ClientID %>').val(data);
-             //console.log(data);
+            $j('#<%=hdCurrentActiveTab.ClientID%>').val(data);
+
+            //automatically open the past comments for current claim
+            var hd1 = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
+           
+            if (data == "#claim-comments") {
+                DefaulSeeComm() 
+                $j('#<%=hdShowCloseBtn.ClientID%>').val("1");
+                $j('#MainContent_rwCloseClaim').removeClass('hideProp');
+            }
+            else {
+                $j('#<%=hdShowCloseBtn.ClientID%>').val("0");
+                $j('#MainContent_rwCloseClaim').addClass('hideProp');
+            }                
          });
 
         $j('body').on('click', '.click-in', function (e) {
@@ -2595,9 +2666,9 @@
         $j('body').on('click', '#MainContent_btnAddFiles', function (e) {
             //debugger
 
-            var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-            if (hdFile == "0") { $j('#<%=hdAddClaimFile.ClientID %>').val("1"); }
-            else { $j('#<%=hdAddClaimFile.ClientID %>').val("0"); }
+            //var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
+            //if (hdFile == "0") { $j('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            //else { $j('#<%=hdAddClaimFile.ClientID %>').val("0"); }
         });
 
         $j('body').on('click', '#MainContent_btnImportExcel', function (e) {
@@ -3249,6 +3320,22 @@
                     $j('#MainContent_btnImportExcel').addClass('hideProp')
                 }
 
+                var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
+                if (hdSeeCommDef == "1") {
+                    $j('#MainContent_rowSeeComments').removeClass('hideProp');
+                }
+                else {
+                    $j('#MainContent_rowSeeComments').addClass('hideProp');
+                }
+
+                var hdCloseBtn = document.getElementById('<%=hdShowCloseBtn.ClientID%>').value;
+                if (hdCloseBtn == "1") {
+                    $j('#MainContent_rwCloseClaim').removeClass('hideProp');
+                }
+                else {
+                    $j('#MainContent_rwCloseClaim').addClass('hideProp');
+                }
+
                 var hd = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
                 var hd1 = document.getElementById('<%=hdTriggeredControl.ClientID%>').value;
                 var hd2 = document.getElementById('<%=hdLaunchControl.ClientID%>').value;
@@ -3342,7 +3429,9 @@
 
                 activeTab();
 
-                fixesSmallBtnClass();                
+                fixesSmallBtnClass();  
+
+                DefaulSeeComm();
 
             }
             

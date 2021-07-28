@@ -565,6 +565,8 @@ Public Class _Default
                 'load all claim number data
 
                 fillClaimData("c", claimNo)
+                hdGetCommentTab.Value = "1"
+                SeeCommentsMethod()
                 setTabsHeader(txtClaimNoData.Text)
 
                 'change the flags for grid and tabs visualization
@@ -789,6 +791,7 @@ Public Class _Default
                 txtCDMisc.Enabled = True
                 txtCDPart.Enabled = True
                 txtConsDamageTotal.Enabled = False
+                txtCDFreight.Text = txtFreight.Text
                 cleanCDValues()
             Else
                 txtCDFreight.Enabled = False
@@ -1441,6 +1444,7 @@ Public Class _Default
             hdGridViewContent.Value = "1"
             hdNavTabsContent.Value = "0"
             hdCurrentActiveTab.Value = "#claimoverview"
+            hdGetCommentTab.Value = "0"
             CleanCommentsValues()
             ClearInputCustom(navsSection)
             'mdClaimDetailsExp.Hide()
@@ -2550,6 +2554,17 @@ Public Class _Default
     Protected Sub btnUndoRestock_Click(sender As Object, e As EventArgs) Handles btnUndoRestock.Click
         Try
 
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub hdGetCommentTab_Click(sender As Object, e As EventArgs) Handles hdGetCommentTab.ValueChanged
+        Try
+            'If hdGetCommentTab.Value.Equals("1") Then
+            '    SeeCommentsMethod()
+            '    hdGetCommentTab.Value = "0"
+            'End If
         Catch ex As Exception
 
         End Try
@@ -4671,10 +4686,10 @@ Public Class _Default
                 Dim arrValues = fullUrl.Split("\")
 
                 Dim claimNo = arrValues(5).ToString().Trim()
-                Dim partNo = arrValues(7).ToString().Trim()
+                Dim partNo = If(arrValues.Length = 7, arrValues(6).ToString().Trim(), arrValues(7).ToString().Trim())
                 Dim loc = If(dc.Value.ToString().Trim().ToLower().Equals("ext"), "External", "")
 
-                url = "http://localhost/IMAGEBANK/" + claimNo + "/" + loc + "/" + partNo
+                url = If(Not String.IsNullOrEmpty(loc), "http://svrwebapps.costex.com/IMAGEBANK/" + claimNo + "/" + loc + "/" + partNo, "http://svrwebapps.costex.com/IMAGEBANK/" + claimNo + "/" + partNo)
                 lstStrImg.Add(url)
             Next
         Catch ex As Exception
@@ -5282,7 +5297,7 @@ Public Class _Default
 
                                         'FixImages(docNo)
                                         'test purpose
-                                        FixImages("26456")
+                                        FixImages(hdSeq.Value.Trim())
 
                                         'external status - claim status
                                         Dim dsStatus = New DataSet()
@@ -6495,7 +6510,8 @@ Public Class _Default
             lblFirstTabDesc.Text += value
             lblSecondTabDesc.Text += value
             lblThirdTabDesc.Text += value
-            'lblFourTabDesc.Text += value
+            lblFourTabDesc.Text += value
+            lblFiveTabDesc.Text += value
         Catch ex As Exception
 
         End Try
