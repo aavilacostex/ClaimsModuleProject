@@ -1263,7 +1263,7 @@
                                                 <div class="col-md-8">
                                                     <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled"  runat="server">
                                                         <ItemTemplate>                                                                                                                       
-                                                            <a id="alink" href='<%# Container.DataItem %>' rel="lightbox[roadtrip1]" runat="server">
+                                                            <a id="alink" href='<%# Container.DataItem %>' target="_blank"  runat="server">
                                                                 <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
                                                             </a>
                                                         </ItemTemplate>

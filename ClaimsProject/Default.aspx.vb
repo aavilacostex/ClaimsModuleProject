@@ -4689,7 +4689,11 @@ Public Class _Default
                 Dim partNo = If(arrValues.Length = 7, arrValues(6).ToString().Trim(), arrValues(7).ToString().Trim())
                 Dim loc = If(dc.Value.ToString().Trim().ToLower().Equals("ext"), "External", "")
 
-                url = If(Not String.IsNullOrEmpty(loc), "http://svrwebapps.costex.com/IMAGEBANK/" + claimNo + "/" + loc + "/" + partNo, "http://svrwebapps.costex.com/IMAGEBANK/" + claimNo + "/" + partNo)
+                Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANK/" 'production reason
+                'Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANKOWN/" 'test reason
+                'Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANKTEST/" 'other reduced test reason
+
+                url = If(Not String.IsNullOrEmpty(loc), siteUrl + claimNo + "/" + loc + "/" + partNo, siteUrl + claimNo + "/" + partNo)
                 lstStrImg.Add(url)
             Next
         Catch ex As Exception
@@ -5297,6 +5301,7 @@ Public Class _Default
 
                                         'FixImages(docNo)
                                         'test purpose
+                                        'FixImages("26456")
                                         FixImages(hdSeq.Value.Trim())
 
                                         'external status - claim status
