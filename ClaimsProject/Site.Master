@@ -85,11 +85,14 @@
                         <div class="collapse navbar-collapse" id="MainNavBar">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="/Default">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
                                 </li>                         
-                                <%--<li class="nav-item">
-                                    <a class="nav-link" href="/Modules/Claims-Report">Claims Report</a>
-                                </li>--%>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Login">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Default">Claims Module</a>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="http://example.com" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <asp:Label ID="lblUsername" Text="" runat="server"></asp:Label>
