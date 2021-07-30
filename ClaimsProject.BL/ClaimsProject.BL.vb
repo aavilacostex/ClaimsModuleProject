@@ -1317,6 +1317,34 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetUsersInInitialReview(ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetUsersInInitialReview(dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+    Public Function GetUsersInTechnicalReview(ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetUsersInTechnicalReview(dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
 
 #Region "Method for generics selects"
 

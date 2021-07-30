@@ -950,7 +950,89 @@ Public Class _Default
 
 #Region "DropDownList"
 
-    Protected Sub ddlSearchReason_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlSearchReason.SelectedIndexChanged
+    Protected Sub ddlInitRev_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlSearchReason.SelectedIndexChanged
+        Dim exMessage As String = " "
+        Dim sentence As String = Nothing
+        Try
+            'If ddlSearchReason.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchReason.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchReason.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(2).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error message
+            'End If
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+        End Try
+
+    End Sub
+
+    Protected Sub ddlTechRev_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlInitRev.SelectedIndexChanged
+        Dim exMessage As String = " "
+        Dim sentence As String = Nothing
+        Try
+            'If ddlSearchReason.SelectedIndex = 0 Then
+            '    loadSessionClaims()
+            'ElseIf ddlSearchReason.SelectedIndex > 0 Then
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    Dim dsFilter As DataSet = New DataSet()
+            '    Dim dtFilter As DataTable = dsData.Tables(0).Clone()
+            '    Dim valueToCompare As String = ddlSearchReason.SelectedItem.Text.ToString()
+            '    For Each dr As DataRow In dsData.Tables(0).Rows
+            '        If dr.ItemArray(2).ToString() = valueToCompare Then
+            '            Dim dtr As DataRow = dtFilter.NewRow()
+            '            dtr.ItemArray = dr.ItemArray
+            '            dtFilter.Rows.Add(dtr)
+            '            'sentence = " and reason = " + valueToCompare + " "
+            '            'datatable2.Rows(i).ItemArray = datatable1(i).ItemArray
+            '        End If
+            '    Next
+            '    If dtFilter IsNot Nothing Then
+            '        If dtFilter.Rows.Count > 0 Then
+            '            dsFilter.Tables.Add(dtFilter)
+            '            Session("DataFilter") = dsFilter
+            '            lblTotalClaims.Text = dsFilter.Tables(0).Rows.Count
+            '            GetClaimsReport("", 1, dsFilter)
+            '        Else
+            '            lblTotalClaims.Text = 0
+            '            grvClaimReport.DataSource = Nothing
+            '            grvClaimReport.DataBind()
+            '        End If
+            '    End If
+            'Else
+            '    'error message
+            'End If
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+        End Try
+
+    End Sub
+
+    Protected Sub ddlSearchReason_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTechRev.SelectedIndexChanged
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
         Try
@@ -6504,6 +6586,8 @@ Public Class _Default
             LoadDropDownLists(ddlSearchIntStatus)
             LoadDropDownLists(ddlClaimType)
             LoadDropDownLists(ddlClaimTypeOk)
+            LoadDropDownLists(ddlInitRev)
+            LoadDropDownLists(ddlTechRev)
 
         Catch ex As Exception
 
@@ -7508,6 +7592,10 @@ Public Class _Default
                 ddlSearchUser_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlDiagnoseData" Then
                 'ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
+            ElseIf ddl.ID = "ddlInitRev" Then
+
+            ElseIf ddl.ID = "ddlTechRev" Then
+
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
@@ -7618,7 +7706,25 @@ Public Class _Default
                         result = objBL.getDiagnoseDataForDDL(dsData)
 
                         LoadingDropDownList(ddlDiagnoseData, dsData.Tables(0).Columns("INTDES").ColumnName,
-                                                    dsData.Tables(0).Columns("CNT03").ColumnName, dsData.Tables(0), True, " ")
+                                                    dsData.Tables(0).Columns("CNT03").ColumnName, dsData.Tables(0), True, "")
+                    End Using
+                End If
+            ElseIf ddl.ID = "ddlInitRev" Then
+                If ddl.Items.Count = 0 Then
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        result = objBL.GetUsersInInitialReview(dsData)
+
+                        LoadingDropDownList(ddlInitRev, dsData.Tables(0).Columns("usname").ColumnName,
+                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "NA - Select Init.Review User")
+                    End Using
+                End If
+            ElseIf ddl.ID = "ddlTechRev" Then
+                If ddl.Items.Count = 0 Then
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        result = objBL.GetUsersInTechnicalReview(dsData)
+
+                        LoadingDropDownList(ddlTechRev, dsData.Tables(0).Columns("usname").ColumnName,
+                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "NA - Select Tech.Review User")
                     End Using
                 End If
             End If

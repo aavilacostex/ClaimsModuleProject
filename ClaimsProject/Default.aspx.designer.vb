@@ -365,6 +365,24 @@ Partial Public Class _Default
     Protected WithEvents ddlSearchUser As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''ddlInitRev control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlInitRev As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''ddlTechRev control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlTechRev As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''ddlSearchReason control.
     '''</summary>
     '''<remarks>

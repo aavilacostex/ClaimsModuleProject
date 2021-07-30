@@ -388,6 +388,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject._Default._ddlInitRev">
+<summary>
+ddlInitRev control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._ddlTechRev">
+<summary>
+ddlTechRev control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject._Default._ddlSearchReason">
 <summary>
 ddlSearchReason control.

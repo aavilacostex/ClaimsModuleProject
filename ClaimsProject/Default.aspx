@@ -406,7 +406,7 @@
                             <div class="col-md-3">
                                 <asp:Panel ID="pnExtraFilters" CssClass="pnFilterStyles" GroupingText="Additional Filters" runat="server">
                                     
-                                    <div id="FirstRowAdd">
+                                    <div id="FirstRowAdd" class="hideProp">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -416,6 +416,48 @@
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
                                                                     <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" title="Search by User." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="FourRowAdd">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <!--search by User-->
+                                                        <div id="rowUserIR">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlInitRev" name="sel-vndassigned" placeholder="User Initial Rev." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlInitRev_SelectedIndexChanged" title="Search by Initial Review User" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="FiveRowAdd">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <!--search by User-->
+                                                        <div id="rowUserTR">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlTechRev" name="sel-vndassigned" placeholder="User Technical Rev." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlTechRev_SelectedIndexChanged" title="Search by Technical Review User" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -471,16 +513,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div id="FourRowAdd">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-row">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </asp:Panel>
                             </div>
                         </div>
