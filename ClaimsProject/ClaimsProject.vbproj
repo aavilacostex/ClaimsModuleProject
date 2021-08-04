@@ -163,6 +163,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\lightbox.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CustomerClaims.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Default1.aspx" />
     <Content Include="favicon.ico" />
@@ -318,6 +319,7 @@
     <Content Include="Scripts\WebForms\WebForms.js" />
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="SupplierClaims.aspx" />
     <Content Include="testStructure.aspx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -338,6 +340,13 @@
     <Compile Include="Contact.aspx.vb">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerClaims.aspx.designer.vb">
+      <DependentUpon>CustomerClaims.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerClaims.aspx.vb">
+      <DependentUpon>CustomerClaims.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.vb">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -395,6 +404,13 @@
     <Compile Include="Site.Master.vb">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupplierClaims.aspx.designer.vb">
+      <DependentUpon>SupplierClaims.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierClaims.aspx.vb">
+      <DependentUpon>SupplierClaims.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="testStructure.aspx.designer.vb">
       <DependentUpon>testStructure.aspx</DependentUpon>

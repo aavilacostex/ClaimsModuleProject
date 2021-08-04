@@ -14,7 +14,7 @@ Public Class Login
         Const [Error] = "Error"
     End Structure
 
-    Protected Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLoginUser.Click
+    Protected Sub btnLogin_Click(sender As Object, e As EventArgs) 
         Dim methodMessage As String = Nothing
         Try
             Dim user = txtUser.Text.Trim()
@@ -78,5 +78,22 @@ Public Class Login
     Public Sub SendMessage(methodMessage As String, detailInfo As String)
         ScriptManager.RegisterStartupScript(Me, Page.GetType, "Message", "messageFormSubmitted('" & methodMessage & " ', '" & detailInfo & "')", True)
     End Sub
+
+    'Protected Sub Validate_User(sender As Object, e As EventArgs)
+    '    Dim user = lgAuthentication.UserName
+    '    'txtUser.Text.Trim()
+    '    Dim pass = lgAuthentication.Password
+    '    'txtPass.Text.Trim()
+    '    Try
+    '        If AuthenticateUser(user, pass) Then
+    '            lgAuthentication.FailureText = "Username and/or password is incorrect."
+    '        Else
+    '            FormsAuthentication.RedirectFromLoginPage(user, lgAuthentication.RememberMeSet)
+    '        End If
+    '    Catch ex As Exception
+
+    '    End Try
+
+    'End Sub
 
 End Class

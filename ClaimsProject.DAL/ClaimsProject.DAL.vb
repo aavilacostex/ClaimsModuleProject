@@ -950,6 +950,22 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetClaimPersonal(ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            Dim Sql = "select ususer, usname from qs36f.csuser where trim(ususer) in (select trim(inuser) from qs36f.clmintsts where trim(instat)='H') and decode = 12 and trim(uspty9) <> 'R' "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
 #Region "Comments "
 
 #Region "No Warning No"

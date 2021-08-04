@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Claims Page" Language="vb" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Default.aspx.vb" Inherits="ClaimsProject._Default" ViewStateMode="Disabled" %>
+﻿<%@ Page Title="Claims Page" Language="vb" AutoEventWireup="true" CodeBehind="CustomerClaims.aspx.vb" MasterPageFile="~/Site.Master" Inherits="ClaimsProject.CustomerClaims" ViewStateMode="Disabled" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Atk" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -2243,8 +2243,8 @@
             <br />
         </ContentTemplate>
 
-    </asp:UpdatePanel>  
-    
+    </asp:UpdatePanel>
+
     <script type="text/javascript" src="/Scripts/lightbox/prototype.js"></script>
     <script type="text/javascript" src="/Scripts/lightbox/lightbox.js"></script>
     
@@ -2256,6 +2256,7 @@
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
     <script>
         var $j = jQuery.noConflict();
     </script>  
@@ -2294,7 +2295,7 @@
             //alert("pepi");
             var collapse2 = document.getElementById('collapseOne');
             isActivePanel(collapse2, 1);
-        }); 
+        });
 
         function isActivePanel(activePanel, valorActive) {
             //debugger
@@ -2327,7 +2328,7 @@
             }
 
             JSFunction();
-        } 
+        }
 
         function JSFunction() {
             //debugger
@@ -2350,17 +2351,17 @@
             //debugger
 
             alert(value);
-        }   
+        }
 
         function DefaulSeeComm() {
             debugger
 
             var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
             if (hdSeeCommDef == "1") {
-                $j('#MainContent_rowSeeComments').removeClass('hideProp');                
+                $j('#MainContent_rowSeeComments').removeClass('hideProp');
             }
             else {
-                $j('#MainContent_rowSeeComments').addClass('hideProp');                
+                $j('#MainContent_rowSeeComments').addClass('hideProp');
             }
         }
 
@@ -2372,17 +2373,17 @@
 
             //automatically open the past comments for current claim
             var hd1 = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
-           
+
             if (data == "#claim-comments") {
-                DefaulSeeComm() 
+                DefaulSeeComm()
                 $j('#<%=hdShowCloseBtn.ClientID%>').val("1");
                 $j('#MainContent_rwCloseClaim').removeClass('hideProp');
             }
             else {
                 $j('#<%=hdShowCloseBtn.ClientID%>').val("0");
                 $j('#MainContent_rwCloseClaim').addClass('hideProp');
-            }                
-         });
+            }
+        });
 
         $j('body').on('click', '.click-in', function (e) {
 
@@ -2413,8 +2414,8 @@
             } else {
                 $j('#<%=hdGridViewContent.ClientID %>').val("1");
                 $j('#<%=hdNavTabsContent.ClientID %>').val("0");
-            }            
-            
+            }
+
             //var hd1 = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
             //$j('#MainContent_addNewPartManual2').closest('.container').removeClass('hideProp')
             //var idd = e.currentTarget.id
@@ -2432,7 +2433,7 @@
 
                 $j('#MainContent_gridviewRow').removeClass('hideProp')
                 $j('#MainContent_navsSection').addClass('hideProp')
-                
+
             }
 
             $j('#<%=hdAddClaimFile.ClientID %>').val("0");
@@ -2489,11 +2490,11 @@
 
                             if (iClass == "fa fa-plus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {
                                 $j('#<%=hdLinkExpand.ClientID %>').val("1");
-                            } else if (iClass == "fa fa-minus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {  
-                                $j('#<%=hdLinkExpand.ClientID %>').val("1");                                
-                            } 
+                            } else if (iClass == "fa fa-minus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {
+                                $j('#<%=hdLinkExpand.ClientID %>').val("1");
+                            }
                         }
-                    } 
+                    }
 
                     $j('#<%=hdTriggeredControl.ClientID %>').val(divname);
                     $j('#<%=hdLaunchControl.ClientID %>').val(controlid.id);
@@ -2523,11 +2524,11 @@
 
                             if (iClass == "fa fa-plus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {
                                 $j('#<%=hdLinkExpand.ClientID %>').val("1");
-                            } else if (iClass == "fa fa-minus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {  
-                                $j('#<%=hdLinkExpand.ClientID %>').val("1");                                
-                            } 
+                            } else if (iClass == "fa fa-minus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {
+                                $j('#<%=hdLinkExpand.ClientID %>').val("1");
+                            }
                         }
-                    } 
+                    }
 
                     $j('#<%=hdTriggeredControl.ClientID %>').val(divname);
                     $j('#<%=hdLaunchControl.ClientID %>').val(controlid.id);
@@ -2546,9 +2547,9 @@
 
             $j(".header-style").filter(function () {
                 //debugger
-                
-                var myTd = $j(this).children("td:has('.footermark')");                
-                return myTd.addClass('hidecol');               
+
+                var myTd = $j(this).children("td:has('.footermark')");
+                return myTd.addClass('hidecol');
             });
         }
 
@@ -2593,7 +2594,7 @@
                 var hdSt = document.getElementById('<%=hdStatusOut.ClientID%>').value;
                 $j("#<%=ddlSearchExtStatus.ClientID%>").prop('selectedIndex', parseInt(hdSt) + 1);
 
-            }    
+            }
             else if (filter == "MainContent_ddlSearchIntStatus") {
                 var hdSti = document.getElementById('<%=hdStatusIn.ClientID%>').value;
                 $j("#<%=ddlSearchIntStatus.ClientID%>").prop('selectedIndex', parseInt(hdSti) + 1);
@@ -2631,8 +2632,8 @@
                         $j('#<%=hiddenName.ClientID %>').val(id);
                         //x.display = "block";
                     }
-                }            
-            }            
+                }
+            }
         }
 
         function yesnoCheck(id) {
@@ -2666,8 +2667,7 @@
             var hd2 = document.getElementById('<%=hiddenId2.ClientID%>').value;
             var hd1
 
-            if (hd2 == 1)
-            {
+            if (hd2 == 1) {
                 $j('#<%=hiddenId1.ClientID %>').val("1");
                 hd1 = document.getElementById('<%=hiddenId1.ClientID%>').value;
             }
@@ -2710,7 +2710,7 @@
             //debugger
 
             $j('#<%=hdAddComments.ClientID %>').val("0")
-            $j('#<%=hdAddVndComments.ClientID %>').val("0")            
+            $j('#<%=hdAddVndComments.ClientID %>').val("0")
 
             $j('#<%=hdSeeComments.ClientID %>').val("0")
             $j('#<%=hdSeeVndComments.ClientID %>').val("0")
@@ -2784,15 +2784,15 @@
             var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
             if (hdFile == "1")
                 $j('#<%=hdFileImportFlag.ClientID %>').val("0")
-        }); 
+        });
 
         $j('body').on('click', "#MainContent_btnBackFile", function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-            if (hdFile == "1")                
+            if (hdFile == "1")
                 $j('#<%=hdAddClaimFile.ClientID %>').val("0")
-        }); 
+        });
 
         //Click Method End
 
@@ -3746,5 +3746,8 @@
 
     </script>
 
-</asp:content>
+
+
+</asp:Content>
+
 
