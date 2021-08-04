@@ -628,64 +628,64 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     border-radius: 4px;
 }
 
-    .pagination-ys table > tbody > tr > td {
-        display: contents;
-    }
+.pagination-ys table > tbody > tr > td {
+    display: contents;
+}
 
-        .pagination-ys table > tbody > tr > td > a {
-            position: relative;
-            float: left;
-            padding: 8px 12px;
-            line-height: 1.42857143;
-            text-decoration: none;
-            color: #006400;
-            background-color: #ffffff;
-            border: 1px solid #dddddd;
-            margin-left: -1px;
-        }
+.pagination-ys table > tbody > tr > td > a {
+    position: relative;
+    float: left;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #006400;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    margin-left: -1px;
+}
 
-        .pagination-ys table > tbody > tr > td > span {
-            position: relative;
-            float: left;
-            padding: 8px 12px;
-            line-height: 1.42857143;
-            text-decoration: none;
-            margin-left: -1px;
-            z-index: 2;
-            color: #aea79f;
-            background-color: #f5f5f5;
-            border-color: #dddddd;
-            cursor: default;
-        }
+.pagination-ys table > tbody > tr > td > span {
+    position: relative;
+    float: left;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    margin-left: -1px;
+    z-index: 2;
+    color: #aea79f;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+    cursor: default;
+}
 
-        .pagination-ys table > tbody > tr > td:first-child > a,
-        .pagination-ys table > tbody > tr > td:first-child > span {
-            margin-left: 0;
-            border-bottom-left-radius: 4px;
-            border-top-left-radius: 4px;
-            text-decoration: none;
-        }
+.pagination-ys table > tbody > tr > td:first-child > a,
+.pagination-ys table > tbody > tr > td:first-child > span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    text-decoration: none;
+}
 
-        .pagination-ys table > tbody > tr > td:last-child > a,
-        .pagination-ys table > tbody > tr > td:last-child > span {
-            border-bottom-right-radius: 4px;
-            border-top-right-radius: 4px;
-            text-decoration: none;
-        }
+.pagination-ys table > tbody > tr > td:last-child > a,
+.pagination-ys table > tbody > tr > td:last-child > span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    text-decoration: none;
+}
 
-        .pagination-ys table > tbody > tr > td > a:hover,
-        .pagination-ys table > tbody > tr > td > span:hover,
-        .pagination-ys table > tbody > tr > td > a:focus,
-        .pagination-ys table > tbody > tr > td > span:focus {
-            color: #11866f;
-            background-color: #eeeeee;
-            border-color: #dddddd;
-            text-decoration: none;
-        }
+.pagination-ys table > tbody > tr > td > a:hover,
+.pagination-ys table > tbody > tr > td > span:hover,
+.pagination-ys table > tbody > tr > td > a:focus,
+.pagination-ys table > tbody > tr > td > span:focus {
+    color: #11866f;
+    background-color: #eeeeee;
+    border-color: #dddddd;
+    text-decoration: none;
+}
 
-    .pagination-ys > td:last-child > table {
-        float: right;
-    }
+.pagination-ys > td:last-child > table {
+    float: right;
+}
 
 #rowFilters {
     padding: 30px 0 !important;
@@ -719,19 +719,49 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     color: #333333;
 }
 
-    .accordion-wrapper .card .card-header h5 a:hover {
-        text-decoration: none !important;
-        color: #fbba42;
-    }
+.accordion-wrapper .card .card-header h5 a:hover {
+    text-decoration: none !important;
+    color: #fbba42;
+}
 
-    .accordion-wrapper .card .card-header h5 a[aria-expanded="true"] {
-        margin-bottom: 0;
-    }
+.accordion-wrapper .card .card-header h5 a[aria-expanded="true"] {
+    margin-bottom: 0;
+}
 
 .faicon {
     color: red;
     float: right;
 }
+
+#dvMessageLog {
+    color: red;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0 auto !important;
+}
+
+#MainContent_lblOptionalMessage {
+    color: red !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    margin: 0 auto !important;
+}
+
+#dvMessageLog .col-md-8 {
+    text-align: center !important;
+}
+
+#MainContent_lblUserLogged {
+    font-size: 11px !important;
+    font-weight: 600;
+}
+
+#MainContent_lnkLogout {
+    font-size: 11px !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
 /*
 #MainContent_txtDateTo {
     width: 85% !important;

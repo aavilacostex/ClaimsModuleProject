@@ -165,6 +165,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="CustomerClaims.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Default2.aspx" />
     <Content Include="Default1.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -353,6 +354,13 @@
     </Compile>
     <Compile Include="Default.aspx.vb">
       <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Default2.aspx.designer.vb">
+      <DependentUpon>Default2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default2.aspx.vb">
+      <DependentUpon>Default2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default1.aspx.vb">

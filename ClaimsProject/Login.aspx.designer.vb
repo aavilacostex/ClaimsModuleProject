@@ -14,22 +14,49 @@ Option Explicit On
 Partial Public Class Login
 
     '''<summary>
-    '''txtUser control.
+    '''lblOptionalMessage control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtUser As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblOptionalMessage As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''txtPass control.
+    '''UserName control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtPass As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents UserName As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''frUserLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents frUserLogin As Global.System.Web.UI.WebControls.RequiredFieldValidator
+
+    '''<summary>
+    '''Password control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Password As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''rfPassword control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rfPassword As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
     '''<summary>
     '''btnLoginUser control.
@@ -39,4 +66,13 @@ Partial Public Class Login
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnLoginUser As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''hdSessionExpired control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdSessionExpired As Global.System.Web.UI.WebControls.HiddenField
 End Class

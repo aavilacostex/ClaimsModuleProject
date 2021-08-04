@@ -9,16 +9,12 @@ Imports ClaimsProject.DTO
 Imports ClosedXML.Excel
 Imports System.Web
 
-Public Class CustomerClaims
+
+Public Class _Default2
     Inherits System.Web.UI.Page
 
     Dim datenow As String = Nothing
     Dim hournow As String = Nothing
-
-    Private Shared strLogCadenaCabecera As String = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString()
-    Dim strLogCadena As String = Nothing
-
-    Dim objLog = New Logs()
 
 #Region "Page Load"
 
@@ -30,10 +26,6 @@ Public Class CustomerClaims
         If Session("userid") Is Nothing Then
             url = String.Format("Login.aspx?data={0}", "Session Expired!")
             Response.Redirect(url, False)
-        Else
-            Dim welcomeMsg = ConfigurationManager.AppSettings("UserWelcome")
-            lblUserLogged.Text = String.Format(welcomeMsg, Session("username").ToString().Trim(), Session("userid").ToString().Trim())
-            hdWelcomeMess.Value = lblUserLogged.Text
         End If
 
         If Not IsPostBack Then
@@ -42,12 +34,8 @@ Public Class CustomerClaims
 
             If Not flag Then
                 If sel = 0 Then
-                    Dim usr = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "N/A")
-                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + usr, " User is not authorized to access to Claims. Time: " + DateTime.Now.ToString())
                     Response.Redirect("http://svrwebapps.costex.com/BaseProject/default.aspx", False)
                 ElseIf sel = 1 Then
-                    Dim usr = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "N/A")
-                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, Nothing, "There is not an user detected tryng to access to Claims. Time: " + DateTime.Now.ToString())
                     Response.Redirect("https://www.costex.com/", False)
                 End If
             Else
@@ -4816,65 +4804,32 @@ Public Class CustomerClaims
 
 #Region "Utils"
 
-    Protected Sub lnkLogout_Click() Handles lnkLogout.Click
-        Try
-            FormsAuthentication.SignOut()
-            Session.Abandon()
-            coockieWork()
-            Session("UserLoginData") = Nothing
-            FormsAuthentication.RedirectToLoginPage()
-
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
-    Private Sub coockieWork()
-        Try
-
-            Dim cookie1 As HttpCookie = New HttpCookie(FormsAuthentication.FormsCookieName, "")
-            cookie1.HttpOnly = True
-            cookie1.Expires = DateTime.Now.AddYears(-1)
-            Response.Cookies.Add(cookie1)
-
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
     Public Function GetAccessByUsers(ByRef sel As Integer) As Boolean
         Dim optionSelection As String = Nothing
         Dim user As String = Nothing
         Dim flag As Boolean = False
-        Dim fullData As Boolean = False
         Dim ds As DataSet = New DataSet()
         Dim lstUsers As List(Of String) = New List(Of String)()
         Try
             Dim validUsers = ConfigurationManager.AppSettings("validUsersForWeb")
 
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                Dim rsResult = objBL.GetClaimPersonal(ds)
+                If rsResult > 0 Then
+                    If ds IsNot Nothing Then
+                        If ds.Tables(0).Rows.Count > 0 Then
+                            For Each dw As DataRow In ds.Tables(0).Rows
+                                lstUsers.Add(dw.Item("USUSER").ToString().Trim().ToUpper())
+                            Next
+                        End If
+                    End If
+                End If
+            End Using
+            'Dim ds = 
+
             user = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "NA")
             If Not user.Equals("NA") Then
-
-                fullData = If(LCase(validUsers.Trim()).Contains(LCase(user.Trim())), True, False)
-                If fullData Then
-                    flag = True
-                    Return flag
-                Else
-
-                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                        Dim rsResult = objBL.GetClaimPersonal(ds)
-                        If rsResult > 0 Then
-                            If ds IsNot Nothing Then
-                                If ds.Tables(0).Rows.Count > 0 Then
-                                    For Each dw As DataRow In ds.Tables(0).Rows
-                                        lstUsers.Add(dw.Item("USUSER").ToString().Trim().ToUpper())
-                                    Next
-                                End If
-                            End If
-                        End If
-                    End Using
-
-                    'If LCase(validUsers.Trim()).Contains(LCase(user.Trim())) Then
+                If LCase(validUsers.Trim()).Contains(LCase(user.Trim())) Then
                     If lstUsers.Count > 0 Then
                         If lstUsers.Contains(user) Then
                             flag = True
@@ -4884,10 +4839,17 @@ Public Class CustomerClaims
                             Return flag
                         End If
                     End If
-
-                    'End If
+                    'Session("userid") = user
+                    flag = True
+                    Return flag
+                Else
+                    'test
+                    'Session("userid") = ConfigurationManager.AppSettings("authorizeTestUser")
+                    'test
+                    sel = 0
+                    Return False
+                    'Response.Redirect("http://svrwebapps.costex.com/PurchasingApp/Wish-List", True)
                 End If
-
             Else
                 sel = 1
                 Return False
@@ -8379,19 +8341,85 @@ Public Class CustomerClaims
 
 #End Region
 
-#Region "Logs"
-
-    Public Sub writeLog(strLogCadenaCabecera As String, strLevel As Logs.ErrorTypeEnum, strMessage As String, strDetails As String)
-        strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
-        Dim userid = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "N/A")
-        objLog.WriteLog(strLevel, "CTPSystem" & strLevel, strLogCadena, userid, strMessage, strDetails)
-    End Sub
-
-#End Region
-
 #Region "Work with Objects"
 
 
 #End Region
 
 End Class
+
+#Region "Not in Use"
+
+'If Session("SelectedRadio") IsNot Nothing Then
+'    Dim rdSelectedRadio = GetRadioValue(Me.Controls)
+'    Dim sessionRadio = DirectCast(Session("SelectedRadio"), RadioButton)
+'    If rdSelectedRadio IsNot Nothing Then
+'        If rdSelectedRadio.ID = sessionRadio.ID Then
+'            checkPostBack(rdSelectedRadio)
+'        End If
+'    End If
+'End If
+
+'<WebService(Namespace:="http://tempuri.org/")>
+'<WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)>
+'<System.Web.Script.Services.ScriptService()>
+'Public Class AutoCompleteCustomersVB
+'    Inherits System.Web.Services.WebService
+
+'<WebMethod(), System.Web.Script.Services.ScriptMethod()>
+'Public Shared Function GetCompletionList(ByVal prefixText As String, ByVal count As Integer, ByVal contextKey As String) As List(Of String)
+'    Dim exMessage As String = " "
+'    Dim claimNumbers As List(Of String) = New List(Of String)
+'    Try
+
+'        'getClaimNumbersSW("130644", Today.AddYears(-2))
+
+'        Using con As SqlConnection = New SqlConnection()
+'            con.ConnectionString = ConfigurationManager.ConnectionStrings("").ConnectionString
+'            Using com As SqlCommand = New SqlCommand()
+
+'                Dim Sql = " SELECT (CSMREH.MHMRNR) ClAIM# FROM CSMREH, CLMWRN, CLMINTSTS WHERE CSMREH.MHRTTY <> 'B' 
+'                and CSMREH.MHMRNR = CLMWRN.CWDOCN and CLMWRN.CWWRNO = CLMINTSTS.INCLNO 
+'                and CVTDCDTF(CSMREH.MHMRDT, 'MDY') >= '{0}' AND CVTDCDTF(CSMREH.MHMRDT,'MDY') <= '{1}' 
+'                and VARCHAR_FORMAT(CSMREH.MHMRNR) LIKE '%{2}%' ORDER BY CSMREH.MHMRNR DESC"
+
+'                Dim sqlResult = String.Format(Sql, Today().AddYears(-2).ToString("MM/dd/yyyy"), Today().ToString("MM/dd/yyyy"), prefixText)
+
+'                sqlResult = "select * from CSMREH order by CSMREH.MHMRNR DESC fetch first 10 row only"
+
+'                'com.CommandText = "select CountryName from Countries where " + "CountryName like @Search + '%'"
+'                com.CommandText = sqlResult
+'                'com.Parameters.AddWithValue("@Search", prefixText)
+'                com.Connection = con
+'                con.Open()
+
+'                Dim slqBaseReader = com.ExecuteReader()
+'                Using sdr As SqlDataReader = slqBaseReader
+'                    While sdr.Read()
+'                        'listaUser.Add(AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(dataRow["cod_usuario"].ToString(), "1"));
+'                        claimNumbers.Add(AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(sdr("Claim#").ToString(), 1))
+'                        'claimNumbers.Add(sdr("Claim#").ToString())
+'                    End While
+'                End Using
+'                con.Close()
+'                'Return claimNumbers.ToArray()
+'                Return claimNumbers
+'            End Using
+'        End Using
+'        'Dim dtResult As DataTable = New DataTable()
+'        'Dim query As String = "select nvName from Friend where nvName like '" + prefixText + "%'"
+'        'da = New SqlDataAdapter(query, con)
+'        'dt = New DataTable()
+'        'da.Fill(dt)
+'    Catch ex As Exception
+'        exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+'        Return claimNumbers
+'    End Try
+
+'End Function
+
+
+'End Class
+
+#End Region
+

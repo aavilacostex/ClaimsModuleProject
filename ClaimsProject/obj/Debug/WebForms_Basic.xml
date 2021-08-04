@@ -46,6 +46,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblUserLogged">
+<summary>
+lblUserLogged control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lnkLogout">
+<summary>
+lnkLogout control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._btnGetTemplate">
 <summary>
 btnGetTemplate control.
@@ -1003,6 +1021,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._hdShowCloseBtn">
 <summary>
 hdShowCloseBtn control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._hdWelcomeMess">
+<summary>
+hdWelcomeMess control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -3373,7 +3400,34 @@ To modify move field declaration from designer file to code-behind file.
  </summary>
  <param name="strBuild"></param>
 </member>
-<member name="F:ClaimsProject._Default._updatepnl">
+<member name="F:ClaimsProject._Default._hdWelcomeMess">
+<summary>
+hdWelcomeMess control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lblUserLogged">
+<summary>
+lblUserLogged control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default._lnkLogout">
+<summary>
+lnkLogout control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject._Default2._updatepnl">
 <summary>
 updatepnl control.
 </summary>
@@ -3382,7 +3436,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnGetTemplate">
+<member name="F:ClaimsProject._Default2._btnGetTemplate">
 <summary>
 btnGetTemplate control.
 </summary>
@@ -3391,7 +3445,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnImportExcel">
+<member name="F:ClaimsProject._Default2._btnImportExcel">
 <summary>
 btnImportExcel control.
 </summary>
@@ -3400,7 +3454,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblText1">
+<member name="F:ClaimsProject._Default2._lblText1">
 <summary>
 lblText1 control.
 </summary>
@@ -3409,7 +3463,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlPageSize">
+<member name="F:ClaimsProject._Default2._ddlPageSize">
 <summary>
 ddlPageSize control.
 </summary>
@@ -3418,7 +3472,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblText2">
+<member name="F:ClaimsProject._Default2._lblText2">
 <summary>
 lblText2 control.
 </summary>
@@ -3427,7 +3481,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnExcel">
+<member name="F:ClaimsProject._Default2._btnExcel">
 <summary>
 btnExcel control.
 </summary>
@@ -3436,7 +3490,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnPdf">
+<member name="F:ClaimsProject._Default2._btnPdf">
 <summary>
 btnPdf control.
 </summary>
@@ -3445,7 +3499,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnCopy">
+<member name="F:ClaimsProject._Default2._btnCopy">
 <summary>
 btnCopy control.
 </summary>
@@ -3454,7 +3508,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblSearch">
+<member name="F:ClaimsProject._Default2._lblSearch">
 <summary>
 lblSearch control.
 </summary>
@@ -3463,7 +3517,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtSearch">
+<member name="F:ClaimsProject._Default2._txtSearch">
 <summary>
 txtSearch control.
 </summary>
@@ -3472,7 +3526,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSearch">
+<member name="F:ClaimsProject._Default2._btnSearch">
 <summary>
 btnSearch control.
 </summary>
@@ -3481,7 +3535,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._notVisibleKeyPress">
+<member name="F:ClaimsProject._Default2._notVisibleKeyPress">
 <summary>
 notVisibleKeyPress control.
 </summary>
@@ -3490,7 +3544,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._Button1">
+<member name="F:ClaimsProject._Default2._Button1">
 <summary>
 Button1 control.
 </summary>
@@ -3499,7 +3553,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._loadFileSection">
+<member name="F:ClaimsProject._Default2._loadFileSection">
 <summary>
 loadFileSection control.
 </summary>
@@ -3508,7 +3562,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._fuOPenEx">
+<member name="F:ClaimsProject._Default2._fuOPenEx">
 <summary>
 fuOPenEx control.
 </summary>
@@ -3517,7 +3571,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSave">
+<member name="F:ClaimsProject._Default2._btnSave">
 <summary>
 btnSave control.
 </summary>
@@ -3526,7 +3580,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnBack">
+<member name="F:ClaimsProject._Default2._btnBack">
 <summary>
 btnBack control.
 </summary>
@@ -3535,7 +3589,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._AddFilesSection">
+<member name="F:ClaimsProject._Default2._AddFilesSection">
 <summary>
 AddFilesSection control.
 </summary>
@@ -3544,7 +3598,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._fuAddClaimFile">
+<member name="F:ClaimsProject._Default2._fuAddClaimFile">
 <summary>
 fuAddClaimFile control.
 </summary>
@@ -3553,7 +3607,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSaveFile">
+<member name="F:ClaimsProject._Default2._btnSaveFile">
 <summary>
 btnSaveFile control.
 </summary>
@@ -3562,7 +3616,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnBackFile">
+<member name="F:ClaimsProject._Default2._btnBackFile">
 <summary>
 btnBackFile control.
 </summary>
@@ -3571,7 +3625,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rowFilters">
+<member name="F:ClaimsProject._Default2._rowFilters">
 <summary>
 rowFilters control.
 </summary>
@@ -3580,7 +3634,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnClaimData">
+<member name="F:ClaimsProject._Default2._pnClaimData">
 <summary>
 pnClaimData control.
 </summary>
@@ -3589,7 +3643,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblTotalClaims">
+<member name="F:ClaimsProject._Default2._lblTotalClaims">
 <summary>
 lblTotalClaims control.
 </summary>
@@ -3598,7 +3652,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnFilters">
+<member name="F:ClaimsProject._Default2._pnFilters">
 <summary>
 pnFilters control.
 </summary>
@@ -3607,7 +3661,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimNo">
+<member name="F:ClaimsProject._Default2._txtClaimNo">
 <summary>
 txtClaimNo control.
 </summary>
@@ -3616,7 +3670,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartNo">
+<member name="F:ClaimsProject._Default2._txtPartNo">
 <summary>
 txtPartNo control.
 </summary>
@@ -3625,7 +3679,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtDateInit">
+<member name="F:ClaimsProject._Default2._txtDateInit">
 <summary>
 txtDateInit control.
 </summary>
@@ -3634,7 +3688,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtDateTo">
+<member name="F:ClaimsProject._Default2._txtDateTo">
 <summary>
 txtDateTo control.
 </summary>
@@ -3643,7 +3697,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlSearchExtStatus">
+<member name="F:ClaimsProject._Default2._ddlSearchExtStatus">
 <summary>
 ddlSearchExtStatus control.
 </summary>
@@ -3652,7 +3706,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlSearchIntStatus">
+<member name="F:ClaimsProject._Default2._ddlSearchIntStatus">
 <summary>
 ddlSearchIntStatus control.
 </summary>
@@ -3661,7 +3715,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCustomer">
+<member name="F:ClaimsProject._Default2._txtCustomer">
 <summary>
 txtCustomer control.
 </summary>
@@ -3670,7 +3724,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlClaimTypeOk">
+<member name="F:ClaimsProject._Default2._ddlClaimTypeOk">
 <summary>
 ddlClaimTypeOk control.
 </summary>
@@ -3679,7 +3733,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSearchFilter">
+<member name="F:ClaimsProject._Default2._btnSearchFilter">
 <summary>
 btnSearchFilter control.
 </summary>
@@ -3688,7 +3742,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnClearFilter">
+<member name="F:ClaimsProject._Default2._btnClearFilter">
 <summary>
 btnClearFilter control.
 </summary>
@@ -3697,7 +3751,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlClaimType">
+<member name="F:ClaimsProject._Default2._ddlClaimType">
 <summary>
 ddlClaimType control.
 </summary>
@@ -3706,7 +3760,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnExtraFilters">
+<member name="F:ClaimsProject._Default2._pnExtraFilters">
 <summary>
 pnExtraFilters control.
 </summary>
@@ -3715,7 +3769,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlSearchUser">
+<member name="F:ClaimsProject._Default2._ddlSearchUser">
 <summary>
 ddlSearchUser control.
 </summary>
@@ -3724,7 +3778,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlInitRev">
+<member name="F:ClaimsProject._Default2._ddlInitRev">
 <summary>
 ddlInitRev control.
 </summary>
@@ -3733,7 +3787,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlTechRev">
+<member name="F:ClaimsProject._Default2._ddlTechRev">
 <summary>
 ddlTechRev control.
 </summary>
@@ -3742,7 +3796,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlSearchReason">
+<member name="F:ClaimsProject._Default2._ddlSearchReason">
 <summary>
 ddlSearchReason control.
 </summary>
@@ -3751,7 +3805,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlSearchDiagnose">
+<member name="F:ClaimsProject._Default2._ddlSearchDiagnose">
 <summary>
 ddlSearchDiagnose control.
 </summary>
@@ -3760,7 +3814,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdCustomer">
+<member name="F:ClaimsProject._Default2._rdCustomer">
 <summary>
 rdCustomer control.
 </summary>
@@ -3769,7 +3823,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdPartNo">
+<member name="F:ClaimsProject._Default2._rdPartNo">
 <summary>
 rdPartNo control.
 </summary>
@@ -3778,7 +3832,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdDate">
+<member name="F:ClaimsProject._Default2._rdDate">
 <summary>
 rdDate control.
 </summary>
@@ -3787,7 +3841,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdClaimNo">
+<member name="F:ClaimsProject._Default2._rdClaimNo">
 <summary>
 rdClaimNo control.
 </summary>
@@ -3796,7 +3850,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdStatusOut">
+<member name="F:ClaimsProject._Default2._rdStatusOut">
 <summary>
 rdStatusOut control.
 </summary>
@@ -3805,7 +3859,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdStatusIn">
+<member name="F:ClaimsProject._Default2._rdStatusIn">
 <summary>
 rdStatusIn control.
 </summary>
@@ -3814,7 +3868,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdUser">
+<member name="F:ClaimsProject._Default2._rdUser">
 <summary>
 rdUser control.
 </summary>
@@ -3823,7 +3877,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._submit">
+<member name="F:ClaimsProject._Default2._submit">
 <summary>
 submit control.
 </summary>
@@ -3832,7 +3886,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._convert">
+<member name="F:ClaimsProject._Default2._convert">
 <summary>
 convert control.
 </summary>
@@ -3841,7 +3895,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hiddenId1">
+<member name="F:ClaimsProject._Default2._hiddenId1">
 <summary>
 hiddenId1 control.
 </summary>
@@ -3850,7 +3904,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hiddenId2">
+<member name="F:ClaimsProject._Default2._hiddenId2">
 <summary>
 hiddenId2 control.
 </summary>
@@ -3859,7 +3913,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hiddenName">
+<member name="F:ClaimsProject._Default2._hiddenName">
 <summary>
 hiddenName control.
 </summary>
@@ -3868,7 +3922,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdClaimNoSelected">
+<member name="F:ClaimsProject._Default2._hdClaimNoSelected">
 <summary>
 hdClaimNoSelected control.
 </summary>
@@ -3877,7 +3931,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdPartNoSelected">
+<member name="F:ClaimsProject._Default2._hdPartNoSelected">
 <summary>
 hdPartNoSelected control.
 </summary>
@@ -3886,7 +3940,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdCustomerNoSelected">
+<member name="F:ClaimsProject._Default2._hdCustomerNoSelected">
 <summary>
 hdCustomerNoSelected control.
 </summary>
@@ -3895,7 +3949,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdDateInitSelected">
+<member name="F:ClaimsProject._Default2._hdDateInitSelected">
 <summary>
 hdDateInitSelected control.
 </summary>
@@ -3904,7 +3958,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdLinkExpand">
+<member name="F:ClaimsProject._Default2._hdLinkExpand">
 <summary>
 hdLinkExpand control.
 </summary>
@@ -3913,7 +3967,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdTriggeredControl">
+<member name="F:ClaimsProject._Default2._hdTriggeredControl">
 <summary>
 hdTriggeredControl control.
 </summary>
@@ -3922,7 +3976,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdLaunchControl">
+<member name="F:ClaimsProject._Default2._hdLaunchControl">
 <summary>
 hdLaunchControl control.
 </summary>
@@ -3931,7 +3985,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdSelectedClass">
+<member name="F:ClaimsProject._Default2._hdSelectedClass">
 <summary>
 hdSelectedClass control.
 </summary>
@@ -3940,7 +3994,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdFileImportFlag">
+<member name="F:ClaimsProject._Default2._hdFileImportFlag">
 <summary>
 hdFileImportFlag control.
 </summary>
@@ -3949,7 +4003,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdAddClaimFile">
+<member name="F:ClaimsProject._Default2._hdAddClaimFile">
 <summary>
 hdAddClaimFile control.
 </summary>
@@ -3958,7 +4012,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdShowTemplate">
+<member name="F:ClaimsProject._Default2._hdShowTemplate">
 <summary>
 hdShowTemplate control.
 </summary>
@@ -3967,7 +4021,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdReason">
+<member name="F:ClaimsProject._Default2._hdReason">
 <summary>
 hdReason control.
 </summary>
@@ -3976,7 +4030,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdDiagnose">
+<member name="F:ClaimsProject._Default2._hdDiagnose">
 <summary>
 hdDiagnose control.
 </summary>
@@ -3985,7 +4039,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdStatusOut">
+<member name="F:ClaimsProject._Default2._hdStatusOut">
 <summary>
 hdStatusOut control.
 </summary>
@@ -3994,7 +4048,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdStatusIn">
+<member name="F:ClaimsProject._Default2._hdStatusIn">
 <summary>
 hdStatusIn control.
 </summary>
@@ -4003,7 +4057,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdUserSelected">
+<member name="F:ClaimsProject._Default2._hdUserSelected">
 <summary>
 hdUserSelected control.
 </summary>
@@ -4012,7 +4066,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._selectedFilter">
+<member name="F:ClaimsProject._Default2._selectedFilter">
 <summary>
 selectedFilter control.
 </summary>
@@ -4021,7 +4075,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ndtt">
+<member name="F:ClaimsProject._Default2._ndtt">
 <summary>
 ndtt control.
 </summary>
@@ -4030,7 +4084,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblGrvGroup">
+<member name="F:ClaimsProject._Default2._lblGrvGroup">
 <summary>
 lblGrvGroup control.
 </summary>
@@ -4039,7 +4093,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdGridViewContent">
+<member name="F:ClaimsProject._Default2._hdGridViewContent">
 <summary>
 hdGridViewContent control.
 </summary>
@@ -4048,7 +4102,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdNavTabsContent">
+<member name="F:ClaimsProject._Default2._hdNavTabsContent">
 <summary>
 hdNavTabsContent control.
 </summary>
@@ -4057,7 +4111,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdComments">
+<member name="F:ClaimsProject._Default2._hdComments">
 <summary>
 hdComments control.
 </summary>
@@ -4066,7 +4120,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdFlagUpload">
+<member name="F:ClaimsProject._Default2._hdFlagUpload">
 <summary>
 hdFlagUpload control.
 </summary>
@@ -4075,7 +4129,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdFlagUploadTxt">
+<member name="F:ClaimsProject._Default2._hdFlagUploadTxt">
 <summary>
 hdFlagUploadTxt control.
 </summary>
@@ -4084,7 +4138,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdmhstde">
+<member name="F:ClaimsProject._Default2._hdmhstde">
 <summary>
 hdmhstde control.
 </summary>
@@ -4093,7 +4147,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdflgoth">
+<member name="F:ClaimsProject._Default2._hdflgoth">
 <summary>
 hdflgoth control.
 </summary>
@@ -4102,7 +4156,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdmhwtyp">
+<member name="F:ClaimsProject._Default2._hdmhwtyp">
 <summary>
 hdmhwtyp control.
 </summary>
@@ -4111,7 +4165,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdmhwrea">
+<member name="F:ClaimsProject._Default2._hdmhwrea">
 <summary>
 hdmhwrea control.
 </summary>
@@ -4120,7 +4174,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdcwstde">
+<member name="F:ClaimsProject._Default2._hdcwstde">
 <summary>
 hdcwstde control.
 </summary>
@@ -4129,7 +4183,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdcwdiagd">
+<member name="F:ClaimsProject._Default2._hdcwdiagd">
 <summary>
 hdcwdiagd control.
 </summary>
@@ -4138,7 +4192,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdcmbtxtdiag">
+<member name="F:ClaimsProject._Default2._hdcmbtxtdiag">
 <summary>
 hdcmbtxtdiag control.
 </summary>
@@ -4147,7 +4201,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdCLMemail">
+<member name="F:ClaimsProject._Default2._hdCLMemail">
 <summary>
 hdCLMemail control.
 </summary>
@@ -4156,7 +4210,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdCLMuser">
+<member name="F:ClaimsProject._Default2._hdCLMuser">
 <summary>
 hdCLMuser control.
 </summary>
@@ -4165,7 +4219,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdCLMLimit">
+<member name="F:ClaimsProject._Default2._hdCLMLimit">
 <summary>
 hdCLMLimit control.
 </summary>
@@ -4174,7 +4228,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdUsrLimitAmt">
+<member name="F:ClaimsProject._Default2._hdUsrLimitAmt">
 <summary>
 hdUsrLimitAmt control.
 </summary>
@@ -4183,7 +4237,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdSwLimitAmt">
+<member name="F:ClaimsProject._Default2._hdSwLimitAmt">
 <summary>
 hdSwLimitAmt control.
 </summary>
@@ -4192,7 +4246,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdCurrentActiveTab">
+<member name="F:ClaimsProject._Default2._hdCurrentActiveTab">
 <summary>
 hdCurrentActiveTab control.
 </summary>
@@ -4201,7 +4255,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdSeq">
+<member name="F:ClaimsProject._Default2._hdSeq">
 <summary>
 hdSeq control.
 </summary>
@@ -4210,7 +4264,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdlastComment">
+<member name="F:ClaimsProject._Default2._hdlastComment">
 <summary>
 hdlastComment control.
 </summary>
@@ -4219,7 +4273,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkinitial">
+<member name="F:ClaimsProject._Default2._chkinitial">
 <summary>
 chkinitial control.
 </summary>
@@ -4228,7 +4282,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdWkStatOne">
+<member name="F:ClaimsProject._Default2._hdWkStatOne">
 <summary>
 hdWkStatOne control.
 </summary>
@@ -4237,7 +4291,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdWkStatTwo">
+<member name="F:ClaimsProject._Default2._hdWkStatTwo">
 <summary>
 hdWkStatTwo control.
 </summary>
@@ -4246,7 +4300,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdSelectedDiagnose">
+<member name="F:ClaimsProject._Default2._hdSelectedDiagnose">
 <summary>
 hdSelectedDiagnose control.
 </summary>
@@ -4255,7 +4309,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdLocationSelected">
+<member name="F:ClaimsProject._Default2._hdLocationSelected">
 <summary>
 hdLocationSelected control.
 </summary>
@@ -4264,7 +4318,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdVendorClaimNo">
+<member name="F:ClaimsProject._Default2._hdVendorClaimNo">
 <summary>
 hdVendorClaimNo control.
 </summary>
@@ -4273,7 +4327,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdDisplaySeeVndClaim">
+<member name="F:ClaimsProject._Default2._hdDisplaySeeVndClaim">
 <summary>
 hdDisplaySeeVndClaim control.
 </summary>
@@ -4282,7 +4336,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdDisplayAddVndClaim">
+<member name="F:ClaimsProject._Default2._hdDisplayAddVndClaim">
 <summary>
 hdDisplayAddVndClaim control.
 </summary>
@@ -4291,7 +4345,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdSeeVndComments">
+<member name="F:ClaimsProject._Default2._hdSeeVndComments">
 <summary>
 hdSeeVndComments control.
 </summary>
@@ -4300,7 +4354,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdSeeComments">
+<member name="F:ClaimsProject._Default2._hdSeeComments">
 <summary>
 hdSeeComments control.
 </summary>
@@ -4309,7 +4363,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdAddVndComments">
+<member name="F:ClaimsProject._Default2._hdAddVndComments">
 <summary>
 hdAddVndComments control.
 </summary>
@@ -4318,7 +4372,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdAddComments">
+<member name="F:ClaimsProject._Default2._hdAddComments">
 <summary>
 hdAddComments control.
 </summary>
@@ -4327,7 +4381,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdGetCommentTab">
+<member name="F:ClaimsProject._Default2._hdGetCommentTab">
 <summary>
 hdGetCommentTab control.
 </summary>
@@ -4336,7 +4390,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._hdShowCloseBtn">
+<member name="F:ClaimsProject._Default2._hdShowCloseBtn">
 <summary>
 hdShowCloseBtn control.
 </summary>
@@ -4345,7 +4399,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._addProdDev">
+<member name="F:ClaimsProject._Default2._addProdDev">
 <summary>
 addProdDev control.
 </summary>
@@ -4354,7 +4408,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblWhlCode">
+<member name="F:ClaimsProject._Default2._lblWhlCode">
 <summary>
 lblWhlCode control.
 </summary>
@@ -4363,7 +4417,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtWhlCode">
+<member name="F:ClaimsProject._Default2._txtWhlCode">
 <summary>
 txtWhlCode control.
 </summary>
@@ -4372,7 +4426,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCreationDate">
+<member name="F:ClaimsProject._Default2._lblCreationDate">
 <summary>
 lblCreationDate control.
 </summary>
@@ -4381,7 +4435,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCreationDate">
+<member name="F:ClaimsProject._Default2._txtCreationDate">
 <summary>
 txtCreationDate control.
 </summary>
@@ -4390,7 +4444,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCurrentVendor">
+<member name="F:ClaimsProject._Default2._lblCurrentVendor">
 <summary>
 lblCurrentVendor control.
 </summary>
@@ -4399,7 +4453,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCurrentVendor">
+<member name="F:ClaimsProject._Default2._txtCurrentVendor">
 <summary>
 txtCurrentVendor control.
 </summary>
@@ -4408,7 +4462,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblDescriptionPD">
+<member name="F:ClaimsProject._Default2._lblDescriptionPD">
 <summary>
 lblDescriptionPD control.
 </summary>
@@ -4417,7 +4471,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtDescriptionPD">
+<member name="F:ClaimsProject._Default2._txtDescriptionPD">
 <summary>
 txtDescriptionPD control.
 </summary>
@@ -4426,7 +4480,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._Label1">
+<member name="F:ClaimsProject._Default2._Label1">
 <summary>
 Label1 control.
 </summary>
@@ -4435,7 +4489,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._TextBox1">
+<member name="F:ClaimsProject._Default2._TextBox1">
 <summary>
 TextBox1 control.
 </summary>
@@ -4444,7 +4498,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._Label2">
+<member name="F:ClaimsProject._Default2._Label2">
 <summary>
 Label2 control.
 </summary>
@@ -4453,7 +4507,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._TextBox2">
+<member name="F:ClaimsProject._Default2._TextBox2">
 <summary>
 TextBox2 control.
 </summary>
@@ -4462,7 +4516,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnCreateProjectPD">
+<member name="F:ClaimsProject._Default2._btnCreateProjectPD">
 <summary>
 btnCreateProjectPD control.
 </summary>
@@ -4471,7 +4525,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnPDBack">
+<member name="F:ClaimsProject._Default2._btnPDBack">
 <summary>
 btnPDBack control.
 </summary>
@@ -4480,7 +4534,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._gridviewRow">
+<member name="F:ClaimsProject._Default2._gridviewRow">
 <summary>
 gridviewRow control.
 </summary>
@@ -4489,7 +4543,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._grvClaimReport">
+<member name="F:ClaimsProject._Default2._grvClaimReport">
 <summary>
 grvClaimReport control.
 </summary>
@@ -4498,7 +4552,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._navsSection">
+<member name="F:ClaimsProject._Default2._navsSection">
 <summary>
 navsSection control.
 </summary>
@@ -4507,7 +4561,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblFirstTabDesc">
+<member name="F:ClaimsProject._Default2._lblFirstTabDesc">
 <summary>
 lblFirstTabDesc control.
 </summary>
@@ -4516,7 +4570,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnISDet">
+<member name="F:ClaimsProject._Default2._pnISDet">
 <summary>
 pnISDet control.
 </summary>
@@ -4525,7 +4579,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblClaimNoData">
+<member name="F:ClaimsProject._Default2._lblClaimNoData">
 <summary>
 lblClaimNoData control.
 </summary>
@@ -4534,7 +4588,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimNoData">
+<member name="F:ClaimsProject._Default2._txtClaimNoData">
 <summary>
 txtClaimNoData control.
 </summary>
@@ -4543,7 +4597,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblClaimType">
+<member name="F:ClaimsProject._Default2._lblClaimType">
 <summary>
 lblClaimType control.
 </summary>
@@ -4552,7 +4606,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimType">
+<member name="F:ClaimsProject._Default2._txtClaimType">
 <summary>
 txtClaimType control.
 </summary>
@@ -4561,7 +4615,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblPartNoData">
+<member name="F:ClaimsProject._Default2._lblPartNoData">
 <summary>
 lblPartNoData control.
 </summary>
@@ -4570,7 +4624,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartNoData">
+<member name="F:ClaimsProject._Default2._txtPartNoData">
 <summary>
 txtPartNoData control.
 </summary>
@@ -4579,7 +4633,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnChangePart">
+<member name="F:ClaimsProject._Default2._btnChangePart">
 <summary>
 btnChangePart control.
 </summary>
@@ -4588,7 +4642,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblPartDescription">
+<member name="F:ClaimsProject._Default2._lblPartDescription">
 <summary>
 lblPartDescription control.
 </summary>
@@ -4597,7 +4651,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartDescription">
+<member name="F:ClaimsProject._Default2._txtPartDescription">
 <summary>
 txtPartDescription control.
 </summary>
@@ -4606,7 +4660,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblEnteredBy">
+<member name="F:ClaimsProject._Default2._lblEnteredBy">
 <summary>
 lblEnteredBy control.
 </summary>
@@ -4615,7 +4669,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtEnteredBy">
+<member name="F:ClaimsProject._Default2._txtEnteredBy">
 <summary>
 txtEnteredBy control.
 </summary>
@@ -4624,7 +4678,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblDateEntered">
+<member name="F:ClaimsProject._Default2._lblDateEntered">
 <summary>
 lblDateEntered control.
 </summary>
@@ -4633,7 +4687,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtDateEntered">
+<member name="F:ClaimsProject._Default2._txtDateEntered">
 <summary>
 txtDateEntered control.
 </summary>
@@ -4642,7 +4696,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblQty">
+<member name="F:ClaimsProject._Default2._lblQty">
 <summary>
 lblQty control.
 </summary>
@@ -4651,7 +4705,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtQty">
+<member name="F:ClaimsProject._Default2._txtQty">
 <summary>
 txtQty control.
 </summary>
@@ -4660,7 +4714,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblUnitCost">
+<member name="F:ClaimsProject._Default2._lblUnitCost">
 <summary>
 lblUnitCost control.
 </summary>
@@ -4669,7 +4723,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtUnitCost">
+<member name="F:ClaimsProject._Default2._txtUnitCost">
 <summary>
 txtUnitCost control.
 </summary>
@@ -4678,7 +4732,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInvoiceNo">
+<member name="F:ClaimsProject._Default2._lblInvoiceNo">
 <summary>
 lblInvoiceNo control.
 </summary>
@@ -4687,7 +4741,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInvoiceNo">
+<member name="F:ClaimsProject._Default2._txtInvoiceNo">
 <summary>
 txtInvoiceNo control.
 </summary>
@@ -4696,7 +4750,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInvoiceDate">
+<member name="F:ClaimsProject._Default2._lblInvoiceDate">
 <summary>
 lblInvoiceDate control.
 </summary>
@@ -4705,7 +4759,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInvoiceDate">
+<member name="F:ClaimsProject._Default2._txtInvoiceDate">
 <summary>
 txtInvoiceDate control.
 </summary>
@@ -4714,7 +4768,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblEnteredFrom">
+<member name="F:ClaimsProject._Default2._lblEnteredFrom">
 <summary>
 lblEnteredFrom control.
 </summary>
@@ -4723,7 +4777,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtEnteredFrom">
+<member name="F:ClaimsProject._Default2._txtEnteredFrom">
 <summary>
 txtEnteredFrom control.
 </summary>
@@ -4732,7 +4786,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblLocation">
+<member name="F:ClaimsProject._Default2._lblLocation">
 <summary>
 lblLocation control.
 </summary>
@@ -4741,7 +4795,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlLocation">
+<member name="F:ClaimsProject._Default2._ddlLocation">
 <summary>
 ddlLocation control.
 </summary>
@@ -4750,7 +4804,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInstDate">
+<member name="F:ClaimsProject._Default2._lblInstDate">
 <summary>
 lblInstDate control.
 </summary>
@@ -4759,7 +4813,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInstDate">
+<member name="F:ClaimsProject._Default2._txtInstDate">
 <summary>
 txtInstDate control.
 </summary>
@@ -4768,7 +4822,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblHWorked">
+<member name="F:ClaimsProject._Default2._lblHWorked">
 <summary>
 lblHWorked control.
 </summary>
@@ -4777,7 +4831,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtHWorked">
+<member name="F:ClaimsProject._Default2._txtHWorked">
 <summary>
 txtHWorked control.
 </summary>
@@ -4786,7 +4840,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCustStatement">
+<member name="F:ClaimsProject._Default2._lblCustStatement">
 <summary>
 lblCustStatement control.
 </summary>
@@ -4795,7 +4849,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCustStatement">
+<member name="F:ClaimsProject._Default2._txtCustStatement">
 <summary>
 txtCustStatement control.
 </summary>
@@ -4804,7 +4858,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnContact">
+<member name="F:ClaimsProject._Default2._pnContact">
 <summary>
 pnContact control.
 </summary>
@@ -4813,7 +4867,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCustomerData">
+<member name="F:ClaimsProject._Default2._lblCustomerData">
 <summary>
 lblCustomerData control.
 </summary>
@@ -4822,7 +4876,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCustomerData">
+<member name="F:ClaimsProject._Default2._txtCustomerData">
 <summary>
 txtCustomerData control.
 </summary>
@@ -4831,7 +4885,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCustomerName">
+<member name="F:ClaimsProject._Default2._lblCustomerName">
 <summary>
 lblCustomerName control.
 </summary>
@@ -4840,7 +4894,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCustomerName">
+<member name="F:ClaimsProject._Default2._txtCustomerName">
 <summary>
 txtCustomerName control.
 </summary>
@@ -4849,7 +4903,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblContactName">
+<member name="F:ClaimsProject._Default2._lblContactName">
 <summary>
 lblContactName control.
 </summary>
@@ -4858,7 +4912,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtContactName">
+<member name="F:ClaimsProject._Default2._txtContactName">
 <summary>
 txtContactName control.
 </summary>
@@ -4867,7 +4921,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblContactPhone">
+<member name="F:ClaimsProject._Default2._lblContactPhone">
 <summary>
 lblContactPhone control.
 </summary>
@@ -4876,7 +4930,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtContactPhone">
+<member name="F:ClaimsProject._Default2._txtContactPhone">
 <summary>
 txtContactPhone control.
 </summary>
@@ -4885,7 +4939,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblContactEmail">
+<member name="F:ClaimsProject._Default2._lblContactEmail">
 <summary>
 lblContactEmail control.
 </summary>
@@ -4894,7 +4948,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtContactEmail">
+<member name="F:ClaimsProject._Default2._txtContactEmail">
 <summary>
 txtContactEmail control.
 </summary>
@@ -4903,7 +4957,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnInformation">
+<member name="F:ClaimsProject._Default2._pnInformation">
 <summary>
 pnInformation control.
 </summary>
@@ -4912,7 +4966,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblModel">
+<member name="F:ClaimsProject._Default2._lblModel">
 <summary>
 lblModel control.
 </summary>
@@ -4921,7 +4975,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtModel">
+<member name="F:ClaimsProject._Default2._txtModel">
 <summary>
 txtModel control.
 </summary>
@@ -4930,7 +4984,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblSerial">
+<member name="F:ClaimsProject._Default2._lblSerial">
 <summary>
 lblSerial control.
 </summary>
@@ -4939,7 +4993,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtSerial">
+<member name="F:ClaimsProject._Default2._txtSerial">
 <summary>
 txtSerial control.
 </summary>
@@ -4948,7 +5002,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblArrangement">
+<member name="F:ClaimsProject._Default2._lblArrangement">
 <summary>
 lblArrangement control.
 </summary>
@@ -4957,7 +5011,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtArrangement">
+<member name="F:ClaimsProject._Default2._txtArrangement">
 <summary>
 txtArrangement control.
 </summary>
@@ -4966,7 +5020,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblModel1">
+<member name="F:ClaimsProject._Default2._lblModel1">
 <summary>
 lblModel1 control.
 </summary>
@@ -4975,7 +5029,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtModel1">
+<member name="F:ClaimsProject._Default2._txtModel1">
 <summary>
 txtModel1 control.
 </summary>
@@ -4984,7 +5038,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblSerial1">
+<member name="F:ClaimsProject._Default2._lblSerial1">
 <summary>
 lblSerial1 control.
 </summary>
@@ -4993,7 +5047,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtSerial1">
+<member name="F:ClaimsProject._Default2._txtSerial1">
 <summary>
 txtSerial1 control.
 </summary>
@@ -5002,7 +5056,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblArrangement1">
+<member name="F:ClaimsProject._Default2._lblArrangement1">
 <summary>
 lblArrangement1 control.
 </summary>
@@ -5011,7 +5065,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtArrangement1">
+<member name="F:ClaimsProject._Default2._txtArrangement1">
 <summary>
 txtArrangement1 control.
 </summary>
@@ -5020,7 +5074,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblSecondTabDesc">
+<member name="F:ClaimsProject._Default2._lblSecondTabDesc">
 <summary>
 lblSecondTabDesc control.
 </summary>
@@ -5029,7 +5083,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnClaimsDept">
+<member name="F:ClaimsProject._Default2._pnClaimsDept">
 <summary>
 pnClaimsDept control.
 </summary>
@@ -5038,7 +5092,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblQuarantine">
+<member name="F:ClaimsProject._Default2._lblQuarantine">
 <summary>
 lblQuarantine control.
 </summary>
@@ -5047,7 +5101,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkQuarantine">
+<member name="F:ClaimsProject._Default2._chkQuarantine">
 <summary>
 chkQuarantine control.
 </summary>
@@ -5056,7 +5110,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkQuarantine">
+<member name="F:ClaimsProject._Default2._lnkQuarantine">
 <summary>
 lnkQuarantine control.
 </summary>
@@ -5065,7 +5119,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtQuarantine">
+<member name="F:ClaimsProject._Default2._txtQuarantine">
 <summary>
 txtQuarantine control.
 </summary>
@@ -5074,7 +5128,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtQuarantineDate">
+<member name="F:ClaimsProject._Default2._txtQuarantineDate">
 <summary>
 txtQuarantineDate control.
 </summary>
@@ -5083,7 +5137,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblDiagnose">
+<member name="F:ClaimsProject._Default2._lblDiagnose">
 <summary>
 lblDiagnose control.
 </summary>
@@ -5092,7 +5146,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtDiagnoseData">
+<member name="F:ClaimsProject._Default2._txtDiagnoseData">
 <summary>
 txtDiagnoseData control.
 </summary>
@@ -5101,7 +5155,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._ddlDiagnoseData">
+<member name="F:ClaimsProject._Default2._ddlDiagnoseData">
 <summary>
 ddlDiagnoseData control.
 </summary>
@@ -5110,7 +5164,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblClaimReason">
+<member name="F:ClaimsProject._Default2._lblClaimReason">
 <summary>
 lblClaimReason control.
 </summary>
@@ -5119,7 +5173,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimReason">
+<member name="F:ClaimsProject._Default2._txtClaimReason">
 <summary>
 txtClaimReason control.
 </summary>
@@ -5128,7 +5182,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblProductionCode">
+<member name="F:ClaimsProject._Default2._lblProductionCode">
 <summary>
 lblProductionCode control.
 </summary>
@@ -5137,7 +5191,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtProductionCode">
+<member name="F:ClaimsProject._Default2._txtProductionCode">
 <summary>
 txtProductionCode control.
 </summary>
@@ -5146,7 +5200,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblVendorNo">
+<member name="F:ClaimsProject._Default2._lblVendorNo">
 <summary>
 lblVendorNo control.
 </summary>
@@ -5155,7 +5209,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtVendorNo">
+<member name="F:ClaimsProject._Default2._txtVendorNo">
 <summary>
 txtVendorNo control.
 </summary>
@@ -5164,7 +5218,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnChangeVendor">
+<member name="F:ClaimsProject._Default2._btnChangeVendor">
 <summary>
 btnChangeVendor control.
 </summary>
@@ -5173,7 +5227,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblVendorName">
+<member name="F:ClaimsProject._Default2._lblVendorName">
 <summary>
 lblVendorName control.
 </summary>
@@ -5182,7 +5236,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtVendorName">
+<member name="F:ClaimsProject._Default2._txtVendorName">
 <summary>
 txtVendorName control.
 </summary>
@@ -5191,7 +5245,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInvoiceNo1">
+<member name="F:ClaimsProject._Default2._lblInvoiceNo1">
 <summary>
 lblInvoiceNo1 control.
 </summary>
@@ -5200,7 +5254,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInvoiceNo1">
+<member name="F:ClaimsProject._Default2._txtInvoiceNo1">
 <summary>
 txtInvoiceNo1 control.
 </summary>
@@ -5209,7 +5263,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInvoiceDate1">
+<member name="F:ClaimsProject._Default2._lblInvoiceDate1">
 <summary>
 lblInvoiceDate1 control.
 </summary>
@@ -5218,7 +5272,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInvoiceDate1">
+<member name="F:ClaimsProject._Default2._txtInvoiceDate1">
 <summary>
 txtInvoiceDate1 control.
 </summary>
@@ -5227,7 +5281,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblBarSeq">
+<member name="F:ClaimsProject._Default2._lblBarSeq">
 <summary>
 lblBarSeq control.
 </summary>
@@ -5236,7 +5290,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtBarSeq">
+<member name="F:ClaimsProject._Default2._txtBarSeq">
 <summary>
 txtBarSeq control.
 </summary>
@@ -5245,7 +5299,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblReceiving">
+<member name="F:ClaimsProject._Default2._lblReceiving">
 <summary>
 lblReceiving control.
 </summary>
@@ -5254,7 +5308,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtReceiving">
+<member name="F:ClaimsProject._Default2._txtReceiving">
 <summary>
 txtReceiving control.
 </summary>
@@ -5263,7 +5317,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnPartImage">
+<member name="F:ClaimsProject._Default2._pnPartImage">
 <summary>
 pnPartImage control.
 </summary>
@@ -5272,7 +5326,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._datViewer">
+<member name="F:ClaimsProject._Default2._datViewer">
 <summary>
 datViewer control.
 </summary>
@@ -5281,7 +5335,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartDesc">
+<member name="F:ClaimsProject._Default2._txtPartDesc">
 <summary>
 txtPartDesc control.
 </summary>
@@ -5290,7 +5344,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnSalesDept">
+<member name="F:ClaimsProject._Default2._pnSalesDept">
 <summary>
 pnSalesDept control.
 </summary>
@@ -5299,7 +5353,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblClaimAuth">
+<member name="F:ClaimsProject._Default2._lblClaimAuth">
 <summary>
 lblClaimAuth control.
 </summary>
@@ -5308,7 +5362,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkClaimAuth">
+<member name="F:ClaimsProject._Default2._chkClaimAuth">
 <summary>
 chkClaimAuth control.
 </summary>
@@ -5317,7 +5371,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkClaimAuth">
+<member name="F:ClaimsProject._Default2._lnkClaimAuth">
 <summary>
 lnkClaimAuth control.
 </summary>
@@ -5326,7 +5380,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimAuth">
+<member name="F:ClaimsProject._Default2._txtClaimAuth">
 <summary>
 txtClaimAuth control.
 </summary>
@@ -5335,7 +5389,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimAuthDate">
+<member name="F:ClaimsProject._Default2._txtClaimAuthDate">
 <summary>
 txtClaimAuthDate control.
 </summary>
@@ -5344,7 +5398,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAmountApproved">
+<member name="F:ClaimsProject._Default2._lblAmountApproved">
 <summary>
 lblAmountApproved control.
 </summary>
@@ -5353,7 +5407,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAmountApproved">
+<member name="F:ClaimsProject._Default2._txtAmountApproved">
 <summary>
 txtAmountApproved control.
 </summary>
@@ -5362,7 +5416,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnRestock">
+<member name="F:ClaimsProject._Default2._pnRestock">
 <summary>
 pnRestock control.
 </summary>
@@ -5371,7 +5425,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnRestock">
+<member name="F:ClaimsProject._Default2._btnRestock">
 <summary>
 btnRestock control.
 </summary>
@@ -5380,7 +5434,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnUndoRestock">
+<member name="F:ClaimsProject._Default2._btnUndoRestock">
 <summary>
 btnUndoRestock control.
 </summary>
@@ -5389,7 +5443,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblThirdTabDesc">
+<member name="F:ClaimsProject._Default2._lblThirdTabDesc">
 <summary>
 lblThirdTabDesc control.
 </summary>
@@ -5398,7 +5452,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnInternalStatus">
+<member name="F:ClaimsProject._Default2._pnInternalStatus">
 <summary>
 pnInternalStatus control.
 </summary>
@@ -5407,7 +5461,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblActualStatus">
+<member name="F:ClaimsProject._Default2._lblActualStatus">
 <summary>
 lblActualStatus control.
 </summary>
@@ -5416,7 +5470,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtActualStatus">
+<member name="F:ClaimsProject._Default2._txtActualStatus">
 <summary>
 txtActualStatus control.
 </summary>
@@ -5425,7 +5479,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInitialReview">
+<member name="F:ClaimsProject._Default2._lblInitialReview">
 <summary>
 lblInitialReview control.
 </summary>
@@ -5434,7 +5488,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkInitialReview">
+<member name="F:ClaimsProject._Default2._chkInitialReview">
 <summary>
 chkInitialReview control.
 </summary>
@@ -5443,7 +5497,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkInitialReview">
+<member name="F:ClaimsProject._Default2._lnkInitialReview">
 <summary>
 lnkInitialReview control.
 </summary>
@@ -5452,7 +5506,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInitialReview">
+<member name="F:ClaimsProject._Default2._txtInitialReview">
 <summary>
 txtInitialReview control.
 </summary>
@@ -5461,7 +5515,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInitialReviewDate">
+<member name="F:ClaimsProject._Default2._txtInitialReviewDate">
 <summary>
 txtInitialReviewDate control.
 </summary>
@@ -5470,7 +5524,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAcknowledgeEmail">
+<member name="F:ClaimsProject._Default2._lblAcknowledgeEmail">
 <summary>
 lblAcknowledgeEmail control.
 </summary>
@@ -5479,7 +5533,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkAcknowledgeEmail">
+<member name="F:ClaimsProject._Default2._chkAcknowledgeEmail">
 <summary>
 chkAcknowledgeEmail control.
 </summary>
@@ -5488,7 +5542,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkAcknowledgeEmail">
+<member name="F:ClaimsProject._Default2._lnkAcknowledgeEmail">
 <summary>
 lnkAcknowledgeEmail control.
 </summary>
@@ -5497,7 +5551,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAcknowledgeEmail">
+<member name="F:ClaimsProject._Default2._txtAcknowledgeEmail">
 <summary>
 txtAcknowledgeEmail control.
 </summary>
@@ -5506,7 +5560,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAcknowledgeEmailDate">
+<member name="F:ClaimsProject._Default2._txtAcknowledgeEmailDate">
 <summary>
 txtAcknowledgeEmailDate control.
 </summary>
@@ -5515,7 +5569,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblInfoCust">
+<member name="F:ClaimsProject._Default2._lblInfoCust">
 <summary>
 lblInfoCust control.
 </summary>
@@ -5524,7 +5578,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkInfoCust">
+<member name="F:ClaimsProject._Default2._chkInfoCust">
 <summary>
 chkInfoCust control.
 </summary>
@@ -5533,7 +5587,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkInfoCust">
+<member name="F:ClaimsProject._Default2._lnkInfoCust">
 <summary>
 lnkInfoCust control.
 </summary>
@@ -5542,7 +5596,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInfoCust">
+<member name="F:ClaimsProject._Default2._txtInfoCust">
 <summary>
 txtInfoCust control.
 </summary>
@@ -5551,7 +5605,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtInfoCustDate">
+<member name="F:ClaimsProject._Default2._txtInfoCustDate">
 <summary>
 txtInfoCustDate control.
 </summary>
@@ -5560,7 +5614,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblPartRequested">
+<member name="F:ClaimsProject._Default2._lblPartRequested">
 <summary>
 lblPartRequested control.
 </summary>
@@ -5569,7 +5623,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkPartRequested">
+<member name="F:ClaimsProject._Default2._chkPartRequested">
 <summary>
 chkPartRequested control.
 </summary>
@@ -5578,7 +5632,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkPartRequested">
+<member name="F:ClaimsProject._Default2._lnkPartRequested">
 <summary>
 lnkPartRequested control.
 </summary>
@@ -5587,7 +5641,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartRequested">
+<member name="F:ClaimsProject._Default2._txtPartRequested">
 <summary>
 txtPartRequested control.
 </summary>
@@ -5596,7 +5650,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartRequestedDate">
+<member name="F:ClaimsProject._Default2._txtPartRequestedDate">
 <summary>
 txtPartRequestedDate control.
 </summary>
@@ -5605,7 +5659,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblPartReceived">
+<member name="F:ClaimsProject._Default2._lblPartReceived">
 <summary>
 lblPartReceived control.
 </summary>
@@ -5614,7 +5668,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkPartReceived">
+<member name="F:ClaimsProject._Default2._chkPartReceived">
 <summary>
 chkPartReceived control.
 </summary>
@@ -5623,7 +5677,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkPartReceived">
+<member name="F:ClaimsProject._Default2._lnkPartReceived">
 <summary>
 lnkPartReceived control.
 </summary>
@@ -5632,7 +5686,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartReceived">
+<member name="F:ClaimsProject._Default2._txtPartReceived">
 <summary>
 txtPartReceived control.
 </summary>
@@ -5641,7 +5695,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartReceivedDate">
+<member name="F:ClaimsProject._Default2._txtPartReceivedDate">
 <summary>
 txtPartReceivedDate control.
 </summary>
@@ -5650,7 +5704,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblTechReview">
+<member name="F:ClaimsProject._Default2._lblTechReview">
 <summary>
 lblTechReview control.
 </summary>
@@ -5659,7 +5713,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkTechReview">
+<member name="F:ClaimsProject._Default2._chkTechReview">
 <summary>
 chkTechReview control.
 </summary>
@@ -5668,7 +5722,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkTechReview">
+<member name="F:ClaimsProject._Default2._lnkTechReview">
 <summary>
 lnkTechReview control.
 </summary>
@@ -5677,7 +5731,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtTechReview">
+<member name="F:ClaimsProject._Default2._txtTechReview">
 <summary>
 txtTechReview control.
 </summary>
@@ -5686,7 +5740,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtTechReviewDate">
+<member name="F:ClaimsProject._Default2._txtTechReviewDate">
 <summary>
 txtTechReviewDate control.
 </summary>
@@ -5695,7 +5749,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblWaitSupReview">
+<member name="F:ClaimsProject._Default2._lblWaitSupReview">
 <summary>
 lblWaitSupReview control.
 </summary>
@@ -5704,7 +5758,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkWaitSupReview">
+<member name="F:ClaimsProject._Default2._chkWaitSupReview">
 <summary>
 chkWaitSupReview control.
 </summary>
@@ -5713,7 +5767,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkWaitSupReview">
+<member name="F:ClaimsProject._Default2._lnkWaitSupReview">
 <summary>
 lnkWaitSupReview control.
 </summary>
@@ -5722,7 +5776,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtWaitSupReview">
+<member name="F:ClaimsProject._Default2._txtWaitSupReview">
 <summary>
 txtWaitSupReview control.
 </summary>
@@ -5731,7 +5785,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtWaitSupReviewDate">
+<member name="F:ClaimsProject._Default2._txtWaitSupReviewDate">
 <summary>
 txtWaitSupReviewDate control.
 </summary>
@@ -5740,7 +5794,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblClaimCompleted">
+<member name="F:ClaimsProject._Default2._lblClaimCompleted">
 <summary>
 lblClaimCompleted control.
 </summary>
@@ -5749,7 +5803,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkClaimCompleted">
+<member name="F:ClaimsProject._Default2._chkClaimCompleted">
 <summary>
 chkClaimCompleted control.
 </summary>
@@ -5758,7 +5812,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lnkClaimCompleted">
+<member name="F:ClaimsProject._Default2._lnkClaimCompleted">
 <summary>
 lnkClaimCompleted control.
 </summary>
@@ -5767,7 +5821,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimCompleted">
+<member name="F:ClaimsProject._Default2._txtClaimCompleted">
 <summary>
 txtClaimCompleted control.
 </summary>
@@ -5776,7 +5830,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimCompletedDate">
+<member name="F:ClaimsProject._Default2._txtClaimCompletedDate">
 <summary>
 txtClaimCompletedDate control.
 </summary>
@@ -5785,7 +5839,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnExternalStatus">
+<member name="F:ClaimsProject._Default2._pnExternalStatus">
 <summary>
 pnExternalStatus control.
 </summary>
@@ -5794,7 +5848,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblClaimStatus">
+<member name="F:ClaimsProject._Default2._lblClaimStatus">
 <summary>
 lblClaimStatus control.
 </summary>
@@ -5803,7 +5857,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtClaimStatus">
+<member name="F:ClaimsProject._Default2._txtClaimStatus">
 <summary>
 txtClaimStatus control.
 </summary>
@@ -5812,7 +5866,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblTotalAmount">
+<member name="F:ClaimsProject._Default2._lblTotalAmount">
 <summary>
 lblTotalAmount control.
 </summary>
@@ -5821,7 +5875,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtTotalAmount">
+<member name="F:ClaimsProject._Default2._txtTotalAmount">
 <summary>
 txtTotalAmount control.
 </summary>
@@ -5830,7 +5884,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblFiveTabDesc">
+<member name="F:ClaimsProject._Default2._lblFiveTabDesc">
 <summary>
 lblFiveTabDesc control.
 </summary>
@@ -5839,7 +5893,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnTotals">
+<member name="F:ClaimsProject._Default2._pnTotals">
 <summary>
 pnTotals control.
 </summary>
@@ -5848,7 +5902,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnSubTotalClaimed">
+<member name="F:ClaimsProject._Default2._pnSubTotalClaimed">
 <summary>
 pnSubTotalClaimed control.
 </summary>
@@ -5857,7 +5911,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblParts">
+<member name="F:ClaimsProject._Default2._lblParts">
 <summary>
 lblParts control.
 </summary>
@@ -5866,7 +5920,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtParts">
+<member name="F:ClaimsProject._Default2._txtParts">
 <summary>
 txtParts control.
 </summary>
@@ -5875,7 +5929,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblFreight">
+<member name="F:ClaimsProject._Default2._lblFreight">
 <summary>
 lblFreight control.
 </summary>
@@ -5884,7 +5938,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtFreight">
+<member name="F:ClaimsProject._Default2._txtFreight">
 <summary>
 txtFreight control.
 </summary>
@@ -5893,7 +5947,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnConsequentalDamage">
+<member name="F:ClaimsProject._Default2._pnConsequentalDamage">
 <summary>
 pnConsequentalDamage control.
 </summary>
@@ -5902,7 +5956,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkConsDamage">
+<member name="F:ClaimsProject._Default2._chkConsDamage">
 <summary>
 chkConsDamage control.
 </summary>
@@ -5911,7 +5965,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblConsDamage">
+<member name="F:ClaimsProject._Default2._lblConsDamage">
 <summary>
 lblConsDamage control.
 </summary>
@@ -5920,7 +5974,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCDLabor">
+<member name="F:ClaimsProject._Default2._lblCDLabor">
 <summary>
 lblCDLabor control.
 </summary>
@@ -5929,7 +5983,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCDLabor">
+<member name="F:ClaimsProject._Default2._txtCDLabor">
 <summary>
 txtCDLabor control.
 </summary>
@@ -5938,7 +5992,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCDPart">
+<member name="F:ClaimsProject._Default2._lblCDPart">
 <summary>
 lblCDPart control.
 </summary>
@@ -5947,7 +6001,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCDPart">
+<member name="F:ClaimsProject._Default2._txtCDPart">
 <summary>
 txtCDPart control.
 </summary>
@@ -5956,7 +6010,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCDFreight">
+<member name="F:ClaimsProject._Default2._lblCDFreight">
 <summary>
 lblCDFreight control.
 </summary>
@@ -5965,7 +6019,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCDFreight">
+<member name="F:ClaimsProject._Default2._txtCDFreight">
 <summary>
 txtCDFreight control.
 </summary>
@@ -5974,7 +6028,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblCDMisc">
+<member name="F:ClaimsProject._Default2._lblCDMisc">
 <summary>
 lblCDMisc control.
 </summary>
@@ -5983,7 +6037,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtCDMisc">
+<member name="F:ClaimsProject._Default2._txtCDMisc">
 <summary>
 txtCDMisc control.
 </summary>
@@ -5992,7 +6046,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._Label3">
+<member name="F:ClaimsProject._Default2._Label3">
 <summary>
 Label3 control.
 </summary>
@@ -6001,7 +6055,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtConsDamageTotal">
+<member name="F:ClaimsProject._Default2._txtConsDamageTotal">
 <summary>
 txtConsDamageTotal control.
 </summary>
@@ -6010,7 +6064,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnGetTotalCDValue">
+<member name="F:ClaimsProject._Default2._btnGetTotalCDValue">
 <summary>
 btnGetTotalCDValue control.
 </summary>
@@ -6019,7 +6073,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnPartialCredit">
+<member name="F:ClaimsProject._Default2._pnPartialCredit">
 <summary>
 pnPartialCredit control.
 </summary>
@@ -6028,7 +6082,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblPartCred">
+<member name="F:ClaimsProject._Default2._lblPartCred">
 <summary>
 lblPartCred control.
 </summary>
@@ -6037,7 +6091,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtPartCred">
+<member name="F:ClaimsProject._Default2._txtPartCred">
 <summary>
 txtPartCred control.
 </summary>
@@ -6046,7 +6100,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnSubTotalClaim">
+<member name="F:ClaimsProject._Default2._pnSubTotalClaim">
 <summary>
 pnSubTotalClaim control.
 </summary>
@@ -6055,7 +6109,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblApproved">
+<member name="F:ClaimsProject._Default2._lblApproved">
 <summary>
 lblApproved control.
 </summary>
@@ -6064,7 +6118,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkApproved">
+<member name="F:ClaimsProject._Default2._chkApproved">
 <summary>
 chkApproved control.
 </summary>
@@ -6073,7 +6127,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblDeclined">
+<member name="F:ClaimsProject._Default2._lblDeclined">
 <summary>
 lblDeclined control.
 </summary>
@@ -6082,7 +6136,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._chkDeclined">
+<member name="F:ClaimsProject._Default2._chkDeclined">
 <summary>
 chkDeclined control.
 </summary>
@@ -6091,7 +6145,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblFourTabDesc">
+<member name="F:ClaimsProject._Default2._lblFourTabDesc">
 <summary>
 lblFourTabDesc control.
 </summary>
@@ -6100,7 +6154,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnSubActionComment">
+<member name="F:ClaimsProject._Default2._pnSubActionComment">
 <summary>
 pnSubActionComment control.
 </summary>
@@ -6109,7 +6163,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnAddComments">
+<member name="F:ClaimsProject._Default2._btnAddComments">
 <summary>
 btnAddComments control.
 </summary>
@@ -6118,7 +6172,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSeeComments">
+<member name="F:ClaimsProject._Default2._btnSeeComments">
 <summary>
 btnSeeComments control.
 </summary>
@@ -6127,7 +6181,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rowAddComments">
+<member name="F:ClaimsProject._Default2._rowAddComments">
 <summary>
 rowAddComments control.
 </summary>
@@ -6136,7 +6190,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._addCommentsR">
+<member name="F:ClaimsProject._Default2._addCommentsR">
 <summary>
 addCommentsR control.
 </summary>
@@ -6145,7 +6199,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnClaimComm">
+<member name="F:ClaimsProject._Default2._pnClaimComm">
 <summary>
 pnClaimComm control.
 </summary>
@@ -6154,7 +6208,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddWrnNo">
+<member name="F:ClaimsProject._Default2._lblAddWrnNo">
 <summary>
 lblAddWrnNo control.
 </summary>
@@ -6163,7 +6217,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddWrnNo">
+<member name="F:ClaimsProject._Default2._txtAddWrnNo">
 <summary>
 txtAddWrnNo control.
 </summary>
@@ -6172,7 +6226,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddRetNo">
+<member name="F:ClaimsProject._Default2._lblAddRetNo">
 <summary>
 lblAddRetNo control.
 </summary>
@@ -6181,7 +6235,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddRetNo">
+<member name="F:ClaimsProject._Default2._txtAddRetNo">
 <summary>
 txtAddRetNo control.
 </summary>
@@ -6190,7 +6244,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddCommDateInit">
+<member name="F:ClaimsProject._Default2._txtAddCommDateInit">
 <summary>
 txtAddCommDateInit control.
 </summary>
@@ -6199,7 +6253,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddCommDateTo">
+<member name="F:ClaimsProject._Default2._txtAddCommDateTo">
 <summary>
 txtAddCommDateTo control.
 </summary>
@@ -6208,7 +6262,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddSubject">
+<member name="F:ClaimsProject._Default2._lblAddSubject">
 <summary>
 lblAddSubject control.
 </summary>
@@ -6217,7 +6271,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddSubject">
+<member name="F:ClaimsProject._Default2._txtAddSubject">
 <summary>
 txtAddSubject control.
 </summary>
@@ -6226,7 +6280,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddIntComm">
+<member name="F:ClaimsProject._Default2._lblAddIntComm">
 <summary>
 lblAddIntComm control.
 </summary>
@@ -6235,7 +6289,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdAddIntComm">
+<member name="F:ClaimsProject._Default2._rdAddIntComm">
 <summary>
 rdAddIntComm control.
 </summary>
@@ -6244,7 +6298,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddExtComm">
+<member name="F:ClaimsProject._Default2._lblAddExtComm">
 <summary>
 lblAddExtComm control.
 </summary>
@@ -6253,7 +6307,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rdAddExtComm">
+<member name="F:ClaimsProject._Default2._rdAddExtComm">
 <summary>
 rdAddExtComm control.
 </summary>
@@ -6262,7 +6316,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblMessage">
+<member name="F:ClaimsProject._Default2._lblMessage">
 <summary>
 lblMessage control.
 </summary>
@@ -6271,7 +6325,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtMessage">
+<member name="F:ClaimsProject._Default2._txtMessage">
 <summary>
 txtMessage control.
 </summary>
@@ -6280,7 +6334,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnMessage">
+<member name="F:ClaimsProject._Default2._btnMessage">
 <summary>
 btnMessage control.
 </summary>
@@ -6289,7 +6343,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lstComments">
+<member name="F:ClaimsProject._Default2._lstComments">
 <summary>
 lstComments control.
 </summary>
@@ -6298,7 +6352,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSaveComment">
+<member name="F:ClaimsProject._Default2._btnSaveComment">
 <summary>
 btnSaveComment control.
 </summary>
@@ -6307,7 +6361,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnExitComment">
+<member name="F:ClaimsProject._Default2._btnExitComment">
 <summary>
 btnExitComment control.
 </summary>
@@ -6316,7 +6370,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._addVendorComments">
+<member name="F:ClaimsProject._Default2._addVendorComments">
 <summary>
 addVendorComments control.
 </summary>
@@ -6325,7 +6379,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnVndClaimComm">
+<member name="F:ClaimsProject._Default2._pnVndClaimComm">
 <summary>
 pnVndClaimComm control.
 </summary>
@@ -6334,7 +6388,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddClaimNo">
+<member name="F:ClaimsProject._Default2._lblAddClaimNo">
 <summary>
 lblAddClaimNo control.
 </summary>
@@ -6343,7 +6397,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddClaimNo">
+<member name="F:ClaimsProject._Default2._txtAddClaimNo">
 <summary>
 txtAddClaimNo control.
 </summary>
@@ -6352,7 +6406,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddVndCommDateInit">
+<member name="F:ClaimsProject._Default2._txtAddVndCommDateInit">
 <summary>
 txtAddVndCommDateInit control.
 </summary>
@@ -6361,7 +6415,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddVndCommDateTo">
+<member name="F:ClaimsProject._Default2._txtAddVndCommDateTo">
 <summary>
 txtAddVndCommDateTo control.
 </summary>
@@ -6370,7 +6424,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblAddVndSubject">
+<member name="F:ClaimsProject._Default2._lblAddVndSubject">
 <summary>
 lblAddVndSubject control.
 </summary>
@@ -6379,7 +6433,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtAddVndSubject">
+<member name="F:ClaimsProject._Default2._txtAddVndSubject">
 <summary>
 txtAddVndSubject control.
 </summary>
@@ -6388,7 +6442,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblVndMessage">
+<member name="F:ClaimsProject._Default2._lblVndMessage">
 <summary>
 lblVndMessage control.
 </summary>
@@ -6397,7 +6451,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtVndMessage">
+<member name="F:ClaimsProject._Default2._txtVndMessage">
 <summary>
 txtVndMessage control.
 </summary>
@@ -6406,7 +6460,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnVndMessage">
+<member name="F:ClaimsProject._Default2._btnVndMessage">
 <summary>
 btnVndMessage control.
 </summary>
@@ -6415,7 +6469,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lstVndMessage">
+<member name="F:ClaimsProject._Default2._lstVndMessage">
 <summary>
 lstVndMessage control.
 </summary>
@@ -6424,7 +6478,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnVndSaveComment">
+<member name="F:ClaimsProject._Default2._btnVndSaveComment">
 <summary>
 btnVndSaveComment control.
 </summary>
@@ -6433,7 +6487,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnVndExitComment">
+<member name="F:ClaimsProject._Default2._btnVndExitComment">
 <summary>
 btnVndExitComment control.
 </summary>
@@ -6442,7 +6496,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rowSeeComments">
+<member name="F:ClaimsProject._Default2._rowSeeComments">
 <summary>
 rowSeeComments control.
 </summary>
@@ -6451,7 +6505,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._seeCommentsR">
+<member name="F:ClaimsProject._Default2._seeCommentsR">
 <summary>
 seeCommentsR control.
 </summary>
@@ -6460,7 +6514,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblWrnNo">
+<member name="F:ClaimsProject._Default2._lblWrnNo">
 <summary>
 lblWrnNo control.
 </summary>
@@ -6469,7 +6523,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtWrnNo">
+<member name="F:ClaimsProject._Default2._txtWrnNo">
 <summary>
 txtWrnNo control.
 </summary>
@@ -6478,7 +6532,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblRetNo">
+<member name="F:ClaimsProject._Default2._lblRetNo">
 <summary>
 lblRetNo control.
 </summary>
@@ -6487,7 +6541,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtRetNo">
+<member name="F:ClaimsProject._Default2._txtRetNo">
 <summary>
 txtRetNo control.
 </summary>
@@ -6496,7 +6550,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._grvSeeComm">
+<member name="F:ClaimsProject._Default2._grvSeeComm">
 <summary>
 grvSeeComm control.
 </summary>
@@ -6505,7 +6559,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnPrintSeeClaim">
+<member name="F:ClaimsProject._Default2._btnPrintSeeClaim">
 <summary>
 btnPrintSeeClaim control.
 </summary>
@@ -6514,7 +6568,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnExitSeeClaim">
+<member name="F:ClaimsProject._Default2._btnExitSeeClaim">
 <summary>
 btnExitSeeClaim control.
 </summary>
@@ -6523,7 +6577,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._seeVendorComments">
+<member name="F:ClaimsProject._Default2._seeVendorComments">
 <summary>
 seeVendorComments control.
 </summary>
@@ -6532,7 +6586,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._lblSeeVndComm">
+<member name="F:ClaimsProject._Default2._lblSeeVndComm">
 <summary>
 lblSeeVndComm control.
 </summary>
@@ -6541,7 +6595,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._txtSeeVndComm">
+<member name="F:ClaimsProject._Default2._txtSeeVndComm">
 <summary>
 txtSeeVndComm control.
 </summary>
@@ -6550,7 +6604,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._grvSeeVndComm">
+<member name="F:ClaimsProject._Default2._grvSeeVndComm">
 <summary>
 grvSeeVndComm control.
 </summary>
@@ -6559,7 +6613,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnPrintSeeVndClaim">
+<member name="F:ClaimsProject._Default2._btnPrintSeeVndClaim">
 <summary>
 btnPrintSeeVndClaim control.
 </summary>
@@ -6568,7 +6622,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnExitSeeVndClaim">
+<member name="F:ClaimsProject._Default2._btnExitSeeVndClaim">
 <summary>
 btnExitSeeVndClaim control.
 </summary>
@@ -6577,7 +6631,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rowPnActions">
+<member name="F:ClaimsProject._Default2._rowPnActions">
 <summary>
 rowPnActions control.
 </summary>
@@ -6586,7 +6640,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnActions">
+<member name="F:ClaimsProject._Default2._pnActions">
 <summary>
 pnActions control.
 </summary>
@@ -6595,7 +6649,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnSubActionFiles">
+<member name="F:ClaimsProject._Default2._pnSubActionFiles">
 <summary>
 pnSubActionFiles control.
 </summary>
@@ -6604,7 +6658,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnAddFiles">
+<member name="F:ClaimsProject._Default2._btnAddFiles">
 <summary>
 btnAddFiles control.
 </summary>
@@ -6613,7 +6667,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSeeFiles">
+<member name="F:ClaimsProject._Default2._btnSeeFiles">
 <summary>
 btnSeeFiles control.
 </summary>
@@ -6622,7 +6676,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnSubActionFinal">
+<member name="F:ClaimsProject._Default2._pnSubActionFinal">
 <summary>
 pnSubActionFinal control.
 </summary>
@@ -6631,7 +6685,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnSaveTab">
+<member name="F:ClaimsProject._Default2._btnSaveTab">
 <summary>
 btnSaveTab control.
 </summary>
@@ -6640,7 +6694,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnCloseTab">
+<member name="F:ClaimsProject._Default2._btnCloseTab">
 <summary>
 btnCloseTab control.
 </summary>
@@ -6649,7 +6703,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rwCloseClaim">
+<member name="F:ClaimsProject._Default2._rwCloseClaim">
 <summary>
 rwCloseClaim control.
 </summary>
@@ -6658,7 +6712,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._pnCloseClaim">
+<member name="F:ClaimsProject._Default2._pnCloseClaim">
 <summary>
 pnCloseClaim control.
 </summary>
@@ -6667,7 +6721,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnPurchasing">
+<member name="F:ClaimsProject._Default2._btnPurchasing">
 <summary>
 btnPurchasing control.
 </summary>
@@ -6676,7 +6730,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnCloseClaim">
+<member name="F:ClaimsProject._Default2._btnCloseClaim">
 <summary>
 btnCloseClaim control.
 </summary>
@@ -6685,7 +6739,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._btnCloseClaim1">
+<member name="F:ClaimsProject._Default2._btnCloseClaim1">
 <summary>
 btnCloseClaim1 control.
 </summary>
@@ -6694,7 +6748,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject._Default._rowBtn">
+<member name="F:ClaimsProject._Default2._rowBtn">
 <summary>
 rowBtn control.
 </summary>
@@ -6703,7 +6757,7 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="M:ClaimsProject._Default.PrepareQuery(System.String@)">
+<member name="M:ClaimsProject._Default2.PrepareQuery(System.String@)">
  <summary>
  Prepare the filters criteria to add to main query
  </summary>
@@ -8725,18 +8779,45 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.Login._txtUser">
+<member name="F:ClaimsProject.Login._lblOptionalMessage">
 <summary>
-txtUser control.
+lblOptionalMessage control.
 </summary>
 <remarks>
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.Login._txtPass">
+<member name="F:ClaimsProject.Login._UserName">
 <summary>
-txtPass control.
+UserName control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.Login._frUserLogin">
+<summary>
+frUserLogin control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.Login._Password">
+<summary>
+Password control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.Login._rfPassword">
+<summary>
+rfPassword control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -8746,6 +8827,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.Login._btnLoginUser">
 <summary>
 btnLoginUser control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.Login._hdSessionExpired">
+<summary>
+hdSessionExpired control.
 </summary>
 <remarks>
 Auto-generated field.

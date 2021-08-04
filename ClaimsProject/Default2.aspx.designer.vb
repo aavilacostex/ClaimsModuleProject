@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CustomerClaims
+Partial Public Class _Default2
 
     '''<summary>
     '''updatepnl control.
@@ -21,24 +21,6 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents updatepnl As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''lblUserLogged control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblUserLogged As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''lnkLogout control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lnkLogout As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''btnGetTemplate control.
@@ -1002,15 +984,6 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdShowCloseBtn As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''hdWelcomeMess control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents hdWelcomeMess As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''addProdDev control.
