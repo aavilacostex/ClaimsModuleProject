@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" />
 
-    <link href="Content/lightbox.css" rel="stylesheet" media="screen" />
+    <%--<link href="Content/lightbox.css" rel="stylesheet" media="screen" />--%>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
 
 </head>
@@ -102,7 +102,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="sals" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Sales <span class="caret"></span></a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
-                                        <li><a class="dropdown-item" href="http://svrwebapps.costex.com/MassivePricingUpdate/MassivePricingUpdate/">Massive Update for Price</a></li>                                       
+                                        <li><a class="dropdown-item" href="http://svrwebapps.costex.com/MassivePricingUpdate/">Massive Update for Price</a></li>                                       
                                     </ul>                                    
                                 </li> 
                                 <li class="nav-item dropdown">
@@ -142,7 +142,7 @@
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="1">
                         <ProgressTemplate>
                             <div style="position: relative; text-align: center; background-color: #eeeeee; top: 0px;left: 0px; height:40px;">
-                                    <img src="../Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
+                                    <img src="Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
                         </ProgressTemplate>
                     </asp:UpdateProgress>
                 </asp:Panel>
@@ -213,15 +213,15 @@
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/Scripts/messages.js"></script>
-    <script type="text/javascript" src="/Scripts/Util.js"></script>
-    <script type="text/javascript" src="../Scripts/JSUpdateProgress.js"></script>   
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Scripts/messages.js"></script>
+    <script type="text/javascript" src="Scripts/Util.js"></script>
+    <script type="text/javascript" src="Scripts/JSUpdateProgress.js"></script>   
 
 </body>
 
     <script>
-        var $j = jQuery.noConflict();
+        //var $j = jQuery.noConflict();
     </script> 
 
     <script type="text/javascript">  
@@ -235,9 +235,9 @@
 
             var hdShowNav = document.getElementById('<%=hdShowMenu.ClientID%>').value;
             if (hdShowNav != "0") {
-                $j('#mainNav').closest('.row').removeClass('hideProp');
+                $('#mainNav').closest('.row').removeClass('hideProp');
             } else {
-                $j('#mainNav').closest('.row').addClass('hideProp');
+                $('#mainNav').closest('.row').addClass('hideProp');
             }
         }    
 

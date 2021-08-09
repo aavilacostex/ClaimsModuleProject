@@ -19,6 +19,7 @@ Public Class _Default
                 Dim welcomeMsg = ConfigurationManager.AppSettings("UserWelcome")
                 lblUserLogged.Text = String.Format(welcomeMsg, Session("username").ToString().Trim(), Session("userid").ToString().Trim())
                 hdWelcomeMess.Value = lblUserLogged.Text
+                Response.Redirect("CustomerClaims.aspx", False)
             End If
 
         Catch ex As Exception

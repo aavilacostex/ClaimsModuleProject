@@ -6,7 +6,7 @@ Public Class Login
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("userid") IsNot Nothing Then
-            Response.Redirect("Default.aspx", False)
+            Response.Redirect("CustomerClaims.aspx", False)
         End If
     End Sub
 

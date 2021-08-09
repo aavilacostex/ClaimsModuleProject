@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" />
 
-    <link href="Content/lightbox.css" rel="stylesheet" media="screen" />
+    <%--<link href="Content/lightbox.css" rel="stylesheet" media="screen" />--%>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
 
 </head>
@@ -72,7 +72,7 @@
             </div>
 
             <nav class="navbar navbar-expand-md navbar-dark bg-white">
-                <div class="row" style="min-width: 100% !important;">
+                <div id="mainNav" class="row hideProp" style="min-width: 100% !important;">
                     <div class="col-lg-5">
                         <a class="navbar-brand logo" href="~/Default">
                             <img src="~/Images/logo.png" runat="server" />
@@ -102,36 +102,24 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="sals" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Sales <span class="caret"></span></a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
-                                        <li><a class="dropdown-item" href="http://svrwebapps.costex.com/MassivePricingUpdate/MassivePricingUpdate">Massive Update for Price</a></li>                                       
+                                        <li><a class="dropdown-item" href="http://svrwebapps.costex.com/MassivePricingUpdate/">Massive Update for Price</a></li>                                       
                                     </ul>                                    
                                 </li> 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="qua" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Quality Control <span class="caret"></span></a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
-                                        <li><a class="dropdown-item" href="Default">Customer Claims</a></li>                                       
+                                        <li><a class="dropdown-item" href="CustomerClaims">Customer Claims</a></li>                                       
                                     </ul>                                    
-                                </li>                                 
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="http://example.com" id="user1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <asp:Label ID="lblUsername" Text="" runat="server"></asp:Label>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="user">
-                                        <a class="dropdown-item" href="#">Configuration</a>
-                                        <a class="dropdown-item" href="#">Logout</a>
-                                    </div>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="http://example.com" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> App Configuration
-                                        
-                                        <%--<asp:LoginName ID="lgLoginName" FormatString="Welcome, {0}"  runat="server" />--%>
-                                    </a>
+                                    <a class="nav-link dropdown-toggle" href="http://example.com" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> App Configuration </a>
                                     <div class="dropdown-menu" aria-labelledby="user">
                                         <a class="dropdown-item" href="#">
-                                            <asp:Label ID="Label1" Text="" runat="server"></asp:Label>
+                                            <asp:Label ID="lblUsername" Text="" runat="server"></asp:Label>
                                         </a>                                        
                                         <a class="dropdown-item" href="#">Configuration</a>
                                         <a class="dropdown-item" href="#">
-                                            <asp:LinkButton ID="lnkLogout" CssClass="dropdown-item" Text="Logout" runat="server"></asp:LinkButton> 
+                                            <asp:LinkButton ID="lnkLogout" CssClass="dropdown-item" Text="Logout" OnClick="lnkLogout_Click" runat="server"></asp:LinkButton> 
                                         </a>
                                     </div>
                                 </li>
@@ -154,7 +142,7 @@
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="1">
                         <ProgressTemplate>
                             <div style="position: relative; text-align: center; background-color: #eeeeee; top: 0px;left: 0px; height:40px;">
-                                    <img src="../Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
+                                    <img src="Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
                         </ProgressTemplate>
                     </asp:UpdateProgress>
                 </asp:Panel>
@@ -186,7 +174,9 @@
                             </div>
                             <div class="col-lg-2 col-md-6"></div>
                             <div class="col-lg-2 col-md-6"></div>
-                            <div class="col-lg-4 col-md-6"></div>
+                            <div class="col-lg-4 col-md-6">
+                                <asp:HiddenField ID="hdShowMenu" Value="0" runat="server" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,16 +213,33 @@
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/Scripts/messages.js"></script>
-    <script type="text/javascript" src="/Scripts/Util.js"></script>
-    <script type="text/javascript" src="../Scripts/JSUpdateProgress.js"></script>   
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Scripts/messages.js"></script>
+    <script type="text/javascript" src="Scripts/Util.js"></script>
+    <script type="text/javascript" src="Scripts/JSUpdateProgress.js"></script>   
 
 </body>
 
+    <script>
+        //var $j = jQuery.noConflict();
+    </script> 
+
     <script type="text/javascript">  
 
-        var ventanaModal = '<%= ventanaModal.ClientID %>';    
+        var ventanaModal = '<%= ventanaModal.ClientID %>';  
+
+        check();
+
+        function check() {
+            debugger
+
+            var hdShowNav = document.getElementById('<%=hdShowMenu.ClientID%>').value;
+            if (hdShowNav != "0") {
+                $('#mainNav').closest('.row').removeClass('hideProp');
+            } else {
+                $('#mainNav').closest('.row').addClass('hideProp');
+            }
+        }    
 
     </script>
 

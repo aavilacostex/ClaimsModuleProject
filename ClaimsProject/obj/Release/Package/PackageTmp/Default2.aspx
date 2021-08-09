@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Claims Page" Language="vb" AutoEventWireup="true" CodeBehind="CustomerClaims.aspx.vb" MasterPageFile="~/Site.Master" Inherits="ClaimsProject.CustomerClaims" ViewStateMode="Disabled" %>
+﻿<%@ Page Title="Claims Page" Language="vb" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Default2.aspx.vb" Inherits="ClaimsProject._Default2" ViewStateMode="Disabled" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Atk" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -19,16 +19,6 @@
         </Triggers>
 
         <ContentTemplate>
-
-            <div class="row">
-                <div class="col-md-9"></div>
-                <div class="col-md-2">
-                    <asp:Label ID="lblUserLogged" Text="" runat="server"></asp:Label>
-                </div>
-                <div class="col-md-1">
-                    <asp:LinkButton ID="lnkLogout" Text="Click to Logout." OnClick="lnkLogout_Click" runat="server"></asp:LinkButton>
-                </div>
-            </div>
 
             <div class="container-fluid">
                 <div class="breadcrumb-area breadcrumb-bg">
@@ -744,8 +734,6 @@
 
                     <asp:HiddenField ID="hdGetCommentTab" Value="0" runat="server" />                    
                     <asp:HiddenField ID="hdShowCloseBtn" Value="0" runat="server" />
-
-                    <asp:HiddenField id="hdWelcomeMess" Value="" runat="server" />
 
                 </div>
             </div>            
@@ -2255,21 +2243,21 @@
             <br />
         </ContentTemplate>
 
-    </asp:UpdatePanel>
-
-    <%--<script type="text/javascript" src="/Scripts/lightbox/prototype.js"></script>
-    <script type="text/javascript" src="/Scripts/lightbox/lightbox.js"></script>--%>
+    </asp:UpdatePanel>  
+    
+    <script type="text/javascript" src="/Scripts/lightbox/prototype.js"></script>
+    <script type="text/javascript" src="/Scripts/lightbox/lightbox.js"></script>
     
     <%--<script type="text/javascript" src="/Scripts/lightbox/scriptaculous.js?load=builder"></script> --%>   
-    <%--<script type="text/javascript" src="/Scripts/lightbox/effects.js"></script>
-    <script type="text/javascript" src="/Scripts/lightbox/builder.js"></script>--%>
+    <script type="text/javascript" src="/Scripts/lightbox/effects.js"></script>
+    <script type="text/javascript" src="/Scripts/lightbox/builder.js"></script>
     
+    
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />    
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-
     <script>
-        //var $ = jQuery.noConflict();
+        var $j = jQuery.noConflict();
     </script>  
 
     <script type="text/javascript">  
@@ -2280,7 +2268,7 @@
             //debugger
             messages.alert(mensaje, { type: show });
             //setTimeout(function () {
-            //    $("#myModal").hide();
+            //    $j("#myModal").hide();
             //}, 3000);
         }
 
@@ -2294,19 +2282,19 @@
             }
         }
 
-        $('body').on('click', '#accordion_2 h5 a', function () {
+        $j('body').on('click', '#accordion_2 h5 a', function () {
             //debugger
             //alert("pepe");
             var collapse1 = document.getElementById('collapseOne_2');
             isActivePanel(collapse1, 2);
         });
 
-        $('body').on('click', '#accordion h5 a', function () {
+        $j('body').on('click', '#accordion h5 a', function () {
             //debugger
             //alert("pepi");
             var collapse2 = document.getElementById('collapseOne');
             isActivePanel(collapse2, 1);
-        });
+        }); 
 
         function isActivePanel(activePanel, valorActive) {
             //debugger
@@ -2315,31 +2303,31 @@
             var hd2 = document.getElementById('<%=hiddenId2.ClientID%>').value;
 
             if (valorActive == 1) {
-                if ($('#<%=hiddenId1.ClientID %>').val() == "0") {
-                    $('#<%=hiddenId1.ClientID %>').val("1");
+                if ($j('#<%=hiddenId1.ClientID %>').val() == "0") {
+                    $j('#<%=hiddenId1.ClientID %>').val("1");
                     hd1 = document.getElementById('<%=hiddenId1.ClientID%>').value;
                     //afterDdlCheck(hd1, activePanel)
                 } else {
-                    $('#<%=hiddenId1.ClientID %>').val("0");
+                    $j('#<%=hiddenId1.ClientID %>').val("0");
                     hd1 = document.getElementById('<%=hiddenId1.ClientID%>').value;
                     //afterDdlCheck(hd1, activePanel)
                 }
             }
             if (valorActive == 2) {
-                if ($('#<%=hiddenId2.ClientID %>').val() == "0") {
-                    $('#<%=hiddenId2.ClientID %>').val("1");
+                if ($j('#<%=hiddenId2.ClientID %>').val() == "0") {
+                    $j('#<%=hiddenId2.ClientID %>').val("1");
                     hd2 = document.getElementById('<%=hiddenId2.ClientID%>').value;
                     //afterDdlCheck(hd2, activePanel)
                 }
                 else {
-                    $('#<%=hiddenId2.ClientID %>').val("0");
+                    $j('#<%=hiddenId2.ClientID %>').val("0");
                     hd2 = document.getElementById('<%=hiddenId2.ClientID%>').value;
                     //afterDdlCheck(hd2, activePanel)
                 }
             }
 
             JSFunction();
-        }
+        } 
 
         function JSFunction() {
             //debugger
@@ -2351,103 +2339,103 @@
 
             //debugger
 
-            //$("#upPanel :input").attr("disabled", true);
-            //$("#upPanel :input").prop("disabled", true);
+            //$j("#upPanel :input").attr("disabled", true);
+            //$j("#upPanel :input").prop("disabled", true);
 
-            $("#pnClaimDetails :input").attr("disabled", true);
-            $("#pnClaimDetails :input").prop("disabled", true);
+            $j("#pnClaimDetails :input").attr("disabled", true);
+            $j("#pnClaimDetails :input").prop("disabled", true);
         }
 
         function ToggleGridPanel(btn, row) {
             //debugger
 
             alert(value);
-        }
+        }   
 
         function DefaulSeeComm() {
             debugger
 
             var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
             if (hdSeeCommDef == "1") {
-                $('#MainContent_rowSeeComments').removeClass('hideProp');
+                $j('#MainContent_rowSeeComments').removeClass('hideProp');                
             }
             else {
-                $('#MainContent_rowSeeComments').addClass('hideProp');
+                $j('#MainContent_rowSeeComments').addClass('hideProp');                
             }
         }
 
-        $('body').on('click', '.nav > li > a', function (e) {
+        $j('body').on('click', '.nav > li > a', function (e) {
             debugger
 
-            var data = $(this).attr("href");
-            $('#<%=hdCurrentActiveTab.ClientID%>').val(data);
+            var data = $j(this).attr("href");
+            $j('#<%=hdCurrentActiveTab.ClientID%>').val(data);
 
             //automatically open the past comments for current claim
             var hd1 = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
-
+           
             if (data == "#claim-comments") {
-                DefaulSeeComm()
-                $('#<%=hdShowCloseBtn.ClientID%>').val("1");
-                $('#MainContent_rwCloseClaim').removeClass('hideProp');
+                DefaulSeeComm() 
+                $j('#<%=hdShowCloseBtn.ClientID%>').val("1");
+                $j('#MainContent_rwCloseClaim').removeClass('hideProp');
             }
             else {
-                $('#<%=hdShowCloseBtn.ClientID%>').val("0");
-                $('#MainContent_rwCloseClaim').addClass('hideProp');
-            }
-        });
+                $j('#<%=hdShowCloseBtn.ClientID%>').val("0");
+                $j('#MainContent_rwCloseClaim').addClass('hideProp');
+            }                
+         });
 
-        $('body').on('click', '.click-in', function (e) {
+        $j('body').on('click', '.click-in', function (e) {
 
             var hd1 = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
-            //$('#MainContent_addNewPartManual2').closest('.container').removeClass('hideProp')
+            //$j('#MainContent_addNewPartManual2').closest('.container').removeClass('hideProp')
             var idd = e.currentTarget.id
             //document.getElementById('<%=hiddenId2.ClientID%>').value;
-            //$('#' + idd).
+            //$j('#' + idd).
 
-            var val = $(this).attr('CLAIM#');
-            var val1 = $(this).closest('.hideProp').removeClass('hideProp');
-            //var id = $('MainContent_grvClaimReport_lnkExpander').data('CLAIM#');
+            var val = $j(this).attr('CLAIM#');
+            var val1 = $j(this).closest('.hideProp').removeClass('hideProp');
+            //var id = $j('MainContent_grvClaimReport_lnkExpander').data('CLAIM#');
             console.log(val1);
             //console.log(id);            
             console.log(e);
 
         });
 
-        $('body').on('click', '.click-in1', function (e) {
+        $j('body').on('click', '.click-in1', function (e) {
 
             //debugger
             var hdGridView = document.getElementById('<%=hdGridViewContent.ClientID%>').value;
             var hdTabView = document.getElementById('<%=hdNavTabsContent.ClientID%>').value;
 
             if (hdGridView == "1") {
-                $('#<%=hdGridViewContent.ClientID %>').val("0");
-                $('#<%=hdNavTabsContent.ClientID %>').val("1");
+                $j('#<%=hdGridViewContent.ClientID %>').val("0");
+                $j('#<%=hdNavTabsContent.ClientID %>').val("1");
             } else {
-                $('#<%=hdGridViewContent.ClientID %>').val("1");
-                $('#<%=hdNavTabsContent.ClientID %>').val("0");
-            }
-
+                $j('#<%=hdGridViewContent.ClientID %>').val("1");
+                $j('#<%=hdNavTabsContent.ClientID %>').val("0");
+            }            
+            
             //var hd1 = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
-            //$('#MainContent_addNewPartManual2').closest('.container').removeClass('hideProp')
+            //$j('#MainContent_addNewPartManual2').closest('.container').removeClass('hideProp')
             //var idd = e.currentTarget.id
             //document.getElementById('<%=hiddenId2.ClientID%>').value;
-            //$('#' + idd).
+            //$j('#' + idd).
 
             var hdGridView = document.getElementById('<%=hdGridViewContent.ClientID%>').value;
             if (hdGridView = "0") {
 
-                $('#MainContent_gridviewRow').addClass('hideProp')
-                $('#MainContent_navsSection').removeClass('hideProp')
+                $j('#MainContent_gridviewRow').addClass('hideProp')
+                $j('#MainContent_navsSection').removeClass('hideProp')
 
             }
             else {
 
-                $('#MainContent_gridviewRow').removeClass('hideProp')
-                $('#MainContent_navsSection').addClass('hideProp')
-
+                $j('#MainContent_gridviewRow').removeClass('hideProp')
+                $j('#MainContent_navsSection').addClass('hideProp')
+                
             }
 
-            $('#<%=hdAddClaimFile.ClientID %>').val("0");
+            $j('#<%=hdAddClaimFile.ClientID %>').val("0");
 
             <%--var iGridViewClass = document.getElementById('<%=hdSelectedClass.ClientID%>').value;
             iAccess.toggleClass('divCustomClass divCustomClassOk');--%>           
@@ -2484,8 +2472,8 @@
             debugger
             if (divname == null) {
             } else {
-                var iAccess = $("#div" + divname);
-                var iContainer = $("#" + controlid.id)
+                var iAccess = $j("#div" + divname);
+                var iContainer = $j("#" + controlid.id)
                 var temp2
 
                 if (iContainer.find("i").length) {
@@ -2497,19 +2485,19 @@
                             var iValue = myControl.children(0);
                             var iClass = iValue.attr('class');
 
-                            var val1 = $('#<%=hdLinkExpand.ClientID %>').val();
+                            var val1 = $j('#<%=hdLinkExpand.ClientID %>').val();
 
-                            if (iClass == "fa fa-plus" && $('#<%=hdLinkExpand.ClientID %>').val() == "0") {
-                                $('#<%=hdLinkExpand.ClientID %>').val("1");
-                            } else if (iClass == "fa fa-minus" && $('#<%=hdLinkExpand.ClientID %>').val() == "0") {
-                                $('#<%=hdLinkExpand.ClientID %>').val("1");
-                            }
+                            if (iClass == "fa fa-plus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {
+                                $j('#<%=hdLinkExpand.ClientID %>').val("1");
+                            } else if (iClass == "fa fa-minus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {  
+                                $j('#<%=hdLinkExpand.ClientID %>').val("1");                                
+                            } 
                         }
-                    }
+                    } 
 
-                    $('#<%=hdTriggeredControl.ClientID %>').val(divname);
-                    $('#<%=hdLaunchControl.ClientID %>').val(controlid.id);
-                    $('#<%=hdSelectedClass.ClientID %>').val(iClass);
+                    $j('#<%=hdTriggeredControl.ClientID %>').val(divname);
+                    $j('#<%=hdLaunchControl.ClientID %>').val(controlid.id);
+                    $j('#<%=hdSelectedClass.ClientID %>').val(iClass);
                 }
             }
         }
@@ -2518,8 +2506,8 @@
             //debugger            
             if (divname == null) {
             } else {
-                var iAccess = $("#div" + divname);
-                var iContainer = $("#" + controlid.id)
+                var iAccess = $j("#div" + divname);
+                var iContainer = $j("#" + controlid.id)
                 var temp2
 
                 if (iContainer.find("i").length) {
@@ -2531,19 +2519,19 @@
                             var iValue = myControl.children(0);
                             var iClass = iValue.attr('class');
 
-                            var val1 = $('#<%=hdLinkExpand.ClientID %>').val();
+                            var val1 = $j('#<%=hdLinkExpand.ClientID %>').val();
 
-                            if (iClass == "fa fa-plus" && $('#<%=hdLinkExpand.ClientID %>').val() == "0") {
-                                $('#<%=hdLinkExpand.ClientID %>').val("1");
-                            } else if (iClass == "fa fa-minus" && $('#<%=hdLinkExpand.ClientID %>').val() == "0") {
-                                $('#<%=hdLinkExpand.ClientID %>').val("1");
-                            }
+                            if (iClass == "fa fa-plus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {
+                                $j('#<%=hdLinkExpand.ClientID %>').val("1");
+                            } else if (iClass == "fa fa-minus" && $j('#<%=hdLinkExpand.ClientID %>').val() == "0") {  
+                                $j('#<%=hdLinkExpand.ClientID %>').val("1");                                
+                            } 
                         }
-                    }
+                    } 
 
-                    $('#<%=hdTriggeredControl.ClientID %>').val(divname);
-                    $('#<%=hdLaunchControl.ClientID %>').val(controlid.id);
-                    $('#<%=hdSelectedClass.ClientID %>').val(iClass);
+                    $j('#<%=hdTriggeredControl.ClientID %>').val(divname);
+                    $j('#<%=hdLaunchControl.ClientID %>').val(controlid.id);
+                    $j('#<%=hdSelectedClass.ClientID %>').val(iClass);
                 }
             }
         }
@@ -2556,11 +2544,11 @@
         function fixVisibilityColumns() {
             //debugger
 
-            $(".header-style").filter(function () {
+            $j(".header-style").filter(function () {
                 //debugger
-
-                var myTd = $(this).children("td:has('.footermark')");
-                return myTd.addClass('hidecol');
+                
+                var myTd = $j(this).children("td:has('.footermark')");                
+                return myTd.addClass('hidecol');               
             });
         }
 
@@ -2577,15 +2565,15 @@
         function setHeight(control) {
             //debugger
 
-            $(control).height(1);
-            $(control).height($(control).prop('scrollHeight'));
+            $j(control).height(1);
+            $j(control).height($j(control).prop('scrollHeight'));
         }
 
         function activeTab() {
 
             debugger
             var hd1 = document.getElementById('<%=hdCurrentActiveTab.ClientID%>').value;
-            $('.nav-tabs a[href="' + hd1 + '"]').tab('show');
+            $j('.nav-tabs a[href="' + hd1 + '"]').tab('show');
         }
 
         function processDDLSelection(filter) {
@@ -2593,27 +2581,27 @@
 
             if (filter == "MainContent_ddlSearchReason") {
                 var hdRe = document.getElementById('<%=hdReason.ClientID%>').value;
-                $("#<%=ddlSearchReason.ClientID%>").prop('selectedIndex', parseInt(hdRe));
+                $j("#<%=ddlSearchReason.ClientID%>").prop('selectedIndex', parseInt(hdRe));
 
             }
             else if (filter == "MainContent_ddlSearchDiagnose") {
                 var hdDia = document.getElementById('<%=hdDiagnose.ClientID%>').value;
-                $("#<%=ddlSearchDiagnose.ClientID%>").prop('selectedIndex', parseInt(hdDia));
+                $j("#<%=ddlSearchDiagnose.ClientID%>").prop('selectedIndex', parseInt(hdDia));
 
             }
             else if (filter == "MainContent_ddlSearchExtStatus") {
                 var hdSt = document.getElementById('<%=hdStatusOut.ClientID%>').value;
-                $("#<%=ddlSearchExtStatus.ClientID%>").prop('selectedIndex', parseInt(hdSt) + 1);
+                $j("#<%=ddlSearchExtStatus.ClientID%>").prop('selectedIndex', parseInt(hdSt) + 1);
 
-            }
+            }    
             else if (filter == "MainContent_ddlSearchIntStatus") {
                 var hdSti = document.getElementById('<%=hdStatusIn.ClientID%>').value;
-                $("#<%=ddlSearchIntStatus.ClientID%>").prop('selectedIndex', parseInt(hdSti) + 1);
+                $j("#<%=ddlSearchIntStatus.ClientID%>").prop('selectedIndex', parseInt(hdSti) + 1);
 
             }
             else if (filter == "MainContent_ddlSearchUser") {
                 var hdUs = document.getElementById('<%=hdUserSelected.ClientID%>').value;
-                $("#<%=ddlSearchUser.ClientID%>").prop('selectedIndex', parseInt(hdUs) + 1);
+                $j("#<%=ddlSearchUser.ClientID%>").prop('selectedIndex', parseInt(hdUs) + 1);
 
             }
         }
@@ -2640,11 +2628,11 @@
                         x = document.getElementById(divs[i]);
                         xstyle = x.style;
                         xstyle.display = "flex";
-                        $('#<%=hiddenName.ClientID %>').val(id);
+                        $j('#<%=hiddenName.ClientID %>').val(id);
                         //x.display = "block";
                     }
-                }
-            }
+                }            
+            }            
         }
 
         function yesnoCheck(id) {
@@ -2668,7 +2656,7 @@
                     x = document.getElementById(divs[i]);
                     xstyle = x.style;
                     xstyle.display = "flex";
-                    $('#<%=hiddenName.ClientID %>').val(id);
+                    $j('#<%=hiddenName.ClientID %>').val(id);
                     //x.display = "block";
                 }
             }
@@ -2678,8 +2666,9 @@
             var hd2 = document.getElementById('<%=hiddenId2.ClientID%>').value;
             var hd1
 
-            if (hd2 == 1) {
-                $('#<%=hiddenId1.ClientID %>').val("1");
+            if (hd2 == 1)
+            {
+                $j('#<%=hiddenId1.ClientID %>').val("1");
                 hd1 = document.getElementById('<%=hiddenId1.ClientID%>').value;
             }
             else { hd1 = document.getElementById('<%=hiddenId1.ClientID%>').value; }
@@ -2693,192 +2682,192 @@
 
         //Click Method Begin
 
-        $('body').on('click', '#MainContent_btnGetTemplate', function (e) {
+        $j('body').on('click', '#MainContent_btnGetTemplate', function (e) {
             //debugger
 
-            $('#<%=hdShowTemplate.ClientID %>').val("1")
-            $('#MainContent_btnImportExcel').removeClass('hideProp')
+            $j('#<%=hdShowTemplate.ClientID %>').val("1")
+            $j('#MainContent_btnImportExcel').removeClass('hideProp')
         });
 
         // show import excel panel
-        $('body').on('click', '#MainContent_btnAddFiles', function (e) {
+        $j('body').on('click', '#MainContent_btnAddFiles', function (e) {
             //debugger
 
             //var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-            //if (hdFile == "0") { $('#<%=hdAddClaimFile.ClientID %>').val("1"); }
-            //else { $('#<%=hdAddClaimFile.ClientID %>').val("0"); }
+            //if (hdFile == "0") { $j('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            //else { $j('#<%=hdAddClaimFile.ClientID %>').val("0"); }
         });
 
-        $('body').on('click', '#MainContent_btnImportExcel', function (e) {
+        $j('body').on('click', '#MainContent_btnImportExcel', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
             if (hdFile == "0")
-                $('#<%=hdFileImportFlag.ClientID %>').val("1")
+                $j('#<%=hdFileImportFlag.ClientID %>').val("1")
         });
 
-        $('body').on('click', '#MainContent_btnExitComment', function (e) {
+        $j('body').on('click', '#MainContent_btnExitComment', function (e) {
             //debugger
 
-            $('#<%=hdAddComments.ClientID %>').val("0")
-            $('#<%=hdAddVndComments.ClientID %>').val("0")
+            $j('#<%=hdAddComments.ClientID %>').val("0")
+            $j('#<%=hdAddVndComments.ClientID %>').val("0")            
 
-            $('#<%=hdSeeComments.ClientID %>').val("0")
-            $('#<%=hdSeeVndComments.ClientID %>').val("0")
+            $j('#<%=hdSeeComments.ClientID %>').val("0")
+            $j('#<%=hdSeeVndComments.ClientID %>').val("0")
         });
 
-        $('body').on('click', '#MainContent_btnAddComments', function (e) {
+        $j('body').on('click', '#MainContent_btnAddComments', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdDisplayAddVndClaim.ClientID%>').value
             if (hdFile == "0") {
-                //$('#<%=hdDisplayAddVndClaim.ClientID %>').val("1")
-                $('#<%=hdAddComments.ClientID %>').val("0")
-                $('#<%=hdAddVndComments.ClientID %>').val("1")
+                //$j('#<%=hdDisplayAddVndClaim.ClientID %>').val("1")
+                $j('#<%=hdAddComments.ClientID %>').val("0")
+                $j('#<%=hdAddVndComments.ClientID %>').val("1")
             }
             else {
-                $('#<%=hdAddComments.ClientID %>').val("1")
-                $('#<%=hdAddVndComments.ClientID %>').val("0")
+                $j('#<%=hdAddComments.ClientID %>').val("1")
+                $j('#<%=hdAddVndComments.ClientID %>').val("0")
             }
 
-            $('#<%=hdSeeComments.ClientID %>').val("0")
-            $('#<%=hdSeeVndComments.ClientID %>').val("0")
+            $j('#<%=hdSeeComments.ClientID %>').val("0")
+            $j('#<%=hdSeeVndComments.ClientID %>').val("0")
         });
 
-        $('body').on('click', '#MainContent_btnSeeComments', function (e) {
+        $j('body').on('click', '#MainContent_btnSeeComments', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
             if (hdFile == "0") {
-                <%--$('#<%=hdDisplaySeeVndClaim.ClientID %>').val("1")
-                $('#<%=hdDisplayAddVndClaim.ClientID %>').val("0")--%>
+                <%--$j('#<%=hdDisplaySeeVndClaim.ClientID %>').val("1")
+                $j('#<%=hdDisplayAddVndClaim.ClientID %>').val("0")--%>
 
-                $('#<%=hdSeeComments.ClientID %>').val("0")
-                $('#<%=hdSeeVndComments.ClientID %>').val("1")
+                $j('#<%=hdSeeComments.ClientID %>').val("0")
+                $j('#<%=hdSeeVndComments.ClientID %>').val("1")
             }
             else {
-                $('#<%=hdSeeComments.ClientID %>').val("1")
-                $('#<%=hdSeeVndComments.ClientID %>').val("0")
+                $j('#<%=hdSeeComments.ClientID %>').val("1")
+                $j('#<%=hdSeeVndComments.ClientID %>').val("0")
             }
 
-            $('#<%=hdAddComments.ClientID %>').val("0")
-            $('#<%=hdAddVndComments.ClientID %>').val("0")
+            $j('#<%=hdAddComments.ClientID %>').val("0")
+            $j('#<%=hdAddVndComments.ClientID %>').val("0")
         });
 
-        $('body').on('click', '#MainContent_btnExitSeeVndClaim', function (e) {
+        $j('body').on('click', '#MainContent_btnExitSeeVndClaim', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
             if (hdFile == "1")
-                $('#<%=hdDisplaySeeVndClaim.ClientID %>').val("0")
+                $j('#<%=hdDisplaySeeVndClaim.ClientID %>').val("0")
         });
 
-        <%--$('body').on('click', '#MainContent_btnAddComments', function (e) {
+        <%--$j('body').on('click', '#MainContent_btnAddComments', function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdAddComments.ClientID%>').value
             if (hdFile == "0")
-                $('#<%=hdAddComments.ClientID %>').val("1")
+                $j('#<%=hdAddComments.ClientID %>').val("1")
         });--%>
 
-        $('body').on('click', '#MainContent_btnSave', function (e) {
+        $j('body').on('click', '#MainContent_btnSave', function (e) {
             //debugger
 
-            $('#<%=hdShowTemplate.ClientID %>').val("0")
-            $('#MainContent_btnImportExcel').addClass('hideProp')
+            $j('#<%=hdShowTemplate.ClientID %>').val("0")
+            $j('#MainContent_btnImportExcel').addClass('hideProp')
         });
 
         //close import excel panel
-        $('body').on('click', "#MainContent_btnBack", function (e) {
+        $j('body').on('click', "#MainContent_btnBack", function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
             if (hdFile == "1")
-                $('#<%=hdFileImportFlag.ClientID %>').val("0")
-        });
+                $j('#<%=hdFileImportFlag.ClientID %>').val("0")
+        }); 
 
-        $('body').on('click', "#MainContent_btnBackFile", function (e) {
+        $j('body').on('click', "#MainContent_btnBackFile", function (e) {
             //debugger
 
             var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-            if (hdFile == "1")
-                $('#<%=hdAddClaimFile.ClientID %>').val("0")
-        });
+            if (hdFile == "1")                
+                $j('#<%=hdAddClaimFile.ClientID %>').val("0")
+        }); 
 
         //Click Method End
 
         //Change Method Begin
 
-        $('body').on('change', "#<%=ddlSearchExtStatus.ClientID %>", function () {
+        $j('body').on('change', "#<%=ddlSearchExtStatus.ClientID %>", function () {
             var value = document.getElementById("<%=ddlSearchExtStatus.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;
-            $('#<%=hdStatusOut.ClientID %>').val(getindex);
+            $j('#<%=hdStatusOut.ClientID %>').val(getindex);
 
             var value1 = document.getElementById("<%=ddlSearchExtStatus.ClientID %>").id;
-            $('#<%=selectedFilter.ClientID %>').val(value1);
+            $j('#<%=selectedFilter.ClientID %>').val(value1);
 
         });
 
-        $('body').on('change', "#<%=ddlSearchIntStatus.ClientID %>", function () {
+        $j('body').on('change', "#<%=ddlSearchIntStatus.ClientID %>", function () {
             var value = document.getElementById("<%=ddlSearchIntStatus.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;
-            $('#<%=hdStatusIn.ClientID %>').val(getindex);
+            $j('#<%=hdStatusIn.ClientID %>').val(getindex);
 
             <%--var value1 = document.getElementById("<%=ddlSearchIntStatus.ClientID %>").id;
-            $('#<%=selectedFilter.ClientID %>').val(value1);--%>
+            $j('#<%=selectedFilter.ClientID %>').val(value1);--%>
 
         });
 
-        $('body').on('change', "#<%=ddlSearchUser.ClientID %>", function () {
+        $j('body').on('change', "#<%=ddlSearchUser.ClientID %>", function () {
             var value = document.getElementById("<%=ddlSearchUser.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;
-            $('#<%=hdUserSelected.ClientID %>').val(getindex);
+            $j('#<%=hdUserSelected.ClientID %>').val(getindex);
 
             <%--var value1 = document.getElementById("<%=ddlSearchIntStatus.ClientID %>").id;
-            $('#<%=selectedFilter.ClientID %>').val(value1);--%>
+            $j('#<%=selectedFilter.ClientID %>').val(value1);--%>
 
         });
 
-        $('body').on('change', "#<%=ddlSearchDiagnose.ClientID %>", function () {
+        $j('body').on('change', "#<%=ddlSearchDiagnose.ClientID %>", function () {
             var value = document.getElementById("<%=ddlSearchDiagnose.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;
-            $('#<%=hdDiagnose.ClientID %>').val(getindex);
+            $j('#<%=hdDiagnose.ClientID %>').val(getindex);
 
             var value1 = document.getElementById("<%=ddlSearchDiagnose.ClientID %>").id;
-            $('#<%=selectedFilter.ClientID %>').val(value1);
+            $j('#<%=selectedFilter.ClientID %>').val(value1);
         });
 
-        $('body').on('change', "#<%=ddlSearchReason.ClientID %>", function () {
+        $j('body').on('change', "#<%=ddlSearchReason.ClientID %>", function () {
             //debugger
 
             var value = document.getElementById("<%=ddlSearchReason.ClientID %>");            
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;  
-            $('#<%=hdReason.ClientID %>').val(getindex);  
+            $j('#<%=hdReason.ClientID %>').val(getindex);  
 
             var value1 = document.getElementById("<%=ddlSearchReason.ClientID %>").id;
-            $('#<%=selectedFilter.ClientID %>').val(value1);             
+            $j('#<%=selectedFilter.ClientID %>').val(value1);             
             
          });        
 
         function checkHdImportExcel(control) {
             var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
             if (hdFile == "0")
-                $('#<%=hdFileImportFlag.ClientID %>').val("1")
+                $j('#<%=hdFileImportFlag.ClientID %>').val("1")
             else
-                $('#<%=hdFileImportFlag.ClientID %>').val("0")
+                $j('#<%=hdFileImportFlag.ClientID %>').val("0")
         }
 
         //MainContent_ddlDiagnoseData
-        $('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
+        $j('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
             //debugger
 
-            var valuee = $('#<%=ddlDiagnoseData.ClientID %> option:selected').text();
-            $('#<%=hdSelectedDiagnose.ClientID %>').val(valuee);
+            var valuee = $j('#<%=ddlDiagnoseData.ClientID %> option:selected').text();
+            $j('#<%=hdSelectedDiagnose.ClientID %>').val(valuee);
 
         });
 
@@ -2888,9 +2877,9 @@
 
         function claimNoAutoComplete() {
 
-            $(".autosuggestclaim").autocomplete({
+            $j(".autosuggestclaim").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
                         url: "Default.aspx/GetAutoCompleteDataClaimNo",
@@ -2907,16 +2896,16 @@
                 },
                 select: function (event, ui) {
                     var autocomplete_value = ui.item;
-                    $("#<%=hdClaimNoSelected.ClientID %>").val(autocomplete_value.value);
+                    $j("#<%=hdClaimNoSelected.ClientID %>").val(autocomplete_value.value);
                     //__doPostBack("#<%=hdClaimNoSelected.ClientID %>", "");
                 }
             });
         }
 
         function PartNoAutoComplete() {
-            $(".autosuggestpart").autocomplete({
+            $j(".autosuggestpart").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
                         url: "Default.aspx/GetAutoCompleteDataPartNo",
@@ -2934,16 +2923,16 @@
                 select: function (event, ui) {
                     var autocomplete_value = ui.item;
                     //alert(autocomplete_value.value);
-                    $("#<%=hdPartNoSelected.ClientID %>").val(autocomplete_value.value);
+                    $j("#<%=hdPartNoSelected.ClientID %>").val(autocomplete_value.value);
                     //__doPostBack("#<%=hdPartNoSelected.ClientID %>", "");
                 }
             });
         }
 
         function CustomerNoAutoComplete() {
-            $(".autosuggestcustomer").autocomplete({
+            $j(".autosuggestcustomer").autocomplete({
                 source: function (request, response) {
-                    $.ajax({
+                    $j.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
                         url: "Default.aspx/GetAutoCompleteDataCustomerNo",
@@ -2960,7 +2949,7 @@
                 },
                 select: function (event, ui) {
                     var autocomplete_value = ui.item;
-                    $("#<%=hdCustomerNoSelected.ClientID %>").val(autocomplete_value.value);
+                    $j("#<%=hdCustomerNoSelected.ClientID %>").val(autocomplete_value.value);
                    // __doPostBack("#<%=hdCustomerNoSelected.ClientID %>", "");
                 }
             });
@@ -2970,7 +2959,7 @@
 
         var divname;  
 
-        $(function () {
+        $j(function () {
 
             //debugger
 
@@ -2993,7 +2982,7 @@
             
             divexpandcollapse(divname)
             
-            $('#MainContent_txtDateEntered').datepicker(
+            $j('#MainContent_txtDateEntered').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3001,7 +2990,7 @@
                     yearRange: '1900:2100'
                 }); 
 
-            $('#MainContent_txtInstDate').datepicker(
+            $j('#MainContent_txtInstDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3009,7 +2998,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtQuarantineDate').datepicker(
+            $j('#MainContent_txtQuarantineDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3017,7 +3006,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtClaimAuthDate').datepicker(
+            $j('#MainContent_txtClaimAuthDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3025,7 +3014,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtInitialReviewDate').datepicker(
+            $j('#MainContent_txtInitialReviewDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3033,7 +3022,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtAcknowledgeEmailDate').datepicker(
+            $j('#MainContent_txtAcknowledgeEmailDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3041,7 +3030,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtWaitSupReviewDate').datepicker(
+            $j('#MainContent_txtWaitSupReviewDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3049,7 +3038,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtInfoCustDate').datepicker(
+            $j('#MainContent_txtInfoCustDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3057,7 +3046,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtPartRequestedDate').datepicker(
+            $j('#MainContent_txtPartRequestedDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3065,7 +3054,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtPartReceivedDate').datepicker(
+            $j('#MainContent_txtPartReceivedDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3073,7 +3062,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtTechReviewDate').datepicker(
+            $j('#MainContent_txtTechReviewDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3081,7 +3070,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtClaimCompletedDate').datepicker(
+            $j('#MainContent_txtClaimCompletedDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3089,7 +3078,7 @@
                     yearRange: '1940:2100'
                 });
 
-            $('#MainContent_txtInvoiceDate').datepicker(
+            $j('#MainContent_txtInvoiceDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3097,7 +3086,7 @@
                     yearRange: '1940:2100'
                 });
 
-            $('#MainContent_txtInvoiceDate1').datepicker(
+            $j('#MainContent_txtInvoiceDate1').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3105,10 +3094,10 @@
                     yearRange: '1940:2100'
                 });
 
-            $.datepicker.setDefaults($.datepicker.regional['en']);            
+            $j.datepicker.setDefaults($j.datepicker.regional['en']);            
 
             var dateFormat = "mm/dd/yy",
-                from = $("#<%= txtDateInit.ClientID %>")
+                from = $j("#<%= txtDateInit.ClientID %>")
                     .datepicker({
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -3119,7 +3108,7 @@
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-                to = $("#<%= txtDateTo.ClientID %>").datepicker({
+                to = $j("#<%= txtDateTo.ClientID %>").datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
                     dateFormat: 'mm/dd/yy',
@@ -3135,7 +3124,7 @@
 
                 var date;
                 try {
-                    date = $.datepicker.parseDate(dateFormat, element.value);
+                    date = $j.datepicker.parseDate(dateFormat, element.value);
                 } catch (error) {
                     date = null;
                 }
@@ -3145,7 +3134,7 @@
 
             fixVisibilityColumns();
 
-            setHeight($('#MainContent_txtCustStatement'));
+            setHeight($j('#MainContent_txtCustStatement'));
             
             console.log("EndFunction");
 
@@ -3162,7 +3151,7 @@
         });  
 
         function execDatePickers() {
-            $('#MainContent_txtDateEntered').datepicker(
+            $j('#MainContent_txtDateEntered').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3170,7 +3159,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtInstDate').datepicker(
+            $j('#MainContent_txtInstDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3178,7 +3167,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtQuarantineDate').datepicker(
+            $j('#MainContent_txtQuarantineDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3186,7 +3175,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtClaimAuthDate').datepicker(
+            $j('#MainContent_txtClaimAuthDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3194,7 +3183,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtInitialReviewDate').datepicker(
+            $j('#MainContent_txtInitialReviewDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3202,7 +3191,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtAcknowledgeEmailDate').datepicker(
+            $j('#MainContent_txtAcknowledgeEmailDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3210,7 +3199,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtWaitSupReviewDate').datepicker(
+            $j('#MainContent_txtWaitSupReviewDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3218,7 +3207,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtInfoCustDate').datepicker(
+            $j('#MainContent_txtInfoCustDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3226,7 +3215,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtPartRequestedDate').datepicker(
+            $j('#MainContent_txtPartRequestedDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3234,7 +3223,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtPartReceivedDate').datepicker(
+            $j('#MainContent_txtPartReceivedDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3242,7 +3231,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtTechReviewDate').datepicker(
+            $j('#MainContent_txtTechReviewDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3250,7 +3239,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtClaimCompletedDate').datepicker(
+            $j('#MainContent_txtClaimCompletedDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3258,7 +3247,7 @@
                     yearRange: '1900:2100'
                 });
 
-            $('#MainContent_txtInvoiceDate').datepicker(
+            $j('#MainContent_txtInvoiceDate').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3266,7 +3255,7 @@
                     yearRange: '1940:2100'
                 });
 
-            $('#MainContent_txtInvoiceDate1').datepicker(
+            $j('#MainContent_txtInvoiceDate1').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3274,7 +3263,7 @@
                     yearRange: '1940:2100'
                 });
 
-            $('#MainContent_txtAddCommDateInit').datepicker(
+            $j('#MainContent_txtAddCommDateInit').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3282,7 +3271,7 @@
                     yearRange: '1940:2100'
                 });
 
-            $('#MainContent_txtAddVndCommDateInit').datepicker(
+            $j('#MainContent_txtAddVndCommDateInit').datepicker(
                 {
                     dateFormat: 'mm/dd/yy',
                     changeMonth: true,
@@ -3290,7 +3279,7 @@
                     yearRange: '1940:2100'
                 });
 
-            $.datepicker.setDefaults($.datepicker.regional['en']);
+            $j.datepicker.setDefaults($j.datepicker.regional['en']);
         }
 
         function pageLoad(event, args) {
@@ -3300,7 +3289,7 @@
 
             execDatePickers();
            
-            //$("#navsSection").removeAttr("style");
+            //$j("#navsSection").removeAttr("style");
 
             if (args.get_isPartialLoad()) {  
 
@@ -3308,78 +3297,78 @@
                 //case fileExcel  
                 var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
                 if (hdFile == "1") {
-                    $('#MainContent_loadFileSection').closest('.container').removeClass('hideProp')
+                    $j('#MainContent_loadFileSection').closest('.container').removeClass('hideProp')
                 } 
 
                 var hdAddClaimFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-                if (hdAddClaimFile == "1") { $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
-                else { $('#MainContent_AddFilesSection').addClass('hideProp'); }
+                if (hdAddClaimFile == "1") { $j('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
+                else { $j('#MainContent_AddFilesSection').addClass('hideProp'); }
 
                 var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
                 if (hdDisplaySeeVndClaim == "1") {
-                    $('#MainContent_seeVendorComments').closest('.container').removeClass('hideProp')
+                    $j('#MainContent_seeVendorComments').closest('.container').removeClass('hideProp')
                 } else {
-                    $('#MainContent_seeVendorComments').addClass('hideProp')
+                    $j('#MainContent_seeVendorComments').addClass('hideProp')
                 }
 
                 var hdAddVndComments = document.getElementById('<%=hdAddVndComments.ClientID%>').value
                 if (hdAddVndComments == "1") {
-                    $('#MainContent_addVendorComments').closest('.container').removeClass('hideProp')
+                    $j('#MainContent_addVendorComments').closest('.container').removeClass('hideProp')
                 } else {
-                    $('#MainContent_addVendorComments').addClass('hideProp')
+                    $j('#MainContent_addVendorComments').addClass('hideProp')
                 }
 
                 var hdAddComments = document.getElementById('<%=hdAddComments.ClientID%>').value
                 if (hdAddComments == "1") {
-                    $('#MainContent_addCommentsR').closest('.container').removeClass('hideProp')
+                    $j('#MainContent_addCommentsR').closest('.container').removeClass('hideProp')
                 } else {
-                    $('#MainContent_addCommentsR').addClass('hideProp')
+                    $j('#MainContent_addCommentsR').addClass('hideProp')
                 }
 
                 var hdSeeVndComments = document.getElementById('<%=hdSeeVndComments.ClientID%>').value
                 if (hdSeeVndComments == "1") {
-                    $('#MainContent_seeVendorComments').closest('.container').removeClass('hideProp')
+                    $j('#MainContent_seeVendorComments').closest('.container').removeClass('hideProp')
                 } else {
-                    $('#MainContent_seeVendorComments').addClass('hideProp')
+                    $j('#MainContent_seeVendorComments').addClass('hideProp')
                 }
 
                 var hdSeeComments = document.getElementById('<%=hdSeeComments.ClientID%>').value
                 if (hdSeeComments == "1") {
-                    $('#MainContent_seeCommentsR').closest('.container').removeClass('hideProp')
+                    $j('#MainContent_seeCommentsR').closest('.container').removeClass('hideProp')
                 } else {
-                    $('#MainContent_seeCommentsR').addClass('hideProp')
+                    $j('#MainContent_seeCommentsR').addClass('hideProp')
                 }
 
                 var hdShowBtn = document.getElementById('<%=hdShowTemplate.ClientID%>').value;
                 if (hdShowBtn = "1") {
-                    $('#MainContent_btnImportExcel').removeClass('hideProp')
+                    $j('#MainContent_btnImportExcel').removeClass('hideProp')
                 }
                 else {
-                    $('#MainContent_btnImportExcel').addClass('hideProp')
+                    $j('#MainContent_btnImportExcel').addClass('hideProp')
                 }
 
                 var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
                 if (hdSeeCommDef == "1") {
-                    $('#MainContent_rowSeeComments').removeClass('hideProp');
+                    $j('#MainContent_rowSeeComments').removeClass('hideProp');
                 }
                 else {
-                    $('#MainContent_rowSeeComments').addClass('hideProp');
+                    $j('#MainContent_rowSeeComments').addClass('hideProp');
                 }
 
                 var hdCloseBtn = document.getElementById('<%=hdShowCloseBtn.ClientID%>').value;
                 if (hdCloseBtn == "1") {
-                    $('#MainContent_rwCloseClaim').removeClass('hideProp');
+                    $j('#MainContent_rwCloseClaim').removeClass('hideProp');
                 }
                 else {
-                    $('#MainContent_rwCloseClaim').addClass('hideProp');
+                    $j('#MainContent_rwCloseClaim').addClass('hideProp');
                 }
 
                 var hd = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
                 var hd1 = document.getElementById('<%=hdTriggeredControl.ClientID%>').value;
                 var hd2 = document.getElementById('<%=hdLaunchControl.ClientID%>').value;
 
-                var iAccess = $("#div" + hd1);
-                var iContainer = $("#" + hd2);                
+                var iAccess = $j("#div" + hd1);
+                var iContainer = $j("#" + hd2);                
 
                 var iValue = iContainer.children(0).children(0)     
                 //var iClass = iValue.attr('class');
@@ -3408,7 +3397,7 @@
                     //iValue.addClass('fa-minus').removeClass('fa-plus');
                     //iValue.toggleClass('fa-plus fa-minus');//.removeClass('fa fa-plus');
 
-                    //$('#MainContent_loadFileSection').closest('.container').removeClass('hideProp')
+                    //$j('#MainContent_loadFileSection').closest('.container').removeClass('hideProp')
                 }
                 else {
 
@@ -3434,36 +3423,36 @@
                 }
 
 
-                $('#<%=hdLinkExpand.ClientID %>').val("0"); 
+                $j('#<%=hdLinkExpand.ClientID %>').val("0"); 
 
 
                 var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
                 if (hdGridVisualization == "1") {
-                    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
                 }
                 else {
-                    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
-                    $("#MainContent_navsSection").removeAttr("style");
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                    $j("#MainContent_navsSection").removeAttr("style");
                 }
 
                 var hdTabsVisualization = document.getElementById('<%=hdNavTabsContent.ClientID%>').value
                 if (hdTabsVisualization == "1") {
-                    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
-                    $("#MainContent_navsSection").removeAttr("style");
-                    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                    $j('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                    $j("#MainContent_navsSection").removeAttr("style");
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
                 }
                 else {
-                    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
-                    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
                 }
 
                 fixVisibilityColumns();
 
-                setHeight($('#MainContent_txtCustStatement'));
+                setHeight($j('#MainContent_txtCustStatement'));
 
                 activeTab();
 
@@ -3471,36 +3460,30 @@
 
                 DefaulSeeComm();
 
-                var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
-                $('#<%=lblUserLogged.ClientID %>').val(hdWelcome); 
-
             }
-
-            var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
-            $('#<%=lblUserLogged.ClientID %>').val(hdWelcome); 
             
 
             <%--var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
                 if (hdGridVisualization == "1") {
-                    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
                 }
                 else {
-                    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                    $j('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
                 }
 
             var hdTabsVisualization = document.getElementById('<%=hdNavTabsContent.ClientID%>').value
             if (hdTabsVisualization == "1") {
-                $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                $j('#MainContent_navsSection').closest('.container').removeClass('hideProp')
             }
             else {
-                $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                $j('#MainContent_navsSection').closest('.container').addClass('hideProp')
             }--%>
 
             var hd1 = document.getElementById('<%=hiddenId1.ClientID%>').value;
             var hd2 = document.getElementById('<%=hiddenId2.ClientID%>').value;
 
             var hdName = document.getElementById('<%=hiddenName.ClientID%>').value;
-            //$('#accordion_2 h5 a').click(function () {
+            //$j('#accordion_2 h5 a').click(function () {
 
             yesnoCheckCustom(hdName)           
 
@@ -3514,12 +3497,12 @@
             PartNoAutoComplete()
             CustomerNoAutoComplete()
 
-            setHeight($('#MainContent_txtCustStatement'));
+            setHeight($j('#MainContent_txtCustStatement'));
             
             var hdFil = document.getElementById('<%=selectedFilter.ClientID%>').value;
             //processDDLSelection(hdFil)
 
-            //$('#MainContent_txtDateTo').datepicker(
+            //$j('#MainContent_txtDateTo').datepicker(
             //    {
             //        dateFormat: 'MM/dd/yyyy',
             //        changeMonth: true,
@@ -3527,7 +3510,7 @@
             //        yearRange: '1950:2100'
             //    });
 
-            //$('#MainContent_txtDateInit').datepicker(
+            //$j('#MainContent_txtDateInit').datepicker(
             //    {
             //        dateFormat: 'MM/dd/yyyy',
             //        changeMonth: true,
@@ -3535,23 +3518,23 @@
             //        yearRange: '1950:2100'
             //    });
 
-            $.datepicker.setDefaults($.datepicker.regional['en']);
+            $j.datepicker.setDefaults($j.datepicker.regional['en']);
 
-            <%--$("#<%= txtDateTo.ClientID %>").datepicker({
+            <%--$j("#<%= txtDateTo.ClientID %>").datepicker({
                 dateFormat: 'mm/dd/yy',
                 autoClose: true
                 //,
                 //onSelect: function () {
-                //    selectedDate = $.datepicker.formatDate("yyyy/mm/dd", $(this).datepicker());
+                //    selectedDate = $.datepicker.formatDate("yyyy/mm/dd", $j(this).datepicker());
                 //}
             });
 
-            $("#<%= txtDateInit.ClientID %>").datepicker({
+            $j("#<%= txtDateInit.ClientID %>").datepicker({
                 dateFormat: 'mm/dd/yy',
                 autoclose: true
                 //,
                 //onSelect: function () {
-                //    selectedDate = $.datepicker.formatDate("yyyy/mm/dd", $(this).datepicker());
+                //    selectedDate = $.datepicker.formatDate("yyyy/mm/dd", $j(this).datepicker());
                 //}
             });--%>
 
@@ -3568,93 +3551,93 @@
 
         function fixesSmallBtnClass() {
 
-            $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+            $j('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
 
 
-            if ($('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
+            if ($j('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
 
-                $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);
+                $j('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
+                $j('#<%=chkInitialReview.ClientID %>').attr('disabled', true);
 
-                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $j('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
 
 
             }
 
-            if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {                
+            if ($j('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {                
                 
-                $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
-                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $j('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
 
             }
 
-            if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
+            if ($j('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
                
-                $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
-                $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $j('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
 
             }
 
-            if ($('#<%=chkPartRequested.ClientID %>').is(':checked')) {
+            if ($j('#<%=chkPartRequested.ClientID %>').is(':checked')) {
                 
-                $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
-                $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $j('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
 
             }
 
-            if ($('#<%=chkPartReceived.ClientID %>').is(':checked')) {
+            if ($j('#<%=chkPartReceived.ClientID %>').is(':checked')) {
                
-                $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
-                $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $j('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
-
-            }
-
-            if ($('#<%=chkTechReview.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
-                $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
-
-                $('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
 
             }
 
-            if ($('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
+            if ($j('#<%=chkTechReview.ClientID %>').is(':checked')) {
                 
-                $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
-                $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $j('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+
+            }
+
+            if ($j('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
+                
+                $j('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                $j('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                $j('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $j('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
+                $j('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
             }
 
         }
 
         function rangePicker1() {
             var dateFormat = "mm/dd/yy",
-                from = $("#<%= txtDateInit.ClientID %>")
+                from = $j("#<%= txtDateInit.ClientID %>")
                     .datepicker({
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -3665,7 +3648,7 @@
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-                to = $("#<%= txtDateTo.ClientID %>")
+                to = $j("#<%= txtDateTo.ClientID %>")
                     .datepicker({
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -3691,7 +3674,7 @@
 
         function rangePicker2() {
             var dateFormat = "mm/dd/yy",
-                from = $("#<%= txtAddCommDateInit.ClientID %>")
+                from = $j("#<%= txtAddCommDateInit.ClientID %>")
                     .datepicker({
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -3702,7 +3685,7 @@
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-                to = $("#<%= txtAddCommDateTo.ClientID %>").datepicker({
+                to = $j("#<%= txtAddCommDateTo.ClientID %>").datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
                     dateFormat: 'mm/dd/yy',
@@ -3727,7 +3710,7 @@
 
         function rangePicker3() {
             var dateFormat = "mm/dd/yy",
-                from = $("#<%= txtAddVndCommDateInit.ClientID %>")
+                from = $j("#<%= txtAddVndCommDateInit.ClientID %>")
                     .datepicker({
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -3738,7 +3721,7 @@
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-                to = $("#<%= txtAddVndCommDateTo.ClientID %>").datepicker({
+                to = $j("#<%= txtAddVndCommDateTo.ClientID %>").datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
                     dateFormat: 'mm/dd/yy',
@@ -3763,8 +3746,5 @@
 
     </script>
 
-
-
-</asp:Content>
-
+</asp:content>
 
