@@ -108,7 +108,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="qua" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Quality Control <span class="caret"></span></a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
-                                        <li><a class="dropdown-item" href="CustomerClaims">Customer Claims</a></li>                                       
+                                        <li><a class="dropdown-item" href="Default">Customer Claims</a></li>                                       
                                     </ul>                                    
                                 </li>
                                 <li class="nav-item dropdown">

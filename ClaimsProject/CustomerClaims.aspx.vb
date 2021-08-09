@@ -1604,7 +1604,7 @@ Public Class CustomerClaims
         Dim resultProc As Boolean = False
 
         'test user
-        Session("userid") = "AALZATE"
+        'Session("userid") = "AALZATE"
         'test user
 
         Try
@@ -6669,7 +6669,7 @@ Public Class CustomerClaims
             Session("StatusSelected") = Nothing
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
-            Session("userid") = "AALZATE"
+            'Session("userid") = "AALZATE"
             Session("fullObj") = Nothing
             Session("isDDL") = False
 
