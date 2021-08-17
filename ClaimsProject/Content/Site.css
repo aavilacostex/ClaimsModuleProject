@@ -22,9 +22,9 @@ textarea {
     margin-right: 10px !important;
 }
 
-#rowReason {
+/*#rowReason {
     padding-bottom: 15px !important;
-}
+}*/
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -496,7 +496,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     min-width: 100%;
 }
 
-#MainContent_pnConsequentalDamage .form-row {
+#MainContent_pnConsequentalDamage .form-row, #MainContent_pnSubTotalClaimed .form-row, #MainContent_pnPartialCredit .form-row {
     padding-right: 15px;
     padding-left: 15px;
 }

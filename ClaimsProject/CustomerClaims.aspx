@@ -15,6 +15,7 @@
             <%--<asp:AsyncPostBackTrigger ControlID ="ddlSearchIntStatus" /> 
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchUser" /> --%>
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
+            <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
         </Triggers>
 
@@ -1569,14 +1570,22 @@
                                                     <div class="col-md-12">
                                                         <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
                                                         <div class="form-row paddingtop8">
-                                                            <div class="col-md-3"></div>
+                                                            <%--<div class="col-md-3"></div>--%>
                                                             <div class="col-md-3">
                                                                 <asp:Label ID="lblParts" CssClass="control-label" Text="Unit Cost Value" runat="server" />
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <asp:TextBox ID="txtParts" CssClass="form-control" runat="server" />
+                                                                <asp:TextBox ID="txtParts" CssClass="form-control" Enabled="false" runat="server" />
                                                             </div>
-                                                            <div class="col-md-3"></div>
+                                                            <%--<div class="col-md-3"></div>--%>
+                                                            <div class="col-md-3">
+                                                                <asp:Label ID="lblTotValue" CssClass="control-label" Text="Total Claim Value" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <asp:TextBox ID="txtTotValue" Enabled="false" CssClass="form-control" runat="server" />
+                                                            </div>
+
+
                                                             <div class="col-md-2 hideProp">
                                                                 <asp:Label ID="lblFreight" CssClass="control-label" Text="Freight" runat="server" />
                                                             </div>
@@ -1593,8 +1602,11 @@
                                             <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequental Damage" runat="server">
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
-                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
                                                         <asp:Label ID="lblConsDamage" Text="Consequental damage, if any." CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
+                                                        <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
+			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                        </asp:LinkButton>
                                                         <%--<asp:TextBox ID="txtConsDamage" CssClass="form-control" runat="server"></asp:TextBox>--%>
                                                     </div>
                                                 </div>
@@ -1635,19 +1647,27 @@
                                             <br />
 
                                             <asp:Panel ID="pnPartialCredit" GroupingText="Partial Credit"  runat="server">
+                                                <div class="form-row paddingtop8">
+                                                    <div class="col-md-12"> 
+                                                        <asp:Label ID="lblPCred" Text="Credit To Apply" CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:CheckBox ID="chkPCred" OnCheckedChanged="chkPCred_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
+                                                        <asp:LinkButton ID="lnkPCred" class="btn btn-primary btnSmallSize" runat="server">
+			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                        </asp:LinkButton>
+                                                    </div>
+                                                </div>
                                                 <div class="form-row last paddingtop8">
-                                                    <div class="col-md-12">
-                                                        <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
-                                                        <div class="form-row paddingtop8">
-                                                            <div class="col-md-3"></div>
-                                                            <div class="col-md-3">
-                                                                <asp:Label ID="lblPartCred" CssClass="control-label" Text="Credit To Apply" runat="server" />
+                                                    <div class="col-md-12">   
+                                                        <div class="form-row">
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-4">
+                                                                <asp:Label ID="lblPartCred" CssClass="control-label" Text="New Total Claim Value" runat="server" />
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <asp:TextBox ID="txtPartCred" CssClass="form-control" runat="server" /> 
+                                                            <div class="col-md-4">
+                                                                <asp:TextBox ID="txtPartCred" Enabled="false" CssClass="form-control" runat="server" />
                                                             </div>
-                                                            <div class="col-md-3"></div>
-                                                        </div>
+                                                            <div class="col-md-2"></div>
+                                                        </div>                                                                                                 
                                                     </div>
                                                 </div>
                                             </asp:Panel>

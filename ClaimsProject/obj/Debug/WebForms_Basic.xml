@@ -2566,6 +2566,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblTotValue">
+<summary>
+lblTotValue control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._txtTotValue">
+<summary>
+txtTotValue control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._lblFreight">
 <summary>
 lblFreight control.
@@ -2593,6 +2611,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblConsDamage">
+<summary>
+lblConsDamage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._chkConsDamage">
 <summary>
 chkConsDamage control.
@@ -2602,9 +2629,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.CustomerClaims._lblConsDamage">
+<member name="F:ClaimsProject.CustomerClaims._lnkConsDamage">
 <summary>
-lblConsDamage control.
+lnkConsDamage control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -2713,6 +2740,33 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._pnPartialCredit">
 <summary>
 pnPartialCredit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblPCred">
+<summary>
+lblPCred control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._chkPCred">
+<summary>
+chkPCred control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lnkPCred">
+<summary>
+lnkPCred control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -3393,6 +3447,13 @@ rowBtn control.
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
+</member>
+<member name="M:ClaimsProject.CustomerClaims.btnSaveTab_Click(System.Object,System.EventArgs)">
+ <summary>
+ Main Method to save claim data
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
 </member>
 <member name="M:ClaimsProject.CustomerClaims.PrepareQuery(System.String@)">
  <summary>

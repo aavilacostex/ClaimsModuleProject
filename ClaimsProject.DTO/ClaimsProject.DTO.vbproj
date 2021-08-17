@@ -70,6 +70,8 @@
     <Compile Include="ClaimExtras.vb" />
     <Compile Include="ClaimInformation.vb" />
     <Compile Include="ClaimObj.vb" />
+    <Compile Include="ClaimObj500To1500User.vb" />
+    <Compile Include="ClaimObjUserLoggedLimit.vb" />
     <Compile Include="ClaimSales.vb" />
     <Compile Include="ClaimsCustomerInfo.vb" />
     <Compile Include="ClaimsData.vb" />
@@ -77,6 +79,7 @@
     <Compile Include="ClaimsGeneral-old.vb" />
     <Compile Include="ClaimsProject.DTO-old.vb" />
     <Compile Include="ClaimStatus.vb" />
+    <Compile Include="ClaimTotalValues.vb" />
     <Compile Include="DetaisHeader.vb" />
     <Compile Include="ExternalStatus.vb" />
     <Compile Include="InfoEngine.vb" />
