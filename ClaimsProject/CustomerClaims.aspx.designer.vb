@@ -2498,321 +2498,6 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtTotalAmount As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''lblFiveTabDesc control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblFiveTabDesc As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''pnTotals control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnTotals As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''pnSubTotalClaimed control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnSubTotalClaimed As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''lblParts control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblParts As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtParts control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtParts As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblTotValue control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblTotValue As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtTotValue control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtTotValue As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblFreight control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblFreight As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtFreight control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtFreight As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''pnConsequentalDamage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnConsequentalDamage As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''lblConsDamage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblConsDamage As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''chkConsDamage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkConsDamage As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''lnkConsDamage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lnkConsDamage As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''lblCDLabor control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCDLabor As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtCDLabor control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtCDLabor As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblCDPart control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCDPart As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtCDPart control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtCDPart As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblCDFreight control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCDFreight As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtCDFreight control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtCDFreight As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblCDMisc control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCDMisc As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtCDMisc control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtCDMisc As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Label3 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Label3 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtConsDamageTotal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtConsDamageTotal As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''btnGetTotalCDValue control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnGetTotalCDValue As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''pnPartialCredit control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnPartialCredit As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''lblPCred control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblPCred As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''chkPCred control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkPCred As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''lnkPCred control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lnkPCred As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''lblPartCred control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblPartCred As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtPartCred control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtPartCred As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''pnSubTotalClaim control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnSubTotalClaim As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''lblApproved control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblApproved As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''chkApproved control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkApproved As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''lblDeclined control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblDeclined As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''chkDeclined control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkDeclined As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
     '''lblFourTabDesc control.
     '''</summary>
     '''<remarks>
@@ -3297,6 +2982,330 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnExitSeeVndClaim As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lblFiveTabDesc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFiveTabDesc As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''pnTotals control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnTotals As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''pnSubTotalClaimed control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnSubTotalClaimed As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''lblParts control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblParts As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtParts control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtParts As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblTotValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotValue As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtTotValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtTotValue As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblFreight control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFreight As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtFreight control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtFreight As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''pnConsequentalDamage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnConsequentalDamage As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''lblConsDamage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblConsDamage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''chkConsDamage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkConsDamage As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkConsDamage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkConsDamage As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''lblCDLabor control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCDLabor As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtCDLabor control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCDLabor As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblCDPart control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCDPart As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtCDPart control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCDPart As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblCDFreight control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCDFreight As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtCDFreight control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCDFreight As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblCDMisc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCDMisc As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtCDMisc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCDMisc As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Label3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label3 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtConsDamageTotal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtConsDamageTotal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnGetTotalCDValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnGetTotalCDValue As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''pnPartialCredit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnPartialCredit As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''lblPCred control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPCred As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''chkPCred control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkPCred As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkPCred control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkPCred As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''lblPartCred control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPartCred As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtPartCred control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPartCred As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''pnSubTotalClaim control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnSubTotalClaim As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''lblApproved control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblApproved As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''chkApproved control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkApproved As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lblDeclined control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDeclined As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''chkDeclined control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkDeclined As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkCheckApprove control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkCheckApprove As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''rowPnActions control.

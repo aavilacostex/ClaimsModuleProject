@@ -8,6 +8,8 @@ Imports System.Web.Services
 Imports ClaimsProject.DTO
 Imports ClosedXML.Excel
 Imports System.Web
+Imports System.Net.Mail
+Imports System.Net
 
 Public Class CustomerClaims
     Inherits System.Web.UI.Page
@@ -26,6 +28,8 @@ Public Class CustomerClaims
 
         Dim url As String = Nothing
         Dim sel As Integer = -1
+
+        'PrepareEmail()
 
         If Session("userid") Is Nothing Then
             url = String.Format("Login.aspx?data={0}", "Session Expired!")
@@ -1562,13 +1566,29 @@ Public Class CustomerClaims
 
     Protected Sub btnCloseTab_Click(sender As Object, e As EventArgs) Handles btnCloseTab.Click
         Dim exMessage As String = " "
+        Dim methodMessage As String = Nothing
         Try
             hdGridViewContent.Value = "1"
             hdNavTabsContent.Value = "0"
             hdCurrentActiveTab.Value = "#claimoverview"
             hdGetCommentTab.Value = "0"
-            CleanCommentsValues()
-            ClearInputCustom(navsSection)
+
+            Dim blClose = cmdCloseClaim()
+            If blClose Then
+                CleanCommentsValues()
+                ClearInputCustom(navsSection)
+
+                Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                grvClaimReport.DataSource = dsData.Tables(0)
+                grvClaimReport.DataBind()
+
+                methodMessage = "Claim closed successfully."
+                SendMessage(methodMessage, messageType.warning)
+            Else
+                methodMessage = "An error has occurred closing the Claim."
+                SendMessage(methodMessage, messageType.warning)
+            End If
+
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
@@ -1620,7 +1640,7 @@ Public Class CustomerClaims
         Dim resultProc As Boolean = False
 
         'test user
-        'Session("userid") = "AALZATE"
+        Session("userid") = "GMARTOS"
         'test user
 
         Try
@@ -1828,7 +1848,6 @@ Public Class CustomerClaims
                         'Exit Sub
                     End If
 #End Region
-
 #Region "Auth to put costs (Consequental Damages and Freight values)"
                     resultProc = AuthToPutCostsProcess(claimNo, wrnNo, strMessageOut) ' consequental damages
                     If Not resultProc Then
@@ -1840,13 +1859,20 @@ Public Class CustomerClaims
                     End If
 #End Region
 
-#Region "CNTRL parm 186 status (Claim completed and declined - call to reject method )"
+#Region "CNTRL parm 186 status (Claim completed and declined - call to reject method and exit method if true )"
 
                     resultProc = Param186StatusIfDenied(wrnNo, "I", strMessageOut)
                     If Not resultProc Then
                         lstMessages.Add(strMessageOut)
                         'method to prepare the message
                         'Exit Sub
+                    Else
+                        'claim denied
+                        hdNavTabsContent.Value = "0"
+                        hdGridViewContent.Value = "1"
+
+                        SendMessage("Record Updated", messageType.success)
+                        Exit Sub
                     End If
 
 #End Region
@@ -1907,6 +1933,17 @@ Public Class CustomerClaims
                         End If
                         'method to prepare the message
                         'Exit Sub
+                    Else
+
+                        GetClaimsReport("", 1, Nothing, Nothing)
+                        Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                        grvClaimReport.DataSource = dsData.Tables(0)
+                        grvClaimReport.DataBind()
+
+                        hdNavTabsContent.Value = "0"
+                        hdGridViewContent.Value = "1"
+
+                        Exit Sub
                     End If
 #End Region
 #Region "Send Email to person in charge to approved if Claim > $500"
@@ -2013,63 +2050,72 @@ Public Class CustomerClaims
         Try
             If Not String.IsNullOrEmpty(hdSeq.Value.Trim()) And Not String.IsNullOrEmpty(txtClaimNoData.Text.Trim()) Then
 
-                Dim wrnNo = hdSeq.Value.Trim()
-                Dim claimNo = txtClaimNoData.Text.Trim()
-                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                    Dim dsGet = New DataSet()
-                    Dim rsGet = objBL.GetRGAAmountByClaim(txtClaimNoData.Text.Trim(), dsGet)
-                    If rsGet > 0 Then
-                        If dsGet IsNot Nothing Then
-                            If dsGet.Tables(0).Rows.Count > 0 Then
-                                Dim RGAAmount As Integer = 0
-                                Dim goahead = Integer.TryParse(dsGet.Tables(0).Rows(0).Item("TRGAH").ToString().Trim(), RGAAmount)
-                                If RGAAmount <> 0 And goahead Then
-                                    strMessage = "Return has an RGA. It has to be processed to close this Return"
-                                    Return result
-                                Else
-                                    'message (Are you sure, you want to close this claim?.)
-                                    If True Then
-                                        If Not String.IsNullOrEmpty(txtDiagnoseData.Text) Then
-                                            Dim checkComm = saveComm("7 : CLAIM CLOSED", strMessage)
+                Dim dsClose As DataSet = New DataSet()
+                Dim flagClosed = GetClosedClaims(hdSeq.Value.Trim(), dsClose) ' review it is not working yet
 
-                                            chkinitial.Value = "C"
-                                            Dim rsUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
-                                            If rsUpd > 0 Then
-                                                If hdFlagUpload.Value = "U" Then
-                                                    Dim rsUpdClose = objBL.UpdateNWHeaderStat(claimNo, "7")
-                                                    If rsUpdClose > 0 Then
+                If Not flagClosed Then
+
+                    Dim wrnNo = hdSeq.Value.Trim()
+                    Dim claimNo = txtClaimNoData.Text.Trim()
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        Dim dsGet = New DataSet()
+                        Dim rsGet = objBL.GetRGAAmountByClaim(txtClaimNoData.Text.Trim(), dsGet)
+                        If rsGet > 0 Then
+                            If dsGet IsNot Nothing Then
+                                If dsGet.Tables(0).Rows.Count > 0 Then
+                                    Dim RGAAmount As Integer = 0
+                                    Dim goahead = Integer.TryParse(dsGet.Tables(0).Rows(0).Item("TRGAH").ToString().Trim(), RGAAmount)
+                                    If RGAAmount <> 0 And goahead Then
+                                        strMessage = "Return has an RGA. It has to be processed to close this Return"
+                                        Return result
+                                    Else
+                                        'message (Are you sure, you want to close this claim?.)
+                                        If True Then
+                                            If Not String.IsNullOrEmpty(txtDiagnoseData.Text) Then
+                                                Dim checkComm = saveComm("7 : CLAIM CLOSED", strMessage)
+
+                                                chkinitial.Value = "C"
+                                                Dim rsUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                                                If rsUpd > 0 Then
+                                                    If hdFlagUpload.Value = "U" Then
+                                                        Dim rsUpdClose = objBL.UpdateNWHeaderStat(claimNo, "7")
+                                                        If rsUpdClose > 0 Then
+                                                            result = True
+                                                            strMessage = "Claim Closed."
+                                                        Else
+                                                            'error log
+                                                            strMessage = "There is an error updating the NW Header status for the claim number: " + claimNo + "."
+                                                            Return result
+                                                        End If
+                                                    Else
                                                         result = True
                                                         strMessage = "Claim Closed."
-                                                    Else
-                                                        'error log
-                                                        strMessage = "There is an error updating the NW Header status for the claim number: " + claimNo + "."
-                                                        Return result
                                                     End If
                                                 Else
-                                                    result = True
-                                                    strMessage = "Claim Closed."
+                                                    'error log
+                                                    strMessage = "There is an error updating the W Header status for the warning number: " + wrnNo + "."
+                                                    Return result
                                                 End If
+
+                                                'call gotonew
+                                                'fillcell1(strwhere)
+
+                                                deactTxt()
+                                                deactCmd()
+                                                deactCmb()
+
                                             Else
-                                                'error log
-                                                strMessage = "There is an error updating the W Header status for the warning number: " + wrnNo + "."
+                                                strMessage = "Claim can not be closed without a Diagnose selected."
                                                 Return result
                                             End If
-
-                                            'call gotonew
-                                            'fillcell1(strwhere)
-
-                                            deactTxt()
-                                            deactCmd()
-                                            deactCmb()
-
                                         Else
-                                            strMessage = "Claim can not be closed without a Diagnose selected."
-                                            Return result
+
                                         End If
-                                    Else
 
                                     End If
-
+                                Else
+                                    strMessage = "There is an error getting the RGA data for the claim number: " + claimNo + "."
+                                    Return result
                                 End If
                             Else
                                 strMessage = "There is an error getting the RGA data for the claim number: " + claimNo + "."
@@ -2079,12 +2125,12 @@ Public Class CustomerClaims
                             strMessage = "There is an error getting the RGA data for the claim number: " + claimNo + "."
                             Return result
                         End If
-                    Else
-                        strMessage = "There is an error getting the RGA data for the claim number: " + claimNo + "."
-                        Return result
-                    End If
 
-                End Using
+                    End Using
+                Else
+                    result = True
+                End If
+
             Else
                 strMessage = "The claim and warning numbers must have a value in order to proceed."
                 Return result
@@ -2218,23 +2264,18 @@ Public Class CustomerClaims
                                     Dim rsRGANo = objBL.GetRGANumberByClaim(claimNo, dsRGANo)
                                     If rsRGANo > 0 Then
                                         If dsRGANo IsNot Nothing Then
-                                            If dsRGANo.Tables(0).Rows.Count > 0 Then
-                                                Dim paramrga = Right("000000" + dsRGANo.Tables(0).Rows(0).Item("GHRGA#").ToString().Trim(), 6)
-                                                Dim dsRGA = objBL.MoveRGAToHistoric1(paramrga)
-                                                If dsRGA IsNot Nothing Then
-                                                    If dsRGA.Tables(0).Rows.Count > 0 Then
-                                                    Else
-                                                        'error log
-                                                        strMessage = "There is an error moving the RGA to historic."
-                                                        Return result
-                                                    End If
+                                            Dim paramrga = Right("000000" + dsRGANo.Tables(0).Rows(0).Item("GHRGA#").ToString().Trim(), 6)
+                                            Dim dsRGA = objBL.MoveRGAToHistoric1(paramrga)
+                                            If dsRGA IsNot Nothing Then
+                                                If dsRGA.Tables(0).Rows.Count > 0 Then
                                                 Else
                                                     'error log
                                                     strMessage = "There is an error moving the RGA to historic."
                                                     Return result
                                                 End If
                                             Else
-                                                strMessage = "There is not RGA number for the claim number: " + claimNo + "."
+                                                'error log
+                                                strMessage = "There is an error moving the RGA to historic."
                                                 Return result
                                             End If
                                         Else
@@ -2248,21 +2289,15 @@ Public Class CustomerClaims
 
                                     Dim dsRGAEnd = objBL.MoveRGAToHistoric2(param2, txtCustomerName.Text.Trim(), txtCustomerData.Text.Trim(), claimNo)
                                     If dsRGAEnd IsNot Nothing Then
-                                        If dsRGAEnd.Tables(0).Rows.Count > 0 Then
-                                            result = True
-                                            'call fillcell1
-                                            strMessage = "Claim Approved."
-                                            'message Claim Approved.
+                                        result = True
+                                        'call fillcell1
+                                        strMessage = "Claim Approved."
+                                        'message Claim Approved.
 
-                                            deactCmb()
-                                            deactCmd()
-                                            deactTxt()
-                                            Dim checkComm = saveComm("4 : CLAIM APPROVED", strMessage)
-
-                                        Else
-                                            strMessage = "There is an error moving the RGA to historic."
-                                            Return result
-                                        End If
+                                        deactCmb()
+                                        deactCmd()
+                                        deactTxt()
+                                        Dim checkComm = saveComm("4 : CLAIM APPROVED", strMessage)
                                     Else
                                         strMessage = "There is an error moving the RGA to historic."
                                         Return result
@@ -2283,23 +2318,19 @@ Public Class CustomerClaims
             'Verify if user has authorization to Credit Memo Creation, hence Approve
             If Not String.IsNullOrEmpty(hdSeq.Value.Trim()) Then
                 'Are you sure, you want to approve and generate CM to this claim?.
-                If True Then
-                    Dim wrnNo = hdSeq.Value.Trim()
-                    Dim claimNo = txtClaimNoData.Text.Trim()
-                    hdSwLimitAmt.Value = 0
-                    Dim user = Session("userid").ToString().ToUpper()
+                'If True Then
+                Dim wrnNo = hdSeq.Value.Trim()
+                Dim claimNo = txtClaimNoData.Text.Trim()
+                hdSwLimitAmt.Value = 0
+                Dim user = Session("userid").ToString().ToUpper()
 
-                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                        Dim dsGet = New DataSet()
-                        Dim rsGet = objBL.getLimit(user, dsGet)
-                        If rsGet > 0 Then
-                            If dsGet IsNot Nothing Then
-                                If dsGet.Tables(0).Rows.Count > 0 Then
-                                    hdSwLimitAmt.Value = dsGet.Tables(0).Rows(0).Item("CMLIMIT").ToString().Trim()
-                                Else
-                                    strMessage = "There is not Limit value for the user: " + user + "."
-                                    Return result
-                                End If
+                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                    Dim dsGet = New DataSet()
+                    Dim rsGet = objBL.getLimit(user, dsGet)
+                    If rsGet > 0 Then
+                        If dsGet IsNot Nothing Then
+                            If dsGet.Tables(0).Rows.Count > 0 Then
+                                hdSwLimitAmt.Value = dsGet.Tables(0).Rows(0).Item("CMLIMIT").ToString().Trim()
                             Else
                                 strMessage = "There is not Limit value for the user: " + user + "."
                                 Return result
@@ -2308,19 +2339,19 @@ Public Class CustomerClaims
                             strMessage = "There is not Limit value for the user: " + user + "."
                             Return result
                         End If
+                    Else
+                        strMessage = "There is not Limit value for the user: " + user + "."
+                        Return result
+                    End If
 
-                        hdWkStatOne.Value = ""
+                    hdWkStatOne.Value = ""
 
-                        Dim dsGet1 = New DataSet()
-                        Dim rsGet1 = objBL.GetNWDataByClaimNo(claimNo, dsGet1)
-                        If rsGet1 > 0 Then
-                            If dsGet1 IsNot Nothing Then
-                                If dsGet1.Tables(0).Rows.Count > 0 Then
-                                    hdWkStatOne.Value = dsGet1.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()
-                                Else
-                                    strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
-                                    Return result
-                                End If
+                    Dim dsGet1 = New DataSet()
+                    Dim rsGet1 = objBL.GetNWDataByClaimNo(claimNo, dsGet1)
+                    If rsGet1 > 0 Then
+                        If dsGet1 IsNot Nothing Then
+                            If dsGet1.Tables(0).Rows.Count > 0 Then
+                                hdWkStatOne.Value = dsGet1.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()
                             Else
                                 strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
                                 Return result
@@ -2329,106 +2360,130 @@ Public Class CustomerClaims
                             strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
                             Return result
                         End If
+                    Else
+                        strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
+                        Return result
+                    End If
 
-                        If hdWkStatOne.Value <> "2" And hdWkStatOne.Value <> "A" And hdWkStatOne.Value <> "B" And hdWkStatOne.Value <> "C" And
-                            hdWkStatOne.Value <> "D" And hdWkStatOne.Value <> "E" And hdWkStatOne.Value <> "F" Then
+                    If hdWkStatOne.Value <> "2" And hdWkStatOne.Value <> "A" And hdWkStatOne.Value <> "B" And hdWkStatOne.Value <> "C" And
+                        hdWkStatOne.Value <> "D" And hdWkStatOne.Value <> "E" And hdWkStatOne.Value <> "F" Then
+
+                        If hdWkStatOne.Value = "3" Or hdWkStatOne.Value = "4" Then
+                            'only close
+                            txtClaimStatus.Text = "Claim Approved, Credit Issued"
+
+                            Dim param2 = Left((user + "          "), 10)
+
+                            Dim dsRGAEnd = objBL.MoveRGAToHistoric2(param2, txtCustomerName.Text.Trim(), txtCustomerData.Text.Trim(), claimNo)
+                            If dsRGAEnd IsNot Nothing Then
+                                result = True
+                                'call fillcell1
+                                strMessage = "Claim Approved."
+                                'message Claim Approved.
+
+                                deactCmb()
+                                deactCmd()
+                                deactTxt()
+                                Dim checkComm = saveComm("4 : CLAIM APPROVED", strMessage)
+                            Else
+                                strMessage = "There is an error moving the RGA to historic."
+                                Return result
+                            End If
+                        Else
                             'message To approve a Customer Claim, it should be in other Status
                             strMessage = "To approve a Customer Claim, it should be in other Status."
                             Return result
+                        End If
+                    Else
+                        'all the approve proccess
+                        Dim dbFreight As Double = 0
+                        Dim dbtot As Double = 0
+                        Dim dbLimit As Double = 0
+
+                        Dim bFreight = If(Not String.IsNullOrEmpty(dsGet1.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()),
+                                            Double.TryParse(dsGet1.Tables(0).Rows(0).Item("MHFRAM").ToString().Trim(), dbFreight), False)
+                        Dim bTot = If(Not String.IsNullOrEmpty(dsGet1.Tables(0).Rows(0).Item("MHTOMR").ToString().Trim()),
+                                            Double.TryParse(dsGet1.Tables(0).Rows(0).Item("MHTOMR").ToString().Trim(), dbtot), False)
+                        Dim bLimit = If(Not String.IsNullOrEmpty(hdSwLimitAmt.Value),
+                                            Double.TryParse(hdSwLimitAmt.Value, dbLimit), False)
+
+                        totalVal = dbFreight + dbtot
+                        If dbLimit < totalVal Then
+                            'message You have no authorization to approve a claim for this amount  + totalVal
+                            strMessage = "You have no authorization to approve a claim for this amount: " + totalVal.ToString() + "."
+                            Return result
                         Else
-                            Dim dbFreight As Double = 0
-                            Dim dbtot As Double = 0
-                            Dim dbLimit As Double = 0
+                            'Create Credit memo transaction in AS400
+                            Dim param1 = Right("0000" + claimNo, 7)
+                            param1 = "X'" + param1 + "F'"
+                            Dim param2 = Left((user + "          "), 10)
+                            Dim param3 = "  "
+                            Dim param4 = "N"
 
-                            Dim bFreight = If(Not String.IsNullOrEmpty(dsGet1.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()),
-                                                Double.TryParse(dsGet1.Tables(0).Rows(0).Item("MHFRAM").ToString().Trim(), dbFreight), False)
-                            Dim bTot = If(Not String.IsNullOrEmpty(dsGet1.Tables(0).Rows(0).Item("MHTOMR").ToString().Trim()),
-                                                Double.TryParse(dsGet1.Tables(0).Rows(0).Item("MHTOMR").ToString().Trim(), dbtot), False)
-                            Dim bLimit = If(Not String.IsNullOrEmpty(hdSwLimitAmt.Value),
-                                                Double.TryParse(hdSwLimitAmt.Value, dbLimit), False)
-
-                            totalVal = dbFreight + dbtot
-                            If dbLimit < totalVal Then
-                                'message You have no authorization to approve a claim for this amount  + totalVal
-                                strMessage = "You have no authorization to approve a claim for this amount: " + totalVal.ToString() + "."
-                                Return result
-                            Else
-                                'Create Credit memo transaction in AS400
-                                Dim param1 = Right("0000" + claimNo, 7)
-                                param1 = "X'" + param1 + "F'"
-                                Dim param2 = Left((user + "          "), 10)
-                                Dim param3 = "  "
-                                Dim param4 = "N"
-
-                                Dim dsCM = objBL.CreateCreditMemo(param1, param2, param3, param4)
-                                If dsCM IsNot Nothing Then
-                                    If dsCM.Tables(0).Rows.Count > 0 Then
-                                        hdWkStatTwo.Value = ""
-                                        Dim dsSts = New DataSet()
-                                        Dim rsSts = objBL.getNWrnClaimsHeader(claimNo, dsSts)
-                                        If rsSts > 0 Then
-                                            If dsSts IsNot Nothing Then
-                                                If dsSts.Tables(0).Rows.Count > 0 Then
-                                                    hdWkStatTwo.Value = dsSts.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()
-                                                Else
-                                                    strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
-                                                    Return result
-                                                End If
-                                            Else
-                                                strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
-                                                Return result
-                                            End If
+                            Dim dsCM = objBL.CreateCreditMemo(param1, param2, param3, param4)
+                            If dsCM IsNot Nothing Then
+                                'If dsCM.Tables(0).Rows.Count > 0 Then
+                                hdWkStatTwo.Value = ""
+                                Dim dsSts = New DataSet()
+                                Dim rsSts = objBL.GetNWDataByClaimNo(claimNo, dsSts)
+                                If rsSts > 0 Then
+                                    If dsSts IsNot Nothing Then
+                                        If dsSts.Tables(0).Rows.Count > 0 Then
+                                            hdWkStatTwo.Value = dsSts.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()
                                         Else
                                             strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
                                             Return result
                                         End If
                                     Else
-                                        strMessage = "There is an error creating a credit memo."
+                                        strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
                                         Return result
                                     End If
                                 Else
-                                    strMessage = "There is an error creating a credit memo."
+                                    strMessage = "There is not data in NW Header for claim number: " + claimNo + "."
                                     Return result
                                 End If
-
-                                If hdWkStatTwo.Value = "3" Or hdWkStatTwo.Value = "4" Then
-                                    txtClaimStatus.Text = "Claim Approved, Credit Issued"
-
-                                    Dim dsRGAEnd = objBL.MoveRGAToHistoric2(param2, txtCustomerName.Text.Trim(), txtCustomerData.Text.Trim(), claimNo)
-                                    If dsRGAEnd IsNot Nothing Then
-                                        If dsRGAEnd.Tables(0).Rows.Count > 0 Then
-                                            result = True
-
-                                            'call fillcell1
-                                            strMessage = "Claim Approved."
-                                            'message Claim Approved.
-
-                                            deactCmb()
-                                            deactCmd()
-                                            deactTxt()
-                                            Dim checkComm = saveComm("4 : CLAIM APPROVED", strMessage)
-                                        Else
-                                            strMessage = "There is an error moving the RGA to historic."
-                                            Return result
-                                        End If
-                                    Else
-                                        strMessage = "There is an error moving the RGA to historic."
-                                        Return result
-                                    End If
-                                Else
-                                    strMessage = "Customer Claim # " + claimNo + " Could not be Approved... Please Contact M.I.S"
-                                    Return result
-                                    'message "Customer Claim # " + txtreturnno.Text + "Could not be Approved... Please Contact M.I.S"
-                                End If
-
+                                'Else
+                                'strMessage = "There is an error creating a credit memo."
+                                'Return result
+                                'End If
+                            Else
+                                strMessage = "There is an error creating a credit memo."
+                                Return result
                             End If
+
+                            If hdWkStatTwo.Value = "3" Or hdWkStatTwo.Value = "4" Then
+                                txtClaimStatus.Text = "Claim Approved, Credit Issued"
+
+                                Dim dsRGAEnd = objBL.MoveRGAToHistoric2(param2, txtCustomerName.Text.Trim(), txtCustomerData.Text.Trim(), claimNo)
+                                If dsRGAEnd IsNot Nothing Then
+                                    result = True
+
+                                    'call fillcell1
+                                    strMessage = "Claim Approved."
+                                    'message Claim Approved.
+
+                                    deactCmb()
+                                    deactCmd()
+                                    deactTxt()
+                                    Dim checkComm = saveComm("4 : CLAIM APPROVED", strMessage)
+                                Else
+                                    strMessage = "There is an error moving the RGA to historic."
+                                    Return result
+                                End If
+                            Else
+                                strMessage = "Customer Claim # " + claimNo + " Could not be Approved... Please Contact M.I.S"
+                                Return result
+                                'message "Customer Claim # " + txtreturnno.Text + "Could not be Approved... Please Contact M.I.S"
+                            End If
+
                         End If
 
-                    End Using
+                    End If
 
-                End If
+                End Using
+
+                'End If
             End If
-
             Return result
         Catch ex As Exception
             Return result
@@ -2987,6 +3042,78 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Protected Sub lnkCheckApprove_Click(sender As Object, e As EventArgs) Handles lnkCheckApprove.Click
+        Dim strMessage As String = Nothing
+        Dim methodMessage As String = Nothing
+        Dim wrnNo = hdSeq.Value.Trim()
+        Dim claimNo = txtClaimNoData.Text.Trim()
+        Try
+            If chkApproved.Checked And chkApproved.Enabled = True Then
+                If chkAcknowledgeEmail.Checked Then
+                    If chkTechReview.Checked Then
+                        If Not String.IsNullOrEmpty(txtDiagnoseData.Text.Trim()) Then
+                            Dim totVal = If(String.IsNullOrEmpty(txtTotValue.Text.Trim()), Double.Parse("0"), Double.Parse(txtTotValue.Text.Trim()))
+                            If totVal > 0 And totVal <= 500 Then
+                                Dim objUsrLImit = DirectCast(Session("ObjCurUserLmt"), ClaimObjUserLoggedLimit)
+                                If objUsrLImit IsNot Nothing Then
+                                    Dim dbUsrlmt As Double = 0
+                                    Dim canBeDouble = Double.TryParse(objUsrLImit.ClaimLimitAmount, dbUsrlmt)
+                                    If canBeDouble Then
+                                        If dbUsrlmt >= 500 Then
+                                            If chkApproved.Checked And chkClaimCompleted.Checked Then
+
+                                                'Update internal status to completed
+                                                UpdateInternalStatusGeneric(txtClaimCompleted, txtClaimCompletedDate, chkClaimCompleted, lnkClaimCompleted, False)
+                                                CompletedClaimProcess(wrnNo, strMessage)
+                                                If Not String.IsNullOrEmpty(strMessage) Then
+                                                    UpdateInternalStatusGeneric(txtClaimCompleted, txtClaimCompletedDate, chkClaimCompleted, lnkClaimCompleted, True)
+                                                End If
+
+                                                'Executes the approve method, create a credit memo proccess
+                                                Dim blApprove = cmdApproveds(strMessage)
+                                                If blApprove Then
+                                                    chkApproved.Enabled = False
+                                                    chkClaimCompleted.Enabled = False
+                                                    Dim blClose = cmdCloseClaim(strMessage)
+                                                    If blClose Then
+                                                        chkApproved.Enabled = False
+                                                        chkDeclined.Enabled = False
+
+                                                        strMessage = "The claim in relation to claim number: " + claimNo + " was approved and properly closed."
+                                                        SendMessage(strMessage, messageType.success)
+                                                        Exit Sub
+                                                    Else
+                                                        strMessage = "There is an error in the Close Claim process for the Claim Number:" + claimNo + "."
+                                                        SendMessage(strMessage, messageType.Error)
+                                                        Exit Sub
+                                                    End If
+                                                Else
+                                                    strMessage = "There is an error in the Approval Process for the Claim Number:" + claimNo + "."
+                                                    SendMessage(strMessage, messageType.Error)
+                                                    Exit Sub
+                                                End If
+
+                                            End If
+                                        End If
+                                    End If
+                                End If
+                            ElseIf totVal > 500 Then
+                                'check user limit allowed and full limit for claim manager
+                                'send email for authorization
+                            Else
+                                methodMessage = "An error has occurred. If the problem persists please call the IT department."
+                                SendMessage(methodMessage, messageType.warning)
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            methodMessage = "An error has occurred. If the problem persists please call the IT department."
+            SendMessage(methodMessage, messageType.warning)
+        End Try
+    End Sub
+
     Protected Sub lnkPCred_Click(sender As Object, e As EventArgs) Handles lnkPCred.Click
         Dim strMessage As String = Nothing
         Dim methodMessage As String = Nothing
@@ -3093,18 +3220,20 @@ Public Class CustomerClaims
             Dim claimNo = txtClaimNoData.Text.Trim()
 
             If chkClaimAuth.Checked Then
-                UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, False)
                 'SendEmailToPIChAppClaimOver500(wrnNo,)
                 Dim objSales = DirectCast(Session("ClaimGeneralValues"), ClaimTotalValues)
-                SaveAuthForOver500Sales(objSales.WrnNo, objSales.UnitCostValue, objSales.CDFreightValue, objSales.CDPartValue, objSales.AmountApproved, objSales.UserLimit, strMessage)
+                Dim objLimit = DirectCast(Session("ObjCurUserLmt"), ClaimObjUserLoggedLimit)
+                Dim blResult = SaveAuthForOver500Sales(objSales.WrnNo, Double.Parse(objSales.UnitCostValue), Double.Parse(objSales.CDFreightValue), Double.Parse(objSales.CDPartValue), Double.Parse(objSales.AmountApproved), Double.Parse(objSales.UserLimit), strMessage)
                 'ClaimOver500AndCMGenCloseClaim
-                'If Not String.IsNullOrEmpty(strMessage) Then
-                '    UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, True)
-                'End If
-                txtAmountApproved.Enabled = False
-                txtAmountApproved.Text = "0"
-                'Dim methodMessage = "Please set the value for the claim amount approved, then save the navigation tab!"
-                'SendMessage(methodMessage, messageType.info)
+                If String.IsNullOrEmpty(strMessage) And blResult Then
+                    UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, False)
+                    txtAmountApproved.Enabled = False
+                    txtAmountApproved.Text = "0"
+                Else
+                    chkClaimAuth.Checked = False
+                    Dim methodMessage = strMessage
+                    SendMessage(methodMessage, messageType.warning)
+                End If
             Else
                 Dim methodMessage = "If you want to update the status please click on the checkbox besides this button!"
                 SendMessage(methodMessage, messageType.warning)
@@ -3571,6 +3700,8 @@ Public Class CustomerClaims
                         result = True
                         Return result
                     End If
+                Else
+                    result = True
                 End If
 
             End Using
@@ -3649,6 +3780,8 @@ Public Class CustomerClaims
 
                         Return result
                     End If
+                Else
+                    result = True
                 End If
 
             End Using
@@ -3726,6 +3859,8 @@ Public Class CustomerClaims
 
                         Return result
                     End If
+                Else
+                    result = True
                 End If
 
             End Using
@@ -3801,6 +3936,8 @@ Public Class CustomerClaims
 
                         Return result
                     End If
+                Else
+                    result = True
                 End If
 
             End Using
@@ -3877,6 +4014,8 @@ Public Class CustomerClaims
 
                         Return result
                     End If
+                Else
+                    result = True
                 End If
             End Using
 
@@ -3952,6 +4091,8 @@ Public Class CustomerClaims
 
                         Return result
                     End If
+                Else
+                    result = True
                 End If
 
             End Using
@@ -4027,6 +4168,85 @@ Public Class CustomerClaims
 
                         Return result
                     End If
+                Else
+                    result = True
+                End If
+
+            End Using
+
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function CompletedClaimProcess(wrnNo As String, ByRef strMessage As String) As Boolean
+        Dim result As Boolean = False
+        strMessage = Nothing
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                If chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True Then
+                    chkinitial.Value = "K"
+                    BuildDates()
+                    'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                    'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                    If rsInsInitReview > 0 Then
+                        txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+                        txtClaimCompletedDate.Text = datenow
+                        chkClaimCompleted.Enabled = False
+
+                        Dim dsIntStatus = New DataSet()
+                        Dim rsIntStatus = objBL.getDataByInternalStsLet(chkinitial.Value, dsIntStatus)
+                        If rsIntStatus > 0 Then
+                            If dsIntStatus IsNot Nothing Then
+                                If dsIntStatus.Tables(0).Rows.Count > 0 Then
+                                    txtActualStatus.Text = Left(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
+                                        Mid(dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)
+                                    txtActualStatus.Text.ToUpper()
+                                    txtActualStatus.Enabled = False
+
+                                    result = True
+                                    lnkClaimCompleted.Enabled = False
+                                Else
+                                    'log error
+                                    strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
+                                    Return result
+                                End If
+                            Else
+                                'log error
+                                strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
+                                Return result
+                            End If
+                        Else
+                            'log error
+                            strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
+                            Return result
+                        End If
+
+                        Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                        If rsLastUpd > 0 Then
+                            result = True
+                        Else
+                            'error log
+                            strMessage = "There is an error updating the Warranty Header status for Warning Number: " + wrnNo + "."
+                            Return result
+                        End If
+                    Else
+                        'insertion error
+                        strMessage = "The Status can not be inserted for the warning no:" + wrnNo + "."
+                        result = True
+
+                        txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+                        txtClaimCompletedDate.Text = datenow
+                        chkClaimCompleted.Enabled = False
+
+                        Return result
+                    End If
+                Else
+                    result = True
                 End If
 
             End Using
@@ -4262,11 +4482,11 @@ Public Class CustomerClaims
                         End If
                     End If
 
-                    If Not String.IsNullOrEmpty(txtCDFreight.Text) Then
+                    If Not String.IsNullOrEmpty(txtFreight.Text) Then
                         Dim valueResult As Double = 0
-                        If Double.TryParse(txtCDFreight.Text, valueResult) Then
+                        If Double.TryParse(txtFreight.Text, valueResult) Then
                             If valueResult <> 0 Then
-                                Dim rsUpd = objBL.UpdateWFreightType(claimNo, "P", txtCDFreight.Text)
+                                Dim rsUpd = objBL.UpdateWFreightType(claimNo, "P", txtFreight.Text)
                                 If rsUpd > 0 Then
                                     intValidation += 1
                                 Else
@@ -4315,6 +4535,7 @@ Public Class CustomerClaims
                             Dim d1 = dsUserInCharge.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim()
                             Dim d2 = dsUserInCharge.Tables(0).Rows(0).Item("CNTDE2").ToString().Trim()
 
+                            'gte the manager limit
                             Dim objAprovUser = New ClaimObj500To1500User()
                             objAprovUser.CLMemail = d1
                             objAprovUser.CLMuser = Mid(d2, 1, 10)
@@ -4366,8 +4587,10 @@ Public Class CustomerClaims
                 totalLimit = If(Double.TryParse(hdSwLimitAmt.Value, resultLimit), resultLimit, 0)
                 totalConsDamage = If(Double.TryParse(txtConsDamageTotal.Text.Trim(), resultConsDamage), resultConsDamage, 0)
                 totalClaimValue = If(Double.TryParse(txtParts.Text.Trim(), resultParts), resultParts, 0) +
-                                        If(Double.TryParse(txtCDFreight.Text.Trim(), resultFreight), resultFreight, 0) +
-                                         If(Double.TryParse(txtAmountApproved.Text.Trim(), resultAmoApproved), resultAmoApproved, 0)
+                                        If(Double.TryParse(txtFreight.Text.Trim(), resultFreight), resultFreight, 0) +
+                                         If(Double.TryParse(txtAmountApproved.Text.Trim(), resultAmoApproved), resultAmoApproved, 0) +
+                                          If(Double.TryParse(txtConsDamageTotal.Text.Trim(), resultConsDamage), resultConsDamage, 0)
+
 
 
                 Dim claimValues = New ClaimTotalValues()
@@ -4377,12 +4600,13 @@ Public Class CustomerClaims
                 claimValues.UserLimit = hdSwLimitAmt.Value
                 claimValues.UnitCostValue = txtParts.Text
 
-                claimValues.TotalConsDamage = txtConsDamageTotal.Text
-                claimValues.CDLaborValue = txtCDLabor.Text
-                claimValues.CDFreightValue = txtCDFreight.Text
-                claimValues.CDMiscValue = txtCDMisc.Text
-                claimValues.CDPartValue = txtCDPart.Text
-                claimValues.AmountApproved = txtAmountApproved.Text
+                claimValues.TotalConsDamage = If(String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()), "0", txtConsDamageTotal.Text.Trim())
+                claimValues.CDLaborValue = If(String.IsNullOrEmpty(txtCDLabor.Text.Trim()), "0", txtCDLabor.Text.Trim())
+                claimValues.CDFreightValue = If(String.IsNullOrEmpty(txtCDFreight.Text.Trim()), "0", txtCDFreight.Text.Trim())
+                claimValues.CDMiscValue = If(String.IsNullOrEmpty(txtCDMisc.Text.Trim()), "0", txtCDMisc.Text.Trim())
+                claimValues.CDPartValue = If(String.IsNullOrEmpty(txtCDPart.Text.Trim()), "0", txtCDPart.Text.Trim())
+                claimValues.AmountApproved = If(String.IsNullOrEmpty(txtAmountApproved.Text.Trim()), "0", txtAmountApproved.Text.Trim())
+                claimValues.ClaimGrandTotal = totalClaimValue.ToString()
                 'claimValues.ClaimGrandTotal = ""
 
                 Session("ClaimGeneralValues") = claimValues
@@ -4456,6 +4680,7 @@ Public Class CustomerClaims
                             hdUsrLimitAmt.Value = dsUserCM.Tables(0).Rows(0).Item("USRLIMIT").ToString().Trim()
                             hdSwLimitAmt.Value = dsUserCM.Tables(0).Rows(0).Item("CMLIMIT").ToString().Trim()
 
+                            'limit for a specific user
                             Dim objLogUserLimits = New ClaimObjUserLoggedLimit()
                             objLogUserLimits.Userid = hdUsrLimitAmt.Value
                             objLogUserLimits.ClaimLimitAmount = hdSwLimitAmt.Value
@@ -4580,13 +4805,16 @@ Public Class CustomerClaims
                                                     If dec Then
                                                         chkApproved.Enabled = False
                                                         chkDeclined.Enabled = False
+
+                                                        result = True
                                                     Else
+                                                        strMessage = "There is an error in the Close Claim process for the Claim Number:" + wrnNo + "."
                                                         Return result
                                                     End If
                                                 Else
+                                                    strMessage = "There is an error in the Approval Process for the Claim Number:" + wrnNo + "."
                                                     Return result
                                                 End If
-                                                result = True
                                             Else
                                                 'error log
                                                 strMessage = "There is an error updating the Warranty Claim Status for Warning Number: " + wrnNo + "."
@@ -4638,7 +4866,7 @@ Public Class CustomerClaims
 
                 Dim refLimit As Double = 0
                 dbLimit = If(Double.TryParse(hdCLMLimit.Value, refLimit), refLimit, 0)
-                If dbLimit Then
+                If dbLimit > 0 Then
                     If chkApproved.Checked Then
                         If totalClaimValue > totalLimit Then
                             If totalClaimValue <= dbLimit Then
@@ -4746,7 +4974,7 @@ Public Class CustomerClaims
                     If chkApproved.Checked Then
                         If totalClaimValue > 500 Then
                             If totalClaimValue <= dbLimit Then
-                                If hdUsrLimitAmt.Value = hdCLMuser.Value Or Session("userid") = "AALZATE" Then
+                                If hdUsrLimitAmt.Value = hdCLMuser.Value.Trim() Or Session("userid") = "AALZATE" Then
                                     BuildDates()
                                     'Dim strdatenow = Now().Date().ToString() 'force  yyyy-mm-dd
                                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
@@ -4884,6 +5112,7 @@ Public Class CustomerClaims
                                                             If dec Then
                                                                 intValidation += 1
                                                             Else
+                                                                strMessage = "There is an error in the Close Claim Process for the Claim Number:" + claimNo + "."
                                                                 Return result
                                                             End If
                                                         Else
@@ -4963,6 +5192,7 @@ Public Class CustomerClaims
                     If rsIns > 0 Then
                         intValidation += 1
 
+                        Dim claimNo = txtClaimNoData.Text.Trim()
                         Dim rev = cmdRejects(strMessage)
                         If rev Then
                             intValidation += 1
@@ -4970,6 +5200,7 @@ Public Class CustomerClaims
                             chkDeclined.Enabled = False
                             chkApproved.Enabled = False
                         Else
+                            strMessage = "There is an error in the Decline Claim Process for the Claim Number:" + claimNo + "."
                             Return result
                         End If
 
@@ -5178,6 +5409,47 @@ Public Class CustomerClaims
 #End Region
 
 #Region "Utils"
+
+    Public Sub PrepareEmail()
+
+        Try
+            Dim emailSender As String = ConfigurationManager.AppSettings("username").ToString()
+            Dim emailSenderPassword As String = ConfigurationManager.AppSettings("password").ToString()
+            Dim emailSenderHost As String = ConfigurationManager.AppSettings("smtp").ToString()
+            Dim emailSenderPort As String = ConfigurationManager.AppSettings("portnumber").ToString()
+            'Dim emailIsSSL As Boolean = CBool(ConfigurationManager.AppSettings("IsSSL").ToString())
+
+            Dim FileTemplate = Directory.GetFiles(Server.MapPath("~/EmailTemplates/"))
+            Dim str = New StreamReader(FileTemplate(0))
+            Dim Mailtext = str.ReadToEnd()
+            str.Close()
+
+            Mailtext = Mailtext.Replace("[customer]", "aavila@costex.com")
+            Mailtext = Mailtext.Replace("[claimno]", "130623")
+            Mailtext = Mailtext.Replace("[partno]", "CABLE14B")
+            Mailtext = Mailtext.Replace("[invoice]", "G450012")
+
+            Dim msg As MailMessage = New MailMessage()
+            msg.IsBodyHtml = True
+            msg.From = New MailAddress(emailSender)
+            msg.To.Add("aavila@costex.com")
+            msg.Subject = "Test Email"
+            msg.Body = Mailtext
+
+            Dim _smtp As SmtpClient = New SmtpClient()
+            _smtp.Host = emailSenderHost
+            _smtp.Port = emailSenderPort
+
+            Dim _newtwork As NetworkCredential = New NetworkCredential(emailSender, emailSenderPassword)
+            _smtp.Credentials = _newtwork
+
+            _smtp.Send(msg)
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
 
     Protected Sub lnkLogout_Click() Handles lnkLogout.Click
         Try
@@ -5930,7 +6202,7 @@ Public Class CustomerClaims
                                         chkClaimAuth.Checked = False
                                         chkClaimAuth.Enabled = True
                                         txtClaimAuth.Text = ""
-                                        txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()
+                                        'txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()  ??
                                     Else
                                         txtAmountApproved.Text = ""
                                         txtAmountApproved.Enabled = False
@@ -5955,11 +6227,13 @@ Public Class CustomerClaims
                                     Dim dsDesc = New DataSet()
                                     GetPartDesc(txtPartNoData.Text, dsDesc)
                                     If dsDesc IsNot Nothing Then
-                                        Dim description = dsDesc.Tables(0).Rows(0).Item("IMDSC").ToString().Trim()
-                                        Dim description2 = dsDesc.Tables(0).Rows(0).Item("IMDS2").ToString().Trim()
-                                        Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
-                                        Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
-                                        txtPartDesc.Text = allDescriptions
+                                        If dsDesc.Tables(0).Rows.Count > 0 Then
+                                            Dim description = dsDesc.Tables(0).Rows(0).Item("IMDSC").ToString().Trim()
+                                            Dim description2 = dsDesc.Tables(0).Rows(0).Item("IMDS2").ToString().Trim()
+                                            Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
+                                            Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
+                                            txtPartDesc.Text = allDescriptions
+                                        End If
                                         'txtPartDesc.Height = imgPart.Height
                                     End If
 
@@ -7058,7 +7332,9 @@ Public Class CustomerClaims
             Session("StatusSelected") = Nothing
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
-            'Session("userid") = "AALZATE"
+            ''test purpose
+            Session("userid") = "GMARTOS"
+            ''test purpose
             Session("fullObj") = Nothing
             Session("isDDL") = False
 
@@ -7106,6 +7382,25 @@ Public Class CustomerClaims
 
         End Try
     End Sub
+
+    Public Function GetClosedClaims(wrnNo As String, ByRef dsResult As DataSet) As Boolean
+        Dim blResult As Boolean = False
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                Dim rs = objBL.GetClosedClaims(dsResult)
+                If rs > 0 Then
+                    If dsResult IsNot Nothing Then
+                        If dsResult.Tables(0).Rows.Count > 0 Then
+                            blResult = dsResult.Tables(0).AsEnumerable().Where(Function(e) e.Item("INCLNO").ToString().Trim().Equals(wrnNo)).Any
+                        End If
+                    End If
+                End If
+            End Using
+            Return blResult
+        Catch ex As Exception
+            Return blResult
+        End Try
+    End Function
 
     Public Sub GetNWClaimDetail(code As String, ByRef ds As DataSet)
         Dim dsVnd = New DataSet()
@@ -7394,7 +7689,11 @@ Public Class CustomerClaims
                             If flagOver500.Equals("Y") Then
                                 valueOver500 = txtAmountApproved.Text.Trim()
                             End If
-                            valueOver500 += "," + ds.Tables(0).Rows(0).Item("INCOSTSUG").ToString().Trim()
+                            Dim qq = ds.Tables(0).AsEnumerable().Where(Function(e) e.Item("INSTAT").ToString().Trim().ToUpper() = "B" And Not String.IsNullOrEmpty(e.Item("INCOSTSUG$").ToString().Trim()))
+                            If qq.Count > 0 Then
+                                valueOver500 += "," + If(qq IsNot Nothing, qq(0).Item("INCOSTSUG$").ToString().Trim(), "0")
+                            End If
+                            'valueOver500 += "," + ds.Tables(0).Rows(0).Item("INCOSTSUG$").ToString().Trim()
                         End If
                     End If
                 End If
@@ -7450,7 +7749,7 @@ Public Class CustomerClaims
                     Dim valueOver500 = If(valueOver500Multi Is Nothing, "0", If(valueOver500Multi.Contains(","), valueOver500Multi.Split(",")(0).Trim(), "0"))
                     Dim ConsDmg = If(valueOver500Multi Is Nothing, "0", If(valueOver500Multi.Contains(","), valueOver500Multi.Split(",")(1).Trim(), "0"))
 
-                    txtTotValue.Text = (GetDoubleValueByString(unitCost) + GetDoubleValueByString(valueOver500) + GetDoubleValueByString(strFreight)).ToString()
+                    txtTotValue.Text = (GetDoubleValueByString(unitCost) + GetDoubleValueByString(valueOver500) + GetDoubleValueByString(strFreight) + GetDoubleValueByString(ConsDmg)).ToString()
                     ' + GetDoubleValueByString(ConsDmg)
 
                 Else
@@ -8186,7 +8485,8 @@ Public Class CustomerClaims
                 ddlSearchUser.SelectedIndex = If(Not String.IsNullOrEmpty(hdUserSelected.Value), CInt(ddlSearchUser.Items.IndexOf(ddlSearchUser.Items.FindByValue(hdUserSelected.Value))), 0)
                 ddlSearchUser_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlDiagnoseData" Then
-                'ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
+                ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnose.Value), CInt(ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByValue(hdSelectedDiagnose.Value))), 0)
+                ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlInitRev" Then
 
             ElseIf ddl.ID = "ddlTechRev" Then
@@ -8341,13 +8641,13 @@ Public Class CustomerClaims
                 days = (curDate - datetimeValue.Date()).Days
                 If days <= 30 Then
                     'green (1)
-                    Result = 1
+                    result = 1
                 ElseIf days > 30 And days <= 60 Then
                     'yellow (2)
-                    Result = 2
+                    result = 2
                 Else
                     'red (3)
-                    Result = 3
+                    result = 3
                 End If
             End If
             Return result
@@ -8429,7 +8729,7 @@ Public Class CustomerClaims
             '    .VENDORNAME = row.Item("vendorname").ToString()
             '    }).ToList()
 
-            Return items
+            Return Items
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
             Return objLosSales

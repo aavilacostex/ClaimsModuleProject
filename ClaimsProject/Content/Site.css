@@ -1710,6 +1710,23 @@ input[type=file]::-ms-value {
     border: 1px solid #fbba42 !important;
 }
 
+.tableC {
+    display: table;
+    width: 400px;
+    border: 1px solid blue;
+}
+
+.rowC {
+    display: table-row;
+    height: 40px;
+}
+
+.cellC {
+    display: table-cell;
+    width: 340px !important;
+    border: 1px solid black;
+}
+
 /*#rowRadios {
     width: 100% !important;
 }

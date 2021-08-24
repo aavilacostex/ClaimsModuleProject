@@ -1,7 +1,15 @@
 ﻿Public Class ClaimTotalValues
 
-    Sub MySub()
-
+    Public Sub New()
+        _amountApproved = "0"
+        _curuserLimit = "0"
+        _unitCostValue = "0"
+        _totalConsDamageValue = "0"
+        _consDmgLaborValue = "0"
+        __consDmgMiscValue = "0"
+        __consDmgFreightValue = "0"
+        _consDmgPartValue = "0"
+        _claimTotalValue = "0"
     End Sub
 
     Private _wrnNo As String

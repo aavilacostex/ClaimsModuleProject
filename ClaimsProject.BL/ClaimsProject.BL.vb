@@ -1,6 +1,8 @@
 ﻿Imports System.Configuration
 Imports System.Globalization
 Imports Microsoft.Win32
+Imports Outlook = Microsoft.Office.Interop.Outlook
+
 
 Public Class ClaimsProject : Implements IDisposable
     Private disposedValue As Boolean
@@ -1420,6 +1422,18 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetClosedClaims(ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetClosedClaims(dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function getNWrnClaimsHeader(code As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
@@ -1718,6 +1732,19 @@ Public Class ClaimsProject : Implements IDisposable
             Return lstTest
         End Try
     End Function
+
+#End Region
+
+#Region "Email Method"
+
+    Public Sub PrepareEmail()
+
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
 
 #End Region
 

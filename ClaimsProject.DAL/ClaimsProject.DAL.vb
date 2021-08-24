@@ -1618,6 +1618,25 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetClosedClaims(ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "select a3.inclno,a1.mhstat, a2.cwstat, a3.instat
+                    ,(select intapprv from qs36f.clmintsts where inclno = a3.inclno and trim(instat) = 'I') appStatus 
+                    from qs36f.csmreh a1 join qs36f.clmwrn a2 on a1.MHMRNR = a2.CWDOCN join qs36f.clmintsts a3 on a2.CWWRNO = a3.inclno
+                    where (trim(a1.mhstat) in('7','8')  and trim(a2.cwstat) in ('C','R')  and trim(a3.instat) in ('K','C','R')  ) "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function getuserbranchFirst(userid As String, ByRef dsResult As DataSet) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1
