@@ -31,6 +31,22 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+    Public Function GetExistingLocationsWarr(ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "select distinct A1.cwlocn, A2.cntde1 from qs36f.clmwrn A1 join qs36f.cntrll A2 on (trim(A1.cwlocn) = trim(A2.cnt03) and trim(A2.cnt01) = '300') order by 1  "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+
+        End Try
+    End Function
+
     Public Function GetIfOperationInProcess(userid As String, ByRef dsResult As DataSet) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1
@@ -691,9 +707,9 @@ Public Class ClaimsProject : Implements IDisposable
                             d.CNT03,d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, trim(f.CNT03) CWSTS, SUBSTR(f.CNTDE1,1,18) cwstde,
                             case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
                             else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end actdt,
-                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO                          
+                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN                          
                             from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
-                            (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO  FROM qs36f.CSMREH 
+                            (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN FROM qs36f.CSMREH 
                             LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN " & strwhere & ") a " & strjoin & " {0} order by 1 desc"
 
 
@@ -807,6 +823,31 @@ Public Class ClaimsProject : Implements IDisposable
             Return Nothing
         End Try
 
+    End Function
+
+    Public Function GetVendorForFilter(VendorCodesDenied As String, VendorOEMCodeDenied As String, ItemCategories As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = Nothing
+        Dim Sql As String
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            Sql = "SELECT VMVNUM, VMNAME FROM QS36F.VNMAS WHERE VMVTYP NOT IN (" & VendorCodesDenied & ") 
+                   AND VMVNUM NOT IN (SELECT CNTDE1 FROM Qs36F.CNTRLL WHERE CNT01 IN (" & VendorOEMCodeDenied & "))
+                   AND VMVNUM NOT IN (" & ItemCategories & ") 
+                   ORDER BY 2 "
+
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            objLog.writeLog(strLogCadenaCabecera, objLog.ErrorTypeEnum.Exception, ex.Message, ex.ToString())
+            Return result
+        End Try
     End Function
 
     Public Function GetAutocompleteSelectedVendorName(prefixVendorName As String, VendorCodesDenied As String, VendorOEMCodeDenied As String, ItemCategories As String, ByRef dsResult As DataSet) As Integer

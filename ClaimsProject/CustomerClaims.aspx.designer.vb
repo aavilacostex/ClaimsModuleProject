@@ -419,6 +419,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents ddlSearchDiagnose As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''ddlVndNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlVndNo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''ddlLocat control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlLocat As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''rdCustomer control.
     '''</summary>
     '''<remarks>
@@ -914,6 +932,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdSelectedDiagnose As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdSelectedDiagnoseIndex control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdSelectedDiagnoseIndex As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdLocationSelected control.
     '''</summary>
     '''<remarks>
@@ -1011,6 +1038,24 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdWelcomeMess As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdVendorNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdVendorNo As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdLocatNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdLocatNo As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''addProdDev control.

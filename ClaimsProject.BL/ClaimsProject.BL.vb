@@ -912,6 +912,20 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetVendorForFilter(VendorCodesDenied As String, VendorOEMCodeDenied As String, ItemCategories As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetVendorForFilter(VendorCodesDenied, VendorOEMCodeDenied, ItemCategories, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
     Public Function GetClaimWithCM(value As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
@@ -1522,6 +1536,43 @@ Public Class ClaimsProject : Implements IDisposable
             result = objDal.getWrnClaimsHeader(code, dsResult)
             Return result
         Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetExistingLocationsWarr(ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            Dim ds As DataSet = New DataSet()
+            Dim dt As DataTable = New DataTable()
+            result = objDal.GetExistingLocationsWarr(dsResult)
+
+            If dsResult IsNot Nothing Then
+                If dsResult.Tables(0).Rows.Count > 0 Then
+
+                    dt = dsResult.Tables(0).Clone()
+                    For Each dw As DataRow In dsResult.Tables(0).Rows
+                        Dim loc = dw.Item("CWLOCN").ToString().Trim()
+                        Dim desc = If(dw.Item("CNTDE1").ToString().ToUpper().Contains("FL"), dw.Item("CNTDE1").ToString().Split("FL")(0).Trim(), dw.Item("CNTDE1").ToString().Split("TX")(0).Trim())
+                        Dim nr As DataRow = dt.NewRow()
+                        nr.Item("CWLOCN") = dw.Item("CWLOCN")
+                        nr.Item("CNTDE1") = loc + " - " + desc
+                        dt.Rows.Add(nr)
+
+                    Next
+                    dt.AcceptChanges()
+                    ds.Tables.Add(dt)
+
+                End If
+            End If
+
+            dsResult = ds
+
+            Return result
+        Catch ex As Exception
+            dsResult = Nothing
             Return result
         End Try
     End Function

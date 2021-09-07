@@ -332,7 +332,7 @@
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtCustomer" name="txt-Customer" placeholder="Customer No." class="form-control autosuggestcustomer" runat="server"></asp:TextBox>
-                                                                    <span class="input-group-addon"><i class="fa fa-user-tie center-vert font-awesome-custom"></i></span>
+                                                                    <span class="input-group-addon"><i class="fa fa-address-card center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
                                                             </div>
@@ -366,7 +366,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="SixRow">
+                                    <div id="SixRow" style="padding: 5px 0 !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -474,7 +474,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="SecondRowAdd">
+                                    <div id="SecondRowAdd" style="display: none !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -497,7 +497,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="ThirdRowAdd">
+                                    <div id="ThirdRowAdd" style="display: none !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -509,6 +509,50 @@
                                                                 <div class="input-group-append">
                                                                     <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="SixRowAdd">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+
+                                                    <div class="col-md-12">
+                                                        <!--search by Diagnose-->
+                                                        <div id="rowVendor">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlVndNo" name="sel-vndassigned" placeholder="Vendor no." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlVndNo_SelectedIndexChanged" title="Search by Vendor Number." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-user-tie center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="SevenRowAdd">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+
+                                                    <div class="col-md-12">
+                                                        <!--search by Diagnose-->
+                                                        <div id="rowLocat">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlLocat" name="sel-vndassigned" placeholder="Vendor no." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlLocat_SelectedIndexChanged" title="Search by Location." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-map-marked-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -732,6 +776,7 @@
                     <asp:HiddenField ID="hdWkStatTwo" Value="" runat="server" />
 
                     <asp:HiddenField ID="hdSelectedDiagnose" Value="0" runat="server" />
+                    <asp:HiddenField ID="hdSelectedDiagnoseIndex" Value="0" runat="server" />
                     <asp:HiddenField ID="hdLocationSelected" Value="0" runat="server" />
 
                     <asp:HiddenField ID="hdVendorClaimNo" Value="" runat="server" />
@@ -747,6 +792,8 @@
                     <asp:HiddenField ID="hdShowCloseBtn" Value="0" runat="server" />
 
                     <asp:HiddenField id="hdWelcomeMess" Value="" runat="server" />
+                    <asp:HiddenField id="hdVendorNo" Value="" runat="server" />
+                    <asp:HiddenField id="hdLocatNo" Value="" runat="server" />
 
                 </div>
             </div>            
@@ -1323,16 +1370,16 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkClaimAuth" runat="server" />
-                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
+                                                    <asp:CheckBox ID="chkClaimAuth" Enabled="false" runat="server" />
+                                                    <asp:LinkButton ID="lnkClaimAuth" Enabled="false" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
-                                                            <asp:TextBox ID="txtClaimAuth" CssClass="form-control" runat="server" />                                                            
+                                                            <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />                                                            
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <asp:TextBox ID="txtClaimAuthDate" CssClass="form-control" runat="server" />  
+                                                            <asp:TextBox ID="txtClaimAuthDate" Enabled="false" CssClass="form-control" runat="server" />  
                                                         </div>
                                                     </div>                                                    
                                                 </div>                                                
@@ -2256,7 +2303,7 @@
                                                 <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Close Claim" runat="server">
+                                                <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseClaim_Click" ToolTip="Close Claim" runat="server">
                                                     <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Close Claim
                                                 </asp:LinkButton>
                                                 <asp:Button ID="btnCloseClaim1" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
@@ -2619,7 +2666,7 @@
         }
 
         function processDDLSelection(filter) {
-            //debugger
+            debugger
 
             if (filter == "MainContent_ddlSearchReason") {
                 var hdRe = document.getElementById('<%=hdReason.ClientID%>').value;
@@ -2629,6 +2676,16 @@
             else if (filter == "MainContent_ddlSearchDiagnose") {
                 var hdDia = document.getElementById('<%=hdDiagnose.ClientID%>').value;
                 $("#<%=ddlSearchDiagnose.ClientID%>").prop('selectedIndex', parseInt(hdDia));
+
+            }
+            else if (filter == "MainContent_ddlVndNo") {
+                var hdVnd = document.getElementById('<%=hdVendorNo.ClientID%>').value;
+                $("#<%=ddlVndNo.ClientID%>").prop('selectedIndex', parseInt(hdVnd));
+
+            }
+            else if (filter == "MainContent_ddlLocat") {
+                var hdLoc = document.getElementById('<%=hdLocatNo.ClientID%>').value;
+                $("#<%=ddlLocat.ClientID%>").prop('selectedIndex', parseInt(hdLoc));
 
             }
             else if (filter == "MainContent_ddlSearchExtStatus") {
@@ -2647,8 +2704,9 @@
 
             }
             else if (filter == "MainContent_ddlDiagnoseData") {
-                var hdDs1 = document.getElementById('<%=hdSelectedDiagnose.ClientID%>').value;
-                $("#<%=ddlDiagnoseData.ClientID%>").prop('selectedIndex', parseInt(hdDs1) + 1);
+                var hdDs1 = document.getElementById('<%=hdSelectedDiagnoseIndex.ClientID%>').value;
+                //var hdDs1 = document.getElementById('<%=hdSelectedDiagnose.ClientID%>').selectedIndex;
+                $("#<%=ddlDiagnoseData.ClientID%>").prop('selectedIndex', parseInt(hdDs1));
 
             }
         }
@@ -2878,13 +2936,16 @@
         });
 
         $('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
+            debugger
+
             var value = document.getElementById("<%=ddlDiagnoseData.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;
             $('#<%=ddlDiagnoseData.ClientID %>').val(getindex);
 
-            var value1 = document.getElementById("<%=ddlDiagnoseData.ClientID %>").id;
-            $('#<%=selectedFilter.ClientID %>').val(value1);
+            var value1 = document.getElementById("<%=ddlDiagnoseData.ClientID %>").id;            
+            //$('#<%=hdSelectedDiagnoseIndex.ClientID %>').val(getindex);
+            //$('#<%=hdSelectedDiagnose.ClientID %>').val(gettext);
         });
 
         $('body').on('change', "#<%=ddlSearchDiagnose.ClientID %>", function () {
@@ -2895,6 +2956,26 @@
 
             var value1 = document.getElementById("<%=ddlSearchDiagnose.ClientID %>").id;
             $('#<%=selectedFilter.ClientID %>').val(value1);
+        });
+
+        $('body').on('change', "#<%=ddlVndNo.ClientID %>", function () {
+            var value = document.getElementById("<%=ddlVndNo.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $('#<%=hdVendorNo.ClientID %>').val(getindex);
+
+            var value1 = document.getElementById("<%=ddlVndNo.ClientID %>").id;
+            //$('#<%=selectedFilter.ClientID %>').val(value1);
+        });
+
+        $('body').on('change', "#<%=ddlLocat.ClientID %>", function () {
+            var value = document.getElementById("<%=ddlLocat.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $('#<%=hdLocatNo.ClientID %>').val(getindex);
+
+            var value1 = document.getElementById("<%=ddlLocat.ClientID %>").id;
+            //$('#<%=selectedFilter.ClientID %>').val(value1);
         });
 
         $('body').on('change', "#<%=ddlSearchReason.ClientID %>", function () {
@@ -2920,10 +3001,14 @@
 
         //MainContent_ddlDiagnoseData
         $('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
-            //debugger
+            debugger
 
             var valuee = $('#<%=ddlDiagnoseData.ClientID %> option:selected').text();
+            var valueid = $('#<%=ddlDiagnoseData.ClientID %> option:selected').index();
+
+            <%--$('#<%=txtDiagnoseData.ClientID %>').val(valuee); --%>
             $('#<%=hdSelectedDiagnose.ClientID %>').val(valuee);
+            $('#<%=hdSelectedDiagnoseIndex.ClientID %>').val(valueid);
 
         });
 
@@ -3558,6 +3643,8 @@
             claimNoAutoComplete()
             PartNoAutoComplete()
             CustomerNoAutoComplete()
+
+            processDDLSelection("MainContent_ddlDiagnoseData");
 
             setHeight($('#MainContent_txtCustStatement'));
             

@@ -75,7 +75,7 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlSearchUser)
             LoadDropDownLists(ddlSearchIntStatus)
             LoadDropDownLists(ddlClaimType)
-
+            LoadDropDownLists(ddlVndNo)
 
 
             If hdDisplaySeeVndClaim.Value <> "0" Then
@@ -137,6 +137,7 @@ Public Class CustomerClaims
             LoadImages()
 
             If Not String.IsNullOrEmpty(controlName) Then
+                Session("currentCtr") = controlName
                 If ((LCase(controlName).Contains("ddl"))) Then
                     Dim ddlTrig As DropDownList = DirectCast(Me.Form.FindControl(controlName), DropDownList)
                     executesDropDownList(ddlTrig)
@@ -1277,6 +1278,26 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Protected Sub ddlLocat_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Dim exMessage As String = " "
+        Dim sentence As String = Nothing
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub ddlVndNo_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Dim exMessage As String = " "
+        Dim sentence As String = Nothing
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Protected Sub ddlClaimType_SelectedIndexChanged(sender As Object, e As EventArgs)
 
     End Sub
@@ -1564,16 +1585,17 @@ Public Class CustomerClaims
     '    End Try
     'End Sub
 
-    Protected Sub btnCloseTab_Click(sender As Object, e As EventArgs) Handles btnCloseTab.Click
+    Protected Sub btnCloseClaim_Click(sender As Object, e As EventArgs) Handles btnCloseClaim.Click
         Dim exMessage As String = " "
         Dim methodMessage As String = Nothing
+        Dim strMessage As String = Nothing
         Try
             hdGridViewContent.Value = "1"
             hdNavTabsContent.Value = "0"
             hdCurrentActiveTab.Value = "#claimoverview"
             hdGetCommentTab.Value = "0"
 
-            Dim blClose = cmdCloseClaim()
+            Dim blClose = cmdCloseClaim(strMessage)
             If blClose Then
                 CleanCommentsValues()
                 ClearInputCustom(navsSection)
@@ -1582,12 +1604,52 @@ Public Class CustomerClaims
                 grvClaimReport.DataSource = dsData.Tables(0)
                 grvClaimReport.DataBind()
 
-                methodMessage = "Claim closed successfully."
-                SendMessage(methodMessage, messageType.warning)
+                If Not strMessage.Trim().ToUpper().Equals("PREVENT") Then
+                    methodMessage = "Claim closed successfully."
+                    SendMessage(methodMessage, messageType.warning)
+                End If
+
             Else
                 methodMessage = "An error has occurred closing the Claim."
                 SendMessage(methodMessage, messageType.warning)
             End If
+
+            'mdClaimDetailsExp.Hide()
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+        End Try
+    End Sub
+
+    Protected Sub btnCloseTab_Click(sender As Object, e As EventArgs) Handles btnCloseTab.Click
+        Dim exMessage As String = " "
+        Dim methodMessage As String = Nothing
+        Dim strMessage As String = Nothing
+        Try
+            hdGridViewContent.Value = "1"
+            hdNavTabsContent.Value = "0"
+            hdCurrentActiveTab.Value = "#claimoverview"
+            hdGetCommentTab.Value = "0"
+
+            clearAllDataFields()
+
+            'Dim blClose = cmdCloseClaim(strMessage)
+            'If blClose Then
+            '    CleanCommentsValues()
+            '    ClearInputCustom(navsSection)
+
+            '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+            '    grvClaimReport.DataSource = dsData.Tables(0)
+            '    grvClaimReport.DataBind()
+
+            '    If Not strMessage.Trim().ToUpper().Equals("PREVENT") Then
+            '        methodMessage = "Claim closed successfully."
+            '        SendMessage(methodMessage, messageType.warning)
+            '    End If
+
+            'Else
+            '    methodMessage = "An error has occurred closing the Claim."
+            '    SendMessage(methodMessage, messageType.warning)
+            'End If
 
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
@@ -1640,7 +1702,7 @@ Public Class CustomerClaims
         Dim resultProc As Boolean = False
 
         'test user
-        Session("userid") = "GMARTOS"
+        Session("userid") = "AALZATE"
         'test user
 
         Try
@@ -1863,7 +1925,9 @@ Public Class CustomerClaims
 
                     resultProc = Param186StatusIfDenied(wrnNo, "I", strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     Else
@@ -1943,6 +2007,9 @@ Public Class CustomerClaims
                         hdNavTabsContent.Value = "0"
                         hdGridViewContent.Value = "1"
 
+                        strMessageOut = "The Claim Number: " + claimNo + " has closed successfully."
+                        SendMessage(strMessageOut, messageType.success)
+
                         Exit Sub
                     End If
 #End Region
@@ -1950,7 +2017,9 @@ Public Class CustomerClaims
                     Dim dbLimit As Double = 0
                     resultProc = SendEmailToPIChAppClaimOver500(wrnNo, totalClaimValue, totalLimit, dbLimit, strMessageOut)
                     If Not resultProc Then
-                        lstMessages.Add(strMessageOut)
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
                         'method to prepare the message
                         'Exit Sub
                     End If
@@ -1977,16 +2046,41 @@ Public Class CustomerClaims
 #End Region
 #Region "Clear All Data"
 
-                    clearAllDataFields()
+                    'clearAllDataFields()
 
 #End Region
 
-                    hdNavTabsContent.Value = "0"
-                    hdGridViewContent.Value = "1"
+                    If lstMessages.Count = 0 Then
 
-                    'display message
-                    'Record updated
-                    SendMessage("Record Updated", messageType.success)
+                        clearAllDataFields()
+
+                        hdNavTabsContent.Value = "0"
+                        hdGridViewContent.Value = "1"
+
+                        'display message
+                        'Record updated
+                        SendMessage("Record Updated", messageType.success)
+
+                    Else
+
+                        hdNavTabsContent.Value = "1"
+                        hdGridViewContent.Value = "0"
+
+                        Dim lstCol As List(Of String) = New List(Of String)()
+                        lstCol.Add("Description")
+
+                        Dim cols As ParamArrayAttribute = New ParamArrayAttribute()
+                        'cols
+
+                        Dim htmlTable = GetDatatableFromStringList(lstMessages, "Description")
+
+
+                        'Dim htmlTable = "<table><tr><td>Pedro es bueno</td></tr></table>"
+
+                        'SendMessage("There is warnings in the proccess. Please check the typed data.", messageType.warning)
+                        SendMessage(htmlTable, messageType.warning)
+
+                    End If
 
                 Else
                     strMessageOut = "There is an error getting data for the Claim Number: " + claimNo + "."
@@ -2129,6 +2223,7 @@ Public Class CustomerClaims
                     End Using
                 Else
                     result = True
+                    strMessage = "PREVENT"
                 End If
 
             Else
@@ -3074,6 +3169,8 @@ Public Class CustomerClaims
                                                 If blApprove Then
                                                     chkApproved.Enabled = False
                                                     chkClaimCompleted.Enabled = False
+                                                    txtClaimCompleted.Enabled = False
+                                                    txtClaimCompletedDate.Enabled = False
                                                     Dim blClose = cmdCloseClaim(strMessage)
                                                     If blClose Then
                                                         chkApproved.Enabled = False
@@ -4241,6 +4338,8 @@ Public Class CustomerClaims
 
                         txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
                         txtClaimCompletedDate.Text = datenow
+                        txtClaimCompleted.Enabled = False
+                        txtClaimCompletedDate.Enabled = False
                         chkClaimCompleted.Enabled = False
 
                         Return result
@@ -4296,8 +4395,8 @@ Public Class CustomerClaims
                         Return result
                     End If
                 Else
-                    strMessage = "The fields related to engine information must be filled."
-                    Return result
+                    'strMessage = "The fields related to engine information must be filled."
+                    'Return result
                 End If
 
             End Using
@@ -4429,6 +4528,7 @@ Public Class CustomerClaims
                     End If
                 Else
                     strMessage = "No quarantine for this claim."
+                    result = True
                     Return result
                 End If
 
@@ -4451,8 +4551,9 @@ Public Class CustomerClaims
                 Dim currentUser = UCase(Session("userid").ToString().Trim().ToUpper())
                 Dim lstUsers = If(Not String.IsNullOrEmpty(strUsers), strUsers.Split(","), Nothing)
                 Dim myitem = lstUsers.AsEnumerable().Where(Function(value) UCase(value.ToString().Trim()).Contains(currentUser))
-                If myitem.Count = 1 Then
-                    If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) Then
+
+                If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) And txtConsDamageTotal.Text <> "0" Then
+                    If myitem.Count = 1 Then
                         Dim dsClaimData = New DataSet()
                         Dim condAccess = "B"
                         'revisar si tiene que ser con status especifico????
@@ -4480,9 +4581,14 @@ Public Class CustomerClaims
                             strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
                             Return result
                         End If
+                    Else
+                        strMessage = "The current user does not have the Authorization to put costs. "
+                        Return result
                     End If
+                End If
 
-                    If Not String.IsNullOrEmpty(txtFreight.Text) Then
+                If Not String.IsNullOrEmpty(txtFreight.Text) And txtFreight.Text <> "0" Then
+                    If myitem.Count = 1 Then
                         Dim valueResult As Double = 0
                         If Double.TryParse(txtFreight.Text, valueResult) Then
                             If valueResult <> 0 Then
@@ -4502,11 +4608,11 @@ Public Class CustomerClaims
                             Return result
                         End If
                     Else
-                        intValidation += 1
+                        strMessage = "The current user does not have the Authorization to put costs. "
+                        Return result
                     End If
                 Else
-                    strMessage = "The current user does not have the Authorization to put costs. "
-                    Return result
+                    intValidation += 1
                 End If
 
             End Using
@@ -4543,7 +4649,8 @@ Public Class CustomerClaims
                             hdCLMuser.Value = Mid(d2, 1, 10)
 
                             Dim tempLimit = Mid(d2, 38, 7)
-                            hdCLMLimit.Value = Format(tempLimit, "       #")
+                            hdCLMLimit.Value = Regex.Replace(tempLimit, "^0+", "")
+                            'hdCLMLimit.Value = Format(tempLimit, "       #")
                             objAprovUser.CLMLimit = hdCLMLimit.Value
 
                             Session("Obj500to1500") = objAprovUser
@@ -4765,6 +4872,7 @@ Public Class CustomerClaims
     Public Function ClaimApprovedCompletedUnder500(wrnNo As String, totalClaimValue As Double, totalLimit As Double, totalConsDamage As Double, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         strMessage = Nothing
+        Dim strMessageOut As String = Nothing
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -4782,6 +4890,8 @@ Public Class CustomerClaims
                             Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
                             If rsIns > 0 Then
                                 chkClaimCompleted.Enabled = False
+                                txtClaimCompleted.Enabled = False
+                                txtClaimCompletedDate.Enabled = False
                                 txtDateEntered.Text = datenow
                                 txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
 
@@ -4799,20 +4909,20 @@ Public Class CustomerClaims
                                             If rsUpdWHeader1 > 0 Then
 
                                                 'Generate Credit Memo pending
-                                                Dim appb = cmdApproveds(strMessage)
+                                                Dim appb = cmdApproveds(strMessageOut)
                                                 If appb Then
-                                                    Dim dec = cmdCloseClaim(strMessage)
+                                                    Dim dec = cmdCloseClaim(strMessageOut)
                                                     If dec Then
                                                         chkApproved.Enabled = False
                                                         chkDeclined.Enabled = False
 
                                                         result = True
                                                     Else
-                                                        strMessage = "There is an error in the Close Claim process for the Claim Number:" + wrnNo + "."
+                                                        strMessage = "There is an error in the Close Claim process for the Claim Number:" + wrnNo + "." + strMessageOut
                                                         Return result
                                                     End If
                                                 Else
-                                                    strMessage = "There is an error in the Approval Process for the Claim Number:" + wrnNo + "."
+                                                    strMessage = "There is an error in the Approval Process for the Claim Number:" + wrnNo + "." + strMessageOut
                                                     Return result
                                                 End If
                                             Else
@@ -4944,8 +5054,9 @@ Public Class CustomerClaims
                                 Return result
                             End If
                         Else
-                            strMessage = "The Claim Amount must be more than the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
+                            strMessage = "The Claim Amount must be more than the configured limit for the current user in order to send an email. Total Amount: " + totalClaimValue.ToString() +
                             ". Configured Limit: " + totalLimit.ToString() + "."
+                            result = True
                             Return result
                         End If
                     End If
@@ -5037,7 +5148,7 @@ Public Class CustomerClaims
                         Return result
                     End If
                 Else
-                    strMessage = "The checkbox to approve the authorization for Claims over $500 must be checked in order to proceed."
+                    'strMessage = "The checkbox to approve the authorization for Claims over $500 must be checked in order to proceed."
                     Return result
                 End If
 
@@ -5097,6 +5208,8 @@ Public Class CustomerClaims
                                                 txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
                                                 txtClaimCompletedDate.Text = datenow
                                                 chkClaimCompleted.Enabled = False
+                                                txtClaimCompleted.Enabled = False
+                                                txtClaimCompletedDate.Enabled = False
 
                                                 Dim dsGet = New DataSet()
                                                 Dim rsGet = objBL.getDataByInternalStsLet("K", dsGet)
@@ -5157,7 +5270,9 @@ Public Class CustomerClaims
                         Return result
                     End If
                 Else
-                    strMessage = "The Total Claim value is less to $500. You do not need to request for authorization approval. Please uncheck the Request Approval Over $500."
+                    If chkClaimAuth.Checked Then
+                        strMessage = "The Total Claim value is less to $500. You do not need to request for authorization approval. Please uncheck the Request Approval Over $500."
+                    End If
                     Return result
                 End If
 
@@ -5410,6 +5525,62 @@ Public Class CustomerClaims
 
 #Region "Utils"
 
+    '    static class ListExtensions
+    '{
+    '    public static DataTable ToDataTable(this List<List<string>> list)
+    '    {
+    '        DataTable tmp = new DataTable();
+    '        foreach (List<string> row in list)
+    '        {
+    '            tmp.Rows.Add(row.ToArray());
+    '        }
+    '        return tmp;
+    '    }
+    '}
+
+    Public Shared Function GetDatatableFromStringList(lst As List(Of String), column As String) As String
+        Dim dt As DataTable = New DataTable()
+        Dim htmlTable As String = Nothing
+        Try
+            dt.Columns.Add(column)
+            For Each it1 As String In lst
+                dt.Rows.Add(it1)
+            Next
+
+            'htmlTable = "<table>"
+            'htmlTable += "<tr>"
+
+            'For Each dc As DataColumn In dt.Columns
+            '    htmlTable += "<td>" + dc.ColumnName.Trim() + "</td>"
+            'Next
+            'htmlTable += "</tr>"
+            'For Each dw As DataRow In dt.Rows
+            '    htmlTable += "<tr>"
+            '    htmlTable += "<td>" + dw.Item("Description").ToString().Trim() + "</td>"
+            '    htmlTable += "</tr>"
+            'Next
+            'htmlTable += "</table>"
+
+            htmlTable = "<ul>"
+            'htmlTable += "<tr>"
+
+            For Each dc As DataColumn In dt.Columns
+                htmlTable += "<b>" + dc.ColumnName.Trim().ToUpper() + "</b>"
+            Next
+            'htmlTable += "</tr>"
+            For Each dw As DataRow In dt.Rows
+                'htmlTable += "<tr>"
+                htmlTable += "<li>" + dw.Item("Description").ToString().Trim() + "</li>"
+                'htmlTable += "</tr>"
+            Next
+            htmlTable += "</ul>"
+
+            Return htmlTable
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
     Public Sub PrepareEmail()
 
         Try
@@ -5611,6 +5782,12 @@ Public Class CustomerClaims
             End If
             If ddlSearchDiagnose.SelectedIndex > 0 Then
                 strBuild += " AND TRIM(MHDIAG) = '" + Trim(ddlSearchDiagnose.SelectedItem.Text.Trim().Split("-")(0)) + "'"
+            End If
+            If ddlVndNo.SelectedIndex > 0 Then
+                strBuild += " AND TRIM(CWVENO) = '" + Trim(ddlVndNo.SelectedItem.Value.Trim()) + "'"
+            End If
+            If ddlLocat.SelectedIndex > 0 Then
+                strBuild += " AND TRIM(CWLOCN) = '" + Trim(ddlLocat.SelectedItem.Value.Trim()) + "'"
             End If
         Catch ex As Exception
 
@@ -7333,7 +7510,7 @@ Public Class CustomerClaims
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
             ''test purpose
-            Session("userid") = "GMARTOS"
+            Session("userid") = "AALZATE"
             ''test purpose
             Session("fullObj") = Nothing
             Session("isDDL") = False
@@ -7365,6 +7542,8 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlClaimTypeOk)
             LoadDropDownLists(ddlInitRev)
             LoadDropDownLists(ddlTechRev)
+            LoadDropDownLists(ddlVndNo)
+            LoadDropDownLists(ddlLocat)
 
         Catch ex As Exception
 
@@ -7933,10 +8112,16 @@ Public Class CustomerClaims
                             LoadDropDownLists(ddlDiagnoseData)
 
                             Dim comparerDiag = dsNW.Tables(0).Rows(0).Item("MHDIAG").ToString()
+
                             ddlDiagnoseData.SelectedIndex = ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByValue(comparerDiag))
                             If ddlDiagnoseData.SelectedIndex > 0 Then
+                                hdSelectedDiagnoseIndex.Value = ddlDiagnoseData.SelectedIndex.ToString()
                                 hdcwdiagd.Value = ddlDiagnoseData.SelectedItem.Text
+                                hdSelectedDiagnose.Value = hdcwdiagd.Value
                                 txtDiagnoseData.Text = hdcwdiagd.Value
+                            Else
+                                ddlDiagnoseData.SelectedIndex = 0
+                                hdSelectedDiagnoseIndex.Value = "0"
                             End If
 
                             'Dim comparerDiag = dsNW.Tables(0).Rows(0).Item("MHDIAG").ToString().Trim()
@@ -7959,11 +8144,12 @@ Public Class CustomerClaims
                 Dim dsDiag = New DataSet()
                 Dim value4 = dsNW.Tables(0).Rows(0).Item("MHDIAG").ToString().Trim()
                 Dim rs4 = objBL.getDataByDiagnose(value4, dsDiag)
-
+                hdSelectedDiagnose.Value = String.Empty
                 If rs4 > 0 Then
                     If dsDiag IsNot Nothing Then
                         If dsDiag.Tables(0).Rows.Count > 0 Then
                             hdcwdiagd.Value = dsDiag.Tables(0).Rows(0).Item("CWDIAGD").ToString().Trim()
+                            hdSelectedDiagnose.Value = hdcwdiagd.Value
                         End If
                     End If
                 End If
@@ -8485,7 +8671,8 @@ Public Class CustomerClaims
                 ddlSearchUser.SelectedIndex = If(Not String.IsNullOrEmpty(hdUserSelected.Value), CInt(ddlSearchUser.Items.IndexOf(ddlSearchUser.Items.FindByValue(hdUserSelected.Value))), 0)
                 ddlSearchUser_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlDiagnoseData" Then
-                ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnose.Value), CInt(ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByValue(hdSelectedDiagnose.Value))), 0)
+                'ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnose.Value), CInt(ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByValue(hdSelectedDiagnose.Value))), 0)
+                ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnoseIndex.Value), CInt(hdSelectedDiagnoseIndex.Value), 0)
                 ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlInitRev" Then
 
@@ -8503,6 +8690,11 @@ Public Class CustomerClaims
         Dim dsData = DirectCast(Session("DataSource"), DataSet)
         Dim ds As DataSet = New DataSet()
         Dim exMessage As String = " "
+
+        Dim vndOEMDenied = ConfigurationManager.AppSettings("vendorOEMCodeDenied")
+        Dim itemDenied = ConfigurationManager.AppSettings("itemCategories")
+        Dim vndDenied = ConfigurationManager.AppSettings("vendorCodesDenied")
+
         Try
 
             If ddl.ID = "ddlSearchReason" Then
@@ -8620,6 +8812,30 @@ Public Class CustomerClaims
 
                         LoadingDropDownList(ddlTechRev, dsData.Tables(0).Columns("usname").ColumnName,
                                                     dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "NA - Select Tech.Review User")
+                    End Using
+                End If
+            ElseIf ddl.ID = "ddlVndNo" Then
+                If ddl.Items.Count = 0 Then
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        result = objBL.GetVendorForFilter(vndDenied, vndOEMDenied, itemDenied, dsData)
+                        If dsData IsNot Nothing Then
+                            If dsData.Tables(0).Rows.Count > 0 Then
+                                LoadingDropDownList(ddlVndNo, dsData.Tables(0).Columns("VMNAME").ColumnName,
+                                                    dsData.Tables(0).Columns("VMVNUM").ColumnName, dsData.Tables(0), True, "NA - Select Vendor Name")
+                            End If
+                        End If
+                    End Using
+                End If
+            ElseIf ddl.ID = "ddlLocat" Then
+                If ddl.Items.Count = 0 Then
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        result = objBL.GetExistingLocationsWarr(dsData)
+                        If dsData IsNot Nothing Then
+                            If dsData.Tables(0).Rows.Count > 0 Then
+                                LoadingDropDownList(ddlLocat, dsData.Tables(0).Columns("CNTDE1").ColumnName,
+                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, "NA - Select Location")
+                            End If
+                        End If
                     End Using
                 End If
             End If
