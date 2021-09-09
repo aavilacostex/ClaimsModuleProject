@@ -121,7 +121,6 @@ Public Class CustomerClaims
             End If
 
 
-
             'If hdDisplayAddVndClaim.Value <> "0" Then
             '    Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
             '    Dim grv As GridView = DirectCast(ph.FindControl("grvAddComm"), GridView)
@@ -286,6 +285,9 @@ Public Class CustomerClaims
                         result = objBL.GetClaimsReportSingle(dsResult, strDates)
                         resultFull = objBL.GetClaimsReportFull(dsResult1, strDates)
                     Else
+
+                        'Dim flagValue = ddlClaimType.SelectedItem.Text
+                        'Dim flagValue1 = ddlClaimType.SelectedItem.Value
 
                         result = objBL.GetClaimsDataUpdated("C", dsResult) ' look for warranty types (<> 'B')
                         'result = objBL.GetClaimsReportSingle(dsResult)
@@ -593,14 +595,25 @@ Public Class CustomerClaims
 
                 Dim row As GridViewRow = DirectCast(DirectCast((e.CommandSource), LinkButton).Parent.Parent, GridViewRow)
                 Dim claimNo = row.Cells(1).Text
+                Dim claimStatus As String = Nothing
 
                 Dim ds1 = DirectCast(Session("ClaimsBckData"), DataSet)
+                'Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
+                Dim dd = ds1.Tables(0).AsEnumerable().Where(Function(ee) ee.Item("MHMRNR").ToString().Trim().ToUpper().Equals(claimNo.Trim().ToUpper())).First
+                If dd IsNot Nothing Then
+                    claimStatus = dd.Item("cwstde").ToString().Trim().ToUpper()
+                Else
+                    claimStatus = "Not Detected Status for this Claim Number."
+                End If
+
                 'load all claim number data
 
                 fillClaimData("c", claimNo)
                 hdGetCommentTab.Value = "1"
                 SeeCommentsMethod()
-                setTabsHeader(txtClaimNoData.Text)
+                lblClaimQuickOverview.Text = "You are currently viewing Claim Number:" + txtClaimNoData.Text + ". The current status for this Claim is:  " + claimStatus + "."
+                hdClaimNumber.Value = lblClaimQuickOverview.Text
+                'setTabsHeader(txtClaimNoData.Text)
 
                 'change the flags for grid and tabs visualization
                 'hdGridViewContent.Value = "0"
@@ -1592,6 +1605,7 @@ Public Class CustomerClaims
         Try
             hdGridViewContent.Value = "1"
             hdNavTabsContent.Value = "0"
+            hdClaimNumber.Value = ""
             hdCurrentActiveTab.Value = "#claimoverview"
             hdGetCommentTab.Value = "0"
 
@@ -1627,6 +1641,7 @@ Public Class CustomerClaims
         Try
             hdGridViewContent.Value = "1"
             hdNavTabsContent.Value = "0"
+            hdClaimNumber.Value = ""
             hdCurrentActiveTab.Value = "#claimoverview"
             hdGetCommentTab.Value = "0"
 
@@ -1933,6 +1948,7 @@ Public Class CustomerClaims
                     Else
                         'claim denied
                         hdNavTabsContent.Value = "0"
+                        hdClaimNumber.Value = ""
                         hdGridViewContent.Value = "1"
 
                         SendMessage("Record Updated", messageType.success)
@@ -2005,6 +2021,7 @@ Public Class CustomerClaims
                         grvClaimReport.DataBind()
 
                         hdNavTabsContent.Value = "0"
+                        hdClaimNumber.Value = ""
                         hdGridViewContent.Value = "1"
 
                         strMessageOut = "The Claim Number: " + claimNo + " has closed successfully."
@@ -2055,6 +2072,7 @@ Public Class CustomerClaims
                         clearAllDataFields()
 
                         hdNavTabsContent.Value = "0"
+                        hdClaimNumber.Value = ""
                         hdGridViewContent.Value = "1"
 
                         'display message
@@ -3230,6 +3248,14 @@ Public Class CustomerClaims
                     methodMessage = "The value must be a valid amount."
                     SendMessage(methodMessage, messageType.warning)
                 Else
+
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                        Dim rss = objBL.UpdateComplexPartCredInComments(partCredit, txtClaimNoData.Text)
+                        Dim pp = rss
+
+                    End Using
+
                     txtParts.Text = txtPartCred.Text
                     txtTotValue.Text = "0"
                     txtCDFreight.Text = "0"
@@ -3237,6 +3263,8 @@ Public Class CustomerClaims
                     txtCDMisc.Text = "0"
                     txtCDPart.Text = "0"
                     txtConsDamageTotal.Text = "0"
+
+                    hdPartialCredits.Value = "1"
 
                     methodMessage = "The Claim Total Value has been changed."
                     SendMessage(methodMessage, messageType.info)
@@ -4397,6 +4425,7 @@ Public Class CustomerClaims
                 Else
                     'strMessage = "The fields related to engine information must be filled."
                     'Return result
+                    result = True
                 End If
 
             End Using
@@ -4876,9 +4905,11 @@ Public Class CustomerClaims
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True And chkApproved.Checked And chkAcknowledgeEmail.Checked Then
-                    If totalClaimValue <= totalLimit Then
-                        If totalConsDamage = 0 Then
+                If chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True And chkApproved.Checked Then
+
+                    If chkAcknowledgeEmail.Checked Then
+
+                        If totalClaimValue <= totalLimit Then
 
                             chkApproved.Enabled = False
                             chkDeclined.Enabled = False
@@ -4947,16 +4978,21 @@ Public Class CustomerClaims
                                 strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
                                 Return result
                             End If
+
+
                         Else
-                            strMessage = "The Consequental Damage value is different to 0."
+                            strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
+                                ". Configured Limit: " + totalLimit.ToString() + "."
                             Return result
                         End If
+
                     Else
-                        strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
-                            ". Configured Limit: " + totalLimit.ToString() + "."
+                        strMessage = "The Acknowledgement Email has to be sent before to approve the claim."
                         Return result
                     End If
-
+                Else
+                    strMessage = "In order to close the Claim the Claim Approved and Claim Completed checkboxes must be checked!"
+                    Return result
                 End If
 
             End Using
@@ -5324,6 +5360,8 @@ Public Class CustomerClaims
                         Return result
                     End If
 
+                Else
+                    'result = True
                 End If
 
             End Using
@@ -6326,6 +6364,9 @@ Public Class CustomerClaims
                                         LoadDDLDiagnose(dsNW)
                                         'customer name
                                         GetCustomerName(dsNW)
+
+                                        Dim strExcMessage As String = Nothing
+                                        GetSupplierInvoiceAndDate(txtVendorNo.Text, docData, strExcMessage)
 
                                         If String.IsNullOrEmpty(hdFlagUpload.Value.Trim()) Then
                                             deactCmd()
@@ -7490,6 +7531,7 @@ Public Class CustomerClaims
     'End Sub
 
     Public Sub initializationCode()
+        Dim exMessage As String = Nothing
         Try
             Dim yearUse = DateTime.Now().AddYears(-3).Year
             Dim firstDate = New DateTime(yearUse, 1, 1).Date()
@@ -7531,6 +7573,7 @@ Public Class CustomerClaims
             getAutoRestockFlag(dsAuthRestock)
 
             'GetClaimsReport("", 1, Nothing, strDates)
+
             GetClaimsReport("", 1, Nothing, Nothing)
 
             LoadDropDownLists(ddlSearchDiagnose)
@@ -7545,7 +7588,10 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlVndNo)
             LoadDropDownLists(ddlLocat)
 
+
+
         Catch ex As Exception
+            exMessage = ex.Message
 
         End Try
     End Sub
@@ -7557,6 +7603,7 @@ Public Class CustomerClaims
             lblThirdTabDesc.Text += value
             lblFourTabDesc.Text += value
             lblFiveTabDesc.Text += value
+            hdClaimNumber.Value = lblFirstTabDesc.Text + " " + value
         Catch ex As Exception
 
         End Try
@@ -8181,6 +8228,73 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub GetSupplierInvoiceAndDate(vendorNo As String, claimNo As String, Optional ByRef strMessage As String = Nothing)
+        Dim dsResult1 As DataSet = New DataSet()
+        Dim dsResult2 As DataSet = New DataSet()
+        Dim dsResult3 As DataSet = New DataSet()
+        Dim blValidation As Boolean = False
+        Dim dateResult As String = Nothing
+        strMessage = Nothing
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                Dim rs1 = objBL.GetSupplierInvoiceFirst(vendorNo, claimNo, dsResult1)
+                If rs1 > 0 Then
+                    If dsResult1 IsNot Nothing Then
+                        If dsResult1.Tables(0).Rows.Count > 0 Then
+
+                            Dim date1 = dsResult1.Tables(0).Rows(0).Item("AWINDT").ToString().Trim()
+                            BuildDates(date1, dateResult, True)
+
+                            txtInvoiceDate1.Text = dateResult
+                            txtInvoiceNo1.Text = dsResult1.Tables(0).Rows(0).Item("AWINNO").ToString().Trim().ToUpper()
+
+                            Exit Sub
+                        End If
+                    End If
+                End If
+                Dim rs2 = objBL.GetSupplierInvoiceSecond(vendorNo, claimNo, dsResult2)
+                If rs2 > 0 Then
+                    If dsResult2 IsNot Nothing Then
+                        If dsResult2.Tables(0).Rows.Count > 0 Then
+
+                            Dim date1 = dsResult2.Tables(0).Rows(0).Item("AMINDT").ToString().Trim()
+                            BuildDates(date1, dateResult, True)
+
+                            txtInvoiceDate1.Text = dateResult
+                            txtInvoiceNo1.Text = dsResult2.Tables(0).Rows(0).Item("AMINNO").ToString().Trim().ToUpper()
+
+                            Exit Sub
+                        End If
+                    End If
+                End If
+                Dim rs3 = objBL.GetSupplierInvoiceThird(vendorNo, claimNo, dsResult3)
+                If rs3 > 0 Then
+                    If dsResult3 IsNot Nothing Then
+                        If dsResult3.Tables(0).Rows.Count > 0 Then
+
+                            Dim date1 = dsResult3.Tables(0).Rows(0).Item("AHINDT").ToString().Trim()
+                            BuildDates(date1, dateResult, True)
+
+                            txtInvoiceDate1.Text = dateResult
+                            txtInvoiceNo1.Text = dsResult3.Tables(0).Rows(0).Item("AHINNO").ToString().Trim().ToUpper()
+
+                            Exit Sub
+                        End If
+                    End If
+                End If
+
+                If Not blValidation Then
+                    txtInvoiceDate1.Text = String.Empty
+                    txtInvoiceNo1.Text = String.Empty
+                End If
+
+            End Using
+        Catch ex As Exception
+            strMessage = ex.Message
+        End Try
+    End Sub
+
     Public Sub GetInternalStatus(intValue)
         Dim ds = New DataSet()
         Dim strDateOut As String = Nothing
@@ -8570,7 +8684,7 @@ Public Class CustomerClaims
 
 #End Region
 
-    Public Sub BuildDates(Optional strDateIn As String = Nothing, Optional ByRef strDateOut As String = Nothing)
+    Public Sub BuildDates(Optional strDateIn As String = Nothing, Optional ByRef strDateOut As String = Nothing, Optional flag As Boolean = False)
         Try
             Dim culture As IFormatProvider = New CultureInfo("en-US", True)
             Dim cultureInf As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
@@ -8579,40 +8693,66 @@ Public Class CustomerClaims
             Dim dtOut As DateTime = New DateTime()
             ''Dim currdate = Now().Date().ToString().Replace("/", "-") 'force  yyyy-mm-dd
 
-            Dim strDate = If(String.IsNullOrEmpty(strDateIn), DateTime.Now().ToString().Split(" ")(0), strDateIn.Split(" ")(0))
+            If Not flag Then
 
-            'Dim strDate = DateTime.Now().ToString().Split(" ")(0)
+                Dim strDate = If(String.IsNullOrEmpty(strDateIn), DateTime.Now().ToString().Split(" ")(0), strDateIn.Split(" ")(0))
 
-            Dim fixDate = strDate.Split("/")
-            Dim strFixDateRs As String = Nothing
-            For Each item As String In fixDate
-                If item.Length < 2 Then
-                    strFixDateRs += "0" + item + "-"
-                Else
-                    strFixDateRs += item + "-"
+                'Dim strDate = DateTime.Now().ToString().Split(" ")(0)
+
+                Dim fixDate = strDate.Split("/")
+                Dim strFixDateRs As String = Nothing
+                For Each item As String In fixDate
+                    If item.Length < 2 Then
+                        strFixDateRs += "0" + item + "-"
+                    Else
+                        strFixDateRs += item + "-"
+                    End If
+                Next
+
+                strFixDateRs = strFixDateRs.Remove(strFixDateRs.Length - 1, 1)
+                'strDate = "07-23-2021"
+                Dim currdate = DateTime.TryParseExact(strFixDateRs, "MM-dd-yyyy", culture, Nothing, dtOut)
+                If currdate Then
+                    Dim strDt1 = dtOut.ToString("yyyy-MM-dd", dtfi)
+                    Dim currhour = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+
+                    datenow = strDt1
+                    hournow = currhour.Split(".")(0).Replace(":", ".")
                 End If
-            Next
 
-            strFixDateRs = strFixDateRs.Remove(strFixDateRs.Length - 1, 1)
-            'strDate = "07-23-2021"
-            Dim currdate = DateTime.TryParseExact(strFixDateRs, "MM-dd-yyyy", culture, Nothing, dtOut)
-            If currdate Then
-                Dim strDt1 = dtOut.ToString("yyyy-MM-dd", dtfi)
-                Dim currhour = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                If Not String.IsNullOrEmpty(strDateIn) Then
+                    strDateOut = datenow
+                End If
 
-                datenow = strDt1
-                hournow = currhour.Split(".")(0).Replace(":", ".")
+                'Dim dt1 = DateTime.ParseExact(strDate, "MM-dd-yyyy", CultureInfo.InvariantCulture)
+                'datenow = currdate.Split(" ")(0)
+
+            Else
+                If Not String.IsNullOrEmpty(strDateIn) Then
+                    Dim newDate As String = Nothing
+                    If CInt(strDateIn.Length) Mod 2 > 0 Then
+                        newDate = strDateIn.Insert(0, "0")
+                    Else
+                        newDate = strDateIn
+                    End If
+
+                    Dim dt As DateTime = New DateTime()
+                    newDate = newDate.Insert(2, "-")
+                    newDate = newDate.Insert(5, "-")
+
+                    Dim bll = DateTime.TryParseExact(newDate, "MM-dd-yy", DateTimeFormatInfo.InvariantInfo, Nothing, dt)
+                    If bll Then
+                        Dim curDate = dt.ToString("d", DateTimeFormatInfo.InvariantInfo)
+                        strDateOut = curDate
+                    End If
+                End If
             End If
 
-            If Not String.IsNullOrEmpty(strDateIn) Then
-                strDateOut = datenow
-            End If
 
-            'Dim dt1 = DateTime.ParseExact(strDate, "MM-dd-yyyy", CultureInfo.InvariantCulture)
-            'datenow = currdate.Split(" ")(0)
 
         Catch ex As Exception
-
+            Dim eee = ex.Message
+            Dim pp = eee
         End Try
     End Sub
 

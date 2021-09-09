@@ -1103,6 +1103,58 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+#Region "Get number and date for supplier invoice if exists"
+
+    Public Function GetSupplierInvoiceFirst(vndClaimNo As String, claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            Dim Sql = "SELECT AWINNO,AWINDT FROM qs36f.apWrk WHERE AWVENO = " + vndClaimNo + " and AwPONO like '%" + claimNo + "%' "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetSupplierInvoiceSecond(vndClaimNo As String, claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            Dim Sql = "SELECT AMINNO, AMINDT FROM qs36f.apmst WHERE AmVENO = " + vndClaimNo + " and AmPONO like '%" + claimNo + "%' "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetSupplierInvoiceThird(vndClaimNo As String, claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            Dim Sql = "SELECT AHINNO,AHINDT  FROM qs36f.aphst WHERE AhVENO = " + vndClaimNo + " and AhPONO like '%" + claimNo + "%' "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+#End Region
+
 #Region "Comments inner divs data"
 
     Public Function getClaimsByCode(code As String, ByRef dsResult As DataSet) As Integer
@@ -1408,6 +1460,78 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Sql = "UPDATE qs36f.CLMINTSTS SET INDESC = '" & desc & "' WHERE INCLNO = " & value
+            objDatos.UpdateDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+    Public Function UpdateComplexPartCredInComments(partCredValue As String, claimNo As String) As Integer
+        Dim Sql As String = Nothing
+        Dim Sql1 As String = Nothing
+        Dim affectedRows As Integer = -1
+        Dim dsResult As DataSet = New DataSet()
+        Dim dt As DataTable = New DataTable()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "Select A2.cwcom1, A2.cwcom2, A2.cwcom3, A1.mhtomr From qs36f.csmreh A1 Join qs36f.clmwrn A2 on A1.mhmrnr = A2.cwdocn
+                        Where cwdocn = '" + claimNo + "' "
+            'Sql = "select cwcom1, cwcom2,cwcom3 from qs36f.clmwrn where cwdocn = '" + claimNo + "' "
+
+            Dim result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            If result > 0 Then
+                If dsResult IsNot Nothing Then
+                    If dsResult.Tables(0).Rows.Count > 0 Then
+
+                        Dim comm1 = dsResult.Tables(0).Rows(0).Item("cwcom1").ToString().Trim()
+                        Dim comm2 = dsResult.Tables(0).Rows(0).Item("cwcom2").ToString().Trim()
+                        Dim comm3 = dsResult.Tables(0).Rows(0).Item("cwcom3").ToString().Trim()
+                        Dim Ucost = dsResult.Tables(0).Rows(0).Item("mhtomr").ToString().Trim()
+
+                        Dim msg = "This Claim has a Partial Credit apply. The first amount was ${0} and the partial credit applied was ${1} ."
+                        Dim tempMsg As String = Nothing
+                        If Not String.IsNullOrEmpty(comm1) Then
+                            If Not String.IsNullOrEmpty(comm2) Then
+                                If Not String.IsNullOrEmpty(comm3) Then
+                                    tempMsg = comm3 + ". " + msg + "."
+                                    tempMsg = String.Format(tempMsg, Ucost, partCredValue)
+                                    Dim rsUpd3 = UpdatePartCredComm("comm3", msg, claimNo)
+                                Else
+
+                                    Dim rsUpd3 = UpdatePartCredComm("comm3", msg, claimNo)
+                                End If
+                            Else
+                                Dim rsUpd3 = UpdatePartCredComm("comm2", msg, claimNo)
+                            End If
+                        Else
+                            Dim rsUpd1 = UpdatePartCredComm("comm1", msg, claimNo)
+                        End If
+
+                    End If
+                End If
+            End If
+
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+    Public Function UpdatePartCredComm(field As String, comment As String, claimNo As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+
+            If field.Trim().ToLower.Equals("comm1") Then
+                Sql = "UPDATE qs36f.CLMWRN SET CWCOM1 = '" + comment + "' where CWDOCN = '" + claimNo + "' "
+            ElseIf field.Trim().ToLower.Equals("comm2") Then
+                Sql = "UPDATE qs36f.CLMWRN SET CWCOM2 = '" + comment + "' where CWDOCN = '" + claimNo + "' "
+            Else
+                Sql = "UPDATE qs36f.CLMWRN SET CWCOM3 = '" + comment + "' where CWDOCN = '" + claimNo + "' "
+            End If
+
             objDatos.UpdateDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception

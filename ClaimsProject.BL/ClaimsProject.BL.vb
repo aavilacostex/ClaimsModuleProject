@@ -513,6 +513,48 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+
+#Region "Get number and date for supplier invoice if exists"
+
+    Public Function GetSupplierInvoiceFirst(vndClaimNo As String, claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetSupplierInvoiceFirst(vndClaimNo, claimNo, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetSupplierInvoiceSecond(vndClaimNo As String, claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetSupplierInvoiceSecond(vndClaimNo, claimNo, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetSupplierInvoiceThird(vndClaimNo As String, claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetSupplierInvoiceThird(vndClaimNo, claimNo, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+#End Region
+
+
     Public Function GetSupplierClaimCommentsUnifyData(vndClaimNo As String, commentSubject As String, commentTxt As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
@@ -720,6 +762,28 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDal = New DAL.ClaimsProject()
             result = objDal.UpdateEngineInfo(value, engineModel, engineSerial, engineArrang)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function UpdateComplexPartCredInComments(partCredValue As String, claimNo As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.UpdateComplexPartCredInComments(partCredValue, claimNo)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function UpdatePartCredComm(field As String, comment As String, claimNo As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.UpdatePartCredComm(field, comment, claimNo)
             Return result
         Catch ex As Exception
             Return result

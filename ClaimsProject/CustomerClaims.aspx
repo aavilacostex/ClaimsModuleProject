@@ -794,6 +794,8 @@
                     <asp:HiddenField id="hdWelcomeMess" Value="" runat="server" />
                     <asp:HiddenField id="hdVendorNo" Value="" runat="server" />
                     <asp:HiddenField id="hdLocatNo" Value="" runat="server" />
+                    <asp:HiddenField id="hdClaimNumber" Value="" runat="server" />
+                    <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
                 </div>
             </div>            
@@ -1005,6 +1007,16 @@
             <%--<Atk:ModalPopupExtender ID="mdClaimDetailsExp" runat="server" PopupControlID="navsSection" Enabled ="True" TargetControlID="hdModalExtender" CancelControlID="btnClose"  ></Atk:ModalPopupExtender>
              <asp:HiddenField ID="hdModalExtender" Value="" runat="server" />--%>
 
+            <div id="claimQuickOverview" class="container hideProp" runat="server">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10 alert alert-success">
+                        <asp:Label id="lblClaimQuickOverview" Text="" runat="server" ></asp:Label>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>                
+            </div>
+
             <div id="navsSection" class="container hideProp" runat="server">
                 <div class="row">
                     <!-- Tab links -->
@@ -1014,12 +1026,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">defective part information</a>
+                        </li>                        
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits</a>
@@ -1031,7 +1043,7 @@
 
                         <div class="tab-pane active" id="claimoverview">
                             <div class="col-md-12">
-                                <h3><asp:Label ID="lblFirstTabDesc" Text="CLAIM NO. " runat="server"></asp:Label></h3>
+                                <h3><asp:Label ID="lblFirstTabDesc" Text="" runat="server"></asp:Label></h3>
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -1252,7 +1264,7 @@
                         </div>
                         <div class="tab-pane" id="partinfo">
                             <div class="col-md-12">
-                                <h3><asp:Label ID="lblSecondTabDesc" Text="CLAIM NO. " runat="server"></asp:Label></h3>
+                                <h3><asp:Label ID="lblSecondTabDesc" Text="" runat="server"></asp:Label></h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <asp:Panel ID="pnClaimsDept" GroupingText="Claims Department" runat="server">
@@ -1320,11 +1332,11 @@
                                             
                                             <div class="form-row">
                                                 <div class="col-md-6">
-                                                    <asp:Label ID="lblInvoiceNo1" Text="Invoice No." CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:Label ID="lblInvoiceNo1" Text="Supplier Invoice No." CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtInvoiceNo1" CssClass="form-control" runat="server"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:Label ID="lblInvoiceDate1" Text="Invoice Date" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:Label ID="lblInvoiceDate1" Text="Supplier Invoice Date" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtInvoiceDate1" CssClass="form-control" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>
@@ -1414,7 +1426,7 @@
                         </div>
                         <div class="tab-pane" id="claimstatus">
                             <div class="col-md-12">
-                                <h3><asp:Label ID="lblThirdTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>
+                                <h3><asp:Label ID="lblThirdTabDesc" Text="" runat="server"></asp:Label></h3>
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-6 margin0">
@@ -1607,7 +1619,7 @@
                             <!-- Tab Description text -->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3><asp:Label ID="lblFourTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>    
+                                    <h3><asp:Label ID="lblFourTabDesc" Text="" runat="server"></asp:Label></h3>    
                                 </div>
                             </div>
 
@@ -2077,7 +2089,7 @@
                             <!-- Tab Description text -->  
                             <div class="col-md-3"></div>
                             <div class="col-md-6 margin0">
-                                <h3><asp:Label ID="lblFiveTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>    
+                                <h3><asp:Label ID="lblFiveTabDesc" Text="" runat="server"></asp:Label></h3>    
                                 <div class="row">
                                     <div class="col-md-12">
                                         <asp:Panel ID="pnTotals" GroupingText="Totals" runat="server">
@@ -2502,6 +2514,7 @@
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
+
             }
 
             //var hd1 = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
@@ -3604,6 +3617,10 @@
                 var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
                 $('#<%=lblUserLogged.ClientID %>').val(hdWelcome); 
 
+                setTabsClaimNo()
+
+                partialCreditSelected()
+
             }
 
             var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
@@ -3632,7 +3649,9 @@
             var hdName = document.getElementById('<%=hiddenName.ClientID%>').value;
             //$('#accordion_2 h5 a').click(function () {
 
-            yesnoCheckCustom(hdName)           
+            yesnoCheckCustom(hdName)  
+
+
 
             var collapse2 = document.getElementById('collapseOne_2');
             afterDdlCheck(hd2, collapse2);
@@ -3695,7 +3714,42 @@
 
             fixVisibilityColumns();
 
+            setTabsClaimNo()
+            partialCreditSelected()
+
             console.log("EndPageLoad");
+        }
+
+        function partialCreditSelected() {
+
+            var hdPC = document.getElementById('<%=hdPartialCredits.ClientID%>').value
+            if (hdPC == "1") {
+                $('#<%= txtParts.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtTotValue.ClientID %>').attr("disabled", "disabled");
+                $('#<%= pnConsequentalDamage.ClientID %>').attr("disabled", "disabled");
+               <%-- $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");--%>
+
+            }
+        }
+
+        function setTabsClaimNo() {
+            debugger
+
+            var hdClaimNo = document.getElementById('<%=hdClaimNumber.ClientID%>').value
+            
+            if (hdClaimNo != "") {
+                $('#MainContent_claimQuickOverview').closest('.container').removeClass('hideProp');
+                $('#<%=lblClaimQuickOverview.ClientID %>').text(hdClaimNo);
+            }
+            else {
+                $('#MainContent_claimQuickOverview').closest('.container').addClass('hideProp');
+                $('#<%=lblClaimQuickOverview.ClientID %>').text("");
+            }
         }
 
         function fixesSmallBtnClass() {
@@ -3891,7 +3945,7 @@
 
                 return date;
             }
-        }
+        }        
 
     </script>
 

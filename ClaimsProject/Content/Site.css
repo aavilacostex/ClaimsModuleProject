@@ -890,6 +890,14 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     background-color: lightyellow !important;
 }
 
+#MainContent_claimQuickOverview span {
+    font-size: 18px !important;
+}
+
+#MainContent_claimQuickOverview .col-md-10 {
+    text-align: center !important;
+}
+
 #MainContent_grvSeeComm td, #MainContent_grvSeeComm th, #MainContent_grvSeeVndComm td, #MainContent_grvSeeVndComm th {
     text-align: center !important;
     padding: 3px !important;

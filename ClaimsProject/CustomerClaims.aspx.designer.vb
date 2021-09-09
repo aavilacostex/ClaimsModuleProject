@@ -1058,6 +1058,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdLocatNo As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdClaimNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdClaimNumber As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdPartialCredits control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdPartialCredits As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>
@@ -1209,6 +1227,24 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents grvClaimReport As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''claimQuickOverview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents claimQuickOverview As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''lblClaimQuickOverview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClaimQuickOverview As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''navsSection control.
