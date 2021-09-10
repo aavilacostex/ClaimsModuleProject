@@ -3461,6 +3461,42 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnCloseTab As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''pnSendToCommentsTab control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnSendToCommentsTab As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''btnSentToComm control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSentToComm As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lnkSentToComm control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkSentToComm As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Button3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''rwCloseClaim control.
     '''</summary>
     '''<remarks>

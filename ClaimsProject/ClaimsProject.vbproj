@@ -171,6 +171,8 @@
     <Content Include="Default.aspx" />
     <Content Include="Default2.aspx" />
     <Content Include="Default1.aspx" />
+    <Content Include="EmailTemplates\AskForAuthOver500.html" />
+    <Content Include="EmailTemplates\AuthOver500Approved.html" />
     <Content Include="EmailTemplates\CustomerAcknowledgment.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="CComments.vb" />
     <Compile Include="ClaimDepartment.vb" />
+    <Compile Include="ClaimEmailObj.vb" />
     <Compile Include="ClaimExtras.vb" />
     <Compile Include="ClaimInformation.vb" />
     <Compile Include="ClaimObj.vb" />

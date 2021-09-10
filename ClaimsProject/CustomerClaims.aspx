@@ -1383,7 +1383,7 @@
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:CheckBox ID="chkClaimAuth" Enabled="false" runat="server" />
-                                                    <asp:LinkButton ID="lnkClaimAuth" Enabled="false" class="btn btn-primary btnSmallSize" runat="server">
+                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
                                                     <div class="form-row">                                                       
@@ -1568,7 +1568,7 @@
                                             <div class="form-row last">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblClaimCompleted" Text="Claim Completed" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkClaimCompleted" runat="server" />
+                                                    <asp:CheckBox ID="chkClaimCompleted" CssClass="hideProp" runat="server" />
                                                     <asp:LinkButton ID="lnkClaimCompleted" class="btn btn-primary btnSmallSize hideProp" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
@@ -2262,7 +2262,7 @@
                                                         </div>
                                                     </asp:Panel>--%>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <asp:Panel ID="pnSubActionFiles" GroupingText="Files" runat="server">
                                         <div class="form-row last">
                                             <div class="col-md-1">&nbsp;</div>
@@ -2282,7 +2282,7 @@
                                         </div>
                                     </asp:Panel>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">                                        
                                         <div class="form-row last">
                                             <div class="col-md-1">&nbsp;</div>
@@ -2308,7 +2308,23 @@
                                         </div>
                                     </asp:Panel>
                                 </div>
-                                <div id="rwCloseClaim" class="col-md-4 hideProp" runat="server">
+                                <div class="col-md-3">
+                                    <asp:Panel ID="pnSendToCommentsTab" GroupingText="Comments" runat="server">
+                                        <div class="form-row last">
+                                            <div class="col-md-3">
+                                                <asp:Button ID="btnSentToComm" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <asp:LinkButton ID="lnkSentToComm" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSentToComm_Click" ToolTip="Go to Comments" runat="server">
+                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Go to Comments
+                                                </asp:LinkButton>
+                                                <asp:Button ID="Button3" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                    </asp:Panel>
+                                </div>
+                                <div id="rwCloseClaim" class="col-md-3 hideProp" runat="server">
                                     <asp:Panel ID="pnCloseClaim" GroupingText="Close Action" runat="server">
                                         <div class="form-row last">
                                             <div class="col-md-3">
@@ -2911,7 +2927,26 @@
                 $('#<%=hdAddClaimFile.ClientID %>').val("0")
         });
 
+        $('body').on('click', '#MainContent_btnSentToComm', function (e) {
+
+            activeTab();
+        });
+
         //Click Method End
+
+        $('body').on('change', "#<%=chkApproved.ClientID %>", function () {
+            debugger
+
+            if (this.checked) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+                
+              
+            }
+        });
 
         //Change Method Begin
 

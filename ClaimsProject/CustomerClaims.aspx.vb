@@ -1598,33 +1598,69 @@ Public Class CustomerClaims
     '    End Try
     'End Sub
 
+    Protected Sub btnSentToComm_Click(sender As Object, e As EventArgs) Handles btnSentToComm.Click
+        Dim exMessage As String = " "
+        Dim methodMessage As String = Nothing
+        Dim strMessage As String = Nothing
+        Try
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+            hdCurrentActiveTab.Value = "#claim-comments"
+            hdShowCloseBtn.Value = "0"
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Protected Sub btnCloseClaim_Click(sender As Object, e As EventArgs) Handles btnCloseClaim.Click
         Dim exMessage As String = " "
         Dim methodMessage As String = Nothing
         Dim strMessage As String = Nothing
         Try
-            hdGridViewContent.Value = "1"
-            hdNavTabsContent.Value = "0"
-            hdClaimNumber.Value = ""
-            hdCurrentActiveTab.Value = "#claimoverview"
-            hdGetCommentTab.Value = "0"
 
-            Dim blClose = cmdCloseClaim(strMessage)
-            If blClose Then
-                CleanCommentsValues()
-                ClearInputCustom(navsSection)
+            If chkApproved.Checked Then
 
-                Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                grvClaimReport.DataSource = dsData.Tables(0)
-                grvClaimReport.DataBind()
+                hdGridViewContent.Value = "1"
+                hdNavTabsContent.Value = "0"
+                hdClaimNumber.Value = ""
+                hdCurrentActiveTab.Value = "#claimoverview"
+                hdGetCommentTab.Value = "0"
 
-                If Not strMessage.Trim().ToUpper().Equals("PREVENT") Then
-                    methodMessage = "Claim closed successfully."
-                    SendMessage(methodMessage, messageType.warning)
+                Dim totalClaimValue = txtTotValue.Text.Trim()
+                Dim resultValue As Double = 0
+                Double.TryParse(totalClaimValue, resultValue)
+
+                If resultValue <= 500 Then
+
+                    btnSaveTab_Click(Nothing, Nothing)
+
+                Else
+
+                    Dim blClose = cmdCloseClaim(strMessage)
+                    If blClose Then
+                        CleanCommentsValues()
+                        ClearInputCustom(navsSection)
+
+                        Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                        grvClaimReport.DataSource = dsData.Tables(0)
+                        grvClaimReport.DataBind()
+
+                        If Not strMessage.Trim().ToUpper().Equals("PREVENT") Then
+                            methodMessage = "Claim closed successfully."
+                            SendMessage(methodMessage, messageType.warning)
+                        End If
+
+                    Else
+                        methodMessage = "An error has occurred closing the Claim."
+                        SendMessage(methodMessage, messageType.warning)
+                    End If
+
                 End If
 
             Else
-                methodMessage = "An error has occurred closing the Claim."
+
+                methodMessage = "The Claim must be approved and then ti will be ready to close.."
                 SendMessage(methodMessage, messageType.warning)
             End If
 
@@ -3345,18 +3381,23 @@ Public Class CustomerClaims
             Dim claimNo = txtClaimNoData.Text.Trim()
 
             If chkClaimAuth.Checked Then
-                'SendEmailToPIChAppClaimOver500(wrnNo,)
-                Dim objSales = DirectCast(Session("ClaimGeneralValues"), ClaimTotalValues)
-                Dim objLimit = DirectCast(Session("ObjCurUserLmt"), ClaimObjUserLoggedLimit)
-                Dim blResult = SaveAuthForOver500Sales(objSales.WrnNo, Double.Parse(objSales.UnitCostValue), Double.Parse(objSales.CDFreightValue), Double.Parse(objSales.CDPartValue), Double.Parse(objSales.AmountApproved), Double.Parse(objSales.UserLimit), strMessage)
-                'ClaimOver500AndCMGenCloseClaim
-                If String.IsNullOrEmpty(strMessage) And blResult Then
-                    UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, False)
-                    txtAmountApproved.Enabled = False
-                    txtAmountApproved.Text = "0"
+                If chkApproved.Checked Then
+                    'SendEmailToPIChAppClaimOver500(wrnNo,)
+                    Dim objSales = DirectCast(Session("ClaimGeneralValues"), ClaimTotalValues)
+                    Dim objLimit = DirectCast(Session("ObjCurUserLmt"), ClaimObjUserLoggedLimit)
+                    Dim blResult = SaveAuthForOver500Sales(objSales.WrnNo, Double.Parse(objSales.UnitCostValue), Double.Parse(objSales.CDFreightValue), Double.Parse(objSales.CDPartValue), Double.Parse(objSales.AmountApproved), Double.Parse(objSales.UserLimit), strMessage)
+                    'ClaimOver500AndCMGenCloseClaim
+                    If String.IsNullOrEmpty(strMessage) And blResult Then
+                        UpdateInternalStatusGeneric(txtClaimAuth, txtClaimAuthDate, chkClaimAuth, lnkClaimAuth, False)
+                        txtAmountApproved.Enabled = False
+                        txtAmountApproved.Text = "0"
+                    Else
+                        chkClaimAuth.Checked = False
+                        Dim methodMessage = strMessage
+                        SendMessage(methodMessage, messageType.warning)
+                    End If
                 Else
-                    chkClaimAuth.Checked = False
-                    Dim methodMessage = strMessage
+                    Dim methodMessage = "If you want to authorize this credit over $500 please check in the Approve Checkbox for this Claim!"
                     SendMessage(methodMessage, messageType.warning)
                 End If
             Else
@@ -3843,7 +3884,7 @@ Public Class CustomerClaims
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If chkAcknowledgeEmail.Checked And chkAcknowledgeEmail.Enabled = True Then
+                If chkAcknowledgeEmail.Checked And chkAcknowledgeEmail.Enabled = True And chkInitialReview.Checked Then
                     'And chkInitialReview.Enabled = False
 
                     chkinitial.Value = "B"
@@ -3887,7 +3928,7 @@ Public Class CustomerClaims
 
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
-                            'open outlook to send email to customer
+                            'send message pending
                             result = True
                         Else
                             'error log
@@ -4905,7 +4946,7 @@ Public Class CustomerClaims
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True And chkApproved.Checked Then
+                If chkApproved.Checked Then
 
                     If chkAcknowledgeEmail.Checked Then
 
@@ -5045,7 +5086,7 @@ Public Class CustomerClaims
                                             If dsOverEmail IsNot Nothing Then
                                                 If dsOverEmail.Tables(0).Rows.Count > 0 Then
                                                     Dim flagOverEmail = dsOverEmail.Tables(0).Rows(0).Item("INOVREMLST").ToString().Trim()
-                                                    If Not String.IsNullOrEmpty(flagOverEmail) Then
+                                                    If String.IsNullOrEmpty(flagOverEmail) Then
                                                         'send email pending
 
                                                         chkApproved.Enabled = False
@@ -5212,7 +5253,7 @@ Public Class CustomerClaims
 
                 If totalClaimValue > 500 Then
                     If chkApproved.Checked Then
-                        If chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True Then
+                        If True Then
                             If chkAcknowledgeEmail.Checked Then
                                 If chkClaimAuth.Checked Then
 
@@ -5333,7 +5374,7 @@ Public Class CustomerClaims
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If chkDeclined.Checked And chkDeclined.Enabled = True And chkClaimCompleted.Checked And chkClaimCompleted.Enabled = True Then
+                If chkDeclined.Checked And chkDeclined.Enabled = True Then
                     BuildDates()
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
@@ -5413,6 +5454,56 @@ Public Class CustomerClaims
 #End Region
 
 #End Region
+
+#End Region
+
+#Region "Check input validation for claim under $500"
+
+    Public Sub CheckUnder500ValidationInput(totalClaimValue As Double, totalLimit As Double, ByRef strMessageOut As String)
+        Dim validationResult As Boolean = False
+        Dim strMessage As String = Nothing
+        Try
+
+            If ddlDiagnoseData.SelectedIndex <> -1 And Not String.IsNullOrEmpty(txtDiagnoseData.Text) Then
+
+                If chkAcknowledgeEmail.Checked Then
+
+                    If chkApproved.Checked Then
+
+                        If totalClaimValue <= totalLimit Then
+
+
+
+                        Else
+                            validationResult = True
+                            strMessage = "The current user does not have the necessary limits configured to continue the process."
+                            Exit Sub
+                        End If
+
+                    Else
+                        validationResult = True
+                        strMessage = "The Claim must be check as Approved in order to procced."
+                        Exit Sub
+                    End If
+
+                Else
+                    validationResult = True
+                    strMessage = "The Acknoledgement Email must be sent in order to Procced."
+                    Exit Sub
+                End If
+
+            Else
+                validationResult = True
+                strMessage = "The diagnose for this Claim must be selected in order to procced."
+                Exit Sub
+            End If
+
+            strMessageOut = strMessage
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
 
 #End Region
 
@@ -5619,7 +5710,7 @@ Public Class CustomerClaims
         End Try
     End Function
 
-    Public Sub PrepareEmail()
+    Public Sub PrepareEmail(obj As ClaimEmailObj, flag As String)
 
         Try
             Dim emailSender As String = ConfigurationManager.AppSettings("username").ToString()
@@ -5633,10 +5724,26 @@ Public Class CustomerClaims
             Dim Mailtext = str.ReadToEnd()
             str.Close()
 
-            Mailtext = Mailtext.Replace("[customer]", "aavila@costex.com")
-            Mailtext = Mailtext.Replace("[claimno]", "130623")
-            Mailtext = Mailtext.Replace("[partno]", "CABLE14B")
-            Mailtext = Mailtext.Replace("[invoice]", "G450012")
+
+            Mailtext = Mailtext.Replace("[customer]", "aavila@costex.com") 'obj.EmailTo
+            Mailtext = Mailtext.Replace("[claimno]", obj.ClaimNo)
+            Mailtext = Mailtext.Replace("[partno]", obj.PartNo)
+            Mailtext = Mailtext.Replace("[invoice]", obj.Invoice)
+
+            If Not flag.Equals("1") Then
+
+                Mailtext = Mailtext.Replace("[CTX]", obj.Customer)
+                Mailtext = Mailtext.Replace("[CD]", obj.ConsequentalDamage)
+                Mailtext = Mailtext.Replace("[TOTALCLAIM]", obj.TotalApproved)
+
+                If flag.Equals("3") Then
+                    Mailtext = Mailtext.Replace("[PARTS]", obj.TotalParts)
+                    Mailtext = Mailtext.Replace("[FREIGHT]", obj.TotalFreight)
+                    Mailtext = Mailtext.Replace("[EXTRA]", obj.AdditionalCost)
+                    Mailtext = Mailtext.Replace("[APPROBEDBY]", obj.ApprovedBy)
+                End If
+
+            End If
 
             Dim msg As MailMessage = New MailMessage()
             msg.IsBodyHtml = True
