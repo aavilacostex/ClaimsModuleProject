@@ -3928,7 +3928,16 @@ Public Class CustomerClaims
 
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
-                            'send message pending
+                            Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
+                            Dim messageOut As String = Nothing
+                            If objEmail IsNot Nothing Then
+                                'email for acknowledge email
+                                Dim bresult = PrepareEmail(objEmail, "2", messageOut)
+                                If Not bresult Then
+                                    strMessage += messageOut
+                                End If
+                            End If
+                            'send message
                             result = True
                         Else
                             'error log
@@ -5087,7 +5096,17 @@ Public Class CustomerClaims
                                                 If dsOverEmail.Tables(0).Rows.Count > 0 Then
                                                     Dim flagOverEmail = dsOverEmail.Tables(0).Rows(0).Item("INOVREMLST").ToString().Trim()
                                                     If String.IsNullOrEmpty(flagOverEmail) Then
-                                                        'send email pending
+
+                                                        Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
+                                                        Dim messageOut As String = Nothing
+                                                        If objEmail IsNot Nothing Then
+                                                            'email for acknowledge email
+                                                            Dim bresult = PrepareEmail(objEmail, "0", messageOut)
+                                                            If Not bresult Then
+                                                                strMessage += messageOut
+                                                            End If
+                                                        End If
+                                                        'send email
 
                                                         chkApproved.Enabled = False
                                                         chkDeclined.Enabled = False
@@ -5185,6 +5204,16 @@ Public Class CustomerClaims
                                         txtCDLabor.Enabled = False
                                         txtCDFreight.Enabled = False
                                         txtCDMisc.Enabled = False
+
+                                        Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
+                                        Dim messageOut As String = Nothing
+                                        If objEmail IsNot Nothing Then
+                                            'email for acknowledge email
+                                            Dim bresult = PrepareEmail(objEmail, "1", messageOut)
+                                            If Not bresult Then
+                                                strMessage += messageOut
+                                            End If
+                                        End If
 
                                         'send message pending
                                         chkApproved.Enabled = False
@@ -5710,8 +5739,9 @@ Public Class CustomerClaims
         End Try
     End Function
 
-    Public Sub PrepareEmail(obj As ClaimEmailObj, flag As String)
-
+    Public Function PrepareEmail(obj As ClaimEmailObj, flag As String, Optional ByRef strMessage As String = Nothing) As Boolean
+        Dim exMessage As String = Nothing
+        Dim bResult As Boolean = False
         Try
             Dim emailSender As String = ConfigurationManager.AppSettings("username").ToString()
             Dim emailSenderPassword As String = ConfigurationManager.AppSettings("password").ToString()
@@ -5720,23 +5750,24 @@ Public Class CustomerClaims
             'Dim emailIsSSL As Boolean = CBool(ConfigurationManager.AppSettings("IsSSL").ToString())
 
             Dim FileTemplate = Directory.GetFiles(Server.MapPath("~/EmailTemplates/"))
-            Dim str = New StreamReader(FileTemplate(0))
+            Dim i As Integer = 0
+            i = CInt(flag)
+            Dim str = New StreamReader(FileTemplate(i))
             Dim Mailtext = str.ReadToEnd()
             str.Close()
-
 
             Mailtext = Mailtext.Replace("[customer]", "aavila@costex.com") 'obj.EmailTo
             Mailtext = Mailtext.Replace("[claimno]", obj.ClaimNo)
             Mailtext = Mailtext.Replace("[partno]", obj.PartNo)
             Mailtext = Mailtext.Replace("[invoice]", obj.Invoice)
 
-            If Not flag.Equals("1") Then
+            If Not flag.Equals("2") Then
 
                 Mailtext = Mailtext.Replace("[CTX]", obj.Customer)
                 Mailtext = Mailtext.Replace("[CD]", obj.ConsequentalDamage)
                 Mailtext = Mailtext.Replace("[TOTALCLAIM]", obj.TotalApproved)
 
-                If flag.Equals("3") Then
+                If flag.Equals("1") Then
                     Mailtext = Mailtext.Replace("[PARTS]", obj.TotalParts)
                     Mailtext = Mailtext.Replace("[FREIGHT]", obj.TotalFreight)
                     Mailtext = Mailtext.Replace("[EXTRA]", obj.AdditionalCost)
@@ -5761,11 +5792,18 @@ Public Class CustomerClaims
 
             _smtp.Send(msg)
 
-        Catch ex As Exception
+            bResult = True
+            Return bResult
 
+        Catch ex As Exception
+            exMessage = ex.Message
+            Dim pp = exMessage
+            strMessage = exMessage
+            bResult = False
+            Return bResult
         End Try
 
-    End Sub
+    End Function
 
     Protected Sub lnkLogout_Click() Handles lnkLogout.Click
         Try
@@ -6645,6 +6683,8 @@ Public Class CustomerClaims
 
             Dim cExtras = New ClaimExtras()
 
+            Dim cEmailObj = New ClaimEmailObj()
+
             Dim cGeneral As ClaimObj = New ClaimObj()
             cGeneral.ClaimDataObj = cData
             cGeneral.CustInfoObj = cCustInfo
@@ -6744,6 +6784,24 @@ Public Class CustomerClaims
             cGeneral.ClaimExtrasObj.ConsDamParts = txtCDPart.Text.Trim()
             cGeneral.ClaimExtrasObj.FullConsDamValue = txtConsDamageTotal.Text.Trim()
 
+#Region "Fill Email Obj"
+
+            cEmailObj.ClaimNo = txtClaimNoData.Text.Trim()
+            cEmailObj.Customer = txtCustomerData.Text.Trim()
+            cEmailObj.PartNo = txtPartNoData.Text.Trim()
+            cEmailObj.Invoice = txtInvoiceNo.Text.Trim()
+            cEmailObj.TotalApproved = txtTotValue.Text.Trim()
+            cEmailObj.TotalParts = txtParts.Text.Trim()
+            cEmailObj.TotalFreight = txtFreight.Text.Trim()
+            cEmailObj.AdditionalCost = txtAmountApproved.Text.Trim()
+            cEmailObj.ApprovedBy = txtClaimAuth.Text.Trim()
+            cEmailObj.ConsequentalDamage = txtConsDamageTotal.Text.Trim()
+            cEmailObj.Description = ""
+            cEmailObj.EmailTo = ""
+
+#End Region
+
+            Session("emailObj") = cEmailObj
             Session("fullObj") = cGeneral
         Catch ex As Exception
             Dim exx = ex.Message
