@@ -1356,58 +1356,6 @@
 
                                         <br />
 
-                                        <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
-
-                                            <div class="form-row last">
-                                                <div class="col-md-8">
-                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled"  runat="server">
-                                                        <ItemTemplate>                                                                                                                       
-                                                            <a id="alink" href='<%# Container.DataItem %>' target="_blank"  runat="server">
-                                                                <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
-                                                            </a>
-                                                        </ItemTemplate>
-                                                    </asp:DataList>
-                                                    <%--<asp:Image ID="imgPart" runat="server"/>--%>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <asp:TextBox ID="txtPartDesc" Text="" TextMode="MultiLine" Enabled="false" runat="server"></asp:TextBox>
-                                                </div>
-                                            </div>
-
-                                        </asp:Panel>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <asp:Panel ID="pnSalesDept" GroupingText="Sales Department" runat="server">
-
-                                            <div class="form-row">
-                                                <div class="col-md-12">
-                                                    <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkClaimAuth" Enabled="false" runat="server" />
-                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
-                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
-                                                    </asp:LinkButton>
-                                                    <div class="form-row">                                                       
-                                                        <div class="col-md-6">
-                                                            <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />                                                            
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <asp:TextBox ID="txtClaimAuthDate" Enabled="false" CssClass="form-control" runat="server" />  
-                                                        </div>
-                                                    </div>                                                    
-                                                </div>                                                
-                                            </div>
-
-                                            <div class="form-row last">
-                                                <div class="col-md-12">
-                                                    <asp:Label ID="lblAmountApproved" Text="Claim amount approved by sales on top of Claims Approval" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtAmountApproved" CssClass="form-control" runat="server"></asp:TextBox>
-                                                </div>
-                                            </div>
-
-                                        </asp:Panel>
-
-                                        <br />
-
                                         <asp:Panel ID="pnRestock" GroupingText="Re-Stock Actions" runat="server">
 
                                             <div class="form-row last">
@@ -1420,6 +1368,30 @@
                                             </div>
 
                                         </asp:Panel>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
+
+                                            <div class="form-row last">
+                                                <div class="col-md-8">
+                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
+                                                        <ItemTemplate>
+                                                            <a id="alink" href='<%# Container.DataItem %>' target="_blank" runat="server">
+                                                                <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
+                                                            </a>
+                                                        </ItemTemplate>
+                                                    </asp:DataList>
+                                                    <%--<asp:Image ID="imgPart" runat="server"/>--%>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <asp:TextBox ID="txtPartDesc" Text="" TextMode="MultiLine" Enabled="false" runat="server"></asp:TextBox>
+                                                </div>
+                                            </div>
+
+                                        </asp:Panel>
+
                                     </div>
                                 </div>                                
                             </div>                            
@@ -2086,12 +2058,10 @@
 
                         </div>
                         <div class="tab-pane" id="claimcredit">
-                            <!-- Tab Description text -->  
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6 margin0">
-                                <h3><asp:Label ID="lblFiveTabDesc" Text="" runat="server"></asp:Label></h3>    
+                            <div class="col-md-12">
+                                <h3><asp:Label ID="lblFiveTabDesc" Text="" runat="server"></asp:Label></h3> 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6 margin0">
                                         <asp:Panel ID="pnTotals" GroupingText="Totals" runat="server">
 
                                             <asp:Panel ID="pnSubTotalClaimed" GroupingText="claim value" runat="server">
@@ -2142,30 +2112,29 @@
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDLabor" Text="Labor Cost" CssClass="control-label" runat="server"> </asp:Label>
-                                                        <asp:TextBox ID="txtCDLabor" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled"  runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDLabor" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDPart" Text="Part Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDPart" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDPart" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDFreight" Text="Freight Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDFreight" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDFreight" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <asp:Label ID="lblCDMisc" Text="Misc Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDMisc" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCDMisc" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="Label3" Text="Total Cons. Damage Value" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtConsDamageTotal" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                        <asp:TextBox ID="txtConsDamageTotal" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="form-row last">
                                                     <div class="col-md-6">
-                                                        
                                                     </div>
                                                     <div class="col-md-6">
                                                         <asp:Button ID="btnGetTotalCDValue" Text="Calculate Cons. Damage" CssClass="btn btn-primary btnAdjustSize float-right" OnClick="btnGetTotalCDValue_Click" runat="server" />
@@ -2175,9 +2144,9 @@
 
                                             <br />
 
-                                            <asp:Panel ID="pnPartialCredit" GroupingText="Partial Credit"  runat="server">
+                                            <asp:Panel ID="pnPartialCredit" GroupingText="Partial Credit" CssClass="hideProp" runat="server">
                                                 <div class="form-row paddingtop8">
-                                                    <div class="col-md-12"> 
+                                                    <div class="col-md-12">
                                                         <asp:Label ID="lblPCred" Text="Credit To Apply" CssClass="control-label" runat="server"></asp:Label>
                                                         <asp:CheckBox ID="chkPCred" OnCheckedChanged="chkPCred_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
                                                         <asp:LinkButton ID="lnkPCred" class="btn btn-primary btnSmallSize" runat="server">
@@ -2186,7 +2155,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-row last paddingtop8">
-                                                    <div class="col-md-12">   
+                                                    <div class="col-md-12">
                                                         <div class="form-row">
                                                             <div class="col-md-2"></div>
                                                             <div class="col-md-4">
@@ -2196,11 +2165,10 @@
                                                                 <asp:TextBox ID="txtPartCred" Enabled="false" CssClass="form-control" runat="server" />
                                                             </div>
                                                             <div class="col-md-2"></div>
-                                                        </div>                                                                                                 
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </asp:Panel>
-                                            <br />
+                                            </asp:Panel>                                            
 
                                             <asp:Panel ID="pnSubTotalClaim" GroupingText="Claim" runat="server">
                                                 <div class="form-row last">
@@ -2229,17 +2197,49 @@
                                                             <div class="col-md-2">
                                                             </div>
                                                         </div>
-                                                    </div>                                                    
-                                                </div>                                                
-                                            </asp:Panel> 
+                                                    </div>
+                                                </div>
+                                            </asp:Panel>
                                             <br />
-                                            
+
+                                        </asp:Panel>
+                                    </div>
+                                    <div class="col-md-6 margin0">
+                                        <asp:Panel ID="pnSalesDept" GroupingText="Authorization Request" runat="server">
+
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:CheckBox ID="chkClaimAuth" Enabled="false" runat="server" />
+                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
+                                                    <div class="form-row">
+                                                        <div class="col-md-6">
+                                                            <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <asp:TextBox ID="txtClaimAuthDate" Enabled="false" CssClass="form-control" runat="server" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row last">
+                                                <div class="col-md-12">
+                                                    <asp:Label ID="lblAmountApproved" Text="Claim amount approved by sales on top of Claims Approval" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:TextBox ID="txtAmountApproved" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                            </div>
+
                                         </asp:Panel>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="col-md-3"></div>
+                            <!-- Tab Description text -->  
+                           <%-- <div class="col-md-3"></div>--%>                            
+                           <%-- <div class="col-md-3"></div>--%>
+                            
                         </div>                        
                                 
                     </div>                            
@@ -2268,22 +2268,38 @@
                                             <div class="col-md-1">&nbsp;</div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton id="btnAddFiles" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="Add Files" runat="server">
-                                                    <i class="fa fa-folder-plus fa-1x"" aria-hidden="true"> </i>  Add Files
+                                                    <i class="fa fa-folder-plus fa-1x"" aria-hidden="true"> </i>  <p>Add Files</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnAddFiles" Text="Add Files" CssClass="btn btn-primary btnAdjustSize" runat="server" />--%>
                                             </div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton ID="btnSeeFiles" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSeeFiles_Click" ToolTip="See Files" runat="server">
-                                                    <i class="fa fa-folder-open fa-1x"" aria-hidden="true"> </i>  See Files
+                                                    <i class="fa fa-folder-open fa-1x"" aria-hidden="true"> </i>  <p>See Files</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnSeeFiles" Text="See Files" OnClick="btnSeeFiles_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />--%>
                                             </div>
                                             <div class="col-md-1">&nbsp;</div>
                                         </div>
                                     </asp:Panel>
+                                </div>                                
+                                <div class="col-md-3">
+                                    <asp:Panel ID="pnSendToCommentsTab" GroupingText="Comments" runat="server">
+                                        <div class="form-row last">
+                                            <div class="col-md-3">
+                                                <asp:Button ID="btnSentToComm" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <asp:LinkButton ID="lnkSentToComm" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSentToComm_Click" ToolTip="Go to Comments" runat="server">
+                                                    <i class="fa fa-comment-dots fa-1x"" aria-hidden="true"> </i>  <p>Go to Comments</p>
+                                                </asp:LinkButton>
+                                                <asp:Button ID="Button3" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                    </asp:Panel>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">                                        
+                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">
                                         <div class="form-row last">
                                             <div class="col-md-1">&nbsp;</div>
                                             <div class="col-md-1 padding2 hideProp">
@@ -2294,33 +2310,17 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton ID="btnSaveTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSaveTab_Click" ToolTip="Save Changes" runat="server">
-                                                    <i class="fa fa-save fa-1x"" aria-hidden="true"> </i>  Save Changes
+                                                    <i class="fa fa-save fa-1x"" aria-hidden="true"> </i>  <p>Save Changes</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnSaveTab" CssClass="btn btn-primary btnFullSize" Text="Save" OnClick="btnSaveTab_Click" runat="server" />--%>
                                             </div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Back to Main" runat="server">
-                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Back to Main
+                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  <p>Back to Main</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnCloseTab" CssClass="btn btn-primary btnFullSize" Text="Close" OnClick="btnCloseTab_Click" runat="server" />--%>
                                             </div>
                                             <div class="col-md-1">&nbsp;</div>
-                                        </div>
-                                    </asp:Panel>
-                                </div>
-                                <div class="col-md-3">
-                                    <asp:Panel ID="pnSendToCommentsTab" GroupingText="Comments" runat="server">
-                                        <div class="form-row last">
-                                            <div class="col-md-3">
-                                                <asp:Button ID="btnSentToComm" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <asp:LinkButton ID="lnkSentToComm" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSentToComm_Click" ToolTip="Go to Comments" runat="server">
-                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Go to Comments
-                                                </asp:LinkButton>
-                                                <asp:Button ID="Button3" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
-                                            </div>
-                                            <div class="col-md-3"></div>
                                         </div>
                                     </asp:Panel>
                                 </div>
@@ -2332,7 +2332,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseClaim_Click" ToolTip="Close Claim" runat="server">
-                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Close Claim
+                                                    <i class="fa fa-thumbs-up fa-1x"" aria-hidden="true"> </i>  <p>Close Claim</p>
                                                 </asp:LinkButton>
                                                 <asp:Button ID="btnCloseClaim1" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
                                             </div>
@@ -3656,6 +3656,8 @@
 
                 partialCreditSelected()
 
+                EnableAuthRequestChk()
+
             }
 
             var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
@@ -3752,7 +3754,40 @@
             setTabsClaimNo()
             partialCreditSelected()
 
+            EnableAuthRequestChk()
+
             console.log("EndPageLoad");
+        }
+
+        function EnableAuthRequestChk() {
+            debugger
+
+            var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
+            var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
+            var userSelected = document.getElementById('<%=txtClaimAuth.ClientID%>').value;
+            var userDateSelected = document.getElementById('<%=txtClaimAuthDate.ClientID%>').value;
+                        
+            if (hdAuthReq != "") {
+                var numbAuthreq = parseInt(hdAuthReq)
+                if (numbAuthreq > 500) {
+
+                    if (isPresentBl) {
+                        $('#<%=chkClaimAuth.ClientID %>').removeAttr("disabled");
+                        $('#<%=txtClaimAuth.ClientID %>').removeAttr("disabled");
+                        $('#<%=txtClaimAuthDate.ClientID %>').removeAttr("disabled");
+                    }
+
+                    if (userSelected != "" && userDateSelected != "") {
+
+                        $('#<%= txtClaimAuth.ClientID %>').attr("disabled", "disabled");
+                        $('#<%= txtClaimAuthDate.ClientID %>').attr("disabled", "disabled");
+                        $('#<%= chkClaimAuth.ClientID %>').attr("disabled", "disabled");
+                        $('#<%= txtAmountApproved.ClientID %>').attr("disabled", "disabled");
+
+                    }
+                }
+            }
+
         }
 
         function partialCreditSelected() {
@@ -3762,6 +3797,7 @@
                 $('#<%= txtParts.ClientID %>').attr("disabled", "disabled");
                 $('#<%= txtTotValue.ClientID %>').attr("disabled", "disabled");
                 $('#<%= pnConsequentalDamage.ClientID %>').attr("disabled", "disabled");
+
                <%-- $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
                 $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
                 $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");

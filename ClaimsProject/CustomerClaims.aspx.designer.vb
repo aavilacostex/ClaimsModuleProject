@@ -2012,105 +2012,6 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtReceiving As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''pnPartImage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnPartImage As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''datViewer control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents datViewer As Global.System.Web.UI.WebControls.DataList
-
-    '''<summary>
-    '''txtPartDesc control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtPartDesc As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''pnSalesDept control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnSalesDept As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''lblClaimAuth control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblClaimAuth As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''chkClaimAuth control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkClaimAuth As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''lnkClaimAuth control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lnkClaimAuth As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''txtClaimAuth control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtClaimAuth As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtClaimAuthDate control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtClaimAuthDate As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblAmountApproved control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblAmountApproved As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtAmountApproved control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtAmountApproved As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''pnRestock control.
     '''</summary>
     '''<remarks>
@@ -2136,6 +2037,33 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnUndoRestock As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''pnPartImage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnPartImage As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''datViewer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents datViewer As Global.System.Web.UI.WebControls.DataList
+
+    '''<summary>
+    '''txtPartDesc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPartDesc As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''lblThirdTabDesc control.
@@ -3389,6 +3317,78 @@ Partial Public Class CustomerClaims
     Protected WithEvents lnkCheckApprove As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''pnSalesDept control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnSalesDept As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''lblClaimAuth control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClaimAuth As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''chkClaimAuth control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkClaimAuth As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''lnkClaimAuth control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkClaimAuth As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''txtClaimAuth control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtClaimAuth As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtClaimAuthDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtClaimAuthDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblAmountApproved control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAmountApproved As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtAmountApproved control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAmountApproved As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''rowPnActions control.
     '''</summary>
     '''<remarks>
@@ -3434,33 +3434,6 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnSeeFiles As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''pnSubActionFinal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnSubActionFinal As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''btnSaveTab control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSaveTab As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''btnCloseTab control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnCloseTab As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''pnSendToCommentsTab control.
     '''</summary>
     '''<remarks>
@@ -3495,6 +3468,33 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''pnSubActionFinal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnSubActionFinal As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''btnSaveTab control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveTab As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''btnCloseTab control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCloseTab As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''rwCloseClaim control.

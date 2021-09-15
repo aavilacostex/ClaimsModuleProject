@@ -1467,6 +1467,34 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetPartialCreditRef(claimNo As String, ByRef dsResult As DataSet) As Integer
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "SELECT cwpho3 FROM qs36f.clmwrn WHERE cwwrno = " + claimNo
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function SavePartialCreditRef(partCredValue As String, claimNo As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "update qs36f.clmwrn set cwpho3 = '" + partCredValue + "' where cwwrno = " + claimNo
+            objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
     Public Function UpdateComplexPartCredInComments(partCredValue As String, claimNo As String) As Integer
         Dim Sql As String = Nothing
         Dim Sql1 As String = Nothing
@@ -1487,15 +1515,15 @@ Public Class ClaimsProject : Implements IDisposable
                         Dim comm1 = dsResult.Tables(0).Rows(0).Item("cwcom1").ToString().Trim()
                         Dim comm2 = dsResult.Tables(0).Rows(0).Item("cwcom2").ToString().Trim()
                         Dim comm3 = dsResult.Tables(0).Rows(0).Item("cwcom3").ToString().Trim()
-                        Dim Ucost = dsResult.Tables(0).Rows(0).Item("mhtomr").ToString().Trim()
+                        'Dim Ucost = dsResult.Tables(0).Rows(0).Item("mhtomr").ToString().Trim()
 
-                        Dim msg = "This Claim has a Partial Credit apply. The first amount was ${0} and the partial credit applied was ${1} ."
+                        Dim msg = "Partial Credit apply. Amount: ${0} "
                         Dim tempMsg As String = Nothing
                         If Not String.IsNullOrEmpty(comm1) Then
                             If Not String.IsNullOrEmpty(comm2) Then
                                 If Not String.IsNullOrEmpty(comm3) Then
                                     tempMsg = comm3 + ". " + msg + "."
-                                    tempMsg = String.Format(tempMsg, Ucost, partCredValue)
+                                    tempMsg = String.Format(tempMsg, partCredValue)
                                     Dim rsUpd3 = UpdatePartCredComm("comm3", msg, claimNo)
                                 Else
 

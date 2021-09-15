@@ -768,6 +768,17 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function SavePartialCreditRef(partCredValue As String, claimNo As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.SavePartialCreditRef(partCredValue, claimNo)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function UpdateComplexPartCredInComments(partCredValue As String, claimNo As String) As Integer
         Dim result As Integer = -1
         Try
@@ -1234,6 +1245,18 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDal = New DAL.ClaimsProject()
             result = objDal.GetUserToGenCM(user, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetPartialCreditRef(claimNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetPartialCreditRef(claimNo, dsResult)
             Return result
         Catch ex As Exception
             Return result
