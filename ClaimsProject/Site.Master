@@ -231,7 +231,7 @@
         check();
 
         function check() {
-            debugger
+            //debugger
 
             var hdShowNav = document.getElementById('<%=hdShowMenu.ClientID%>').value;
             if (hdShowNav != "0") {

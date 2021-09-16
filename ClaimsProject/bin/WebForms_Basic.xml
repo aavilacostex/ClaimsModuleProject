@@ -1081,6 +1081,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._hdLocatIndex">
+<summary>
+hdLocatIndex control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._hdClaimNumber">
 <summary>
 hdClaimNumber control.
@@ -1093,6 +1102,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._hdPartialCredits">
 <summary>
 hdPartialCredits control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._hdFullDisabled">
+<summary>
+hdFullDisabled control.
 </summary>
 <remarks>
 Auto-generated field.

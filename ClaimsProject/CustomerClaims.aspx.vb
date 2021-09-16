@@ -76,6 +76,8 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlSearchIntStatus)
             LoadDropDownLists(ddlClaimType)
             LoadDropDownLists(ddlVndNo)
+            LoadDropDownLists(ddlLocat)
+            LoadDropDownLists(ddlLocation)
 
 
             If hdDisplaySeeVndClaim.Value <> "0" Then
@@ -597,6 +599,11 @@ Public Class CustomerClaims
                 Dim claimNo = row.Cells(1).Text
                 Dim claimStatus As String = Nothing
 
+                Dim dataFrom = row.Cells(8)
+                Dim myLabel As Label = DirectCast(dataFrom.FindControl("Label12"), Label)
+                Dim statusOut As String = myLabel.Text.Trim()
+                hdFullDisabled.Value = If(statusOut.Trim().ToUpper().Equals("CLOSED"), "0", "1")
+
                 Dim ds1 = DirectCast(Session("ClaimsBckData"), DataSet)
                 'Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
                 Dim dd = ds1.Tables(0).AsEnumerable().Where(Function(ee) ee.Item("MHMRNR").ToString().Trim().ToUpper().Equals(claimNo.Trim().ToUpper())).First
@@ -613,6 +620,8 @@ Public Class CustomerClaims
                 SeeCommentsMethod()
                 lblClaimQuickOverview.Text = "You are currently viewing Claim Number:" + txtClaimNoData.Text + ". The current status for this Claim is:  " + claimStatus + "."
                 hdClaimNumber.Value = lblClaimQuickOverview.Text
+
+                clearAllDataFields(True)
                 'setTabsHeader(txtClaimNoData.Text)
 
                 'change the flags for grid and tabs visualization
@@ -696,8 +705,6 @@ Public Class CustomerClaims
             Dim pp = msg
         End Try
     End Sub
-
-
 
     Protected Sub grvSeeComm_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grvSeeComm.RowDataBound
         Try
@@ -1351,6 +1358,19 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Protected Sub ddlLocation_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            'Dim selectedValue = hdLocatIndex.Value
+            'ddlDiagnoseData.SelectedIndex = ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByText(selectedValue))
+            'txtDiagnoseData.Text = ddlDiagnoseData.SelectedItem.Text
+
+        Catch ex As Exception
+            'Dim message = ex.Message
+            'Dim pe = message
+        End Try
+
+    End Sub
+
     Protected Sub ddlDiagnoseData_SelectedIndexChanged(sender As Object, e As EventArgs)
         Try
             Dim selectedValue = hdSelectedDiagnose.Value
@@ -1630,6 +1650,8 @@ Public Class CustomerClaims
                 Dim totalClaimValue = txtTotValue.Text.Trim()
                 Dim resultValue As Double = 0
                 Double.TryParse(totalClaimValue, resultValue)
+
+                'revisar este proceso
 
                 If resultValue <= 500 Then
 
@@ -2163,7 +2185,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub clearAllDataFields()
+    Public Sub clearAllDataFields(Optional flag As Boolean = False)
         Try
             Dim lstPanels As List(Of String) = New List(Of String)()
             lstPanels.Add("MainContent_pnISDet")
@@ -2187,7 +2209,11 @@ Public Class CustomerClaims
                     Dim newIter = navsSection.Controls(i).Controls
 
                     For Each lvHc In newIter
-                        ClearInputCustom(Nothing, lvHc)
+                        If flag Then
+                            DefaultInputConf(Nothing, lvHc)
+                        Else
+                            ClearInputCustom(Nothing, lvHc)
+                        End If
                     Next
 
                 End If
@@ -3762,9 +3788,11 @@ Public Class CustomerClaims
                 LoadDropDownLists(ddlLocation)
                 ddlLocation.Items.Add(lii)
 
+                Dim locValue = hdLocationSelected.Value.Split("-")(0).Trim()
+
                 Dim rsUpdWHeader = objBL.UpdateWHeader(wrnNo, txtContactName.Text.Trim(), txtContactPhone.Text.Trim(), txtContactEmail.Text.Trim(), txtDateEntered.Text.Trim(),
                                                            txtVendorNo.Text.Trim(), txtProductionCode.Text.Trim(), txtInvoiceNo.Text.Trim(), txtPartNoData.Text.Trim(),
-                                                           ddlLocation.SelectedItem.Text, txtQty.Text.Trim(), txtUnitCost.Text.Trim(), txtModel.Text.Trim(), txtSerial.Text.Trim(),
+                                                           locValue, txtQty.Text.Trim(), txtUnitCost.Text.Trim(), txtModel.Text.Trim(), txtSerial.Text.Trim(),
                                                            txtArrangement.Text.Trim(), txtInstDate.Text.Trim(), txtHWorked.Text.Trim())
                 If rsUpdWHeader > 0 Then
                     result = True
@@ -4799,7 +4827,7 @@ Public Class CustomerClaims
                 Dim resultConsDamage As Double = 0
                 'Dim pCred As Double = 0
 
-                totalLimit = If(Double.TryParse(hdSwLimitAmt.Value, resultLimit), resultLimit, 0)
+                totalLimit = If(Double.TryParse(hdSwLimitAmt.Value, resultLimit), resultLimit, 0) 'limited configured for the current logged user
                 totalConsDamage = If(Double.TryParse(txtConsDamageTotal.Text.Trim(), resultConsDamage), resultConsDamage, 0)
 
                 'If String.IsNullOrEmpty(txtPartCred.Text.Trim()) Then
@@ -4834,30 +4862,30 @@ Public Class CustomerClaims
 
                     If chkApproved.Checked And chkApproved.Enabled = True Then
                         If totalClaimValue <= totalLimit Then
-                            If totalConsDamage = 0 Then
-                                BuildDates()
-                                'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
-                                'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                            'If totalConsDamage = 0 Then
+                            BuildDates()
+                            'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                            'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                                chkinitial.Value = "L"
-                                Dim rsUpdIStat = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
-                                If rsUpdIStat > 0 Then
-                                    intValidation += 1
-                                Else
-                                    'error log
-                                    strMessage = "There is an error updating the Warranty Claim Status for Warning Number: " + wrnNo + "."
-                                    Return result
-                                End If
-
-                                txtTotValue.Text = totalClaimValue.ToString()
-                                txtTotValue.Enabled = False
-
-                                chkApproved.Enabled = False
-                                chkDeclined.Enabled = False
+                            chkinitial.Value = "L"
+                            Dim rsUpdIStat = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
+                            If rsUpdIStat > 0 Then
+                                intValidation += 1
                             Else
-                                strMessage = "The Consequental Damage value is different to 0."
+                                'error log
+                                strMessage = "There is an error updating the Warranty Claim Status for Warning Number: " + wrnNo + "."
                                 Return result
                             End If
+
+                            txtTotValue.Text = totalClaimValue.ToString()
+                            txtTotValue.Enabled = False
+
+                            chkApproved.Enabled = False
+                            chkDeclined.Enabled = False
+                            'Else
+                            '    strMessage = "The Consequental Damage value is different to 0."
+                            '    Return result
+                            'End If
                         Else
                             strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
                                 ". Configured Limit: " + totalLimit.ToString() + "."
@@ -5063,6 +5091,9 @@ Public Class CustomerClaims
                                     strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
                                     Return result
                                 End If
+                            Else
+                                strMessage = "In order to approve this Claim you must ask for authorization."
+                                Return result
 
                             End If
 
@@ -5097,10 +5128,10 @@ Public Class CustomerClaims
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim refLimit As Double = 0
-                dbLimit = If(Double.TryParse(hdCLMLimit.Value, refLimit), refLimit, 0)
+                dbLimit = If(Double.TryParse(hdCLMLimit.Value, refLimit), refLimit, 0) ' limit for manager
                 If dbLimit > 0 Then
                     If chkApproved.Checked Then
-                        If totalClaimValue > totalLimit Then
+                        If totalClaimValue > totalLimit Or Session("userid").ToString().ToUpper().Equals(hdCLMuser.Value.Trim().ToUpper()) Then   ' el valor del claim es mayor que el limite del usuario logueado
                             If totalClaimValue <= dbLimit Then
                                 BuildDates()
                                 'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
@@ -5328,7 +5359,7 @@ Public Class CustomerClaims
                                     If flag1 Then
                                         flag2 = CheckIfCMGeneretad(claimNo)
                                     Else
-                                        strMessage = "The Claim can not be closed because the authorization has not been made yet."
+                                        strMessage = "The Claim can not be closed because the approval has not been made yet."
                                         Return result
                                     End If
 
@@ -6511,12 +6542,6 @@ Public Class CustomerClaims
                                         txtCustStatement.Text = comment1 + " " + comment2 + " " + comment3
                                     End If
 
-                                    Dim locationValue = dsData.Tables(0).Rows(0).Item("CWLOCN").ToString().Trim()
-                                    Dim lii As ListItem = New ListItem(locationValue, "1")
-                                    LoadDropDownLists(ddlLocation)
-                                    ddlLocation.Items.Add(lii)
-                                    hdLocationSelected.Value = locationValue
-
                                     Dim docNo = dsData.Tables(0).Rows(0).Item("CWDOCN").ToString().Trim()
                                     'has document validation to fill data
                                     If docNo <> "0" Then
@@ -6547,6 +6572,8 @@ Public Class CustomerClaims
                                         LoadDDLDiagnose(dsNW)
                                         'customer name
                                         GetCustomerName(dsNW)
+                                        'diagnose dropdownlist
+                                        LoadDDLLocation(dsData)
 
                                         Dim strExcMessage As String = Nothing
                                         GetSupplierInvoiceAndDate(txtVendorNo.Text, docData, strExcMessage)
@@ -7801,6 +7828,7 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlTechRev)
             LoadDropDownLists(ddlVndNo)
             LoadDropDownLists(ddlLocat)
+            LoadDropDownLists(ddlLocation)
 
 
 
@@ -8361,6 +8389,45 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub LoadDDLLocation(dsNW As DataSet)
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                'hdcmbtxtdiag.Value = ""
+                Dim dsData = New DataSet()
+                Dim rs5 = objBL.GetExistingLocationsWarr(dsData)
+                If rs5 > 0 Then
+                    If dsData IsNot Nothing Then
+                        If dsData.Tables(0).Rows.Count > 0 Then
+                            LoadDropDownLists(ddlLocation)
+
+                            Dim comparerDiag = dsNW.Tables(0).Rows(0).Item("CWLOCN").ToString()
+
+                            ddlLocation.SelectedIndex = ddlLocation.Items.IndexOf(ddlLocation.Items.FindByValue(comparerDiag))
+                            If ddlLocation.SelectedIndex > 0 Then
+                                hdLocatIndex.Value = ddlLocation.SelectedIndex.ToString()
+                                hdLocationSelected.Value = ddlLocation.SelectedItem.Text
+                                'hdSelectedDiagnose.Value = hdcwdiagd.Value
+                                'txtloc.Text = hdcwdiagd.Value
+                            Else
+                                ddlLocation.SelectedIndex = 0
+                                hdLocationSelected.Value = "0"
+                                hdLocatIndex.Value = "-1"
+                            End If
+
+                            'Dim comparerDiag = dsNW.Tables(0).Rows(0).Item("MHDIAG").ToString().Trim()
+                            'Dim myiitt = dsDLLDiag.Tables(0).AsEnumerable().Where(Function(item) item.Item("CNT03").ToString().Equals(comparerDiag, StringComparison.InvariantCultureIgnoreCase))
+                            'If myiitt.Count = 1 Then
+                            'hdcwdiagd.Value = myiitt(0).Item("INTDES").ToString().Trim()
+                            'End If
+                        End If
+                    End If
+                End If
+            End Using
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Public Sub LoadDDLDiagnose(dsNW As DataSet)
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -8873,12 +8940,18 @@ Public Class CustomerClaims
 
 #End Region
 
+#Region "GeneralCtrDeactivation"
+
+
+
+#End Region
+
 #Region "Activation Methods"
 
     Private Sub deactCmd()
         btnChangeVendor.Enabled = False
         btnChangePart.Enabled = False
-        btnAddFiles.Enabled = False
+        'btnAddFiles.Enabled = False
         'cmdAskcust.Enabled = False
         btnAddComments.Enabled = False
         'cmdQControl.Enabled = False
@@ -8920,7 +8993,7 @@ Public Class CustomerClaims
     Private Sub actCmd()
         btnChangeVendor.Enabled = True
         btnChangePart.Enabled = True
-        btnAddFiles.Enabled = True
+        'btnAddFiles.Enabled = True
         'cmdAskcust.Enabled = True
         btnSeeFiles.Enabled = True
         btnAddComments.Enabled = True
@@ -9064,6 +9137,9 @@ Public Class CustomerClaims
                 'ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnose.Value), CInt(ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByValue(hdSelectedDiagnose.Value))), 0)
                 ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnoseIndex.Value), CInt(hdSelectedDiagnoseIndex.Value), 0)
                 ddlDiagnoseData_SelectedIndexChanged(ddl, Nothing)
+            ElseIf ddl.ID = "ddlLocation" Then
+                ddlLocation.SelectedIndex = If(Not String.IsNullOrEmpty(hdLocatIndex.Value), CInt(hdLocatIndex.Value), 0)
+                ddlLocation_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlInitRev" Then
 
             ElseIf ddl.ID = "ddlTechRev" Then
@@ -9176,7 +9252,17 @@ Public Class CustomerClaims
                                                 dtOut.Columns("ID").ColumnName, dtOut, True, "NA - Select User")
                 End If
             ElseIf ddl.ID = "ddlLocation" Then
-                Dim ListItem As ListItem = New ListItem()
+                If ddl.Items.Count = 0 Then
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        result = objBL.GetExistingLocationsWarr(dsData)
+                        If dsData IsNot Nothing Then
+                            If dsData.Tables(0).Rows.Count > 0 Then
+                                LoadingDropDownList(ddlLocation, dsData.Tables(0).Columns("CNTDE1").ColumnName,
+                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, "NA - Select Location")
+                            End If
+                        End If
+                    End Using
+                End If
             ElseIf ddl.ID = "ddlDiagnoseData" Then
                 If ddl.Items.Count = 0 Then
                     Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -9532,6 +9618,56 @@ Public Class CustomerClaims
         txtCurrent.Text = Not flag
         txtClaimNo.Text = If(txtCurrent.ID = txtClaimNo.ID, Not flag, flag)
 
+    End Sub
+
+    Public Sub DefaultInputConf(Optional parent As ControlCollection = Nothing, Optional ctl As Control = Nothing)
+        Try
+            If parent IsNot Nothing Then
+                For Each ctl1 As Control In parent
+                    If (ctl1.Controls.Count > 0) Then
+                        ClearInputCustom(parent, Nothing)
+                    Else
+                        If TypeOf ctl1 Is TextBox Then
+                            'DirectCast(ctl1, TextBox).Text = String.Empty
+                            DirectCast(ctl1, TextBox).Enabled = False
+                        End If
+                        If TypeOf ctl1 Is DropDownList Then
+                            'If (DirectCast(ctl1, DropDownList).Enabled Or Not (DirectCast(ctl1, DropDownList)).Enabled) Then
+                            'DirectCast(ctl1, DropDownList).ClearSelection()
+                            DirectCast(ctl1, DropDownList).Enabled = False
+                            'End If
+                        End If
+                        If TypeOf ctl1 Is CheckBox Then
+                            'DirectCast(ctl1, CheckBox).Checked = False
+                            DirectCast(ctl1, CheckBox).Enabled = False
+                        End If
+                        If TypeOf ctl1 Is Button Then
+                            DirectCast(ctl1, Button).Enabled = False
+                        End If
+                    End If
+                Next
+            Else
+                If TypeOf ctl Is TextBox Then
+                    'DirectCast(ctl1, TextBox).Text = String.Empty
+                    DirectCast(ctl, TextBox).Enabled = False
+                End If
+                If TypeOf ctl Is DropDownList Then
+                    'If (DirectCast(ctl1, DropDownList).Enabled Or Not (DirectCast(ctl1, DropDownList)).Enabled) Then
+                    'DirectCast(ctl1, DropDownList).ClearSelection()
+                    DirectCast(ctl, DropDownList).Enabled = False
+                    'End If
+                End If
+                If TypeOf ctl Is CheckBox Then
+                    'DirectCast(ctl1, CheckBox).Checked = False
+                    DirectCast(ctl, CheckBox).Enabled = False
+                End If
+                If TypeOf ctl Is Button Then
+                    DirectCast(ctl, Button).Enabled = False
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Public Sub ClearInputCustom(Optional parent As ControlCollection = Nothing, Optional ctl As Control = Nothing)

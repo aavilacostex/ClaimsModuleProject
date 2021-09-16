@@ -19,7 +19,7 @@
             <asp:PostBackTrigger ControlID="btnSaveFile" />
         </Triggers>
 
-        <ContentTemplate>
+        <ContentTemplate>            
 
             <div class="row">
                 <div class="col-md-9"></div>
@@ -794,8 +794,11 @@
                     <asp:HiddenField id="hdWelcomeMess" Value="" runat="server" />
                     <asp:HiddenField id="hdVendorNo" Value="" runat="server" />
                     <asp:HiddenField id="hdLocatNo" Value="" runat="server" />
+                    <asp:HiddenField id="hdLocatIndex" Value="" runat="server" />
                     <asp:HiddenField id="hdClaimNumber" Value="" runat="server" />
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
+
+                    <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
 
                 </div>
             </div>            
@@ -1386,7 +1389,7 @@
                                                     <%--<asp:Image ID="imgPart" runat="server"/>--%>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <asp:TextBox ID="txtPartDesc" Text="" TextMode="MultiLine" Enabled="false" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPartDesc" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>
 
@@ -2465,7 +2468,7 @@
         }
 
         function DefaulSeeComm() {
-            debugger
+            //debugger
 
             var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
             if (hdSeeCommDef == "1") {
@@ -2499,7 +2502,11 @@
                 $('#MainContent_rwCloseClaim').addClass('hideProp');
             }
 
+            expandMultilineTxt();  //tab click
+
+            JSFunction();
         });
+       
 
         $('body').on('click', '.click-in', function (e) {
 
@@ -2587,7 +2594,7 @@
         }
 
         function divexpandcollapse(controlid, divname) {
-            debugger
+            //debugger
             if (divname == null) {
             } else {
                 var iAccess = $("#div" + divname);
@@ -2680,6 +2687,78 @@
             }
         }
 
+        function disableCustomInput() {
+            debugger 
+            
+            var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
+
+            if (fullSelection == "0") {
+                $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#MainContent_navsSection').find('select').attr('disabled', true);
+                $('#MainContent_navsSection').find('textarea').attr('disabled', true);
+
+                $('#tabc').find('a').removeClass('aspNetDisabled');
+                $('#tabc').find('a').addClass('disableCtr');
+
+                $('#MainContent_rowPnActions').find('a').removeClass('aspNetDisabled');
+                $('#MainContent_rowPnActions').find('a').addClass('disableCtr');
+
+                $('#rowGridViewSeeComm').find('a').removeClass('disableCtr');
+                $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
+
+                $('#MainContent_pnPartImage').find('a').removeClass('disableCtr');
+
+                $('#MainContent_btnSeeFiles').removeClass('disableCtr');
+                $('#MainContent_lnkSentToComm').removeClass('disableCtr');
+                $('#MainContent_btnCloseTab').removeClass('disableCtr');
+            }
+            else {
+                $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#claimoverview').find('select').attr('disabled', true);
+                $('#claimoverview').find('textarea').attr('disabled', true);
+
+                $('#partinfo').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#partinfo').find('select').attr('disabled', true);
+                $('#partinfo').find('textarea').attr('disabled', true);
+
+                $('#MainContent_ddlDiagnoseData').attr('disabled', false);
+                $('#MainContent_chkQuarantine').attr('disabled', false);           
+
+            }
+            
+
+           // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+            //$('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+        }
+
+        function expandMultilineTxt() {
+            debugger 
+
+            var tCustStat = document.getElementById('<%=txtCustStatement.ClientID%>');
+            var tPartDesc = document.getElementById('<%=txtPartDesc.ClientID%>');
+            var tMess = document.getElementById('<%=txtMessage.ClientID%>');
+            var tMessVnd = document.getElementById('<%=txtVndMessage.ClientID%>');
+
+            //tCustStat.style('width') = ((tCustStat.value.length) * 8) + 'px';
+            var a1 = tCustStat.scrollHeight;
+            var a2 = tPartDesc.scrollHeight;
+            var a3 = tMess.scrollHeight;
+            var a4 = tMessVnd.scrollHeight;
+
+            //console.log(a1);
+            //console.log(a2);
+            //console.log(a3);
+            //console.log(a4);
+
+            tCustStat.style.minHeight = a1 > 0 ? (tCustStat.scrollHeight) + "px" : ((tCustStat.scrollHeight) + 10) + "px";
+            tPartDesc.style.minHeight = a2 > 0 ? (tPartDesc.scrollHeight) + "px" : ((tPartDesc.scrollHeight) + 10) + "px";
+            tMess.style.minHeight = a3 > 0 ? (tMess.scrollHeight) + "px" : ((tMess.scrollHeight) + 10) + "px";
+            tMessVnd.style.minHeight = a4 > 0 ? (tMessVnd.scrollHeight) + "px" : ((tMessVnd.scrollHeight) + 10) + "px";
+
+            $('#MainContent_navsSection').find('textarea').attr('disabled', true);
+
+        }
+
         function setHeight(control) {
             //debugger
 
@@ -2689,7 +2768,7 @@
 
         function activeTab() {
 
-            debugger
+            //debugger
             var hd1 = document.getElementById('<%=hdCurrentActiveTab.ClientID%>').value;
             $('.nav-tabs a[href="' + hd1 + '"]').tab('show');
         }
@@ -2713,7 +2792,7 @@
 
             }
             else if (filter == "MainContent_ddlLocat") {
-                var hdLoc = document.getElementById('<%=hdLocatNo.ClientID%>').value;
+                var hdLoc = document.getElementById('<%=hdLocatIndex.ClientID%>').value;
                 $("#<%=ddlLocat.ClientID%>").prop('selectedIndex', parseInt(hdLoc));
 
             }
@@ -2736,6 +2815,11 @@
                 var hdDs1 = document.getElementById('<%=hdSelectedDiagnoseIndex.ClientID%>').value;
                 //var hdDs1 = document.getElementById('<%=hdSelectedDiagnose.ClientID%>').selectedIndex;
                 $("#<%=ddlDiagnoseData.ClientID%>").prop('selectedIndex', parseInt(hdDs1));
+
+            }
+            else if (filter == "MainContent_ddlLocation") {
+                var hdLoc = document.getElementById('<%=hdLocatIndex.ClientID%>').value;
+                $("#<%=ddlLocation.ClientID%>").prop('selectedIndex', parseInt(hdLoc));
 
             }
         }
@@ -2935,7 +3019,7 @@
         //Click Method End
 
         $('body').on('change', "#<%=chkApproved.ClientID %>", function () {
-            debugger
+            //debugger
 
             if (this.checked) {
                 //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
@@ -2984,7 +3068,7 @@
         });
 
         $('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
-            debugger
+            //debugger
 
             var value = document.getElementById("<%=ddlDiagnoseData.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
@@ -3016,7 +3100,8 @@
             //$('#<%=selectedFilter.ClientID %>').val(value1);
         });
 
-        $('body').on('change', "#<%=ddlLocat.ClientID %>", function () {
+        $('body').on('change', "#<%=ddlLocat.ClientID %>", function () {           
+
             var value = document.getElementById("<%=ddlLocat.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
             var getindex = value.options[value.selectedIndex].value;
@@ -3024,7 +3109,7 @@
 
             var value1 = document.getElementById("<%=ddlLocat.ClientID %>").id;
             //$('#<%=selectedFilter.ClientID %>').val(value1);
-        });
+        });        
 
         $('body').on('change', "#<%=ddlSearchReason.ClientID %>", function () {
             //debugger
@@ -3049,7 +3134,7 @@
 
         //MainContent_ddlDiagnoseData
         $('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
-            debugger
+            //debugger
 
             var valuee = $('#<%=ddlDiagnoseData.ClientID %> option:selected').text();
             var valueid = $('#<%=ddlDiagnoseData.ClientID %> option:selected').index();
@@ -3058,7 +3143,7 @@
             $('#<%=hdSelectedDiagnose.ClientID %>').val(valuee);
             $('#<%=hdSelectedDiagnoseIndex.ClientID %>').val(valueid);
 
-        });
+        });        
 
         //Change Method End      
 
@@ -3150,7 +3235,7 @@
 
         $(function () {
 
-            //debugger
+            debugger
 
             console.log("BeginFunction");            
 
@@ -3309,7 +3394,7 @@
                     });
 
             function getDate(element) {
-                debugger
+                //debugger
 
                 var date;
                 try {
@@ -3482,7 +3567,7 @@
 
             if (args.get_isPartialLoad()) {  
 
-                debugger
+                //debugger
                 //case fileExcel  
                 var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
                 if (hdFile == "1") {
@@ -3658,6 +3743,10 @@
 
                 EnableAuthRequestChk()
 
+                expandMultilineTxt() //page load update panel
+
+                disableCustomInput();
+
             }
 
             var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
@@ -3701,6 +3790,7 @@
             CustomerNoAutoComplete()
 
             processDDLSelection("MainContent_ddlDiagnoseData");
+            processDDLSelection("MainContent_ddlLocation");
 
             setHeight($('#MainContent_txtCustStatement'));
             
@@ -3756,11 +3846,15 @@
 
             EnableAuthRequestChk()
 
+            expandMultilineTxt() //page load outer
+
+            disableCustomInput();
+
             console.log("EndPageLoad");
         }
 
         function EnableAuthRequestChk() {
-            debugger
+            //debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -3809,7 +3903,7 @@
         }
 
         function setTabsClaimNo() {
-            debugger
+           // debugger
 
             var hdClaimNo = document.getElementById('<%=hdClaimNumber.ClientID%>').value
             
