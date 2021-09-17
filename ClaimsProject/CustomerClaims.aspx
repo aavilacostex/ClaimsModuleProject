@@ -3854,7 +3854,7 @@
         }
 
         function EnableAuthRequestChk() {
-            //debugger
+            debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -3878,7 +3878,19 @@
                         $('#<%= chkClaimAuth.ClientID %>').attr("disabled", "disabled");
                         $('#<%= txtAmountApproved.ClientID %>').attr("disabled", "disabled");
 
+                        $('#<%=lnkClaimAuth.ClientID %>').removeClass('aspNetDisabled');
+                        $('#<%=lnkClaimAuth.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
                     }
+                }
+                else {
+                    $('#<%= txtClaimAuth.ClientID %>').attr("disabled", "disabled");
+                    $('#<%= txtClaimAuthDate.ClientID %>').attr("disabled", "disabled");
+                    $('#<%= chkClaimAuth.ClientID %>').attr("disabled", "disabled");
+                    $('#<%= txtAmountApproved.ClientID %>').attr("disabled", "disabled");
+
+                    $('#<%=lnkClaimAuth.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkClaimAuth.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
                 }
             }
 
@@ -3925,7 +3937,7 @@
             if ($('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
 
                 $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);
+                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);                
 
                 $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
@@ -3939,6 +3951,8 @@
             if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {                
                 
                 $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3950,6 +3964,8 @@
             if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
                
                 $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3961,6 +3977,8 @@
             if ($('#<%=chkPartRequested.ClientID %>').is(':checked')) {
                 
                 $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
+                $('#<%=chkPartRequested.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3972,6 +3990,8 @@
             if ($('#<%=chkPartReceived.ClientID %>').is(':checked')) {
                
                 $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
+                $('#<%=chkPartReceived.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3983,6 +4003,8 @@
             if ($('#<%=chkTechReview.ClientID %>').is(':checked')) {
                 
                 $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
+                $('#<%=chkTechReview.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3994,11 +4016,32 @@
             if ($('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
                 
                 $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                $('#<%=chkWaitSupReview.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                 $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
                 $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+            }
+
+            if ($('#<%=chkApproved.ClientID %>').is(':checked')) {
+
+                var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
+
+                if (hdHasText != "") {
+
+                    //$('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtClaimCompleted.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtClaimCompletedDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkApproved.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkApproved.ClientID %>').attr("disabled", "disabled")
+
+                }                
+                
             }
 
         }

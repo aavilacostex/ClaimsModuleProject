@@ -1653,35 +1653,34 @@ Public Class CustomerClaims
 
                 'revisar este proceso
 
-                If resultValue <= 500 Then
+                'If resultValue <= 500 Then
 
-                    btnSaveTab_Click(Nothing, Nothing)
+                btnSaveTab_Click(Nothing, Nothing)
 
-                Else
+                'Else
 
-                    Dim blClose = cmdCloseClaim(strMessage)
-                    If blClose Then
-                        CleanCommentsValues()
-                        ClearInputCustom(navsSection)
+                'Dim blClose = cmdCloseClaim(strMessage)
+                'If blClose Then
+                '    CleanCommentsValues()
+                '    ClearInputCustom(navsSection)
 
-                        Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                        grvClaimReport.DataSource = dsData.Tables(0)
-                        grvClaimReport.DataBind()
+                '    Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                '    grvClaimReport.DataSource = dsData.Tables(0)
+                '    grvClaimReport.DataBind()
 
-                        If Not strMessage.Trim().ToUpper().Equals("PREVENT") Then
-                            methodMessage = "Claim closed successfully."
-                            SendMessage(methodMessage, messageType.warning)
-                        End If
+                '    If Not strMessage.Trim().ToUpper().Equals("PREVENT") Then
+                '        methodMessage = "Claim closed successfully."
+                '        SendMessage(methodMessage, messageType.warning)
+                '    End If
 
-                    Else
-                        methodMessage = "An error has occurred closing the Claim."
-                        SendMessage(methodMessage, messageType.warning)
-                    End If
+                'Else
+                '    methodMessage = "An error has occurred closing the Claim."
+                '    SendMessage(methodMessage, messageType.warning)
+                'End If
 
-                End If
+                'End If
 
             Else
-
                 methodMessage = "The Claim must be approved and then ti will be ready to close.."
                 SendMessage(methodMessage, messageType.warning)
             End If
@@ -5345,6 +5344,7 @@ Public Class CustomerClaims
         Dim flag2 As Boolean = False
         Dim flag1 As Boolean = False
         strMessage = Nothing
+        Dim intResult As Integer = 0
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -5359,11 +5359,11 @@ Public Class CustomerClaims
                                     If flag1 Then
                                         flag2 = CheckIfCMGeneretad(claimNo)
                                     Else
+                                        intResult += 1
                                         strMessage = "The Claim can not be closed because the approval has not been made yet."
-                                        Return result
                                     End If
 
-                                    If flag2 Then
+                                    If flag2 And intResult.Equals(0) Then
 
                                         Dim strUsers = ConfigurationManager.AppSettings("AuthUsersForPutCost")
                                         Dim currentUser = UCase(Session("userid").ToString().Trim().ToUpper())
@@ -5424,8 +5424,9 @@ Public Class CustomerClaims
                                             Return result
                                         End If
                                     Else
+                                        intResult += 1
                                         strMessage = "The Claim can not be closed because the authorization has not been made yet."
-                                        Return result
+                                        'Return result
                                     End If
                                 Else
                                     strMessage = "The checkbox to request for the authorization approval for this Claim over $500 as Total Cost must be checked in order to proceed."
@@ -5450,10 +5451,41 @@ Public Class CustomerClaims
                     Return result
                 End If
 
+                If intResult.Equals(2) Then
+                    Dim sumRs As Integer = 0
+
+                    chkinitial.Value = "Y"
+
+                    'updating CLMWRN
+                    Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                    If rsLastUpd <= 0 Then
+                        sumRs += 1
+                    End If
+
+                    'updating CLMINTSTS
+                    BuildDates()
+                    Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                    If rsOkQuality <= 0 Then
+                        sumRs += 1
+                    End If
+
+                    'save comment
+                    Dim checkComm = saveComm("I : IN PROC")
+
+                    If sumRs >= 1 Then
+                        intResult += 1
+                    End If
+
+                End If
+
             End Using
 
+            If intResult.Equals(3) Then
+                strMessage = "The Update Proccess for warranty claim status could not be completed. Otherwise you can continue with the proccess in order to close the claim."
+            End If
+
             If intValidation = 2 Then
-                result = True
+                result = If(String.IsNullOrEmpty(strMessage), True, False)
                 methodMessage = strMessage
                 SendMessage(methodMessage, messageType.warning)
             End If
@@ -9910,6 +9942,14 @@ Public Class CustomerClaims
         strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
         Dim userid = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "N/A")
         objLog.WriteLog(strLevel, "CTPSystem" & strLevel, strLogCadena, userid, strMessage, strDetails)
+    End Sub
+
+    Private Sub btnCloseTab_Command(sender As Object, e As CommandEventArgs) Handles btnCloseTab.Command
+
+    End Sub
+
+    Private Sub btnCloseClaim_Command(sender As Object, e As CommandEventArgs) Handles btnCloseClaim.Command
+
     End Sub
 
 #End Region
