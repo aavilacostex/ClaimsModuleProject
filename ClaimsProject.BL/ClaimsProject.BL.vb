@@ -554,6 +554,17 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+    Public Function GetIfIntStatusExist(wrno As String, status As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetIfIntStatusExist(wrno, status, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
 
     Public Function GetSupplierClaimCommentsUnifyData(vndClaimNo As String, commentSubject As String, commentTxt As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()

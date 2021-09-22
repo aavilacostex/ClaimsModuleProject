@@ -1117,6 +1117,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._IsFullUser">
+<summary>
+IsFullUser control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._addProdDev">
 <summary>
 addProdDev control.
@@ -1876,6 +1885,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._lblDiagnose">
 <summary>
 lblDiagnose control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lnkDiagnose">
+<summary>
+lnkDiagnose control.
 </summary>
 <remarks>
 Auto-generated field.

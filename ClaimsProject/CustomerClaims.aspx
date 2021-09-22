@@ -799,6 +799,7 @@
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
+                    <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
                 </div>
             </div>            
@@ -1292,7 +1293,10 @@
 
                                             <div class="form-row">
                                                 <div class="col-md-12">
-                                                    <asp:Label ID="lblDiagnose" Text="Diagnose" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:Label ID="lblDiagnose" Text="Diagnose" CssClass="control-label" runat="server"></asp:Label>                                                    
+                                                    <asp:LinkButton ID="lnkDiagnose" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                        
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtDiagnoseData" CssClass="form-control" runat="server" />                                                            
@@ -3032,6 +3036,20 @@
             }
         });
 
+        $('body').on('change', "#<%=chkDeclined.ClientID %>", function () {
+            //debugger
+
+            if (this.checked) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+
+
+            }
+        });
+
         //Change Method Begin
 
         $('body').on('change', "#<%=ddlSearchExtStatus.ClientID %>", function () {
@@ -3777,8 +3795,6 @@
 
             yesnoCheckCustom(hdName)  
 
-
-
             var collapse2 = document.getElementById('collapseOne_2');
             afterDdlCheck(hd2, collapse2);
 
@@ -3842,6 +3858,7 @@
             fixVisibilityColumns();
 
             setTabsClaimNo()
+
             partialCreditSelected()
 
             EnableAuthRequestChk()
@@ -3860,12 +3877,13 @@
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
             var userSelected = document.getElementById('<%=txtClaimAuth.ClientID%>').value;
             var userDateSelected = document.getElementById('<%=txtClaimAuthDate.ClientID%>').value;
+            var hdUserType = $('#<%=IsFullUser.ClientID %>').val();
                         
             if (hdAuthReq != "") {
                 var numbAuthreq = parseInt(hdAuthReq)
                 if (numbAuthreq > 500) {
 
-                    if (isPresentBl) {
+                    if (isPresentBl && hdUserType == "1") {
                         $('#<%=chkClaimAuth.ClientID %>').removeAttr("disabled");
                         $('#<%=txtClaimAuth.ClientID %>').removeAttr("disabled");
                         $('#<%=txtClaimAuthDate.ClientID %>').removeAttr("disabled");
@@ -4026,6 +4044,7 @@
             }
 
             if ($('#<%=chkApproved.ClientID %>').is(':checked')) {
+                debugger
 
                 var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
 
@@ -4039,9 +4058,33 @@
                     $('#<%=txtClaimCompletedDate.ClientID %>').attr("disabled", "disabled")
                     $('#<%=chkApproved.ClientID %>').addClass('disableCtr');
                     $('#<%=chkApproved.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkDeclined.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkDeclined.ClientID %>').attr("disabled", "disabled")
 
                 }                
                 
+            }
+
+            if ($('#<%=chkDeclined.ClientID %>').is(':checked')) {
+                debugger
+
+                var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
+
+                if (hdHasText != "") {
+
+                    //$('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtClaimCompleted.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtClaimCompletedDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkApproved.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkApproved.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkDeclined.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkDeclined.ClientID %>').attr("disabled", "disabled")
+
+                }
+
             }
 
         }
@@ -4156,8 +4199,6 @@
         }        
 
     </script>
-
-
 
 </asp:Content>
 

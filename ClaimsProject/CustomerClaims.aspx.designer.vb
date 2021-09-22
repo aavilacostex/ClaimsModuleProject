@@ -1094,6 +1094,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdFullDisabled As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''IsFullUser control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents IsFullUser As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>
@@ -1857,6 +1866,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblDiagnose As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''lnkDiagnose control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkDiagnose As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''txtDiagnoseData control.

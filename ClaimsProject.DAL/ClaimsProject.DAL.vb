@@ -184,7 +184,8 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT cntde1, cntde2 FROM qs36f.cntrll WHERE CNT01= 'CLM'and CNT02= 'MG' and cnt03= '001'"
+            'Sql = "SELECT cntde1, cntde2 FROM qs36f.cntrll WHERE CNT01= 'CLM'and CNT02= 'MG' and cnt03= '001'"
+            Sql = "SELECT cntde1, cntde2 FROM qs36f.cntrll WHERE CNT01= 'CLM'and CNT02= 'MG'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1224,6 +1225,20 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+    Public Function GetIfIntStatusExist(wrno As String, status As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Dim sql = "select * from qs36f.clmintsts where inclno = " & wrno & "  and trim(instat) = '" & status & "'"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
 
     Public Function GetSupplierClaimCommentsUnifyData(vndClaimNo As String, commentSubject As String, commentTxt As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()

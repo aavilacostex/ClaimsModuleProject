@@ -10,6 +10,7 @@ Imports ClosedXML.Excel
 Imports System.Web
 Imports System.Net.Mail
 Imports System.Net
+Imports System.DirectoryServices.AccountManagement
 
 Public Class CustomerClaims
     Inherits System.Web.UI.Page
@@ -602,7 +603,7 @@ Public Class CustomerClaims
                 Dim dataFrom = row.Cells(8)
                 Dim myLabel As Label = DirectCast(dataFrom.FindControl("Label12"), Label)
                 Dim statusOut As String = myLabel.Text.Trim()
-                hdFullDisabled.Value = If(statusOut.Trim().ToUpper().Equals("CLOSED"), "0", "1")
+                hdFullDisabled.Value = If(statusOut.Trim().ToUpper().Equals("CLOSED") Or statusOut.Trim().ToUpper().Equals("REJECT"), "0", "1")
 
                 Dim ds1 = DirectCast(Session("ClaimsBckData"), DataSet)
                 'Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
@@ -614,8 +615,12 @@ Public Class CustomerClaims
                 End If
 
                 'load all claim number data
+                'Dim val1 = ddlClaimType.SelectedValue
+                'Dim val2 = ddlClaimType.SelectedItem.Text
+                'Dim val3 = ddlClaimType.SelectedItem.Value
+                'Dim val4 = ddlClaimType.SelectedIndex
 
-                fillClaimData("c", claimNo)
+                fillClaimData("C", claimNo)
                 hdGetCommentTab.Value = "1"
                 SeeCommentsMethod()
                 lblClaimQuickOverview.Text = "You are currently viewing Claim Number:" + txtClaimNoData.Text + ". The current status for this Claim is:  " + claimStatus + "."
@@ -1639,7 +1644,7 @@ Public Class CustomerClaims
         Dim strMessage As String = Nothing
         Try
 
-            If chkApproved.Checked Then
+            If chkApproved.Checked Or chkDeclined.Checked Then
 
                 hdGridViewContent.Value = "1"
                 hdNavTabsContent.Value = "0"
@@ -1774,7 +1779,7 @@ Public Class CustomerClaims
         Dim resultProc As Boolean = False
 
         'test user
-        Session("userid") = "GMARTOS"
+        'Session("userid") = "GMARTOS"
         'test user
 
         Try
@@ -2008,12 +2013,21 @@ Public Class CustomerClaims
                             'Exit Sub
                         Else
                             'claim denied
+
+                            GetClaimsReport("", 1, Nothing, Nothing)
+                            Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                            grvClaimReport.DataSource = dsData.Tables(0)
+                            grvClaimReport.DataBind()
+
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
                             hdGridViewContent.Value = "1"
 
-                            SendMessage("Record Updated", messageType.success)
+                            strMessageOut = "The Claim Number: " + claimNo + " has rejected and closed successfully."
+                            SendMessage(strMessageOut, messageType.success)
+
                             Exit Sub
+
                         End If
 
 #End Region
@@ -2132,13 +2146,27 @@ Public Class CustomerClaims
 
                             clearAllDataFields()
 
+                            GetClaimsReport("", 1, Nothing, Nothing)
+                            Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                            grvClaimReport.DataSource = dsData.Tables(0)
+                            grvClaimReport.DataBind()
+
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
                             hdGridViewContent.Value = "1"
 
                             'display message
                             'Record updated
-                            SendMessage("Record Updated", messageType.success)
+                            Dim endMessage As String = Nothing
+                            Dim username As String = Nothing
+                            GetUserEmailByUserId(hdCLMuser.Value.Trim(), username)
+                            If String.IsNullOrEmpty(txtClaimAuth.Text.Trim()) Then
+                                endMessage = "The claim approval process is under pending authorization by " + username.ToUpper() + "."
+                            Else
+                                endMessage = "Record Updated"
+                            End If
+
+                            SendMessage(endMessage, messageType.success)
 
                         Else
 
@@ -2168,6 +2196,9 @@ Public Class CustomerClaims
                     End If
 
                 Else
+
+                    hdNavTabsContent.Value = "1"
+                    hdGridViewContent.Value = "0"
 
                     strMessageOut = "The Diagnose must be selected in order to work with this Claim."
                     SendMessage(strMessageOut, messageType.warning)
@@ -2689,7 +2720,7 @@ Public Class CustomerClaims
                     If rsGet > 0 Then
                         If dsGet IsNot Nothing Then
                             If dsGet.Tables(0).Rows.Count > 0 Then
-                                If dsGet.Tables(0).Rows(0).Item("").ToString().Trim() <> "0" Then
+                                If dsGet.Tables(0).Rows(0).Item("TRGAH").ToString().Trim() <> "0" Then
                                     strMessage = "Return Has an RGA. It has to be processed to Reject this Return"
                                     Return result
                                 Else
@@ -2726,6 +2757,58 @@ Public Class CustomerClaims
                         strMessage = "There is an error getting the RGA data for the claim number: " + txtClaimNoData.Text.Trim() + "."
                         Return result
                     End If
+                ElseIf Not String.IsNullOrEmpty(hdSeq.Value.Trim()) Then
+
+                    Dim dsGet = New DataSet()
+                    Dim rsGet = objBL.GetRGAAmountByClaim(txtClaimNoData.Text.Trim(), dsGet)
+
+                    If rsGet > 0 Then
+                        If dsGet IsNot Nothing Then
+                            If dsGet.Tables(0).Rows.Count > 0 Then
+                                If dsGet.Tables(0).Rows(0).Item("TRGAH").ToString().Trim() <> "0" Then
+                                    strMessage = "Return Has an RGA. It has to be processed to Reject this Return"
+                                    Return result
+                                Else
+                                    If True Then
+                                        chkinitial.Value = "R"
+
+                                        Dim rsIns = objBL.InsertInternalStatus(hdSeq.Value.Trim(), chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                                        If rsIns > 0 Then
+                                            chkApproved.Enabled = False
+                                            chkDeclined.Enabled = False
+                                            chkClaimCompleted.Enabled = False
+                                            txtClaimCompletedDate.Text = datenow
+                                            txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+                                            txtClaimCompleted.Enabled = False
+                                            txtClaimCompletedDate.Enabled = False
+                                        End If
+
+                                        Dim checkComm = saveComm("R : CLAIM REJECTED")
+
+                                        Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(hdSeq.Value.Trim(), chkinitial.Value)
+                                        If rsLastUpd < 0 Then
+                                            'log write
+                                        End If
+
+                                        Dim rsUpd = objBL.UpdateNWHeaderStat(txtClaimNoData.Text.Trim(), "8")
+                                        If rsUpd < 0 Then
+                                            'log write
+                                        Else
+
+                                            deactTxt()
+                                            deactCmd()
+                                            deactCmb()
+
+                                            result = True
+
+                                        End If
+
+                                    End If
+                                End If
+                            End If
+                        End If
+                    End If
+
                 Else
                     strMessage = "The Claim Number must have a value."
                     Return result
@@ -3226,6 +3309,30 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
 
+        End Try
+    End Sub
+
+    Protected Sub lnkDiagnose_Click(sender As Object, e As EventArgs) Handles lnkDiagnose.Click
+        Dim strMessage As String = Nothing
+        Dim strMessageOut As String = Nothing
+        Try
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim claimNo = txtClaimNoData.Text.Trim()
+
+            If Not String.IsNullOrEmpty(txtDiagnoseData.Text.Trim()) And Not ddlDiagnoseData.SelectedIndex.Equals(-1) Then
+
+                Dim resultProc = UpdateDiagnoseValue(claimNo, strMessageOut)
+                If resultProc Then
+                    SendMessage(strMessageOut, messageType.success)
+                Else
+                    SendMessage(strMessageOut, messageType.warning)
+                End If
+            Else
+                Dim methodMessage = "If you want to update the Diagnose please first fill in the informacion in the fields!"
+                SendMessage(methodMessage, messageType.warning)
+            End If
+        Catch ex As Exception
+            SendMessage(ex.Message, messageType.Error)
         End Try
     End Sub
 
@@ -3760,6 +3867,7 @@ Public Class CustomerClaims
                     Dim rsUpdDiag = objBL.UpdateNWHeader(claimNo, True, diagValue)
                     If rsUpdDiag > 0 Then
                         result = True
+                        strMessage = "The Diagnose was updated successfully."
                     Else
                         strMessage = "There is an error updating the Diagnose Value."
                         Return result
@@ -4576,7 +4684,9 @@ Public Class CustomerClaims
                                         If dsFull IsNot Nothing Then
                                             If dsFull.Tables(0).Rows.Count > 0 Then
                                                 'update
-                                                Dim rsUpd = objBL.UpdateWIntDesc(wrnNo, txtCustStatement.Text.Trim())
+                                                Dim descc = txtCustStatement.Text.Trim()
+                                                Dim OutReg = Regex.Replace(descc, "[^0-9A-Za-z .,]", String.Empty)
+                                                Dim rsUpd = objBL.UpdateWIntDesc(wrnNo, OutReg)
                                                 If rsUpd > 0 Then
                                                     intValidation += 1
                                                 Else
@@ -4764,6 +4874,11 @@ Public Class CustomerClaims
     Public Function GetEmailAndUserAuthApp500To1500(ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         strMessage = Nothing
+        Dim lstObj = New List(Of ClaimObj500To1500User)()
+        Dim returnAuthUser = New ClaimObj500To1500User()
+        Dim d1 As String = Nothing
+        Dim d2 As String = Nothing
+        Dim defConfUsrLimit = ConfigurationManager.AppSettings("usrDefaultlimit")
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -4772,22 +4887,60 @@ Public Class CustomerClaims
                 If rsUserInCharge > 0 Then
                     If dsUserInCharge IsNot Nothing Then
                         If dsUserInCharge.Tables(0).Rows.Count > 0 Then
-                            Dim d1 = dsUserInCharge.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim()
-                            Dim d2 = dsUserInCharge.Tables(0).Rows(0).Item("CNTDE2").ToString().Trim()
 
-                            'gte the manager limit
-                            Dim objAprovUser = New ClaimObj500To1500User()
-                            objAprovUser.CLMemail = d1
-                            objAprovUser.CLMuser = Mid(d2, 1, 10)
-                            hdCLMemail.Value = d1
-                            hdCLMuser.Value = Mid(d2, 1, 10)
+                            For Each dw As DataRow In dsUserInCharge.Tables(0).Rows
+                                d1 = dw.Item("CNTDE1").ToString().Trim()
+                                d2 = dw.Item("CNTDE2").ToString().Trim()
 
-                            Dim tempLimit = Mid(d2, 38, 7)
-                            hdCLMLimit.Value = Regex.Replace(tempLimit, "^0+", "")
-                            'hdCLMLimit.Value = Format(tempLimit, "       #")
-                            objAprovUser.CLMLimit = hdCLMLimit.Value
+                                'gte the manager limit
+                                Dim objAprovUser = New ClaimObj500To1500User()
+                                objAprovUser.CLMemail = d1
+                                objAprovUser.CLMuser = Mid(d2, 1, 10)
+                                Dim tempLimit = Mid(d2, 38, 7)
+                                Dim lmtUser = Regex.Replace(tempLimit, "^0+", "")
+                                objAprovUser.CLMLimit = lmtUser
 
-                            Session("Obj500to1500") = objAprovUser
+                                lstObj.Add(objAprovUser)
+                            Next
+
+                            'Dim d1 = dsUserInCharge.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim()
+                            'Dim d2 = dsUserInCharge.Tables(0).Rows(0).Item("CNTDE2").ToString().Trim()
+
+                            Dim userChek = Session("userid").ToString().Trim()
+                            Dim mngLogged As Boolean = False
+
+                            Dim prcCurrentClaimCost = txtTotValue.Text.Trim()
+                            Dim rs = If(Double.TryParse(txtTotValue.Text.Trim(), prcCurrentClaimCost), prcCurrentClaimCost, 0)
+
+                            For Each item In lstObj
+                                If LCase(item.CLMuser.Trim().Equals(LCase(userChek))) Then
+                                    hdCLMemail.Value = item.CLMemail.ToString().Trim()
+                                    hdCLMuser.Value = item.CLMuser.ToString().Trim()
+                                    hdCLMLimit.Value = item.CLMLimit.ToString().Trim()
+                                    mngLogged = True
+                                    IsFullUser.Value = "1"
+                                    returnAuthUser = item
+                                    Exit For
+                                End If
+                            Next
+
+                            If Not mngLogged Then
+                                Dim objAprovUser = New ClaimObj500To1500User()
+                                If lstObj.Count > 0 Then
+                                    'objAprovUser = lstObj.AsEnumerable().Where(Function(a) LCase(a.CLMuser).Equals(LCase(defConfUsrLimit.Trim()))).First()
+                                    'dt.AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                                    Dim lstTemp1 = lstObj.AsEnumerable().OrderBy(Function(a) CInt(a.CLMLimit).ToString()).ToList()
+                                    objAprovUser = lstTemp1.AsEnumerable().Where(Function(o) prcCurrentClaimCost <= Double.Parse(o.CLMLimit)).First()
+                                    hdCLMemail.Value = objAprovUser.CLMemail.ToString().Trim()
+                                    hdCLMuser.Value = objAprovUser.CLMuser.ToString().Trim()
+                                    hdCLMLimit.Value = objAprovUser.CLMLimit.ToString().Trim()
+                                    returnAuthUser = objAprovUser
+                                    IsFullUser.Value = "0"
+                                End If
+                            End If
+
+                            Session("LstObj500to1500") = lstObj
+                            Session("Obj500to1500") = returnAuthUser
 
                             result = True
                         Else
@@ -4810,6 +4963,9 @@ Public Class CustomerClaims
             Return result
         End Try
     End Function
+
+
+
 
     Public Function GetGeneralValues(wrnNo As String, ByRef strMessage As String, ByRef Optional totalClaimValue As Double = 0, ByRef Optional totalLimit As Double = 0, ByRef Optional totalConsDamage As Double = 0,
                                                    ByRef Optional resultFreight As Double = 0, ByRef Optional resultParts As Double = 0, ByRef Optional resultAmoApproved As Double = 0, Optional flagProc As Boolean = False) As Integer
@@ -4885,10 +5041,10 @@ Public Class CustomerClaims
                             '    strMessage = "The Consequental Damage value is different to 0."
                             '    Return result
                             'End If
-                        Else
-                            strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
-                                ". Configured Limit: " + totalLimit.ToString() + "."
-                            Return result
+                            'Else
+                            '    strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
+                            '        ". Configured Limit: " + totalLimit.ToString() + "."
+                            '    Return result
                         End If
                     End If
 
@@ -4942,7 +5098,7 @@ Public Class CustomerClaims
                         Return result
                     End If
                 Else
-                    strMessage = "There is not data for Limits for current user."
+                    strMessage = "There is not configured Limit Information for current user."
                     Return result
                 End If
 
@@ -5087,8 +5243,10 @@ Public Class CustomerClaims
                                     End If
                                 Else
                                     'error log
-                                    strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
-                                    Return result
+                                    If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                                        strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
+                                        Return result
+                                    End If
                                 End If
                             Else
                                 strMessage = "In order to approve this Claim you must ask for authorization."
@@ -5096,10 +5254,10 @@ Public Class CustomerClaims
 
                             End If
 
-                        Else
-                            strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
-                                ". Configured Limit: " + totalLimit.ToString() + "."
-                            Return result
+                            'Else
+                            '    strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
+                            '        ". Configured Limit: " + totalLimit.ToString() + "."
+                            '    Return result
                         End If
 
                     Else
@@ -5107,7 +5265,7 @@ Public Class CustomerClaims
                         Return result
                     End If
                 Else
-                    strMessage = "In order to close the Claim the Claim Approved and Claim Completed checkboxes must be checked!"
+                    strMessage = "In order to close the Claim the Claim Approved checkbox must be checked!"
                     Return result
                 End If
 
@@ -5166,7 +5324,7 @@ Public Class CustomerClaims
                                                         Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
                                                         Dim messageOut As String = Nothing
                                                         If objEmail IsNot Nothing Then
-                                                            'email for acknowledge email
+                                                            'email for ask for auth over 500
                                                             Dim bresult = PrepareEmail(objEmail, "0", messageOut)
                                                             If Not bresult Then
                                                                 strMessage += messageOut
@@ -5207,17 +5365,19 @@ Public Class CustomerClaims
                                     End If
                                 Else
                                     'error log
-                                    strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
-                                    Return result
+                                    If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                                        strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
+                                        Return result
+                                    End If
                                 End If
                             Else
                                 strMessage = "The Claim Amount must be less or equal to the configured limit for the MG. Total Amount: " + totalClaimValue.ToString() +
-                                ". Configured Limit: " + dbLimit.ToString() + "."
+                                ". Configured Limit: " + dbLimit.ToString() + ". The email to request authorization to approve the credit has been sent."
                                 Return result
                             End If
                         Else
                             strMessage = "The Claim Amount must be more than the configured limit for the current user in order to send an email. Total Amount: " + totalClaimValue.ToString() +
-                            ". Configured Limit: " + totalLimit.ToString() + "."
+                            ". Configured Limit: " + totalLimit.ToString() + ". The email to request authorization to approve the credit has been sent."
                             result = True
                             Return result
                         End If
@@ -5376,7 +5536,7 @@ Public Class CustomerClaims
                                             'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
                                             Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                                            If rsIns > 0 Then
+                                            If (rsIns > 0) Or (Not String.IsNullOrEmpty(txtClaimCompleted.Text.Trim())) Then
                                                 intValidation += 1
 
                                                 txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
@@ -5416,8 +5576,10 @@ Public Class CustomerClaims
                                                 End If
                                             Else
                                                 'error log
-                                                strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
-                                                Return result
+                                                If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                                                    strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
+                                                    Return result
+                                                End If
                                             End If
                                         Else
                                             strMessage = "The current user does not have the Authorization to Close the Claim. "
@@ -5429,8 +5591,12 @@ Public Class CustomerClaims
                                         'Return result
                                     End If
                                 Else
-                                    strMessage = "The checkbox to request for the authorization approval for this Claim over $500 as Total Cost must be checked in order to proceed."
-                                    Return result
+                                    If IsFullUser.Value.Trim().Equals("1") Then
+                                        strMessage = "The checkbox to request for the authorization approval for this Claim over $500 as Total Cost must be checked in order to proceed."
+                                        Return result
+                                    Else
+                                        intResult = 2
+                                    End If
                                 End If
                             Else
                                 strMessage = "Before to close the Claim you must send an Acknowloedge Email to the client. Please update this status in order to proceed."
@@ -5464,13 +5630,17 @@ Public Class CustomerClaims
 
                     'updating CLMINTSTS
                     BuildDates()
-                    Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                    If rsOkQuality <= 0 Then
-                        sumRs += 1
+                    Dim dsInt As DataSet = New DataSet()
+                    Dim isPresentStatus = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsInt)
+                    If isPresentStatus = 0 Then
+                        Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                        If rsOkQuality <= 0 Then
+                            sumRs += 1
+                        End If
                     End If
 
                     'save comment
-                    Dim checkComm = saveComm("I : IN PROC")
+                    Dim checkComm = saveComm("I : IN PROCESS")
 
                     If sumRs >= 1 Then
                         intResult += 1
@@ -5849,6 +6019,11 @@ Public Class CustomerClaims
             Dim emailSenderPort As String = ConfigurationManager.AppSettings("portnumber").ToString()
             'Dim emailIsSSL As Boolean = CBool(ConfigurationManager.AppSettings("IsSSL").ToString())
 
+            Dim flagEmail As String = ConfigurationManager.AppSettings("flagEmail").ToString()
+            Dim ProdNotUsers1000 = ConfigurationManager.AppSettings("claimNotificatedUsersOver1000").ToString()
+            Dim ProdNotUsers500 = ConfigurationManager.AppSettings("claimNotificatedUsersOver500").ToString()
+            Dim TestNotUsers = ConfigurationManager.AppSettings("claimNotificatedUsersTest").ToString()
+
             Dim FileTemplate = Directory.GetFiles(Server.MapPath("~/EmailTemplates/"))
             Dim i As Integer = 0
             i = CInt(flag)
@@ -5856,7 +6031,12 @@ Public Class CustomerClaims
             Dim Mailtext = str.ReadToEnd()
             str.Close()
 
-            Mailtext = Mailtext.Replace("[CUSTOMER]", "aavila@costex.com") 'obj.EmailTo
+            Dim username As String = Nothing
+            Dim userEmail = If(flagEmail.Equals("1"), hdCLMemail.Value.Trim(), TestNotUsers.Trim())
+            GetUserEmailByUserId(hdCLMuser.Value.Trim(), username)
+
+            Mailtext = Mailtext.Replace("[CUSTOMER]", userEmail) 'obj.EmailTo
+            Mailtext = Mailtext.Replace("[USERNAME]", username)
             Mailtext = Mailtext.Replace("[CLAIMNO]", obj.ClaimNo)
             Mailtext = Mailtext.Replace("[PARTNO]", obj.PartNo)
             Mailtext = Mailtext.Replace("[INVOICE]", obj.Invoice)
@@ -6509,7 +6689,7 @@ Public Class CustomerClaims
 
                 Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                    If claimType <> "B" Then ' warranty claims
+                    If claimType.Equals("C") Then ' warranty claims
 
                         hdSeq.Value = Trim(myitem(0).Item("CWWRNO").ToString())
                         Dim rsResult = objBL.GetWrnClaimsHeader(hdSeq.Value, dsData)
@@ -6654,7 +6834,7 @@ Public Class CustomerClaims
                                     txtQuarantine.Text = ""
                                     txtQuarantineDate.Text = Now.AddYears(-1000).ToShortDateString().Split(" ")(0).ToString()
 
-                                    GetDataOver500()
+                                    'GetDataOver500()
 
 #Region "Set the authorization data entry fields"
 
@@ -7047,6 +7227,23 @@ Public Class CustomerClaims
 #End Region
 
 #Region "Auxiliar Methods"
+
+    Public Function GetUserEmailByUserId(userid As String, Optional ByRef username As String = Nothing) As String
+        Dim strLdap = "costex.com"
+        Dim userEmail As String = Nothing
+        Try
+            Using pc As PrincipalContext = New PrincipalContext(ContextType.Domain, strLdap)
+                Dim yourUser As UserPrincipal = UserPrincipal.FindByIdentity(pc, userid)
+                If yourUser IsNot Nothing Then
+                    userEmail = yourUser.EmailAddress.Trim().ToLower()
+                    username = yourUser.Name.ToString()
+                End If
+            End Using
+            Return userEmail
+        Catch ex As Exception
+            Return userEmail
+        End Try
+    End Function
 
     Public Function GetDoubleValueByString(str As String) As Double
         Dim dbValue As Double = 0
@@ -7825,7 +8022,7 @@ Public Class CustomerClaims
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
             ''test purpose
-            Session("userid") = "GMARTOS"
+            'Session("userid") = "GMARTOS"
             ''test purpose
             Session("fullObj") = Nothing
             Session("isDDL") = False
@@ -8708,6 +8905,17 @@ Public Class CustomerClaims
                                         txtWaitSupReview.Enabled = False
                                         txtWaitSupReviewDate.Enabled = False
                                         lnkWaitSupReview.Enabled = False
+
+                                        setInternalStatus(intStatus)
+                                    Case "R"
+                                        chkClaimCompleted.Checked = True
+                                        txtClaimCompleted.Text = dw.Item("INUSER").ToString().Trim().ToUpper()
+                                        BuildDates(dw.Item("INCLDT").ToString().Trim(), strDateOut)
+                                        txtClaimCompletedDate.Text = strDateOut
+
+                                        chkClaimCompleted.Enabled = False
+                                        txtClaimCompleted.Enabled = False
+                                        txtClaimCompletedDate.Enabled = False
 
                                         setInternalStatus(intStatus)
                                     Case "K"
