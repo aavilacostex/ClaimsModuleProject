@@ -554,6 +554,30 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+    Public Function GetIfAtuhStatusExist(wrno As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetIfAtuhStatusExist(wrno, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetProjectGenData(wrno As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetProjectGenData(wrno, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function GetIfIntStatusExist(wrno As String, status As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1

@@ -1,5 +1,6 @@
 ﻿Imports System.Configuration
 Imports System.Globalization
+Imports System.Text.RegularExpressions
 Imports ClaimsProject.DTO
 Imports ClaimsProject.UTIL
 
@@ -71,8 +72,8 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "select distinct A2.CWCDTX, A1.CWCHCO, A2.CWCHCO from qs36f.CLMWCH A1 inner join qs36f.CLMWCD A2 on A1.CWWRNO = A2.CWWRNO where  A1.CWWRNO = " + value + "
-                    order by A1.CWCHCO desc, A2.CWCHCO desc fetch first 1 row only"
+            Sql = "select distinct A2.CWCDTX, A1.CWCHCO, A2.CWCHCO, A2.cwcdco, A1.CWCHDA,A1.CWCHTI from qs36f.CLMWCH A1 inner join qs36f.CLMWCD A2 on A1.CWWRNO = A2.CWWRNO 
+                    where  A1.CWWRNO = " + value + " order by A1.CWCHCO desc, A2.CWCHCO desc, A1.CWCHTI desc, A1.CWCHDA desc, A2.cwcdco desc fetch first 1 row only"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1225,6 +1226,21 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+    Public Function GetIfAtuhStatusExist(wrno As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Dim sql = "select inover$, inovremlst from qs36f.clmintsts where inclno = " & wrno & "  and trim(instat) = 'B'"
+            result = objDatos.GetDataFromDatabase(sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function GetIfIntStatusExist(wrno As String, status As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         dsResult.Locale = CultureInfo.InvariantCulture
@@ -1233,7 +1249,22 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             Dim sql = "select * from qs36f.clmintsts where inclno = " & wrno & "  and trim(instat) = '" & status & "'"
-            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            result = objDatos.GetDataFromDatabase(sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetProjectGenData(wrno As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Dim sql = "select instat,inover$, inovremlst, intapprv from qs36f.CLMINTSTS where trim(inclno) = '" + wrno + "' and trim(instat) in ('I','B')"
+            result = objDatos.GetDataFromDatabase(sql, dsResult, dt)
             Return result
         Catch ex As Exception
             Return result
@@ -1374,10 +1405,13 @@ Public Class ClaimsProject : Implements IDisposable
     Public Function InsertCommentDetail(code As String, codComm As String, detComm As String, message As String) As Integer
         Dim Sql As String
         Dim affectedRows As Integer = -1
+        Dim maxLength As Integer = 250
         Try
             Dim objDatos = New ClsRPGClientHelper()
+            Dim messageFix = If(String.IsNullOrEmpty(message), message, If(message.Length < maxLength, message, message.Substring(0, Math.Min(message.Length, maxLength))))
+            Dim OutReg = Regex.Replace(messageFix, "[^0-9A-Za-z .,]", String.Empty)
             'type user = 'I'
-            Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & message & "')"
+            Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & OutReg & "')"
             objDatos.InsertDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
@@ -1388,10 +1422,14 @@ Public Class ClaimsProject : Implements IDisposable
     Public Function InsertCommentDetailwPart(code As String, codComm As String, detComm As String, message As String, partNo As String) As Integer
         Dim Sql As String
         Dim affectedRows As Integer = -1
+        Dim maxLength As Integer = 250
         Try
             Dim objDatos = New ClsRPGClientHelper()
+            Dim messageFix = If(String.IsNullOrEmpty(message), message, If(message.Length < maxLength, message, message.Substring(0, Math.Min(message.Length, maxLength))))
+            Dim OutReg = Regex.Replace(messageFix, "[^0-9A-Za-z .,]", String.Empty)
+
             'type user = 'I'
-            Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX,CWPTNO) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & message & "','" & partNo & "')"
+            Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX,CWPTNO) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & OutReg & "','" & partNo & "')"
             objDatos.InsertDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception

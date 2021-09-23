@@ -83,6 +83,7 @@
     <Compile Include="ClaimTotalValues.vb" />
     <Compile Include="DetaisHeader.vb" />
     <Compile Include="ExternalStatus.vb" />
+    <Compile Include="FinalClaimObj.vb" />
     <Compile Include="InfoEngine.vb" />
     <Compile Include="InfoEquipment.vb" />
     <Compile Include="InternalStatus.vb" />

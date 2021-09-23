@@ -912,10 +912,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     text-align: center !important;
 }
 
+.innerGrv {
+    max-width: 95% !important;
+}
+
 #MainContent_grvSeeComm td, #MainContent_grvSeeComm th, #MainContent_grvSeeVndComm td, #MainContent_grvSeeVndComm th {
     text-align: center !important;
     padding: 3px !important;
     font-size: 12px !important;
+    word-break: break-word;
 }
 
 .disableCtr {

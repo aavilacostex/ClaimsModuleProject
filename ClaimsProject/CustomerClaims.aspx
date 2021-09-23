@@ -1932,7 +1932,7 @@
                                                                                 <tr>
                                                                                     <td colspan="100%" class="padding0">
                                                                                         <div id="div<%# Eval("CWCHCO") %>" class="divCustomClass">
-                                                                                            <asp:GridView ID="grvSeeCommDet" runat="server" AutoGenerateColumns="false" GridLines="None">
+                                                                                            <asp:GridView ID="grvSeeCommDet" runat="server" CssClass="innerGrv" AutoGenerateColumns="false" GridLines="None">
                                                                                                 <Columns>
                                                                                                     <asp:BoundField DataField="CWCHCO" HeaderText="ID" ItemStyle-Width="5%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
                                                                                                     <asp:BoundField DataField="CWCDTX" HeaderText="COMMENT" ItemStyle-Width="5%" ItemStyle-CssClass="centered" />
@@ -2484,7 +2484,7 @@
         }
 
         $('body').on('click', '.nav > li > a', function (e) {
-            debugger
+            //debugger
 
             var data = $(this).attr("href");
             $('#<%=hdCurrentActiveTab.ClientID%>').val(data);
@@ -2692,7 +2692,7 @@
         }
 
         function disableCustomInput() {
-            debugger 
+            //debugger 
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
 
@@ -2756,10 +2756,16 @@
 
             tCustStat.style.minHeight = a1 > 0 ? (tCustStat.scrollHeight) + "px" : ((tCustStat.scrollHeight) + 10) + "px";
             tPartDesc.style.minHeight = a2 > 0 ? (tPartDesc.scrollHeight) + "px" : ((tPartDesc.scrollHeight) + 10) + "px";
-            tMess.style.minHeight = a3 > 0 ? (tMess.scrollHeight) + "px" : ((tMess.scrollHeight) + 10) + "px";
+            tMess.style.minHeight = a3 > 0 ? ((tMess.scrollHeight) + 50) + "px" : ((tMess.scrollHeight) + 60) + "px";
             tMessVnd.style.minHeight = a4 > 0 ? (tMessVnd.scrollHeight) + "px" : ((tMessVnd.scrollHeight) + 10) + "px";
 
-            $('#MainContent_navsSection').find('textarea').attr('disabled', true);
+
+            var pp = $('<%=txtMessage.ClientID%>').val();
+            
+
+            //$('#MainContent_navsSection').find('textarea').attr('disabled', true);
+            $('<%=txtMessage.ClientID%>').attr('disabled', false);
+            $('<%=txtVndMessage.ClientID%>').attr('disabled', false);
 
         }
 
@@ -2778,7 +2784,7 @@
         }
 
         function processDDLSelection(filter) {
-            debugger
+            //debugger
 
             if (filter == "MainContent_ddlSearchReason") {
                 var hdRe = document.getElementById('<%=hdReason.ClientID%>').value;
@@ -3253,7 +3259,7 @@
 
         $(function () {
 
-            debugger
+            //debugger
 
             console.log("BeginFunction");            
 
@@ -3575,7 +3581,7 @@
         }
 
         function pageLoad(event, args) {
-            debugger
+           // debugger
           
             console.log("BeginPageLoad");
 
@@ -3871,7 +3877,7 @@
         }
 
         function EnableAuthRequestChk() {
-            debugger
+            //debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -4044,7 +4050,7 @@
             }
 
             if ($('#<%=chkApproved.ClientID %>').is(':checked')) {
-                debugger
+                //debugger
 
                 var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
 
@@ -4066,7 +4072,7 @@
             }
 
             if ($('#<%=chkDeclined.ClientID %>').is(':checked')) {
-                debugger
+                //debugger
 
                 var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
 
