@@ -770,6 +770,7 @@
 
                     <asp:HiddenField ID="hdCurrentActiveTab" Value="" runat="server" />
                     <asp:hiddenField ID="hdSeq" runat="server"></asp:hiddenField>
+                    <asp:hiddenField ID="hdClNo" runat="server"></asp:hiddenField>
                     <asp:HiddenField ID="hdlastComment" Value="" runat="server" />
                     <asp:HiddenField ID="chkinitial" Value="" runat="server" />
                     <asp:HiddenField ID="hdWkStatOne" Value="" runat="server" />
@@ -800,6 +801,8 @@
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
+
+                    <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
 
                 </div>
             </div>            
@@ -2670,6 +2673,40 @@
 
         //General Methods Begin
 
+        function contentVisual() {
+            debugger
+
+            var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
+            if (hdGridVisualization == "1") {
+                $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+            }
+            else {
+                $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                $("#MainContent_navsSection").removeAttr("style");
+            }
+
+            var hdTabsVisualization = document.getElementById('<%=hdNavTabsContent.ClientID%>').value
+            if (hdTabsVisualization == "1") {
+                $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_navsSection").removeAttr("style");
+                $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+            }
+            else {
+                $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+            }
+
+            var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
+            if (hdForceLoad == "1") {
+                JSFunction();
+            }
+
+        }
+
         function fixVisibilityColumns() {
             //debugger
 
@@ -2736,7 +2773,7 @@
         }
 
         function expandMultilineTxt() {
-            debugger 
+            //debugger 
 
             var tCustStat = document.getElementById('<%=txtCustStatement.ClientID%>');
             var tPartDesc = document.getElementById('<%=txtPartDesc.ClientID%>');
@@ -2920,9 +2957,9 @@
         $('body').on('click', '#MainContent_btnAddFiles', function (e) {
             //debugger
 
-            //var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-            //if (hdFile == "0") { $('#<%=hdAddClaimFile.ClientID %>').val("1"); }
-            //else { $('#<%=hdAddClaimFile.ClientID %>').val("0"); }
+            var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
+            if (hdFile == "0") { $('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            else { $('#<%=hdAddClaimFile.ClientID %>').val("0"); }
         });
 
         $('body').on('click', '#MainContent_btnImportExcel', function (e) {
@@ -3174,7 +3211,7 @@
         //Autocomplete Method Begin
 
         function claimNoAutoComplete() {
-            debugger
+            //debugger
 
             $(".autosuggestclaim").autocomplete({
                 source: function (request, response) {
@@ -3582,7 +3619,7 @@
         }
 
         function pageLoad(event, args) {
-           // debugger
+            debugger
           
             console.log("BeginPageLoad");
 
@@ -3662,92 +3699,12 @@
                     $('#MainContent_rwCloseClaim').addClass('hideProp');
                 }
 
-                var hd = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
-                var hd1 = document.getElementById('<%=hdTriggeredControl.ClientID%>').value;
-                var hd2 = document.getElementById('<%=hdLaunchControl.ClientID%>').value;
-
-                var iAccess = $("#div" + hd1);
-                var iContainer = $("#" + hd2);                
-
-                var iValue = iContainer.children(0).children(0)     
-                //var iClass = iValue.attr('class');
-                var iClass = document.getElementById('<%=hdSelectedClass.ClientID%>').value;
-                var iCurrentClass = iValue.attr('class');
-                                
-                if (iClass == "fa fa-plus") {
-
-                    //var ok1 = iAccess.attr('class');
-                    //var iClass1 = iValue.attr('class');
-
-                    if (iAccess.attr('class') != "divCustomClassOk") {
-                        iAccess.toggleClass('divCustomClass divCustomClassOk');
-                    }
-
-                    if (iClass != "fa fa-minus" && iCurrentClass == iClass) {
-                        iValue.toggleClass('fa-plus fa-minus');
-                    }
-                    
-                    iAccess.closest('td').removeClass('padding0');
-
-                    //iAccess.removeClass('divCustomClass');
-                    //iAccess.addClass('divCustomClassOk');
-
-                    //iValue.addClass('fa').removeClass('fa');
-                    //iValue.addClass('fa-minus').removeClass('fa-plus');
-                    //iValue.toggleClass('fa-plus fa-minus');//.removeClass('fa fa-plus');
-
-                    //$('#MainContent_loadFileSection').closest('.container').removeClass('hideProp')
-                }
-                else {
-
-                    //var ok2 = iAccess.attr('class');
-                    //var iClass = iValue.attr('class');
-
-                    if (iAccess.attr('class') != "divCustomClass") {
-                        iAccess.toggleClass('divCustomClassOk divCustomClass');
-                    }
-
-                    if (iClass != "fa fa-plus" && iCurrentClass == iClass) {
-                        iValue.toggleClass('fa-minus fa-plus');
-                    }
-                    
-                    iAccess.closest('td').addClass('padding0');
-
-                    //iAccess.removeClass('divCustomClassOk');
-                    //iAccess.addClass('divCustomClass');
-
-                    //iValue.addClass('fa').removeClass('fa');
-                    //iValue.addClass('fa-plus').removeClass('fa-minus');
-                    //iValue.toggleClass('fa-minus fa-plus');//.removeClass('fa fa-minus');
-                }
-
-
+                var hd = document.getElementById('<%=hdLinkExpand.ClientID%>').value;  
                 $('#<%=hdLinkExpand.ClientID %>').val("0"); 
 
+                setClassFA();
 
-                var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
-                if (hdGridVisualization == "1") {
-                    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
-                }
-                else {
-                    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
-                    $("#MainContent_navsSection").removeAttr("style");
-                }
-
-                var hdTabsVisualization = document.getElementById('<%=hdNavTabsContent.ClientID%>').value
-                if (hdTabsVisualization == "1") {
-                    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
-                    $("#MainContent_navsSection").removeAttr("style");
-                    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
-                }
-                else {
-                    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
-                    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
-                    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
-                }
+                contentVisual();
 
                 fixVisibilityColumns();
 
@@ -3818,43 +3775,8 @@
             setHeight($('#MainContent_txtCustStatement'));
             
             var hdFil = document.getElementById('<%=selectedFilter.ClientID%>').value;
-            //processDDLSelection(hdFil)
-
-            //$('#MainContent_txtDateTo').datepicker(
-            //    {
-            //        dateFormat: 'MM/dd/yyyy',
-            //        changeMonth: true,
-            //        changeYear: true,
-            //        yearRange: '1950:2100'
-            //    });
-
-            //$('#MainContent_txtDateInit').datepicker(
-            //    {
-            //        dateFormat: 'MM/dd/yyyy',
-            //        changeMonth: true,
-            //        changeYear: true,
-            //        yearRange: '1950:2100'
-            //    });
-
-            $.datepicker.setDefaults($.datepicker.regional['en']);
-
-            <%--$("#<%= txtDateTo.ClientID %>").datepicker({
-                dateFormat: 'mm/dd/yy',
-                autoClose: true
-                //,
-                //onSelect: function () {
-                //    selectedDate = $.datepicker.formatDate("yyyy/mm/dd", $(this).datepicker());
-                //}
-            });
-
-            $("#<%= txtDateInit.ClientID %>").datepicker({
-                dateFormat: 'mm/dd/yy',
-                autoclose: true
-                //,
-                //onSelect: function () {
-                //    selectedDate = $.datepicker.formatDate("yyyy/mm/dd", $(this).datepicker());
-                //}
-            });--%>
+            //processDDLSelection(hdFil)            
+            $.datepicker.setDefaults($.datepicker.regional['en']);            
 
             rangePicker1();
 
@@ -3870,9 +3792,15 @@
 
             EnableAuthRequestChk()
 
+            //setClassFA();
+
+            contentVisual();
+
             expandMultilineTxt() //page load outer
 
             disableCustomInput();
+
+            //__doPostBack()
 
             console.log("EndPageLoad");
         }
@@ -3937,6 +3865,68 @@
                 $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");--%>
 
             }
+        }
+
+        function setClassFA() {
+
+            var hd1 = document.getElementById('<%=hdTriggeredControl.ClientID%>').value;
+            var hd2 = document.getElementById('<%=hdLaunchControl.ClientID%>').value;
+
+                var iAccess = $("#div" + hd1);
+                var iContainer = $("#" + hd2);                
+
+                var iValue = iContainer.children(0).children(0)     
+                //var iClass = iValue.attr('class');
+            var iClass = document.getElementById('<%=hdSelectedClass.ClientID%>').value;
+            var iCurrentClass = iValue.attr('class');
+
+            if (iClass == "fa fa-plus") {
+
+                //var ok1 = iAccess.attr('class');
+                //var iClass1 = iValue.attr('class');
+
+                if (iAccess.attr('class') != "divCustomClassOk") {
+                    iAccess.toggleClass('divCustomClass divCustomClassOk');
+                }
+
+                if (iClass != "fa fa-minus" && iCurrentClass == iClass) {
+                    iValue.toggleClass('fa-plus fa-minus');
+                }
+
+                iAccess.closest('td').removeClass('padding0');
+
+                //iAccess.removeClass('divCustomClass');
+                //iAccess.addClass('divCustomClassOk');
+
+                //iValue.addClass('fa').removeClass('fa');
+                //iValue.addClass('fa-minus').removeClass('fa-plus');
+                //iValue.toggleClass('fa-plus fa-minus');//.removeClass('fa fa-plus');
+
+                //$('#MainContent_loadFileSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+
+                //var ok2 = iAccess.attr('class');
+                //var iClass = iValue.attr('class');
+
+                if (iAccess.attr('class') != "divCustomClass") {
+                    iAccess.toggleClass('divCustomClassOk divCustomClass');
+                }
+
+                if (iClass != "fa fa-plus" && iCurrentClass == iClass) {
+                    iValue.toggleClass('fa-minus fa-plus');
+                }
+
+                iAccess.closest('td').addClass('padding0');
+
+                //iAccess.removeClass('divCustomClassOk');
+                //iAccess.addClass('divCustomClass');
+
+                //iValue.addClass('fa').removeClass('fa');
+                //iValue.addClass('fa-plus').removeClass('fa-minus');
+                //iValue.toggleClass('fa-minus fa-plus');//.removeClass('fa fa-minus');
+            }
+
         }
 
         function setTabsClaimNo() {

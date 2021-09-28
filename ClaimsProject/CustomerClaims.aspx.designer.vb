@@ -887,6 +887,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdSeq As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdClNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdClNo As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdlastComment control.
     '''</summary>
     '''<remarks>
@@ -1101,6 +1110,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents IsFullUser As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdLoadAllData control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdLoadAllData As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''addProdDev control.

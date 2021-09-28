@@ -65,7 +65,9 @@ Public Class CustomerClaims
                 'validate the criteria for add external status to search
 
                 ' getClaimNumbers("130644", Today.AddYears(-2))
+
             Else
+
                 Dim controlName As String = Page.Request.Params("__EVENTTARGET")
                 GetDDLValidation(controlName)
 
@@ -80,6 +82,11 @@ Public Class CustomerClaims
                 LoadDropDownLists(ddlVndNo)
                 LoadDropDownLists(ddlLocat)
                 LoadDropDownLists(ddlLocation)
+
+                If hdLoadAllData.Value.Equals("1") Then
+                    fillClaimData("C", hdClNo.Value.Trim())
+                    hdLoadAllData.Value = "0"
+                End If
 
 
                 If hdDisplaySeeVndClaim.Value <> "0" Then
@@ -632,6 +639,7 @@ Public Class CustomerClaims
                 'Dim val3 = ddlClaimType.SelectedItem.Value
                 'Dim val4 = ddlClaimType.SelectedIndex
 
+                hdClNo.Value = claimNo.Trim()
                 fillClaimData("C", claimNo)
                 hdGetCommentTab.Value = "1"
                 SeeCommentsMethod()
@@ -1596,6 +1604,10 @@ Public Class CustomerClaims
         Dim strResult As String = Nothing
         Try
             AddFiles()
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+            hdAddClaimFile.Value = "0"
+            hdLoadAllData.Value = "1"
 
             'Dim dtExcel = GetDataTableFromExcel(fuOPenEx)
             'If dtExcel IsNot Nothing Then
@@ -2921,7 +2933,8 @@ Public Class CustomerClaims
 
     Protected Sub btnAddFiles_Click(sender As Object, e As EventArgs) Handles btnAddFiles.Click
         Try
-            SeeFiles()
+            'SeeFiles()
+            'AddFiles()
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try

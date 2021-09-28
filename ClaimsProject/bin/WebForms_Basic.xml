@@ -910,6 +910,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._hdClNo">
+<summary>
+hdClNo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._hdlastComment">
 <summary>
 hdlastComment control.
@@ -1120,6 +1129,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._IsFullUser">
 <summary>
 IsFullUser control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._hdLoadAllData">
+<summary>
+hdLoadAllData control.
 </summary>
 <remarks>
 Auto-generated field.
