@@ -40,7 +40,7 @@
                                     <div class="col-md-11">
                                         <div class="bread-crumb-inner">
                                             <div class="breadcrumb-area page-list">
-                                                <div class="row">
+                                                <div class="row" style="padding: 20px 0;">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-7 link">
                                                         <i class="fa fa-map-marker"></i>
@@ -58,7 +58,7 @@
                         <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
+                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded hideProp" runat="server">
                                                             <i class="fa fa-plus fa-1x"" aria-hidden="true"> </i> Get Template
                                     </asp:LinkButton>
                                 </div>
@@ -76,7 +76,7 @@
             <div id="integratedRow" class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
-                        <div id="rowPageSize" class="row">
+                        <div id="rowPageSize" class="row hideProp">
                             <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed">
                                 <asp:Label ID="lblText1" Text="Show " runat="server"></asp:Label>
                             </div>
@@ -92,19 +92,19 @@
                         <div id="rowBtnOpt" class="row">
                             <div class="col-xs-12 col-sm-3"></div>
                             <div class="col-xs-12 col-sm-2 flex-item-1 padd-fixed">
-                                <asp:Button ID="btnExcel" class="btn btn-primary btn-lg float-right btnFullSize" runat="server" Text="Excel" />
+                                <asp:Button ID="btnExcel" class="btn btn-primary btn-lg float-right btnFullSize hideProp" runat="server" Text="Excel" />
                             </div>
                             <div class="col-xs-12 col-sm-2 flex-item-2 padd-fixed">
-                                <asp:Button ID="btnPdf" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Pdf" />
+                                <asp:Button ID="btnPdf" class="btn btn-primary btn-lg btnFullSize hideProp" runat="server" Text="Pdf" />
                             </div>
                             <div class="col-xs-12 col-sm-2 flex-item-3 padd-fixed">
-                                <asp:Button ID="btnCopy" class="btn btn-primary btn-lg btnFullSize" runat="server" Text="Copy" />
+                                <asp:Button ID="btnCopy" class="btn btn-primary btn-lg btnFullSize hideProp" runat="server" Text="Copy" />
                             </div>
                             <div class="col-xs-12 col-sm-3"></div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div id="rowBtnSearch" class="row">
+                        <div id="rowBtnSearch" class="row hideProp">
                             <div class="col-xs-12 col-sm-3 flex-item-1 padd-fixed" style="float: right;">
                                 <asp:Label ID="lblSearch" Text="Search: " runat="server" Height="27px"></asp:Label>
                             </div>
@@ -232,7 +232,7 @@
                                                         <div id="rowClaimNo" class="rowClaimNo">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">   
                                                                 <div class="input-group-append">
-                                                                    <asp:TextBox ID="txtClaimNo" name="txt-claimNo" placeholder="Claim Number" class="form-control autosuggestclaim" runat="server"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtClaimNo" name="txt-claimNo" placeholder="Claim Number" class="form-control" runat="server"></asp:TextBox>
                                                                     <span class="input-group-addon"><i class="fa fa-hashtag center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
@@ -243,7 +243,7 @@
                                                         <div id="rowPartNo" class="rowPartNo">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">                                                            
                                                                 <div class="input-group-append">
-                                                                    <asp:TextBox ID="txtPartNo" name="txt-partNo" placeholder="Part Number"  class="form-control autosuggestpart" runat="server"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtPartNo" name="txt-partNo" placeholder="Part Number"  class="form-control" runat="server"></asp:TextBox>
                                                                      <span class="input-group-addon"><i class="fa fa-cogs center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -331,7 +331,7 @@
                                                         <div id="rowCustomer" class="rowCustomer">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:TextBox ID="txtCustomer" name="txt-Customer" placeholder="Customer No." class="form-control autosuggestcustomer" runat="server"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtCustomer" name="txt-Customer" placeholder="Customer No." class="form-control" runat="server"></asp:TextBox>
                                                                     <span class="input-group-addon"><i class="fa fa-address-card center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -3174,13 +3174,14 @@
         //Autocomplete Method Begin
 
         function claimNoAutoComplete() {
+            debugger
 
             $(".autosuggestclaim").autocomplete({
                 source: function (request, response) {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json;charset=utf-8",
-                        url: "Default.aspx/GetAutoCompleteDataClaimNo",
+                        url: "CustomerClaims.aspx/GetAutoCompleteDataClaimNo",
                         data: "{'prefixText':'" + document.getElementById("<%=txtClaimNo.ClientID %>").value + "'}",
                         dataType: "json",
                         autoFocus: true,

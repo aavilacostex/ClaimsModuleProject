@@ -15,10 +15,11 @@
             <%--<asp:AsyncPostBackTrigger ControlID ="ddlSearchIntStatus" /> 
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchUser" /> --%>
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
+            <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
         </Triggers>
 
-        <ContentTemplate>
+        <ContentTemplate>            
 
             <div class="row">
                 <div class="col-md-9"></div>
@@ -331,7 +332,7 @@
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtCustomer" name="txt-Customer" placeholder="Customer No." class="form-control autosuggestcustomer" runat="server"></asp:TextBox>
-                                                                    <span class="input-group-addon"><i class="fa fa-user-tie center-vert font-awesome-custom"></i></span>
+                                                                    <span class="input-group-addon"><i class="fa fa-address-card center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
                                                             </div>
@@ -365,7 +366,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="SixRow">
+                                    <div id="SixRow" style="padding: 5px 0 !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -473,7 +474,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="SecondRowAdd">
+                                    <div id="SecondRowAdd" style="display: none !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -496,7 +497,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="ThirdRowAdd">
+                                    <div id="ThirdRowAdd" style="display: none !important;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
@@ -508,6 +509,50 @@
                                                                 <div class="input-group-append">
                                                                     <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="SixRowAdd">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+
+                                                    <div class="col-md-12">
+                                                        <!--search by Diagnose-->
+                                                        <div id="rowVendor">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlVndNo" name="sel-vndassigned" placeholder="Vendor no." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlVndNo_SelectedIndexChanged" title="Search by Vendor Number." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-user-tie center-vert font-awesome-custom"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="SevenRowAdd">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+
+                                                    <div class="col-md-12">
+                                                        <!--search by Diagnose-->
+                                                        <div id="rowLocat">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">
+                                                                <div class="input-group-append">
+                                                                    <asp:DropDownList ID="ddlLocat" name="sel-vndassigned" placeholder="Vendor no." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlLocat_SelectedIndexChanged" title="Search by Location." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <span class="input-group-addon"><i class="fa fa-map-marked-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -731,6 +776,7 @@
                     <asp:HiddenField ID="hdWkStatTwo" Value="" runat="server" />
 
                     <asp:HiddenField ID="hdSelectedDiagnose" Value="0" runat="server" />
+                    <asp:HiddenField ID="hdSelectedDiagnoseIndex" Value="0" runat="server" />
                     <asp:HiddenField ID="hdLocationSelected" Value="0" runat="server" />
 
                     <asp:HiddenField ID="hdVendorClaimNo" Value="" runat="server" />
@@ -746,6 +792,14 @@
                     <asp:HiddenField ID="hdShowCloseBtn" Value="0" runat="server" />
 
                     <asp:HiddenField id="hdWelcomeMess" Value="" runat="server" />
+                    <asp:HiddenField id="hdVendorNo" Value="" runat="server" />
+                    <asp:HiddenField id="hdLocatNo" Value="" runat="server" />
+                    <asp:HiddenField id="hdLocatIndex" Value="" runat="server" />
+                    <asp:HiddenField id="hdClaimNumber" Value="" runat="server" />
+                    <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
+
+                    <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
+                    <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
                 </div>
             </div>            
@@ -957,6 +1011,16 @@
             <%--<Atk:ModalPopupExtender ID="mdClaimDetailsExp" runat="server" PopupControlID="navsSection" Enabled ="True" TargetControlID="hdModalExtender" CancelControlID="btnClose"  ></Atk:ModalPopupExtender>
              <asp:HiddenField ID="hdModalExtender" Value="" runat="server" />--%>
 
+            <div id="claimQuickOverview" class="container hideProp" runat="server">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10 alert alert-success">
+                        <asp:Label id="lblClaimQuickOverview" Text="" runat="server" ></asp:Label>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>                
+            </div>
+
             <div id="navsSection" class="container hideProp" runat="server">
                 <div class="row">
                     <!-- Tab links -->
@@ -966,15 +1030,15 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">defective part information</a>
+                        </li>                        
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
                         </li>
                     </ul>
 
@@ -983,7 +1047,7 @@
 
                         <div class="tab-pane active" id="claimoverview">
                             <div class="col-md-12">
-                                <h3><asp:Label ID="lblFirstTabDesc" Text="CLAIM NO. " runat="server"></asp:Label></h3>
+                                <h3><asp:Label ID="lblFirstTabDesc" Text="" runat="server"></asp:Label></h3>
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -1204,7 +1268,7 @@
                         </div>
                         <div class="tab-pane" id="partinfo">
                             <div class="col-md-12">
-                                <h3><asp:Label ID="lblSecondTabDesc" Text="CLAIM NO. " runat="server"></asp:Label></h3>
+                                <h3><asp:Label ID="lblSecondTabDesc" Text="" runat="server"></asp:Label></h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <asp:Panel ID="pnClaimsDept" GroupingText="Claims Department" runat="server">
@@ -1229,7 +1293,10 @@
 
                                             <div class="form-row">
                                                 <div class="col-md-12">
-                                                    <asp:Label ID="lblDiagnose" Text="Diagnose" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:Label ID="lblDiagnose" Text="Diagnose" CssClass="control-label" runat="server"></asp:Label>                                                    
+                                                    <asp:LinkButton ID="lnkDiagnose" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
                                                     <div class="form-row">                                                        
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtDiagnoseData" CssClass="form-control" runat="server" />                                                            
@@ -1272,11 +1339,11 @@
                                             
                                             <div class="form-row">
                                                 <div class="col-md-6">
-                                                    <asp:Label ID="lblInvoiceNo1" Text="Invoice No." CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:Label ID="lblInvoiceNo1" Text="Supplier Invoice No." CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtInvoiceNo1" CssClass="form-control" runat="server"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:Label ID="lblInvoiceDate1" Text="Invoice Date" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:Label ID="lblInvoiceDate1" Text="Supplier Invoice Date" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtInvoiceDate1" CssClass="form-control" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>
@@ -1296,58 +1363,6 @@
 
                                         <br />
 
-                                        <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
-
-                                            <div class="form-row last">
-                                                <div class="col-md-8">
-                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled"  runat="server">
-                                                        <ItemTemplate>                                                                                                                       
-                                                            <a id="alink" href='<%# Container.DataItem %>' target="_blank"  runat="server">
-                                                                <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
-                                                            </a>
-                                                        </ItemTemplate>
-                                                    </asp:DataList>
-                                                    <%--<asp:Image ID="imgPart" runat="server"/>--%>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <asp:TextBox ID="txtPartDesc" Text="" TextMode="MultiLine" Enabled="false" runat="server"></asp:TextBox>
-                                                </div>
-                                            </div>
-
-                                        </asp:Panel>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <asp:Panel ID="pnSalesDept" GroupingText="Sales Department" runat="server">
-
-                                            <div class="form-row">
-                                                <div class="col-md-12">
-                                                    <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkClaimAuth" runat="server" />
-                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
-                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
-                                                    </asp:LinkButton>
-                                                    <div class="form-row">                                                       
-                                                        <div class="col-md-6">
-                                                            <asp:TextBox ID="txtClaimAuth" CssClass="form-control" runat="server" />                                                            
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <asp:TextBox ID="txtClaimAuthDate" CssClass="form-control" runat="server" />  
-                                                        </div>
-                                                    </div>                                                    
-                                                </div>                                                
-                                            </div>
-
-                                            <div class="form-row last">
-                                                <div class="col-md-12">
-                                                    <asp:Label ID="lblAmountApproved" Text="Claim amount approved by sales on top of Claims Approval" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtAmountApproved" CssClass="form-control" runat="server"></asp:TextBox>
-                                                </div>
-                                            </div>
-
-                                        </asp:Panel>
-
-                                        <br />
-
                                         <asp:Panel ID="pnRestock" GroupingText="Re-Stock Actions" runat="server">
 
                                             <div class="form-row last">
@@ -1360,13 +1375,37 @@
                                             </div>
 
                                         </asp:Panel>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
+
+                                            <div class="form-row last">
+                                                <div class="col-md-8">
+                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
+                                                        <ItemTemplate>
+                                                            <a id="alink" href='<%# Container.DataItem %>' target="_blank" runat="server">
+                                                                <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
+                                                            </a>
+                                                        </ItemTemplate>
+                                                    </asp:DataList>
+                                                    <%--<asp:Image ID="imgPart" runat="server"/>--%>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <asp:TextBox ID="txtPartDesc" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                </div>
+                                            </div>
+
+                                        </asp:Panel>
+
                                     </div>
                                 </div>                                
                             </div>                            
                         </div>
                         <div class="tab-pane" id="claimstatus">
                             <div class="col-md-12">
-                                <h3><asp:Label ID="lblThirdTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>
+                                <h3><asp:Label ID="lblThirdTabDesc" Text="" runat="server"></asp:Label></h3>
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-6 margin0">
@@ -1508,8 +1547,8 @@
                                             <div class="form-row last">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblClaimCompleted" Text="Claim Completed" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkClaimCompleted" runat="server" />
-                                                    <asp:LinkButton ID="lnkClaimCompleted" class="btn btn-primary btnSmallSize" runat="server">
+                                                    <asp:CheckBox ID="chkClaimCompleted" CssClass="hideProp" runat="server" />
+                                                    <asp:LinkButton ID="lnkClaimCompleted" class="btn btn-primary btnSmallSize hideProp" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
                                                     <div class="form-row">                                                       
@@ -1555,143 +1594,11 @@
                                 <br />                                
                             </div>                            
                         </div>
-                        <div class="tab-pane" id="claimcredit">
-                            <!-- Tab Description text -->  
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6 margin0">
-                                <h3><asp:Label ID="lblFiveTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>    
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <asp:Panel ID="pnTotals" GroupingText="Totals" runat="server">
-
-                                            <asp:Panel ID="pnSubTotalClaimed" GroupingText="claim value" runat="server">
-                                                <div class="form-row last paddingtop8">
-                                                    <div class="col-md-12">
-                                                        <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
-                                                        <div class="form-row paddingtop8">
-                                                            <div class="col-md-3"></div>
-                                                            <div class="col-md-3">
-                                                                <asp:Label ID="lblParts" CssClass="control-label" Text="Unit Cost Value" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <asp:TextBox ID="txtParts" CssClass="form-control" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-3"></div>
-                                                            <div class="col-md-2 hideProp">
-                                                                <asp:Label ID="lblFreight" CssClass="control-label" Text="Freight" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-4 hideProp">
-                                                                <asp:TextBox ID="txtFreight" CssClass="form-control" runat="server" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </asp:Panel>
-
-                                            <br />
-
-                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequental Damage" runat="server">
-                                                <div class="form-row paddingtop8">
-                                                    <div class="col-md-12">
-                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
-                                                        <asp:Label ID="lblConsDamage" Text="Consequental damage, if any." CssClass="control-label" runat="server"></asp:Label>
-                                                        <%--<asp:TextBox ID="txtConsDamage" CssClass="form-control" runat="server"></asp:TextBox>--%>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row paddingtop8">
-                                                    <div class="col-md-3">
-                                                        <asp:Label ID="lblCDLabor" Text="Labor Cost" CssClass="control-label" runat="server"> </asp:Label>
-                                                        <asp:TextBox ID="txtCDLabor" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled"  runat="server"></asp:TextBox>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <asp:Label ID="lblCDPart" Text="Part Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDPart" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <asp:Label ID="lblCDFreight" Text="Freight Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDFreight" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <asp:Label ID="lblCDMisc" Text="Misc Cost" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtCDMisc" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
-                                                    </div>
-                                                </div> 
-                                                <div class="form-row paddingtop8">
-                                                    <div class="col-md-12">
-                                                        <asp:Label ID="Label3" Text="Total Cons. Damage Value" CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="txtConsDamageTotal" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState ="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row last">
-                                                    <div class="col-md-6">
-                                                        
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <asp:Button ID="btnGetTotalCDValue" Text="Calculate Cons. Damage" CssClass="btn btn-primary btnAdjustSize float-right" OnClick="btnGetTotalCDValue_Click" runat="server" />
-                                                    </div>
-                                                </div>
-                                            </asp:Panel>
-
-                                            <br />
-
-                                            <asp:Panel ID="pnPartialCredit" GroupingText="Partial Credit"  runat="server">
-                                                <div class="form-row last paddingtop8">
-                                                    <div class="col-md-12">
-                                                        <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
-                                                        <div class="form-row paddingtop8">
-                                                            <div class="col-md-3"></div>
-                                                            <div class="col-md-3">
-                                                                <asp:Label ID="lblPartCred" CssClass="control-label" Text="Credit To Apply" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <asp:TextBox ID="txtPartCred" CssClass="form-control" runat="server" /> 
-                                                            </div>
-                                                            <div class="col-md-3"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </asp:Panel>
-                                            <br />
-
-                                            <asp:Panel ID="pnSubTotalClaim" GroupingText="Claim" runat="server">
-                                                <div class="form-row last">
-                                                    <div class="col-md-12">
-                                                        <%--<asp:Label ID="lblClaim" Text="Claim" CssClass="control-label undermark" runat="server"></asp:Label>--%>
-                                                        <div class="form-row">
-                                                            <div class="col-md-3">
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <asp:Label ID="lblApproved" CssClass="control-label" Text="Approved" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <asp:CheckBox ID="chkApproved" AutoPostBack="true" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <asp:Label ID="lblDeclined" CssClass="control-label" Text="Declined" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <asp:CheckBox ID="chkDeclined" AutoPostBack="true" runat="server" />
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                            </div>
-                                                        </div>
-                                                    </div>                                                    
-                                                </div>                                                
-                                            </asp:Panel> 
-                                            <br />
-                                            
-                                        </asp:Panel>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-3"></div>
-                        </div>
                         <div class="tab-pane" id="claim-comments">
                             <!-- Tab Description text -->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3><asp:Label ID="lblFourTabDesc" Text="WARNING NO. " runat="server"></asp:Label></h3>    
+                                    <h3><asp:Label ID="lblFourTabDesc" Text="" runat="server"></asp:Label></h3>    
                                 </div>
                             </div>
 
@@ -2025,7 +1932,7 @@
                                                                                 <tr>
                                                                                     <td colspan="100%" class="padding0">
                                                                                         <div id="div<%# Eval("CWCHCO") %>" class="divCustomClass">
-                                                                                            <asp:GridView ID="grvSeeCommDet" runat="server" AutoGenerateColumns="false" GridLines="None">
+                                                                                            <asp:GridView ID="grvSeeCommDet" runat="server" CssClass="innerGrv" AutoGenerateColumns="false" GridLines="None">
                                                                                                 <Columns>
                                                                                                     <asp:BoundField DataField="CWCHCO" HeaderText="ID" ItemStyle-Width="5%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
                                                                                                     <asp:BoundField DataField="CWCDTX" HeaderText="COMMENT" ItemStyle-Width="5%" ItemStyle-CssClass="centered" />
@@ -2157,6 +2064,190 @@
                             </div>
 
                         </div>
+                        <div class="tab-pane" id="claimcredit">
+                            <div class="col-md-12">
+                                <h3><asp:Label ID="lblFiveTabDesc" Text="" runat="server"></asp:Label></h3> 
+                                <div class="row">
+                                    <div class="col-md-6 margin0">
+                                        <asp:Panel ID="pnTotals" GroupingText="Totals" runat="server">
+
+                                            <asp:Panel ID="pnSubTotalClaimed" GroupingText="claim value" runat="server">
+                                                <div class="form-row last paddingtop8">
+                                                    <div class="col-md-12">
+                                                        <%--<asp:Label ID="lblSubClaim" Text="Subtotal Claimed" CssClass="control-label undermark" runat="server"></asp:Label>--%>
+                                                        <div class="form-row paddingtop8">
+                                                            <%--<div class="col-md-3"></div>--%>
+                                                            <div class="col-md-3">
+                                                                <asp:Label ID="lblParts" CssClass="control-label" Text="Unit Cost Value" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <asp:TextBox ID="txtParts" CssClass="form-control" Enabled="false" runat="server" />
+                                                            </div>
+                                                            <%--<div class="col-md-3"></div>--%>
+                                                            <div class="col-md-3">
+                                                                <asp:Label ID="lblTotValue" CssClass="control-label" Text="Total Claim Value" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <asp:TextBox ID="txtTotValue" Enabled="false" CssClass="form-control" runat="server" />
+                                                            </div>
+
+
+                                                            <div class="col-md-2 hideProp">
+                                                                <asp:Label ID="lblFreight" CssClass="control-label" Text="Freight" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-4 hideProp">
+                                                                <asp:TextBox ID="txtFreight" CssClass="form-control" runat="server" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </asp:Panel>
+
+                                            <br />
+
+                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequental Damage" runat="server">
+                                                <div class="form-row paddingtop8">
+                                                    <div class="col-md-12">
+                                                        <asp:Label ID="lblConsDamage" Text="Consequental damage, if any." CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
+                                                        <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
+			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                        </asp:LinkButton>
+                                                        <%--<asp:TextBox ID="txtConsDamage" CssClass="form-control" runat="server"></asp:TextBox>--%>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row paddingtop8">
+                                                    <div class="col-md-3">
+                                                        <asp:Label ID="lblCDLabor" Text="Labor Cost" CssClass="control-label" runat="server"> </asp:Label>
+                                                        <asp:TextBox ID="txtCDLabor" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <asp:Label ID="lblCDPart" Text="Part Cost" CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="txtCDPart" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <asp:Label ID="lblCDFreight" Text="Freight Cost" CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="txtCDFreight" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <asp:Label ID="lblCDMisc" Text="Misc Cost" CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="txtCDMisc" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row paddingtop8">
+                                                    <div class="col-md-12">
+                                                        <asp:Label ID="Label3" Text="Total Cons. Damage Value" CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="txtConsDamageTotal" CssClass="form-control" Enabled="false" AutoPostBack="true" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row last">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <asp:Button ID="btnGetTotalCDValue" Text="Calculate Cons. Damage" CssClass="btn btn-primary btnAdjustSize float-right" OnClick="btnGetTotalCDValue_Click" runat="server" />
+                                                    </div>
+                                                </div>
+                                            </asp:Panel>
+
+                                            <br />
+
+                                            <asp:Panel ID="pnPartialCredit" GroupingText="Partial Credit" CssClass="hideProp" runat="server">
+                                                <div class="form-row paddingtop8">
+                                                    <div class="col-md-12">
+                                                        <asp:Label ID="lblPCred" Text="Credit To Apply" CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:CheckBox ID="chkPCred" OnCheckedChanged="chkPCred_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
+                                                        <asp:LinkButton ID="lnkPCred" class="btn btn-primary btnSmallSize" runat="server">
+			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                        </asp:LinkButton>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row last paddingtop8">
+                                                    <div class="col-md-12">
+                                                        <div class="form-row">
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-4">
+                                                                <asp:Label ID="lblPartCred" CssClass="control-label" Text="New Total Claim Value" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <asp:TextBox ID="txtPartCred" Enabled="false" CssClass="form-control" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-2"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </asp:Panel>                                            
+
+                                            <asp:Panel ID="pnSubTotalClaim" GroupingText="Claim" runat="server">
+                                                <div class="form-row last">
+                                                    <div class="col-md-12">
+                                                        <%--<asp:Label ID="lblClaim" Text="Claim" CssClass="control-label undermark" runat="server"></asp:Label>--%>
+                                                        <div class="form-row">
+                                                            <div class="col-md-2">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <asp:Label ID="lblApproved" CssClass="control-label" Text="Approved" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <asp:CheckBox ID="chkApproved" AutoPostBack="true" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <asp:Label ID="lblDeclined" CssClass="control-label" Text="Declined" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <asp:CheckBox ID="chkDeclined" AutoPostBack="true" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <asp:LinkButton ID="lnkCheckApprove" class="btn btn-primary btnSmallSize hideProp" runat="server">
+			                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                                </asp:LinkButton>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </asp:Panel>
+                                            <br />
+
+                                        </asp:Panel>
+                                    </div>
+                                    <div class="col-md-6 margin0">
+                                        <asp:Panel ID="pnSalesDept" GroupingText="Authorization Request" runat="server">
+
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <asp:Label ID="lblClaimAuth" Text="Claim Authorization if over $500" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:CheckBox ID="chkClaimAuth" Enabled="false" runat="server" />
+                                                    <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
+                                                    </asp:LinkButton>
+                                                    <div class="form-row">
+                                                        <div class="col-md-6">
+                                                            <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <asp:TextBox ID="txtClaimAuthDate" Enabled="false" CssClass="form-control" runat="server" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row last">
+                                                <div class="col-md-12">
+                                                    <asp:Label ID="lblAmountApproved" Text="Claim amount approved by sales on top of Claims Approval" CssClass="control-label" runat="server"></asp:Label>
+                                                    <asp:TextBox ID="txtAmountApproved" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                            </div>
+
+                                        </asp:Panel>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab Description text -->  
+                           <%-- <div class="col-md-3"></div>--%>                            
+                           <%-- <div class="col-md-3"></div>--%>
+                            
+                        </div>                        
                                 
                     </div>                            
                 </div>
@@ -2178,28 +2269,44 @@
                                                         </div>
                                                     </asp:Panel>--%>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <asp:Panel ID="pnSubActionFiles" GroupingText="Files" runat="server">
                                         <div class="form-row last">
                                             <div class="col-md-1">&nbsp;</div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton id="btnAddFiles" class="boxed-btn-layout btn-sm btn-rounded" ToolTip="Add Files" runat="server">
-                                                    <i class="fa fa-folder-plus fa-1x"" aria-hidden="true"> </i>  Add Files
+                                                    <i class="fa fa-folder-plus fa-1x"" aria-hidden="true"> </i>  <p>Add Files</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnAddFiles" Text="Add Files" CssClass="btn btn-primary btnAdjustSize" runat="server" />--%>
                                             </div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton ID="btnSeeFiles" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSeeFiles_Click" ToolTip="See Files" runat="server">
-                                                    <i class="fa fa-folder-open fa-1x"" aria-hidden="true"> </i>  See Files
+                                                    <i class="fa fa-folder-open fa-1x"" aria-hidden="true"> </i>  <p>See Files</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnSeeFiles" Text="See Files" OnClick="btnSeeFiles_Click" CssClass="btn btn-primary btnAdjustSize" runat="server" />--%>
                                             </div>
                                             <div class="col-md-1">&nbsp;</div>
                                         </div>
                                     </asp:Panel>
+                                </div>                                
+                                <div class="col-md-3">
+                                    <asp:Panel ID="pnSendToCommentsTab" GroupingText="Comments" runat="server">
+                                        <div class="form-row last">
+                                            <div class="col-md-3">
+                                                <asp:Button ID="btnSentToComm" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <asp:LinkButton ID="lnkSentToComm" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSentToComm_Click" ToolTip="Go to Comments" runat="server">
+                                                    <i class="fa fa-comment-dots fa-1x"" aria-hidden="true"> </i>  <p>Go to Comments</p>
+                                                </asp:LinkButton>
+                                                <asp:Button ID="Button3" Text="Go to Comments" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                    </asp:Panel>
                                 </div>
-                                <div class="col-md-4">
-                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">                                        
+                                <div class="col-md-3">
+                                    <asp:Panel ID="pnSubActionFinal" GroupingText="Final Actions" runat="server">
                                         <div class="form-row last">
                                             <div class="col-md-1">&nbsp;</div>
                                             <div class="col-md-1 padding2 hideProp">
@@ -2210,13 +2317,13 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton ID="btnSaveTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnSaveTab_Click" ToolTip="Save Changes" runat="server">
-                                                    <i class="fa fa-save fa-1x"" aria-hidden="true"> </i>  Save Changes
+                                                    <i class="fa fa-save fa-1x"" aria-hidden="true"> </i>  <p>Save Changes</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnSaveTab" CssClass="btn btn-primary btnFullSize" Text="Save" OnClick="btnSaveTab_Click" runat="server" />--%>
                                             </div>
                                             <div class="col-md-5">
                                                 <asp:LinkButton ID="btnCloseTab" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Back to Main" runat="server">
-                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Back to Main
+                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  <p>Back to Main</p>
                                                 </asp:LinkButton>
                                                 <%--<asp:Button ID="btnCloseTab" CssClass="btn btn-primary btnFullSize" Text="Close" OnClick="btnCloseTab_Click" runat="server" />--%>
                                             </div>
@@ -2224,15 +2331,15 @@
                                         </div>
                                     </asp:Panel>
                                 </div>
-                                <div id="rwCloseClaim" class="col-md-4 hideProp" runat="server">
+                                <div id="rwCloseClaim" class="col-md-3 hideProp" runat="server">
                                     <asp:Panel ID="pnCloseClaim" GroupingText="Close Action" runat="server">
                                         <div class="form-row last">
                                             <div class="col-md-3">
                                                 <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseTab_Click" ToolTip="Close Claim" runat="server">
-                                                    <i class="fa fa-sign-out-alt fa-1x"" aria-hidden="true"> </i>  Close Claim
+                                                <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseClaim_Click" ToolTip="Close Claim" runat="server">
+                                                    <i class="fa fa-thumbs-up fa-1x"" aria-hidden="true"> </i>  <p>Close Claim</p>
                                                 </asp:LinkButton>
                                                 <asp:Button ID="btnCloseClaim1" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
                                             </div>
@@ -2365,7 +2472,7 @@
         }
 
         function DefaulSeeComm() {
-            debugger
+            //debugger
 
             var hdSeeCommDef = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
             if (hdSeeCommDef == "1") {
@@ -2377,7 +2484,7 @@
         }
 
         $('body').on('click', '.nav > li > a', function (e) {
-            debugger
+            //debugger
 
             var data = $(this).attr("href");
             $('#<%=hdCurrentActiveTab.ClientID%>').val(data);
@@ -2386,6 +2493,10 @@
             var hd1 = document.getElementById('<%=hdGetCommentTab.ClientID%>').value;
 
             if (data == "#claim-comments") {
+                DefaulSeeComm()                
+            }            
+
+            if (data == "#claimcredit") {
                 DefaulSeeComm()
                 $('#<%=hdShowCloseBtn.ClientID%>').val("1");
                 $('#MainContent_rwCloseClaim').removeClass('hideProp');
@@ -2394,7 +2505,12 @@
                 $('#<%=hdShowCloseBtn.ClientID%>').val("0");
                 $('#MainContent_rwCloseClaim').addClass('hideProp');
             }
+
+            expandMultilineTxt();  //tab click
+
+            JSFunction();
         });
+       
 
         $('body').on('click', '.click-in', function (e) {
 
@@ -2425,6 +2541,7 @@
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
+
             }
 
             //var hd1 = document.getElementById('<%=hdLinkExpand.ClientID%>').value;
@@ -2481,7 +2598,7 @@
         }
 
         function divexpandcollapse(controlid, divname) {
-            debugger
+            //debugger
             if (divname == null) {
             } else {
                 var iAccess = $("#div" + divname);
@@ -2574,6 +2691,84 @@
             }
         }
 
+        function disableCustomInput() {
+            //debugger 
+            
+            var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
+
+            if (fullSelection == "0") {
+                $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#MainContent_navsSection').find('select').attr('disabled', true);
+                $('#MainContent_navsSection').find('textarea').attr('disabled', true);
+
+                $('#tabc').find('a').removeClass('aspNetDisabled');
+                $('#tabc').find('a').addClass('disableCtr');
+
+                $('#MainContent_rowPnActions').find('a').removeClass('aspNetDisabled');
+                $('#MainContent_rowPnActions').find('a').addClass('disableCtr');
+
+                $('#rowGridViewSeeComm').find('a').removeClass('disableCtr');
+                $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
+
+                $('#MainContent_pnPartImage').find('a').removeClass('disableCtr');
+
+                $('#MainContent_btnSeeFiles').removeClass('disableCtr');
+                $('#MainContent_lnkSentToComm').removeClass('disableCtr');
+                $('#MainContent_btnCloseTab').removeClass('disableCtr');
+            }
+            else {
+                $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#claimoverview').find('select').attr('disabled', true);
+                $('#claimoverview').find('textarea').attr('disabled', true);
+
+                $('#partinfo').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#partinfo').find('select').attr('disabled', true);
+                $('#partinfo').find('textarea').attr('disabled', true);
+
+                $('#MainContent_ddlDiagnoseData').attr('disabled', false);
+                $('#MainContent_chkQuarantine').attr('disabled', false);           
+
+            }
+            
+
+           // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+            //$('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+        }
+
+        function expandMultilineTxt() {
+            debugger 
+
+            var tCustStat = document.getElementById('<%=txtCustStatement.ClientID%>');
+            var tPartDesc = document.getElementById('<%=txtPartDesc.ClientID%>');
+            var tMess = document.getElementById('<%=txtMessage.ClientID%>');
+            var tMessVnd = document.getElementById('<%=txtVndMessage.ClientID%>');
+
+            //tCustStat.style('width') = ((tCustStat.value.length) * 8) + 'px';
+            var a1 = tCustStat.scrollHeight;
+            var a2 = tPartDesc.scrollHeight;
+            var a3 = tMess.scrollHeight;
+            var a4 = tMessVnd.scrollHeight;
+
+            //console.log(a1);
+            //console.log(a2);
+            //console.log(a3);
+            //console.log(a4);
+
+            tCustStat.style.minHeight = a1 > 0 ? (tCustStat.scrollHeight) + "px" : ((tCustStat.scrollHeight) + 10) + "px";
+            tPartDesc.style.minHeight = a2 > 0 ? (tPartDesc.scrollHeight) + "px" : ((tPartDesc.scrollHeight) + 10) + "px";
+            tMess.style.minHeight = a3 > 0 ? ((tMess.scrollHeight) + 50) + "px" : ((tMess.scrollHeight) + 60) + "px";
+            tMessVnd.style.minHeight = a4 > 0 ? (tMessVnd.scrollHeight) + "px" : ((tMessVnd.scrollHeight) + 10) + "px";
+
+
+            var pp = $('<%=txtMessage.ClientID%>').val();
+            
+
+            //$('#MainContent_navsSection').find('textarea').attr('disabled', true);
+            $('<%=txtMessage.ClientID%>').attr('disabled', false);
+            $('<%=txtVndMessage.ClientID%>').attr('disabled', false);
+
+        }
+
         function setHeight(control) {
             //debugger
 
@@ -2583,7 +2778,7 @@
 
         function activeTab() {
 
-            debugger
+            //debugger
             var hd1 = document.getElementById('<%=hdCurrentActiveTab.ClientID%>').value;
             $('.nav-tabs a[href="' + hd1 + '"]').tab('show');
         }
@@ -2601,6 +2796,16 @@
                 $("#<%=ddlSearchDiagnose.ClientID%>").prop('selectedIndex', parseInt(hdDia));
 
             }
+            else if (filter == "MainContent_ddlVndNo") {
+                var hdVnd = document.getElementById('<%=hdVendorNo.ClientID%>').value;
+                $("#<%=ddlVndNo.ClientID%>").prop('selectedIndex', parseInt(hdVnd));
+
+            }
+            else if (filter == "MainContent_ddlLocat") {
+                var hdLoc = document.getElementById('<%=hdLocatIndex.ClientID%>').value;
+                $("#<%=ddlLocat.ClientID%>").prop('selectedIndex', parseInt(hdLoc));
+
+            }
             else if (filter == "MainContent_ddlSearchExtStatus") {
                 var hdSt = document.getElementById('<%=hdStatusOut.ClientID%>').value;
                 $("#<%=ddlSearchExtStatus.ClientID%>").prop('selectedIndex', parseInt(hdSt) + 1);
@@ -2614,6 +2819,17 @@
             else if (filter == "MainContent_ddlSearchUser") {
                 var hdUs = document.getElementById('<%=hdUserSelected.ClientID%>').value;
                 $("#<%=ddlSearchUser.ClientID%>").prop('selectedIndex', parseInt(hdUs) + 1);
+
+            }
+            else if (filter == "MainContent_ddlDiagnoseData") {
+                var hdDs1 = document.getElementById('<%=hdSelectedDiagnoseIndex.ClientID%>').value;
+                //var hdDs1 = document.getElementById('<%=hdSelectedDiagnose.ClientID%>').selectedIndex;
+                $("#<%=ddlDiagnoseData.ClientID%>").prop('selectedIndex', parseInt(hdDs1));
+
+            }
+            else if (filter == "MainContent_ddlLocation") {
+                var hdLoc = document.getElementById('<%=hdLocatIndex.ClientID%>').value;
+                $("#<%=ddlLocation.ClientID%>").prop('selectedIndex', parseInt(hdLoc));
 
             }
         }
@@ -2805,7 +3021,40 @@
                 $('#<%=hdAddClaimFile.ClientID %>').val("0")
         });
 
+        $('body').on('click', '#MainContent_btnSentToComm', function (e) {
+
+            activeTab();
+        });
+
         //Click Method End
+
+        $('body').on('change', "#<%=chkApproved.ClientID %>", function () {
+            //debugger
+
+            if (this.checked) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+                
+              
+            }
+        });
+
+        $('body').on('change', "#<%=chkDeclined.ClientID %>", function () {
+            //debugger
+
+            if (this.checked) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+
+
+            }
+        });
 
         //Change Method Begin
 
@@ -2842,6 +3091,19 @@
 
         });
 
+        $('body').on('change', "#<%=ddlDiagnoseData.ClientID %>", function () {
+            //debugger
+
+            var value = document.getElementById("<%=ddlDiagnoseData.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $('#<%=ddlDiagnoseData.ClientID %>').val(getindex);
+
+            var value1 = document.getElementById("<%=ddlDiagnoseData.ClientID %>").id;            
+            //$('#<%=hdSelectedDiagnoseIndex.ClientID %>').val(getindex);
+            //$('#<%=hdSelectedDiagnose.ClientID %>').val(gettext);
+        });
+
         $('body').on('change', "#<%=ddlSearchDiagnose.ClientID %>", function () {
             var value = document.getElementById("<%=ddlSearchDiagnose.ClientID %>");
             var gettext = value.options[value.selectedIndex].text;
@@ -2851,6 +3113,27 @@
             var value1 = document.getElementById("<%=ddlSearchDiagnose.ClientID %>").id;
             $('#<%=selectedFilter.ClientID %>').val(value1);
         });
+
+        $('body').on('change', "#<%=ddlVndNo.ClientID %>", function () {
+            var value = document.getElementById("<%=ddlVndNo.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $('#<%=hdVendorNo.ClientID %>').val(getindex);
+
+            var value1 = document.getElementById("<%=ddlVndNo.ClientID %>").id;
+            //$('#<%=selectedFilter.ClientID %>').val(value1);
+        });
+
+        $('body').on('change', "#<%=ddlLocat.ClientID %>", function () {           
+
+            var value = document.getElementById("<%=ddlLocat.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $('#<%=hdLocatNo.ClientID %>').val(getindex);
+
+            var value1 = document.getElementById("<%=ddlLocat.ClientID %>").id;
+            //$('#<%=selectedFilter.ClientID %>').val(value1);
+        });        
 
         $('body').on('change', "#<%=ddlSearchReason.ClientID %>", function () {
             //debugger
@@ -2878,9 +3161,13 @@
             //debugger
 
             var valuee = $('#<%=ddlDiagnoseData.ClientID %> option:selected').text();
-            $('#<%=hdSelectedDiagnose.ClientID %>').val(valuee);
+            var valueid = $('#<%=ddlDiagnoseData.ClientID %> option:selected').index();
 
-        });
+            <%--$('#<%=txtDiagnoseData.ClientID %>').val(valuee); --%>
+            $('#<%=hdSelectedDiagnose.ClientID %>').val(valuee);
+            $('#<%=hdSelectedDiagnoseIndex.ClientID %>').val(valueid);
+
+        });        
 
         //Change Method End      
 
@@ -3131,7 +3418,7 @@
                     });
 
             function getDate(element) {
-                debugger
+                //debugger
 
                 var date;
                 try {
@@ -3294,7 +3581,7 @@
         }
 
         function pageLoad(event, args) {
-            debugger
+           // debugger
           
             console.log("BeginPageLoad");
 
@@ -3304,7 +3591,7 @@
 
             if (args.get_isPartialLoad()) {  
 
-                debugger
+                //debugger
                 //case fileExcel  
                 var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
                 if (hdFile == "1") {
@@ -3474,6 +3761,16 @@
                 var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
                 $('#<%=lblUserLogged.ClientID %>').val(hdWelcome); 
 
+                setTabsClaimNo()
+
+                partialCreditSelected()
+
+                EnableAuthRequestChk()
+
+                expandMultilineTxt() //page load update panel
+
+                disableCustomInput();
+
             }
 
             var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
@@ -3502,7 +3799,7 @@
             var hdName = document.getElementById('<%=hiddenName.ClientID%>').value;
             //$('#accordion_2 h5 a').click(function () {
 
-            yesnoCheckCustom(hdName)           
+            yesnoCheckCustom(hdName)  
 
             var collapse2 = document.getElementById('collapseOne_2');
             afterDdlCheck(hd2, collapse2);
@@ -3513,6 +3810,9 @@
             claimNoAutoComplete()
             PartNoAutoComplete()
             CustomerNoAutoComplete()
+
+            processDDLSelection("MainContent_ddlDiagnoseData");
+            processDDLSelection("MainContent_ddlLocation");
 
             setHeight($('#MainContent_txtCustStatement'));
             
@@ -3563,7 +3863,94 @@
 
             fixVisibilityColumns();
 
+            setTabsClaimNo()
+
+            partialCreditSelected()
+
+            EnableAuthRequestChk()
+
+            expandMultilineTxt() //page load outer
+
+            disableCustomInput();
+
             console.log("EndPageLoad");
+        }
+
+        function EnableAuthRequestChk() {
+            //debugger
+
+            var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
+            var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
+            var userSelected = document.getElementById('<%=txtClaimAuth.ClientID%>').value;
+            var userDateSelected = document.getElementById('<%=txtClaimAuthDate.ClientID%>').value;
+            var hdUserType = $('#<%=IsFullUser.ClientID %>').val();
+                        
+            if (hdAuthReq != "") {
+                var numbAuthreq = parseInt(hdAuthReq)
+                if (numbAuthreq > 500) {
+
+                    if (isPresentBl && hdUserType == "1") {
+                        $('#<%=chkClaimAuth.ClientID %>').removeAttr("disabled");
+                        $('#<%=txtClaimAuth.ClientID %>').removeAttr("disabled");
+                        $('#<%=txtClaimAuthDate.ClientID %>').removeAttr("disabled");
+                    }
+
+                    if (userSelected != "" && userDateSelected != "") {
+
+                        $('#<%= txtClaimAuth.ClientID %>').attr("disabled", "disabled");
+                        $('#<%= txtClaimAuthDate.ClientID %>').attr("disabled", "disabled");
+                        $('#<%= chkClaimAuth.ClientID %>').attr("disabled", "disabled");
+                        $('#<%= txtAmountApproved.ClientID %>').attr("disabled", "disabled");
+
+                        $('#<%=lnkClaimAuth.ClientID %>').removeClass('aspNetDisabled');
+                        $('#<%=lnkClaimAuth.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    }
+                }
+                else {
+                    $('#<%= txtClaimAuth.ClientID %>').attr("disabled", "disabled");
+                    $('#<%= txtClaimAuthDate.ClientID %>').attr("disabled", "disabled");
+                    $('#<%= chkClaimAuth.ClientID %>').attr("disabled", "disabled");
+                    $('#<%= txtAmountApproved.ClientID %>').attr("disabled", "disabled");
+
+                    $('#<%=lnkClaimAuth.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkClaimAuth.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                }
+            }
+
+        }
+
+        function partialCreditSelected() {
+
+            var hdPC = document.getElementById('<%=hdPartialCredits.ClientID%>').value
+            if (hdPC == "1") {
+                $('#<%= txtParts.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtTotValue.ClientID %>').attr("disabled", "disabled");
+                $('#<%= pnConsequentalDamage.ClientID %>').attr("disabled", "disabled");
+
+               <%-- $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
+                $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");--%>
+
+            }
+        }
+
+        function setTabsClaimNo() {
+           // debugger
+
+            var hdClaimNo = document.getElementById('<%=hdClaimNumber.ClientID%>').value
+            
+            if (hdClaimNo != "") {
+                $('#MainContent_claimQuickOverview').closest('.container').removeClass('hideProp');
+                $('#<%=lblClaimQuickOverview.ClientID %>').text(hdClaimNo);
+            }
+            else {
+                $('#MainContent_claimQuickOverview').closest('.container').addClass('hideProp');
+                $('#<%=lblClaimQuickOverview.ClientID %>').text("");
+            }
         }
 
         function fixesSmallBtnClass() {
@@ -3574,7 +3961,7 @@
             if ($('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
 
                 $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);
+                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);                
 
                 $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
@@ -3588,6 +3975,8 @@
             if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {                
                 
                 $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3599,6 +3988,8 @@
             if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
                
                 $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3610,6 +4001,8 @@
             if ($('#<%=chkPartRequested.ClientID %>').is(':checked')) {
                 
                 $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
+                $('#<%=chkPartRequested.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3621,6 +4014,8 @@
             if ($('#<%=chkPartReceived.ClientID %>').is(':checked')) {
                
                 $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
+                $('#<%=chkPartReceived.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3632,6 +4027,8 @@
             if ($('#<%=chkTechReview.ClientID %>').is(':checked')) {
                 
                 $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
+                $('#<%=chkTechReview.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
@@ -3643,11 +4040,57 @@
             if ($('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
                 
                 $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                $('#<%=chkWaitSupReview.ClientID %>').attr('disabled', true); 
+
                 $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                 $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
                 $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+            }
+
+            if ($('#<%=chkApproved.ClientID %>').is(':checked')) {
+                //debugger
+
+                var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
+
+                if (hdHasText != "") {
+
+                    //$('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtClaimCompleted.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtClaimCompletedDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkApproved.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkApproved.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkDeclined.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkDeclined.ClientID %>').attr("disabled", "disabled")
+
+                }                
+                
+            }
+
+            if ($('#<%=chkDeclined.ClientID %>').is(':checked')) {
+                //debugger
+
+                var hdHasText = document.getElementById('<%=txtClaimCompleted.ClientID%>').value;
+
+                if (hdHasText != "") {
+
+                    //$('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                    //$('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtClaimCompleted.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtClaimCompletedDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkApproved.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkApproved.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkDeclined.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkDeclined.ClientID %>').attr("disabled", "disabled")
+
+                }
+
             }
 
         }
@@ -3759,11 +4202,9 @@
 
                 return date;
             }
-        }
+        }        
 
     </script>
-
-
 
 </asp:Content>
 

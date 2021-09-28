@@ -1781,7 +1781,7 @@ Public Class CustomerClaims
         Dim resultProc As Boolean = False
 
         'test user
-        Session("userid") = "AROBLES"
+        'Session("userid") = "AROBLES"
         'test user
 
         Try
@@ -2988,6 +2988,125 @@ Public Class CustomerClaims
             Dim pp = ex.Message
         End Try
     End Sub
+
+    Protected Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        Dim exMessage As String = Nothing
+        Dim searchstring As String = Trim(txtSearch.Text)
+        Dim filterData = New List(Of ExtClaimObj)()
+        Dim lstData = New List(Of ExtClaimObj)()
+        Dim dsWork As DataSet = New DataSet()
+        Dim methodMessage As String = Nothing
+        Try
+            If searchstring.Equals("Search...") Or String.IsNullOrEmpty(searchstring) Then
+
+                Dim dsData = DirectCast(Session("ClaimsBckData"), DataSet)
+                Dim blFirstValidation = If(dsData Is Nothing, False, If(dsData.Tables IsNot Nothing, True, False))
+
+                If blFirstValidation And dsData.Tables(0).Rows.Count > 0 Then
+                    loadSessionClaims(dsData)
+                End If
+
+                methodMessage = "When search without a search criteria the full data is loaded."
+                SendMessage(methodMessage, messageType.info)
+
+            Else
+                Dim dsData = New DataSet()
+                dsData = If((DirectCast(Session("DataSource"), DataSet)) IsNot Nothing, DirectCast(Session("DataSource"), DataSet), Nothing)
+                If dsData IsNot Nothing Then
+                    If dsData.Tables(0).Rows.Count > 0 Then
+                        lstData = fillExtObj(dsData)
+                    End If
+                End If
+
+                If lstData.Count > 0 Then
+
+                    'all ocurrences without duplicate value string
+                    filterData = lstData.Where(Function(da) _
+                                                   If(Not String.IsNullOrEmpty(da.ClaimNo), UCase(da.ClaimNo).Trim().Contains(UCase(searchstring)), False) _
+                                                   Or If(Not String.IsNullOrEmpty(da.Customer), UCase(da.Customer).Trim().Contains(UCase(searchstring)), False) _
+                                                   Or If(Not String.IsNullOrEmpty(da.CustomerName), UCase(da.CustomerName).Trim().Contains(UCase(searchstring)), False) _
+                                                   Or If(Not String.IsNullOrEmpty(da.PartNo), UCase(da.PartNo).Trim().Contains(UCase(searchstring)), False)
+                                                   ).ToList()
+
+                    If filterData.Count > 0 Then
+                        Dim dtResult = ListToDataTable(filterData)
+                        If dtResult IsNot Nothing Then
+                            If dtResult.Rows.Count > 0 Then
+                                Dim ds = New DataSet()
+                                ds.Tables.Add(dtResult)
+                                loadSessionClaims(ds)
+                            End If
+                        End If
+                    Else
+
+                        grvClaimReport.DataSource = Nothing
+                        grvClaimReport.DataBind()
+
+                    End If
+
+                Else
+                    methodMessage = "There is not data to load. Please refresh the page."
+                    SendMessage(methodMessage, messageType.warning)
+                End If
+
+            End If
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Public Shared Function ListToDataTable(ByVal _List As Object) As DataTable
+
+        Dim dt As New DataTable
+
+        Dim obj As Object = _List(0)
+        dt = ObjectToDataTable(obj)
+        Dim dr As DataRow = dt.NewRow
+
+        For Each obj In _List
+
+            dr = dt.NewRow
+
+            For Each p As PropertyInfo In obj.GetType.GetProperties
+
+                'If p.Name = "WLIST" Then
+                '    If p.GetValue(obj, p.GetIndexParameters) > 0 Then
+                '        Dim pepe = p.GetValue(obj, p.GetIndexParameters)
+                '    End If
+                'End If
+                dr.Item(p.Name) = p.GetValue(obj, p.GetIndexParameters)
+
+
+            Next
+
+            dt.Rows.Add(dr)
+
+        Next
+
+        Return dt
+
+    End Function
+
+    Public Shared Function ObjectToDataTable(ByVal o As Object) As DataTable
+        Dim exMessage As String = Nothing
+        Try
+            Dim dt As New DataTable
+            Dim properties As List(Of PropertyInfo) = o.GetType.GetProperties.ToList()
+
+            For Each prop As PropertyInfo In properties
+                dt.Columns.Add(prop.Name, prop.PropertyType)
+            Next
+
+            dt.TableName = o.GetType.Name
+            Return dt
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User Logged In Wish List: " + Session("userid").ToString(), "Login at time: " + DateTime.Now.ToString())
+            Return Nothing
+        End Try
+
+    End Function
 
     Protected Sub btnSearchFilter_Click(sender As Object, e As EventArgs) Handles btnSearchFilter.Click
         Dim dsClaimsData = New DataSet()
@@ -4888,6 +5007,50 @@ Public Class CustomerClaims
         End Try
     End Function
 
+    Public Sub getMngUsers(Optional ByRef lstOut As List(Of ClaimObj500To1500User) = Nothing)
+        Dim lstObj = New List(Of ClaimObj500To1500User)()
+        Dim returnAuthUser = New ClaimObj500To1500User()
+        Dim d1 As String = Nothing
+        Dim d2 As String = Nothing
+        Dim defConfUsrLimit = ConfigurationManager.AppSettings("usrDefaultlimit")
+        Dim dsUserInCharge = New DataSet()
+        Try
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                Dim rsUserInCharge = objBL.getDataForOver500(dsUserInCharge)
+                If rsUserInCharge > 0 Then
+                    If dsUserInCharge IsNot Nothing Then
+                        If dsUserInCharge.Tables(0).Rows.Count > 0 Then
+
+                            For Each dw As DataRow In dsUserInCharge.Tables(0).Rows
+                                d1 = dw.Item("CNTDE1").ToString().Trim()
+                                d2 = dw.Item("CNTDE2").ToString().Trim()
+
+                                'gte the manager limit
+                                Dim objAprovUser = New ClaimObj500To1500User()
+                                objAprovUser.CLMemail = d1
+                                objAprovUser.CLMuser = Mid(d2, 1, 10)
+                                Dim tempLimit = Mid(d2, 38, 7)
+                                Dim lmtUser = Regex.Replace(tempLimit, "^0+", "")
+                                objAprovUser.CLMLimit = lmtUser
+
+                                lstObj.Add(objAprovUser)
+                            Next
+                        End If
+                    End If
+                End If
+                lstOut = lstObj
+                Session("LstObj500to1500") = lstObj
+
+            End Using
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
     Public Function GetEmailAndUserAuthApp500To1500(ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         strMessage = Nothing
@@ -6136,7 +6299,8 @@ Public Class CustomerClaims
             msg.IsBodyHtml = True
             msg.From = New MailAddress(emailSender)
             msg.To.Add("aavila@costex.com")
-            msg.Subject = "Test Email"
+            Dim msgSubject = If(flag.Equals("2"), "Acknowledgement Email for User.", If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
+            msg.Subject = msgSubject
             msg.Body = Mailtext
 
             Dim _smtp As SmtpClient = New SmtpClient()
@@ -6245,6 +6409,25 @@ Public Class CustomerClaims
         End Try
     End Function
 
+    'Public Sub PrepareQueryLikes(ByRef strBuild As String)
+    '    strBuild = Nothing
+    '    Try
+
+    '        If Not String.IsNullOrEmpty(txtClaimNo.Text.Trim()) Then
+    '            strBuild += " AND TRIM(MHMRNR) = '" + txtClaimNo.Text.Trim() + "'"
+    '        End If
+    '        If Not String.IsNullOrEmpty(txtPartNo.Text.Trim()) Then
+    '            strBuild += " AND TRIM(CWPTNO) = '" + txtPartNo.Text.Trim() + "'"
+    '        End If
+    '        If Not String.IsNullOrEmpty(txtCustomer.Text.Trim()) Then
+    '            strBuild += " AND TRIM(MHCUNR) = '" + txtCustomer.Text.Trim() + "'"
+    '        End If
+
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Sub
+
     ''' <summary>
     ''' Prepare the filters criteria to add to main query
     ''' </summary>
@@ -6261,7 +6444,7 @@ Public Class CustomerClaims
             If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) And Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
                 Dim minDate = txtDateInit.Text.Trim().Split(" ")(0)
                 Dim maxDate = txtDateTo.Text.Trim().Split(" ")(0)
-                strBuild += " AND (CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" + minDate + "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" + maxDate + "')) "
+                strBuild += " AND (MHDATE >= DATE('" + minDate + "') AND MHDATE <= DATE('" + maxDate + "')) "
                 '7/19/2021
                 '6/10/2017
             End If
@@ -6914,26 +7097,6 @@ Public Class CustomerClaims
 
                                     'GetDataOver500()
 
-#Region "Set the authorization data entry fields"
-
-                                    If Session("userid").ToString().ToUpper() = "GMARTOS" Or Session("userid").ToString().ToUpper() = UCase(hdCLMuser.Value) Then
-                                        chkClaimAuth.Checked = False
-                                        chkClaimAuth.Enabled = True
-                                        txtClaimAuth.Text = ""
-                                        'txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()  ??
-                                    Else
-                                        txtAmountApproved.Text = ""
-                                        txtAmountApproved.Enabled = False
-                                        chkClaimAuth.Enabled = False
-                                        chkClaimAuth.Checked = False
-                                        txtClaimAuth.Text = ""
-                                        txtClaimAuth.Enabled = False
-                                        txtClaimAuthDate.Text = ""
-                                        txtClaimAuthDate.Enabled = False
-                                    End If
-
-#End Region
-
                                     GetQuarantineReq(intValue)
                                     GetCostSuggested(intValue)
                                     GetEngineInformation(intValue)
@@ -6977,12 +7140,37 @@ Public Class CustomerClaims
 
 #End Region
 
+#Region "Set the authorization data entry fields"
+
+                                    Dim lstAuth = DirectCast(Session("LstObj500to1500"), List(Of ClaimObj500To1500User))
+                                    Dim aa = lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower()))
+
+                                    If lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower())) Or Session("userid").ToString().ToUpper() = UCase(hdCLMuser.Value) Then
+                                        chkClaimAuth.Checked = False
+                                        chkClaimAuth.Enabled = True
+                                        txtClaimAuth.Text = ""
+                                        'txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()  ??
+                                    Else
+                                        txtAmountApproved.Text = ""
+                                        txtAmountApproved.Enabled = False
+                                        chkClaimAuth.Enabled = False
+                                        chkClaimAuth.Checked = False
+                                        txtClaimAuth.Text = ""
+                                        txtClaimAuth.Enabled = False
+                                        txtClaimAuthDate.Text = ""
+                                        txtClaimAuthDate.Enabled = False
+                                    End If
+
+#End Region
+
                                     'clean the grid for details
                                     Session("GridVndComm") = Nothing
                                     grvSeeVndComm.DataSource = Nothing
                                     grvSeeVndComm.DataBind()
 
 #Region "Fill Objects"
+
+                                    'fillExtObj()
 
                                     fillObjsFull()
 
@@ -7022,6 +7210,33 @@ Public Class CustomerClaims
 
         End Try
     End Sub
+
+    Public Function fillExtObj(ds As DataSet) As List(Of ExtClaimObj)
+        Dim dt As DataTable = New DataTable()
+        Try
+
+            Dim xExtClaimObj = New ExtClaimObj()
+            If ds IsNot Nothing Then
+                If ds.Tables(0).Rows.Count > 0 Then
+                    dt = ds.Tables(0)
+                End If
+            End If
+
+            Dim items As IList(Of ExtClaimObj) = dt.AsEnumerable() _
+                .Select(Function(row) New ExtClaimObj() With {
+                .ClaimNo = row.Item("MHMRNR").ToString(),
+                .Customer = row.Item("MHCUNR").ToString(),
+                .CustomerName = row.Item("MHCUNA").ToString(),
+                .PartNo = row.Item("MHPTNR").ToString()
+            }).ToList()
+
+            Return items
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+
+    End Function
 
     'fill objects data
     Public Sub fillObjsFull()
@@ -7429,8 +7644,10 @@ Public Class CustomerClaims
                     Next
                 ElseIf criteria.ToLower().Contains("void") Then
                     'lstValues = lstStsVoid
-                    For Each item As String In lstStsVoid
-                        strValues += "'" + item.Trim().ToLower() + "',"
+                    For Each item As String In lstStsClose
+                        If item.Trim().Equals("9") Then
+                            strValues += "'" + item.Trim().ToLower() + "',"
+                        End If
                     Next
                 Else
                     'lstValues = lstStsAll
@@ -8100,7 +8317,7 @@ Public Class CustomerClaims
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
             ''test purpose
-            Session("userid") = "AROBLES"
+            'Session("userid") = "AROBLES"
             ''test purpose
             Session("fullObj") = Nothing
             Session("isDDL") = False
@@ -8117,6 +8334,8 @@ Public Class CustomerClaims
             Dim dsLimit = New DataSet()
             Dim strLimit = getLimit(dsLimit)
             Session("SwLimitAmt") = If(Not String.IsNullOrEmpty(strLimit.Trim()), CInt(strLimit), 0)
+
+            'getMngUsers()
 
             Dim dsAuthRestock = New DataSet()
             getAutoRestockFlag(dsAuthRestock)

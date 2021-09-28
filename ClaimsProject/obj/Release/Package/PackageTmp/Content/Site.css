@@ -22,9 +22,9 @@ textarea {
     margin-right: 10px !important;
 }
 
-#rowReason {
+/*#rowReason {
     padding-bottom: 15px !important;
-}
+}*/
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -310,8 +310,16 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 0 8px 0 8px;
 }
 
+.fa-1x {
+    font-size: 1.3em !important;
+}
+
+#MainContent_pnSubActionFinal a > p {
+    font-size:12px !important;
+}
+
 #tabc .form-control {
-    padding: .188rem .75rem !important; 
+    padding: .188rem .75rem !important;
     height: calc(1.5em + .45rem + 2px) !important;
     font-size: 13px !important;
 }
@@ -320,6 +328,8 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     /* font-size: 1.25rem !important;  */
     width: 100% !important;
     height: 30px !important;
+    text-transform: initial !important;
+    font-size: 0.7rem !important;
 }
 
 #MainContent_txtCustStatement {
@@ -461,7 +471,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 #MainContent_pnClaimsDept, #MainContent_pnSalesDept, #MainContent_pnInternalStatus, #MainContent_pnExternalStatus,
 #MainContent_pnSubActionComment, #MainContent_pnSubActionFiles, #MainContent_pnSubActionFinal, #MainContent_pnDescription,
-#MainContent_pnTotals, #MainContent_pnPartImage, #MainContent_pnCloseClaim {
+#MainContent_pnTotals, #MainContent_pnPartImage, #MainContent_pnCloseClaim, #MainContent_pnSendToCommentsTab {
     width: 100%;
     border: 1px solid #fbba42;
     padding: 0 8px;
@@ -475,14 +485,14 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #MainContent_pnSubActionComment, #MainContent_pnSubActionFiles, #MainContent_pnSubActionFinal, #MainContent_pnSubTotalClaimed, #MainContent_pnSubTotalClaim,
-#MainContent_pnConsequentalDamage, #MainContent_pnPartialCredit, #MainContent_pnCloseClaim {
+#MainContent_pnConsequentalDamage, #MainContent_pnPartialCredit, #MainContent_pnCloseClaim, #MainContent_pnSendToCommentsTab {
     padding: 0;
     border-radius: 10px;
 }
 
 #MainContent_pnSubActionComment fieldset > legend, #MainContent_pnSubActionFiles fieldset > legend, #MainContent_pnSubActionFinal fieldset > legend,
 #MainContent_pnSubTotalClaimed fieldset > legend, #MainContent_pnSubTotalClaim fieldset > legend, #MainContent_pnConsequentalDamage fieldset > legend,
-#MainContent_pnPartialCredit fieldset > legend, #MainContent_pnCloseClaim fieldset > legend  {
+#MainContent_pnPartialCredit fieldset > legend, #MainContent_pnCloseClaim fieldset > legend, #MainContent_pnSendToCommentsTab fieldset > legend  {
     color: white !important;
     /*text-align: left !important;
     padding: 3px;*/
@@ -496,7 +506,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     min-width: 100%;
 }
 
-#MainContent_pnConsequentalDamage .form-row {
+#MainContent_pnConsequentalDamage .form-row, #MainContent_pnSubTotalClaimed .form-row, #MainContent_pnPartialCredit .form-row {
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -841,7 +851,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     /*margin-left: -5px;*/
 }
 
-#rowDiagnose, #rowUser, #rowIntStatus, #rowPartNo, #rowDateTo {
+#rowDiagnose, #rowUser, #rowIntStatus, #rowPartNo, #rowDateTo, #rowVendor, #rowLocat {
     padding: 6px 15px 6px 15px;
     /*border-left: 4px solid #fbba42;*/
     background-color: #F7F7FD;
@@ -882,6 +892,10 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     float: right !important;
 }
 
+#MainContent_pnActions .btn-rounded {
+    min-height: 100% !important;
+}
+
 #MainContent_txtActualStatus {
     text-transform: uppercase !important;
 }
@@ -890,10 +904,23 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     background-color: lightyellow !important;
 }
 
+#MainContent_claimQuickOverview span {
+    font-size: 18px !important;
+}
+
+#MainContent_claimQuickOverview .col-md-10 {
+    text-align: center !important;
+}
+
+.innerGrv {
+    max-width: 95% !important;
+}
+
 #MainContent_grvSeeComm td, #MainContent_grvSeeComm th, #MainContent_grvSeeVndComm td, #MainContent_grvSeeVndComm th {
     text-align: center !important;
     padding: 3px !important;
     font-size: 12px !important;
+    word-break: break-word;
 }
 
 .disableCtr {
@@ -1708,6 +1735,23 @@ input[type=file]::-ms-value {
 .ui-datepicker {
     width: auto !important;
     border: 1px solid #fbba42 !important;
+}
+
+.tableC {
+    display: table;
+    width: 400px;
+    border: 1px solid blue;
+}
+
+.rowC {
+    display: table-row;
+    height: 40px;
+}
+
+.cellC {
+    display: table-cell;
+    width: 340px !important;
+    border: 1px solid black;
 }
 
 /*#rowRadios {
