@@ -64,12 +64,13 @@ Public Class Logs : Implements IDisposable
 
             Dim objDatos = New ClsRPGClientHelper()
 
-            objDatos.InsertDataInDatabaseSQL(sqlFormattedQuery, rowsAffected)
-            If rowsAffected > 0 Then
-                'okok
-            Else
-                'no process
-            End If
+            Dim rsResult = objDatos.ExecuteNotQueryCommand(sqlFormattedQuery, SQLCon)
+            'objDatos.InsertDataInDatabaseSQL(sqlFormattedQuery, rowsAffected)
+            'If rowsAffected > 0 Then
+            '    'okok
+            'Else
+            '    'no process
+            'End If
 
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString

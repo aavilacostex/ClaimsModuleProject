@@ -30,126 +30,132 @@ Public Class CustomerClaims
         Dim url As String = Nothing
         Dim sel As Integer = -1
 
-        'PrepareEmail()
+        Try
 
-        If Session("userid") Is Nothing Then
-            url = String.Format("Login.aspx?data={0}", "Session Expired!")
-            Response.Redirect(url, False)
-        Else
-            Dim welcomeMsg = ConfigurationManager.AppSettings("UserWelcome")
-            lblUserLogged.Text = String.Format(welcomeMsg, Session("username").ToString().Trim(), Session("userid").ToString().Trim())
-            hdWelcomeMess.Value = lblUserLogged.Text
-        End If
-
-        If Not IsPostBack Then
-
-            Dim flag = GetAccessByUsers(sel)
-
-            If Not flag Then
-                If sel = 0 Then
-                    Dim usr = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "N/A")
-                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + usr, " User is not authorized to access to Claims. Time: " + DateTime.Now.ToString())
-                    Response.Redirect("http://svrwebapps.costex.com/BaseProject/default.aspx", False)
-                ElseIf sel = 1 Then
-                    Dim usr = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "N/A")
-                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, Nothing, "There is not an user detected tryng to access to Claims. Time: " + DateTime.Now.ToString())
-                    Response.Redirect("https://www.costex.com/", False)
-                End If
+            If Session("userid") Is Nothing Then
+                url = String.Format("Login.aspx?data={0}", "Session Expired!")
+                Response.Redirect(url, False)
             Else
-                initializationCode()
+                Dim welcomeMsg = ConfigurationManager.AppSettings("UserWelcome")
+                lblUserLogged.Text = String.Format(welcomeMsg, Session("username").ToString().Trim(), Session("userid").ToString().Trim())
+                hdWelcomeMess.Value = lblUserLogged.Text
             End If
 
-            'validate the criteria for add types to search
-            'validate the criteria for add internal status to search
-            'validate the criteria for add external status to search
+            If Not IsPostBack Then
 
-            ' getClaimNumbers("130644", Today.AddYears(-2))
-        Else
-            Dim controlName As String = Page.Request.Params("__EVENTTARGET")
-            GetDDLValidation(controlName)
+                Dim flag = GetAccessByUsers(sel)
 
-            loadSessionClaims()
-            LoadDropDownLists(ddlDiagnoseData)
-            LoadDropDownLists(ddlSearchDiagnose)
-            LoadDropDownLists(ddlSearchExtStatus)
-            LoadDropDownLists(ddlSearchReason)
-            LoadDropDownLists(ddlSearchUser)
-            LoadDropDownLists(ddlSearchIntStatus)
-            LoadDropDownLists(ddlClaimType)
-            LoadDropDownLists(ddlVndNo)
-            LoadDropDownLists(ddlLocat)
-            LoadDropDownLists(ddlLocation)
-
-
-            If hdDisplaySeeVndClaim.Value <> "0" Then
-
-                Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
-                Dim grv As GridView = DirectCast(ph.FindControl("grvSeeVndComm"), GridView)
-                Dim grv1 As GridView = DirectCast(ph.FindControl("grvSeeComm"), GridView)
-                If grv.DataSource Is Nothing Then
-                    Dim ds = DirectCast(Session("GridVndComm"), DataSet)
-                    grvSeeVndComm.DataSource = ds
-                    grvSeeVndComm.DataBind()
-
-                    'Dim row = grv.Rows(7)
-                    'Dim grv1 = DirectCast(row.FindControl("grvSeeVndCommDet"), GridView)
-                    'If grv1 IsNot Nothing Then
-                    '    Dim dsRet = DirectCast(Session("GridVndComm"), DataSet)
-                    '    grv1.DataSource = dsRet
-                    '    grv1.DataBind()
-                    'End If
-
+                If Not flag Then
+                    If sel = 0 Then
+                        Dim usr = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "N/A")
+                        writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + usr, " User is not authorized to access to Claims. Time: " + DateTime.Now.ToString())
+                        Response.Redirect("http://svrwebapps.costex.com/BaseProject/default.aspx", False)
+                    ElseIf sel = 1 Then
+                        Dim usr = If(Session("userid") IsNot Nothing, Session("userid").ToString(), "N/A")
+                        writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, Nothing, "There is not an user detected tryng to access to Claims. Time: " + DateTime.Now.ToString())
+                        Response.Redirect("https://www.costex.com/", False)
+                    End If
+                Else
+                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " Load Claim Application at Time: " + DateTime.Now.ToString())
+                    initializationCode()
                 End If
-            End If
 
-            If hdDisplaySeeVndClaim.Value <> "0" Or hdSeeComments.Value = "1" Then
+                'validate the criteria for add types to search
+                'validate the criteria for add internal status to search
+                'validate the criteria for add external status to search
 
-                Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
-                Dim grv As GridView = DirectCast(ph.FindControl("grvSeeVndComm"), GridView)
-                Dim grv1 As GridView = DirectCast(ph.FindControl("grvSeeComm"), GridView)
-                If grv1.DataSource Is Nothing Then
-                    Dim ds = DirectCast(Session("GridComm"), DataSet) 'Session("GridComm")
-                    grvSeeComm.DataSource = ds
-                    grvSeeComm.DataBind()
+                ' getClaimNumbers("130644", Today.AddYears(-2))
+            Else
+                Dim controlName As String = Page.Request.Params("__EVENTTARGET")
+                GetDDLValidation(controlName)
 
-                    'Dim row = grv.Rows(7)
-                    'Dim grv1 = DirectCast(row.FindControl("grvSeeVndCommDet"), GridView)
-                    'If grv1 IsNot Nothing Then
-                    '    Dim dsRet = DirectCast(Session("GridVndComm"), DataSet)
-                    '    grv1.DataSource = dsRet
-                    '    grv1.DataBind()
-                    'End If
+                loadSessionClaims()
+                LoadDropDownLists(ddlDiagnoseData)
+                LoadDropDownLists(ddlSearchDiagnose)
+                LoadDropDownLists(ddlSearchExtStatus)
+                LoadDropDownLists(ddlSearchReason)
+                LoadDropDownLists(ddlSearchUser)
+                LoadDropDownLists(ddlSearchIntStatus)
+                LoadDropDownLists(ddlClaimType)
+                LoadDropDownLists(ddlVndNo)
+                LoadDropDownLists(ddlLocat)
+                LoadDropDownLists(ddlLocation)
 
+
+                If hdDisplaySeeVndClaim.Value <> "0" Then
+
+                    Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
+                    Dim grv As GridView = DirectCast(ph.FindControl("grvSeeVndComm"), GridView)
+                    Dim grv1 As GridView = DirectCast(ph.FindControl("grvSeeComm"), GridView)
+                    If grv.DataSource Is Nothing Then
+                        Dim ds = DirectCast(Session("GridVndComm"), DataSet)
+                        grvSeeVndComm.DataSource = ds
+                        grvSeeVndComm.DataBind()
+
+                        'Dim row = grv.Rows(7)
+                        'Dim grv1 = DirectCast(row.FindControl("grvSeeVndCommDet"), GridView)
+                        'If grv1 IsNot Nothing Then
+                        '    Dim dsRet = DirectCast(Session("GridVndComm"), DataSet)
+                        '    grv1.DataSource = dsRet
+                        '    grv1.DataBind()
+                        'End If
+
+                    End If
                 End If
-            End If
+
+                If hdDisplaySeeVndClaim.Value <> "0" Or hdSeeComments.Value = "1" Then
+
+                    Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
+                    Dim grv As GridView = DirectCast(ph.FindControl("grvSeeVndComm"), GridView)
+                    Dim grv1 As GridView = DirectCast(ph.FindControl("grvSeeComm"), GridView)
+                    If grv1.DataSource Is Nothing Then
+                        Dim ds = DirectCast(Session("GridComm"), DataSet) 'Session("GridComm")
+                        grvSeeComm.DataSource = ds
+                        grvSeeComm.DataBind()
+
+                        'Dim row = grv.Rows(7)
+                        'Dim grv1 = DirectCast(row.FindControl("grvSeeVndCommDet"), GridView)
+                        'If grv1 IsNot Nothing Then
+                        '    Dim dsRet = DirectCast(Session("GridVndComm"), DataSet)
+                        '    grv1.DataSource = dsRet
+                        '    grv1.DataBind()
+                        'End If
+
+                    End If
+                End If
 
 
-            'If hdDisplayAddVndClaim.Value <> "0" Then
-            '    Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
-            '    Dim grv As GridView = DirectCast(ph.FindControl("grvAddComm"), GridView)
-            '    If grv.DataSource Is Nothing Then
-            '        Dim ds = DirectCast(Session("dsComment"), DataSet)
-            '        If ds IsNot Nothing Then
-            '            grvAddComm.DataSource = ds
-            '            grvAddComm.DataBind()
-            '        End If
-            '    End If
-            'End If
+                'If hdDisplayAddVndClaim.Value <> "0" Then
+                '    Dim ph As ContentPlaceHolder = DirectCast(Me.Master.FindControl("MainContent"), ContentPlaceHolder)
+                '    Dim grv As GridView = DirectCast(ph.FindControl("grvAddComm"), GridView)
+                '    If grv.DataSource Is Nothing Then
+                '        Dim ds = DirectCast(Session("dsComment"), DataSet)
+                '        If ds IsNot Nothing Then
+                '            grvAddComm.DataSource = ds
+                '            grvAddComm.DataBind()
+                '        End If
+                '    End If
+                'End If
 
-            LoadImages()
+                LoadImages()
 
-            If Not String.IsNullOrEmpty(controlName) Then
-                Session("currentCtr") = controlName
-                If ((LCase(controlName).Contains("ddl"))) Then
-                    Dim ddlTrig As DropDownList = DirectCast(Me.Form.FindControl(controlName), DropDownList)
-                    executesDropDownList(ddlTrig)
+                If Not String.IsNullOrEmpty(controlName) Then
+                    Session("currentCtr") = controlName
+                    If ((LCase(controlName).Contains("ddl"))) Then
+                        Dim ddlTrig As DropDownList = DirectCast(Me.Form.FindControl(controlName), DropDownList)
+                        executesDropDownList(ddlTrig)
+                    Else
+                        Session("isDDL") = False
+                    End If
                 Else
                     Session("isDDL") = False
                 End If
-            Else
-                Session("isDDL") = False
             End If
-        End If
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+
     End Sub
 
 #Region "Not in Use"
@@ -390,6 +396,7 @@ Public Class CustomerClaims
             End Using
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -435,6 +442,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -507,6 +515,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -527,6 +536,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -639,6 +649,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -671,7 +682,7 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -683,7 +694,7 @@ Public Class CustomerClaims
             grvSeeVndComm.DataBind()
         Catch ex As Exception
             Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -709,7 +720,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -746,7 +757,7 @@ Public Class CustomerClaims
             grvSeeComm.DataBind()
         Catch ex As Exception
             Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -773,7 +784,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1361,6 +1372,7 @@ Public Class CustomerClaims
             updatePagerSettings(grvClaimReport)
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
             'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
         End Try
     End Sub
@@ -1386,7 +1398,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             Dim message = ex.Message
-            Dim pe = message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
         End Try
 
     End Sub
@@ -1493,6 +1505,7 @@ Public Class CustomerClaims
             'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1551,6 +1564,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1597,6 +1611,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1613,6 +1628,7 @@ Public Class CustomerClaims
             'ScriptManager.RegisterStartupScript(Me, Page.GetType, "CleanControl", "cleanDDLRows()", True)
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1695,6 +1711,7 @@ Public Class CustomerClaims
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1733,6 +1750,7 @@ Public Class CustomerClaims
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1749,7 +1767,7 @@ Public Class CustomerClaims
                 'error vendor is empty
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -1759,7 +1777,7 @@ Public Class CustomerClaims
                 GetVendorCustomValue(txtVendorNo.Text.Trim())
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2227,6 +2245,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             'get error in log
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2272,7 +2291,7 @@ Public Class CustomerClaims
             '    End If
             'Next
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2371,6 +2390,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -2719,6 +2739,7 @@ Public Class CustomerClaims
             End If
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -2834,6 +2855,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -2856,6 +2878,7 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return blResult
         End Try
 
@@ -2883,6 +2906,7 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return blResult
         End Try
     End Function
@@ -2891,7 +2915,7 @@ Public Class CustomerClaims
         Try
             SeeFiles()
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2899,7 +2923,7 @@ Public Class CustomerClaims
         Try
             SeeFiles()
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2907,7 +2931,7 @@ Public Class CustomerClaims
         Try
             AddComments()
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2915,7 +2939,7 @@ Public Class CustomerClaims
         Try
             SeeCommentsMethod()
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2925,7 +2949,7 @@ Public Class CustomerClaims
             Session("LstMessages") = Nothing
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2937,7 +2961,7 @@ Public Class CustomerClaims
             Session("LstMessages") = Nothing
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2960,7 +2984,7 @@ Public Class CustomerClaims
             Next
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -2985,7 +3009,7 @@ Public Class CustomerClaims
             'lstComments.DataBind()
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3052,7 +3076,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3158,7 +3182,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3173,7 +3197,7 @@ Public Class CustomerClaims
             loadSessionClaims(ds)
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3279,7 +3303,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3300,7 +3324,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3321,7 +3345,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3342,7 +3366,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3363,7 +3387,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3384,7 +3408,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3405,7 +3429,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3421,7 +3445,7 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3442,7 +3466,7 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3467,6 +3491,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             SendMessage(ex.Message, messageType.Error)
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3700,7 +3725,7 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3768,6 +3793,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -3811,6 +3837,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -3971,6 +3998,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4014,6 +4042,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4046,6 +4075,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4093,6 +4123,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4171,6 +4202,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4260,6 +4292,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4339,6 +4372,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4416,6 +4450,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4493,6 +4528,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4571,6 +4607,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4648,6 +4685,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4727,6 +4765,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4779,6 +4818,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4871,6 +4911,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -4916,6 +4957,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5003,6 +5045,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5046,7 +5089,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
 
     End Sub
@@ -5152,12 +5195,10 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
-
-
-
 
     Public Function GetGeneralValues(wrnNo As String, ByRef strMessage As String, ByRef Optional totalClaimValue As Double = 0, ByRef Optional totalLimit As Double = 0, ByRef Optional totalConsDamage As Double = 0,
                                                    ByRef Optional resultFreight As Double = 0, ByRef Optional resultParts As Double = 0, ByRef Optional resultAmoApproved As Double = 0, Optional flagProc As Boolean = False) As Integer
@@ -5252,6 +5293,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5352,6 +5394,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5465,6 +5508,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5590,6 +5634,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5698,6 +5743,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5892,6 +5938,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5942,6 +5989,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -5975,6 +6023,7 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -6030,7 +6079,7 @@ Public Class CustomerClaims
             strMessageOut = strMessage
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -6063,7 +6112,7 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -6089,8 +6138,7 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            Dim pp = ex.Message
-            Dim ppp = ""
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -6108,7 +6156,7 @@ Public Class CustomerClaims
                 Return flag
             End If
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return flag
         End Try
     End Function
@@ -6147,7 +6195,7 @@ Public Class CustomerClaims
             dctImages = dctFiles
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             dctImages = Nothing
         End Try
     End Sub
@@ -6174,7 +6222,7 @@ Public Class CustomerClaims
                 lstStrImg.Add(url)
             Next
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             lstStrImg = Nothing
         End Try
     End Sub
@@ -6317,6 +6365,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             exMessage = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Dim pp = exMessage
             strMessage = exMessage
             bResult = False
@@ -6404,7 +6453,7 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, ex.Message, ex.ToString)
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return flag
         End Try
     End Function
@@ -6512,7 +6561,7 @@ Public Class CustomerClaims
                 strBuild += " AND TRIM(CWLOCN) = '" + Trim(ddlLocat.SelectedItem.Value.Trim()) + "'"
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
 
     End Sub
@@ -6550,7 +6599,7 @@ Public Class CustomerClaims
             Next
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -6673,6 +6722,7 @@ Public Class CustomerClaims
             End Using
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -6700,6 +6750,7 @@ Public Class CustomerClaims
             End Using
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -6737,6 +6788,7 @@ Public Class CustomerClaims
             End Using
             Return result
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return result
         End Try
     End Function
@@ -6784,6 +6836,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return Nothing
         End Try
 
@@ -6817,6 +6870,7 @@ Public Class CustomerClaims
             Return strResult
 
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return Nothing
         End Try
     End Function
@@ -6851,7 +6905,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -6912,7 +6966,7 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -6932,7 +6986,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7207,7 +7261,7 @@ Public Class CustomerClaims
                 'no data for current claimNo
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7233,6 +7287,7 @@ Public Class CustomerClaims
             Return items
 
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return Nothing
         End Try
 
@@ -7385,8 +7440,7 @@ Public Class CustomerClaims
             Session("emailObj") = cEmailObj
             Session("fullObj") = cGeneral
         Catch ex As Exception
-            Dim exx = ex.Message
-            Dim pe = exx
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7430,7 +7484,7 @@ Public Class CustomerClaims
             End Using
             clearClaimsFields()
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7463,7 +7517,7 @@ Public Class CustomerClaims
             clearClaimsFields()
 
         Catch ex As Exception
-            Dim pp = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7488,8 +7542,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7512,8 +7565,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7534,6 +7586,7 @@ Public Class CustomerClaims
             End Using
             Return userEmail
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return userEmail
         End Try
     End Function
@@ -7597,7 +7650,7 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7663,7 +7716,7 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -7712,6 +7765,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             Dim msg = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
 
     End Sub
@@ -7866,6 +7920,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             Dim msg = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8081,7 +8136,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8193,8 +8248,7 @@ Public Class CustomerClaims
                 'no file uploaded
             End If
         Catch ex As Exception
-            Dim msg = ex.Message
-            Dim pp = msg
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8224,7 +8278,7 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8361,7 +8415,7 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             exMessage = ex.Message
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8393,6 +8447,7 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return blResult
         End Try
     End Function
@@ -8421,7 +8476,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8455,6 +8510,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return strComment
         End Try
     End Function
@@ -8512,7 +8568,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8545,7 +8601,7 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            Dim pepe = "a"
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8587,7 +8643,7 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8612,7 +8668,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8642,7 +8698,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8665,7 +8721,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8697,6 +8753,7 @@ Public Class CustomerClaims
 
             Return valueOver500
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return valueOver500
         End Try
 
@@ -8722,6 +8779,7 @@ Public Class CustomerClaims
 
             Return valueFreight
         Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return valueFreight
         End Try
 
@@ -8754,7 +8812,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8798,7 +8856,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8820,7 +8878,7 @@ Public Class CustomerClaims
                 hdflgoth.Value = ""
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8856,7 +8914,7 @@ Public Class CustomerClaims
                 hdmhwtyp.Value = ""
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8891,7 +8949,7 @@ Public Class CustomerClaims
                 hdcwstde.Value = ""
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8912,7 +8970,7 @@ Public Class CustomerClaims
                 txtActualStatus.Text = hdcwstde.Value.Trim().ToUpper()
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8951,7 +9009,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8989,7 +9047,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9011,7 +9069,7 @@ Public Class CustomerClaims
                 'txtDiagnoseData.Text = hdcwdiagd.Value
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9032,7 +9090,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9100,6 +9158,7 @@ Public Class CustomerClaims
             End Using
         Catch ex As Exception
             strMessage = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9134,7 +9193,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9271,7 +9330,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9290,7 +9349,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9316,7 +9375,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9368,7 +9427,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9415,7 +9474,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9450,7 +9509,7 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9477,7 +9536,7 @@ Public Class CustomerClaims
                 txtTotalAmount.Enabled = False
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9507,7 +9566,7 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9720,6 +9779,7 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -10165,25 +10225,30 @@ Public Class CustomerClaims
             End Using
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
 
     End Sub
 
     Protected Sub LoadingDropDownList(dwlControl As DropDownList, displayMember As String, valueMember As String, data As DataTable, genrateSelect As Boolean, strTextSelect As String)
 
-        Dim dtTemp As DataTable = data.Copy()
-        dwlControl.Items.Clear()
-        If (genrateSelect) Then
-            Dim row As DataRow = dtTemp.NewRow()
-            row(displayMember) = strTextSelect
-            row(valueMember) = -1
-            dtTemp.Rows.InsertAt(row, 0)
-        End If
+        Try
+            Dim dtTemp As DataTable = data.Copy()
+            dwlControl.Items.Clear()
+            If (genrateSelect) Then
+                Dim row As DataRow = dtTemp.NewRow()
+                row(displayMember) = strTextSelect
+                row(valueMember) = -1
+                dtTemp.Rows.InsertAt(row, 0)
+            End If
 
-        dwlControl.DataSource = dtTemp
-        dwlControl.DataTextField = displayMember.Trim()
-        dwlControl.DataValueField = valueMember.Trim()
-        dwlControl.DataBind()
+            dwlControl.DataSource = dtTemp
+            dwlControl.DataTextField = displayMember.Trim()
+            dwlControl.DataValueField = valueMember.Trim()
+            dwlControl.DataBind()
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
 
     End Sub
 
@@ -10482,7 +10547,7 @@ Public Class CustomerClaims
     Public Sub writeLog(strLogCadenaCabecera As String, strLevel As Logs.ErrorTypeEnum, strMessage As String, strDetails As String)
         strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
         Dim userid = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "N/A")
-        objLog.WriteLog(strLevel, "CTPSystem" & strLevel, strLogCadena, userid, strMessage, strDetails)
+        objLog.WriteLog(strLevel, "ClaimsApp" & strLevel, strLogCadena, userid, strMessage, strDetails)
     End Sub
 
     Private Sub btnCloseTab_Command(sender As Object, e As CommandEventArgs) Handles btnCloseTab.Command

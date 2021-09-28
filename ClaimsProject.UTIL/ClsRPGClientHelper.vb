@@ -412,6 +412,28 @@ Public Class ClsRPGClientHelper
 
 #Region "SQL Store Procedures"
 
+    Public Function ExecuteNotQueryCommand(queryString As String, connectionString As String) As Integer
+
+        Dim exMessage As String = " "
+        Dim rsResult As Integer = -1
+        Try
+            Using connection As New SqlConnection(connectionString)
+                Dim command As New SqlCommand(queryString, connection)
+                command.CommandType = CommandType.Text
+
+                command.Connection.Open()
+                rsResult = command.ExecuteNonQuery()
+            End Using
+            Return rsResult
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return rsResult
+        Finally
+
+        End Try
+
+    End Function
+
     ' <summary>
     ' Ejecuta un Stored Procedure que retorna tuplas como resultado de su ejecución.
     ' </summary>
