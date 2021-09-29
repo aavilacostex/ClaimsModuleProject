@@ -803,6 +803,7 @@
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
                     <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
+                    <asp:HiddenField ID="hdTestPath" value="" runat="server" />
 
                 </div>
             </div>            
@@ -887,9 +888,9 @@
 
                                 <div id="rowGridView">
                                     <asp:GridView ID="grvClaimReport" runat="server" AutoGenerateColumns="false" ShowFooter="false" PageSize="10" 
-                                        CssClass="table table-striped table-bordered" AllowPaging="True" DataKeyNames="MHMRNR" GridLines="None" 
+                                        CssClass="table table-striped table-bordered" AllowPaging="True" DataKeyNames="MHMRNR" GridLines="None"  AllowSorting="true"
                                         OnPageIndexChanging="grvClaimReport_PageIndexChanging" OnRowDataBound="grvClaimReport_RowDataBound" OnRowCommand="grvClaimReport_RowCommand"
-                                        OnRowUpdating="grvClaimReport_RowUpdating" >
+                                        OnRowUpdating="grvClaimReport_RowUpdating" OnSorting="grvClaimReport_Sorting" >
                                         <Columns>                                           
                                             <%--<asp:TemplateField>  removido
                                                 <ItemTemplate>
@@ -914,7 +915,7 @@
                                             </asp:TemplateField>
 
                                             <asp:BoundField DataField="MHMRNR" HeaderText="CLAIM NUMBER" ItemStyle-Width="10%" />
-                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="DATE">
+                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="DATE" >
                                                 <ItemTemplate>
                                                     <asp:Literal ID="Literal1" runat="server"
                                                         Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("MHDATE"))) %>'>        
@@ -922,10 +923,10 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField> 
                                             <%--<asp:BoundField DataField="MHTDES" HeaderText="TYPE" ItemStyle-Width="11%" />  removido --%>
-                                            <asp:BoundField DataField="mhcunr" HeaderText="CUSTOMER" ItemStyle-Width="10%" />
-                                            <asp:BoundField DataField="mhcuna" HeaderText="CUSTOMER NAME" ItemStyle-Width="15%" />
+                                            <asp:BoundField DataField="mhcunr" HeaderText="CUSTOMER" ItemStyle-Width="10%" SortExpression="mhcunr" />
+                                            <asp:BoundField DataField="mhcuna" HeaderText="CUSTOMER NAME" ItemStyle-Width="15%" SortExpression="mhcuna" />
                                             <asp:BoundField DataField="mhtomr" HeaderText="CREDIT AMOUNT" ItemStyle-Width="6%" />                                            
-                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%" />
+                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%"  />
                                            <%-- <asp:BoundField DataField="actdt" HeaderText="LAST UPDATE DATE" ItemStyle-Width="15%" />--%> 
                                             <%--<asp:TemplateField HeaderText="LAST UPDATE DATE" ItemStyle-Width="7%" SortExpression="DATE">    removido
                                                 <ItemTemplate>
@@ -1905,8 +1906,8 @@
 
                                         <!-- row gridview see comments -->
                                         <div class="row">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-8">
+                                            <%--<div class="col-md-2"></div>--%>
+                                            <div class="col-md-12">
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
                                                         <div class="form-horizontal">
@@ -1919,8 +1920,22 @@
                                                                         <asp:BoundField DataField="CWWRNO" HeaderText="ID" ItemStyle-Width="3%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
                                                                         <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"   />
                                                                         <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="15%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />
-                                                                        <asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="30%" />
-                                                                        <asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="30%" />
+                                                                        <asp:TemplateField HeaderText="DATE ENTERED" HeaderStyle-Width="15%" ItemStyle-Width="15%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal1" runat="server"
+                                                                                    Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("CWCHDA"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="TIME ENTERED" HeaderStyle-Width="15%" ItemStyle-Width="15%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal1" runat="server"
+                                                                                    Text='<%#String.Format("{0:T}", System.Convert.ToDateTime(Eval("CWCHTI"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <%--<asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="30%" />--%>
+                                                                        <%--<asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="30%" />--%>
                                                                         <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="15%" />
                                                                         <asp:BoundField DataField="CWCFLA" HeaderText="Int / Ext " ItemStyle-Width="6%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />
                                                                         <asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
@@ -1957,7 +1972,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2"></div>
+                                            <%--<div class="col-md-2"></div>--%>
                                         </div>
 
                                          <!-- row actions btns see vnd comments -->
@@ -2224,7 +2239,7 @@
                                                     <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <div class="form-row">
+                                                    <div class="form-row hideProp">
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />
                                                         </div>
@@ -2701,10 +2716,9 @@
             }
 
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
-            if (hdForceLoad == "1") {
+            if (hdForceLoad == "1") {                
                 JSFunction();
             }
-
         }
 
         function fixVisibilityColumns() {
@@ -3471,6 +3485,8 @@
             fixVisibilityColumns();
 
             setHeight($('#MainContent_txtCustStatement'));
+
+            //$(window).scrollTop(0);
             
             console.log("EndFunction");
 
@@ -3623,6 +3639,12 @@
           
             console.log("BeginPageLoad");
 
+            var hdTEst = document.getElementById('<%=hdTestPath.ClientID%>').value
+            if (hdTEst != "") {
+                console.log(hdTEst);
+                $('#<%=hdTestPath.ClientID %>').val("");
+            }            
+
             execDatePickers();
            
             //$("#navsSection").removeAttr("style");
@@ -3729,6 +3751,12 @@
 
                 disableCustomInput();
 
+                //$(window).scrollTop(0);
+
+            }
+
+            function myfunction() {
+
             }
 
             var hdWelcome = document.getElementById('<%=hdWelcomeMess.ClientID%>').value
@@ -3799,6 +3827,8 @@
             expandMultilineTxt() //page load outer
 
             disableCustomInput();
+
+            //$(window).scrollTop(0);
 
             //__doPostBack()
 

@@ -796,6 +796,45 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Protected Sub grvClaimReport_Sorting(sender As Object, e As GridViewSortEventArgs) Handles grvClaimReport.Sorting
+        Dim dtw As DataView = Nothing
+        Dim newDt As DataTable = New DataTable()
+        Dim exMessage As String = Nothing
+        Dim direction As String = Nothing
+        Try
+            direction = DirectCast(Session("sortDirection"), String)
+            Dim dsFull = DirectCast(Session("Datasource"), DataSet)
+            Dim dt As DataTable = DirectCast(grvClaimReport.DataSource, DataTable)
+            Dim field = e.SortExpression
+
+            If dt IsNot Nothing Then
+                Dim num = 0
+                If SetSortDirection(direction) = "ASC" Then
+                    'Dim dtQuery = dt.AsEnumerable().Where(Function(ee) Integer.TryParse(ee.Item(field).ToString(), num) = True).CopyToDataTable()
+                    grvClaimReport.DataSource = dt.AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                Else
+                    grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                End If
+            Else
+                If SetSortDirection(direction) = "ASC" Then
+                    grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                Else
+                    grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                End If
+            End If
+
+            grvClaimReport.DataBind()
+            Dim dtt = DirectCast(grvClaimReport.DataSource, DataTable)
+            Dim ds = New DataSet()
+            ds.Tables.Add(dtt)
+            Session("Datasource") = ds
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
 
 #Region "Old add comment gridview"
 
@@ -6244,6 +6283,17 @@ Public Class CustomerClaims
 
 #Region "Utils"
 
+    Protected Function SetSortDirection(sortDirection As String) As String
+        Dim _sortDirection As String = Nothing
+        If sortDirection = "0" Then
+            _sortDirection = "DESC"
+        Else
+            _sortDirection = "ASC"
+        End If
+        Session("sortDirection") = If(_sortDirection = "DESC", "1", "0")
+        Return _sortDirection
+    End Function
+
     '    static class ListExtensions
     '{
     '    public static DataTable ToDataTable(this List<List<string>> list)
@@ -8284,6 +8334,7 @@ Public Class CustomerClaims
                 Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
                 Dim folderpathvendor = FolderPath + wrnNo + "\"
                 If Directory.Exists(folderpathvendor) Then
+                    hdTestPath.Value = folderpathvendor
                     System.Diagnostics.Process.Start(folderpathvendor)
                 Else
                     'message No files for this Claim Warning.
@@ -8291,7 +8342,7 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + " . " + ex.ToString + " . " + ex.StackTrace + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -8373,6 +8424,9 @@ Public Class CustomerClaims
 
             BuildDates()
 
+            Dim strTechReviewUsr = ConfigurationManager.AppSettings("AuthTechReview")
+            Session("techReviewUsr") = strTechReviewUsr
+
             Dim strDate1 = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("strDates")), ConfigurationManager.AppSettings("strDates"), strDateFirst + "," + curDate)
             Dim strDates As String() = Nothing
             strDates = strDate1.Split(",")
@@ -8423,8 +8477,6 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlVndNo)
             LoadDropDownLists(ddlLocat)
             LoadDropDownLists(ddlLocation)
-
-
 
         Catch ex As Exception
             exMessage = ex.Message
@@ -9839,7 +9891,7 @@ Public Class CustomerClaims
                     'cmbstatus
 
                     Dim ListItem2 As ListItem = New ListItem()
-                    ddl.Items.Add(New WebControls.ListItem("NA - SELECT STATUS", "-1"))
+                    ddl.Items.Add(New WebControls.ListItem("EXTERNAL STATUS", "-1"))
                     ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
                     ddl.Items.Add(New WebControls.ListItem("ALL OPEN", "1"))
                     ddl.Items.Add(New WebControls.ListItem("ALL CLOSED", "2"))
@@ -9859,7 +9911,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
 
-                                Dim initialLi As ListItem = New ListItem("NA - SELECT STATUS", "-1")
+                                Dim initialLi As ListItem = New ListItem("INTERNAL STATUS", "-1")
                                 ddlSearchIntStatus.Items.Add(initialLi)
 
                                 For Each dw As DataRow In dsData.Tables(0).Rows
@@ -9883,6 +9935,7 @@ Public Class CustomerClaims
             ElseIf ddl.ID = "ddlClaimTypeOk" Then
                 'cmbType
                 Dim ListItem As ListItem = New ListItem()
+                ddl.Items.Add(New WebControls.ListItem("CLAIM TYPE", "-1"))
                 ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
                 ddl.Items.Add(New WebControls.ListItem("WARRANTY TYPES", "1"))
                 ddl.Items.Add(New WebControls.ListItem("NON-WARRANTY TYPES", "2"))
@@ -9924,16 +9977,17 @@ Public Class CustomerClaims
                         result = objBL.GetUsersInInitialReview(dsData)
 
                         LoadingDropDownList(ddlInitRev, dsData.Tables(0).Columns("usname").ColumnName,
-                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "NA - Select Init.Review User")
+                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "Claims Coordinator")
                     End Using
                 End If
             ElseIf ddl.ID = "ddlTechRev" Then
                 If ddl.Items.Count = 0 Then
                     Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                        result = objBL.GetUsersInTechnicalReview(dsData)
-
+                        Dim strNames = DirectCast(Session("techReviewUsr"), String)
+                        'result = objBL.GetUsersInTechnicalReview(dsData)
+                        result = objBL.GetClaimPrivUsr(strNames, dsData)
                         LoadingDropDownList(ddlTechRev, dsData.Tables(0).Columns("usname").ColumnName,
-                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "NA - Select Tech.Review User")
+                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "Tech.Review User")
                     End Using
                 End If
             ElseIf ddl.ID = "ddlVndNo" Then
@@ -9943,7 +9997,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
                                 LoadingDropDownList(ddlVndNo, dsData.Tables(0).Columns("VMNAME").ColumnName,
-                                                    dsData.Tables(0).Columns("VMVNUM").ColumnName, dsData.Tables(0), True, "NA - Select Vendor Name")
+                                                    dsData.Tables(0).Columns("VMVNUM").ColumnName, dsData.Tables(0), True, "Vendor Name")
                             End If
                         End If
                     End Using
@@ -9955,7 +10009,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
                                 LoadingDropDownList(ddlLocat, dsData.Tables(0).Columns("CNTDE1").ColumnName,
-                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, "NA - Select Location")
+                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, "Location")
                             End If
                         End If
                     End Using

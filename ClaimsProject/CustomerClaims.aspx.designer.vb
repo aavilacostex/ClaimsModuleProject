@@ -1121,6 +1121,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdLoadAllData As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdTestPath control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdTestPath As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>
