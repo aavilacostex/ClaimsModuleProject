@@ -3754,9 +3754,18 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.CustomerClaims._btnCloseClaim1">
+<member name="F:ClaimsProject.CustomerClaims._btnReopenClaim">
 <summary>
-btnCloseClaim1 control.
+btnReopenClaim control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._btnVoidClaim">
+<summary>
+btnVoidClaim control.
 </summary>
 <remarks>
 Auto-generated field.

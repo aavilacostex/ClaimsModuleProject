@@ -3731,13 +3731,22 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnCloseClaim As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''btnCloseClaim1 control.
+    '''btnReopenClaim control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnCloseClaim1 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnReopenClaim As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''btnVoidClaim control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnVoidClaim As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''rowBtn control.

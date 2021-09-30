@@ -1184,7 +1184,8 @@ Public Class ClaimsProject : Implements IDisposable
             Dim dt As DataTable = New DataTable()
 
             'Dim Sql = "SELECT * FROM qs36f.CLMWCH WHERE CWWRNO = " & code & " ORDER BY  CWCHDA DESC,CWCHTI DESC"
-            Dim Sql = "SELECT distinct A1.CWWRNO,A1.CWCHDA,A1.CWCHTI,A1.USUSER,A1.CWCHSU,A1.CWCHCO,A1.CWCFLA, A1.CWCFLN FROM qs36f.CLMWCH A1 WHERE A1.CWWRNO = " & code & " ORDER BY  CWCHDA DESC,CWCHTI DESC"
+            Dim Sql = "SELECT distinct A1.CWWRNO,A1.CWCHDA,A1.CWCHTI,A1.USUSER,A1.CWCHSU,A2.CWCDTX,A1.CWCHCO,A1.CWCFLA, A1.CWCFLN FROM qs36f.CLMWCH A1 join qs36f.CLMWCD A2 on (A1.CWWRNO = A2.CWWRNO and A1.CWCHCO = A2.CWCHCO) 
+                        WHERE A1.CWWRNO = " & code & " ORDER BY  CWCHDA DESC,CWCHTI DESC"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1217,7 +1218,8 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
 
-            Dim Sql = "SELECT * FROM qs36f.CLMCMT WHERE CCCLNO = " & code & " ORDER BY  CCDATE DESC,CCTIME DESC"
+            Dim Sql = "SELECT distinct A1.CCCLNO,A1.CCDATE,A1.CCTIME,A1.USUSER,A1.CCSUBJ, A2.CCTEXT,A1.CCCODE,A2.CCPTNO FROM qs36f.CLMCMT A1 join qs36f.CLMCMD A2 
+                        on (A1.CCCLNO = A2.CCCLNO and A1.CCCODE = A2.CCCODE) WHERE A1.CCCLNO = " & code & "  ORDER BY  CCDATE DESC,CCTIME DESC"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1669,6 +1671,20 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Sql = "UPDATE qs36f.CSMREH SET MHSTAT = '" + status + "' WHERE MHMRNR = " & value
+            objDatos.UpdateDataInDatabase(Sql, affectedRows)
+
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+    Public Function UpdateNWHeaderStatForce(value As String, status As String, custSts As String, custSql As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "UPDATE qs36f.CSMREH SET MHSTAT = '" + status + "' WHERE MHSTAT " + custSql + "('" + custSts + "') AND MHMRNR = " & value
             objDatos.UpdateDataInDatabase(Sql, affectedRows)
 
             Return affectedRows

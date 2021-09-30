@@ -377,7 +377,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-6">
                                                         <!--btn search-->
-                                                        <asp:Button ID="btnSearchFilter" Text="Search by Criteria" OnClick="btnSearchFilter_Click" CssClass="btn btn-primary rightCls" runat="server" />
+                                                        <asp:Button ID="btnSearchFilter" Text="Search" OnClick="btnSearchFilter_Click" CssClass="btn btn-primary rightCls" runat="server" />
                                                     </div>
                                                     <div class="col-md-6">
                                                         <!--btn clear fields-->
@@ -1943,9 +1943,10 @@
                                                                         <%--<asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="30%" />--%>
                                                                         <%--<asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="30%" />--%>
                                                                         <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="10%" />
-                                                                        <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="50%"  />
+                                                                        <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="20%"  />
+                                                                        <asp:BoundField DataField="CWCDTX" HeaderText="COMMENT" ItemStyle-Width="50%"  />
                                                                         <asp:BoundField DataField="CWCFLA" HeaderText="Int / Ext " ItemStyle-Width="6%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />                                                                        
-                                                                        <asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="10%">
+                                                                        <%--<asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="10%">
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkExpander1" runat="server" TabIndex="1" ToolTip="Get Comment Detail" CssClass="click-in2" CommandName="commentDet"
                                                                                     OnClientClick='<%# String.Format("return divexpandcollapse(this, {0});", Eval("CWCHCO")) %>'>
@@ -1968,7 +1969,7 @@
                                                                                     </td>
                                                                                 </tr>
                                                                             </ItemTemplate>
-                                                                        </asp:TemplateField>
+                                                                        </asp:TemplateField>--%>
                                                                     </Columns>
                                                                     <HeaderStyle BackColor="#0063A6" ForeColor="White" />
                                                                     <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" PageButtonCount="10" />
@@ -2027,12 +2028,29 @@
                                                                     OnRowCommand="grvSeeVndComm_RowCommand">
                                                                     <Columns>
                                                                         <asp:BoundField DataField="CCCLNO" HeaderText="ID" ItemStyle-Width="3%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
-                                                                        <asp:BoundField DataField="CCCODE" HeaderText="CODE" ItemStyle-Width="10%" />
-                                                                        <asp:BoundField DataField="CCSUBJ" HeaderText="SUBJECT" ItemStyle-Width="15%" />
-                                                                        <asp:BoundField DataField="CCDATE" HeaderText="DATE ENTERED" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="CCTIME" HeaderText="TIME ENTERED" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="6%" />
-                                                                        <asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
+                                                                        <asp:BoundField DataField="CCCODE" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
+
+                                                                        <asp:TemplateField HeaderText="DATE ENTERED" HeaderStyle-Width="10%" ItemStyle-Width="10%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal10000000" runat="server"
+                                                                                    Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("CCDATE"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="TIME ENTERED" HeaderStyle-Width="10%" ItemStyle-Width="10%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal100000" runat="server"
+                                                                                    Text='<%#String.Format("{0:T}", System.Convert.ToDateTime(Eval("CCTIME"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+
+                                                                        <%--<asp:BoundField DataField="CCDATE" HeaderText="DATE ENTERED" ItemStyle-Width="6%" />
+                                                                        <asp:BoundField DataField="CCTIME" HeaderText="TIME ENTERED" ItemStyle-Width="6%" />--%>
+                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="10%" />
+                                                                        <asp:BoundField DataField="CCSUBJ" HeaderText="SUBJECT" ItemStyle-Width="10%" />                                                                        
+                                                                        <asp:BoundField DataField="CCTEXT" HeaderText="COMMENT" ItemStyle-Width="60%" /> 
+                                                                        <%--<asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkExpander" runat="server" TabIndex="1" ToolTip="Get Comment Detail" CssClass="click-in2" CommandName="commentDet"
                                                                                     OnClientClick='<%# String.Format("return divexpandcollapse(this, {0});", Eval("CCCODE")) %>'>
@@ -2055,7 +2073,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                             </ItemTemplate>
-                                                                        </asp:TemplateField>
+                                                                        </asp:TemplateField>--%>
                                                                     </Columns>
                                                                     <HeaderStyle BackColor="#0063A6" ForeColor="White" />
                                                                     <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" PageButtonCount="10" />
@@ -2246,7 +2264,7 @@
                                                     <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <div class="form-row hideProp">
+                                                    <div class="form-row last">
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />
                                                         </div>
@@ -2257,7 +2275,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-row last">
+                                            <div class="form-row hideProp">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblAmountApproved" Text="Claim amount approved by sales on top of Claims Approval" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtAmountApproved" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
@@ -2359,16 +2377,23 @@
                                 <div id="rwCloseClaim" class="col-md-3 hideProp" runat="server">
                                     <asp:Panel ID="pnCloseClaim" GroupingText="Close Action" runat="server">
                                         <div class="form-row last">
-                                            <div class="col-md-3">
+                                            <div class="col-md-1">
                                                 <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseClaim_Click" ToolTip="Close Claim" runat="server">
                                                     <i class="fa fa-thumbs-up fa-1x"" aria-hidden="true"> </i>  <p>Close Claim</p>
                                                 </asp:LinkButton>
-                                                <asp:Button ID="btnCloseClaim1" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                                <asp:LinkButton ID="btnReopenClaim" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReopen_Click" ToolTip="Re Open Claim" runat="server">
+                                                    <i class="fa fa-edit fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
+                                                </asp:LinkButton>
                                             </div>
-                                            <div class="col-md-3"></div>
+                                            <div class="col-md-5">
+                                                <asp:LinkButton ID="btnVoidClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnVoid_Click" ToolTip="Void Claim" runat="server">
+                                                    <i class="fa fa-eraser fa-1x"" aria-hidden="true"> </i>  <p>Void Claim</p>
+                                                </asp:LinkButton>
+                                            </div>
+                                            <div class="col-md-1"></div>
                                         </div>
                                     </asp:Panel>
                                 </div>
@@ -2773,6 +2798,9 @@
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
                 $('#MainContent_lnkSentToComm').removeClass('disableCtr');
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
+                $('#MainContent_btnCloseClaim').addClass('hideProp');
+                $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                $('#MainContent_btnReopenClaim').removeClass('disableCtr');
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -2784,7 +2812,10 @@
                 $('#partinfo').find('textarea').attr('disabled', true);
 
                 $('#MainContent_ddlDiagnoseData').attr('disabled', false);
-                $('#MainContent_chkQuarantine').attr('disabled', false);           
+                $('#MainContent_chkQuarantine').attr('disabled', false);   
+
+                $('#MainContent_btnVoidClaim').removeClass('hideProp');
+                $('#MainContent_btnVoidClaim').removeClass('disableCtr');
 
             }
             
@@ -2992,6 +3023,16 @@
         });
 
         $('body').on('click', '#MainContent_btnExitComment', function (e) {
+            //debugger
+
+            $('#<%=hdAddComments.ClientID %>').val("0")
+            $('#<%=hdAddVndComments.ClientID %>').val("0")
+
+            $('#<%=hdSeeComments.ClientID %>').val("0")
+            $('#<%=hdSeeVndComments.ClientID %>').val("0")
+        });
+
+        $('body').on('click', '#MainContent_btnVndExitComment', function (e) {
             //debugger
 
             $('#<%=hdAddComments.ClientID %>').val("0")
@@ -3669,12 +3710,12 @@
                 if (hdAddClaimFile == "1") { $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
                 else { $('#MainContent_AddFilesSection').addClass('hideProp'); }
 
-                var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
+                <%--var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
                 if (hdDisplaySeeVndClaim == "1") {
                     $('#MainContent_seeVendorComments').closest('.container').removeClass('hideProp')
                 } else {
                     $('#MainContent_seeVendorComments').addClass('hideProp')
-                }
+                }--%>
 
                 var hdAddVndComments = document.getElementById('<%=hdAddVndComments.ClientID%>').value
                 if (hdAddVndComments == "1") {

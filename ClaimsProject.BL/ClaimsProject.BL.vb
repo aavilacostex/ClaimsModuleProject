@@ -877,6 +877,24 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function UpdateNWHeaderStatForce(value As String, status As String, custSts As String, flag As Boolean) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            Dim strSql = Nothing
+            If flag.Equals(True) Then
+                strSql = "in"
+            Else
+                strSql = "not in"
+            End If
+
+            result = objDal.UpdateNWHeaderStatForce(value, status, custSts, strSql)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function UpdateNWHeaderStat(value As String, status As String) As Integer
         Dim result As Integer = -1
         Try

@@ -420,6 +420,12 @@ Public Class CustomerClaims
 
                         grvClaimReport.DataSource = ds.Tables(0)
                         grvClaimReport.DataBind()
+                    Else
+                        Dim methodMessage = "There is not results for the selected filters. Please try again with other search criteria."
+                        SendMessage(methodMessage, messageType.warning)
+
+                        grvClaimReport.DataSource = Nothing
+                        grvClaimReport.DataBind()
                     End If
                 ElseIf Session("DataSource") IsNot Nothing Then
                     Dim allSessionClaims = DirectCast(Session("DataSource"), DataSet)
@@ -672,22 +678,22 @@ Public Class CustomerClaims
     Protected Sub grvSeeVndComm_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grvSeeVndComm.RowDataBound
         Try
             If e.Row.RowType = DataControlRowType.DataRow Then
-                Dim IntCode = e.Row.Cells(1).Text
-                Dim ds = New DataSet()
-                Dim flag = GetCommDetail(IntCode, ds)
-                If flag Then
-                    If ds IsNot Nothing Then
-                        If ds.Tables(0).Rows.Count > 0 Then
-                            Dim msg = ds.Tables(0).Rows(0).Item("CCTEXT").ToString()
-                            If String.IsNullOrEmpty(msg.Replace(".", "").Trim()) Then
-                                Dim dataFrom = e.Row.Cells(6)
-                                Dim myButton As LinkButton = DirectCast(dataFrom.FindControl("lnkExpander"), LinkButton)
-                                myButton.Enabled = False
-                                myButton.ToolTip = "This comment does not have a detail."
-                            End If
-                        End If
-                    End If
-                End If
+                'Dim IntCode = e.Row.Cells(1).Text
+                'Dim ds = New DataSet()
+                'Dim flag = GetCommDetail(IntCode, ds)
+                'If flag Then
+                '    If ds IsNot Nothing Then
+                '        If ds.Tables(0).Rows.Count > 0 Then
+                '            Dim msg = ds.Tables(0).Rows(0).Item("CCTEXT").ToString()
+                '            If String.IsNullOrEmpty(msg.Replace(".", "").Trim()) Then
+                '                Dim dataFrom = e.Row.Cells(6)
+                '                Dim myButton As LinkButton = DirectCast(dataFrom.FindControl("lnkExpander"), LinkButton)
+                '                myButton.Enabled = False
+                '                myButton.ToolTip = "This comment does not have a detail."
+                '            End If
+                '        End If
+                '    End If
+                'End If
             End If
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
@@ -734,24 +740,24 @@ Public Class CustomerClaims
 
     Protected Sub grvSeeComm_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grvSeeComm.RowDataBound
         Try
-            If e.Row.RowType = DataControlRowType.DataRow Then
-                Dim IntCode = e.Row.Cells(1).Text
-                Dim ds = New DataSet()
-                Dim flag = GetCommDetail1(IntCode, ds)
-                If flag Then
-                    If ds IsNot Nothing Then
-                        If ds.Tables(0).Rows.Count > 0 Then
-                            Dim msg = ds.Tables(0).Rows(0).Item("CWCDTX").ToString()
-                            If String.IsNullOrEmpty(msg.Replace(".", "").Trim()) Then
-                                Dim dataFrom = e.Row.Cells(7)
-                                Dim myButton As LinkButton = DirectCast(dataFrom.FindControl("lnkExpander1"), LinkButton)
-                                myButton.Enabled = False
-                                myButton.ToolTip = "This comment does not have a detail."
-                            End If
-                        End If
-                    End If
-                End If
-            End If
+            'If e.Row.RowType = DataControlRowType.DataRow Then
+            '    Dim IntCode = e.Row.Cells(1).Text
+            '    Dim ds = New DataSet()
+            '    Dim flag = GetCommDetail1(IntCode, ds)
+            '    If flag Then
+            '        If ds IsNot Nothing Then
+            '            If ds.Tables(0).Rows.Count > 0 Then
+            '                Dim msg = ds.Tables(0).Rows(0).Item("CWCDTX").ToString()
+            '                If String.IsNullOrEmpty(msg.Replace(".", "").Trim()) Then
+            '                    Dim dataFrom = e.Row.Cells(7)
+            '                    Dim myButton As LinkButton = DirectCast(dataFrom.FindControl("lnkExpander1"), LinkButton)
+            '                    myButton.Enabled = False
+            '                    myButton.ToolTip = "This comment does not have a detail."
+            '                End If
+            '            End If
+            '        End If
+            '    End If
+            'End If
         Catch ex As Exception
 
         End Try
@@ -1692,6 +1698,132 @@ Public Class CustomerClaims
     '    End Try
     'End Sub
 
+    Protected Sub btnVoid_Click(sender As Object, e As EventArgs) Handles btnVoidClaim.Click
+        Dim exMessage As String = " "
+        Dim methodMessage As String = Nothing
+        Dim strMessage As String = Nothing
+        Try
+            Dim claimNo = txtClaimNoData.Text.Trim()
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim ds As DataSet = New DataSet()
+
+            If Not String.IsNullOrEmpty(hdSeq.Value.Trim()) Then
+
+                chkinitial.Value = "V"
+
+                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                    Dim rsResult = objBL.getNWrnClaimsHeader(claimNo, ds)
+                    If rsResult > 0 Then
+                        If ds IsNot Nothing Then
+                            If ds.Tables(0).Rows.Count > 0 Then
+
+                                If Not ds.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim().Equals("7") And Not ds.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim().Equals("8") Then
+
+                                    saveComm("CLAIM VOIDED")
+                                    saveComm("V : VOIDED")
+
+                                    Dim rsIntUpdate = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().Trim(), datenow, hournow)
+                                    If rsIntUpdate < 0 Then
+                                        methodMessage = "There is an error updating the Internal status for the Warranty Claim Number: " + wrnNo + "."
+                                        SendMessage(methodMessage, messageType.Error)
+                                    Else
+                                        Dim rsUpdate = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                                        If rsUpdate < 0 Then
+                                            methodMessage = "There is an error updating the status for the Warranty Claim Number: " + wrnNo + "."
+                                            SendMessage(methodMessage, messageType.Error)
+                                        Else
+                                            Dim rsExtUpdate = objBL.UpdateNWHeaderStatForce(claimNo, "9", "7,8", False)
+                                            If rsExtUpdate < 0 Then
+                                                methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
+                                                SendMessage(methodMessage, messageType.Error)
+                                            Else
+                                                methodMessage = "The Void Proccess was succesful."
+                                                SendMessage(methodMessage, messageType.success)
+                                            End If
+
+                                        End If
+                                    End If
+
+
+
+                                End If
+
+                            End If
+                        End If
+                    End If
+
+                End Using
+
+                hdNavTabsContent.Value = "0"
+                hdClaimNumber.Value = ""
+                hdGridViewContent.Value = "1"
+
+            End If
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Protected Sub btnReopen_Click(sender As Object, e As EventArgs) Handles btnReopenClaim.Click
+        Dim methodMessage As String = Nothing
+        Dim exMessage As String = " "
+        Try
+            Dim claimNo = txtClaimNoData.Text.Trim()
+            Dim wrnNo = hdSeq.Value.Trim()
+            Dim ds As DataSet = New DataSet()
+            If Not String.IsNullOrEmpty(hdSeq.Value.Trim()) Then
+
+                chkinitial.Value = "I"
+
+                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                    Dim rsResult = objBL.getNWrnClaimsHeader(claimNo, ds)
+                    If rsResult > 0 Then
+                        If ds IsNot Nothing Then
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                If ds.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim().Equals("7") Then
+                                    saveComm("CLAIM REOPENED")
+                                    saveComm("I : IN PROC")
+
+                                    Dim rsUpdate = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                                    If rsUpdate < 0 Then
+                                        methodMessage = "There is an error updating the status for the Warranty Claim Number: " + wrnNo + "."
+                                        SendMessage(methodMessage, messageType.Error)
+                                        'error message
+                                    Else
+                                        Dim rsExtUpdate = objBL.UpdateNWHeaderStatForce(claimNo, "2", "7", True)
+                                        If rsExtUpdate < 0 Then
+                                            methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
+                                            SendMessage(methodMessage, messageType.Error)
+                                        Else
+                                            methodMessage = "The Re-Open Proccess was succesful."
+                                            SendMessage(methodMessage, messageType.success)
+                                        End If
+                                    End If
+                                Else
+                                    methodMessage = "The claim does not was Re-Open because claim must be in closed status."
+                                    SendMessage(methodMessage, messageType.Error)
+                                End If
+                            End If
+                        End If
+                    End If
+                End Using
+
+                hdNavTabsContent.Value = "0"
+                hdClaimNumber.Value = ""
+                hdGridViewContent.Value = "1"
+
+            End If
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
     Protected Sub btnSentToComm_Click(sender As Object, e As EventArgs) Handles btnSentToComm.Click
         Dim exMessage As String = " "
         Dim methodMessage As String = Nothing
@@ -1776,6 +1908,8 @@ Public Class CustomerClaims
             hdClaimNumber.Value = ""
             hdCurrentActiveTab.Value = "#claimoverview"
             hdGetCommentTab.Value = "0"
+            hdAddVndComments.Value = "0"
+            hdAddComments.Value = "0"
 
             clearAllDataFields()
 
@@ -2085,10 +2219,18 @@ Public Class CustomerClaims
                         Else
                             'claim denied
 
-                            GetClaimsReport("", 1, Nothing, Nothing)
+                            'GetClaimsReport("", 1, Nothing, Nothing)
                             Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                            grvClaimReport.DataSource = dsData.Tables(0)
+
+                            Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
+                            Dim dsNew As DataSet = New DataSet()
+                            dsNew.Tables.Add(dt)
+
+                            grvClaimReport.DataSource = dsNew.Tables(0)
                             grvClaimReport.DataBind()
+                            Session("DataSource") = dsNew
+                            Session("ItemCounts") = dsNew.Tables(0).Rows.Count.ToString()
+                            lblTotalClaims.Text = dsNew.Tables(0).Rows.Count.ToString()
 
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
@@ -2161,10 +2303,18 @@ Public Class CustomerClaims
                             'Exit Sub
                         Else
 
-                            GetClaimsReport("", 1, Nothing, Nothing)
+                            'GetClaimsReport("", 1, Nothing, Nothing)
                             Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                            grvClaimReport.DataSource = dsData.Tables(0)
+
+                            Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
+                            Dim dsNew As DataSet = New DataSet()
+                            dsNew.Tables.Add(dt)
+
+                            grvClaimReport.DataSource = dsNew.Tables(0)
                             grvClaimReport.DataBind()
+                            Session("DataSource") = dsNew
+                            Session("ItemCounts") = dsNew.Tables(0).Rows.Count.ToString()
+                            lblTotalClaims.Text = dsNew.Tables(0).Rows.Count.ToString()
 
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
@@ -2219,10 +2369,18 @@ Public Class CustomerClaims
 
                             clearAllDataFields()
 
-                            GetClaimsReport("", 1, Nothing, Nothing)
+                            'GetClaimsReport("", 1, Nothing, Nothing)
                             Dim dsData = DirectCast(Session("DataSource"), DataSet)
-                            grvClaimReport.DataSource = dsData.Tables(0)
+
+                            Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
+                            Dim dsNew As DataSet = New DataSet()
+                            dsNew.Tables.Add(dt)
+
+                            grvClaimReport.DataSource = dsNew.Tables(0)
                             grvClaimReport.DataBind()
+                            Session("DataSource") = dsNew
+                            Session("ItemCounts") = dsNew.Tables(0).Rows.Count.ToString()
+                            lblTotalClaims.Text = dsNew.Tables(0).Rows.Count.ToString()
 
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
@@ -5944,27 +6102,30 @@ Public Class CustomerClaims
                     If intResult.Equals(2) Or totalClaimValue >= dbLimit Then
                         Dim sumRs As Integer = 0
 
-                        chkinitial.Value = "Y"
+                        'chkinitial.Value = "Y"
 
                         'updating CLMWRN
-                        Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
-                        If rsLastUpd <= 0 Then
-                            sumRs += 1
-                        End If
+                        'not in use until select a status for this alternative
+                        'Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                        'If rsLastUpd <= 0 Then
+                        '    sumRs += 1
+                        'End If
 
                         'updating CLMINTSTS
-                        BuildDates()
-                        Dim dsInt As DataSet = New DataSet()
-                        Dim isPresentStatus = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsInt)
-                        If isPresentStatus = 0 Then
-                            Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                            If rsOkQuality <= 0 Then
-                                sumRs += 1
-                            End If
-                        End If
+                        'not in use until select a status for this alternative
+                        'BuildDates()
+                        'Dim dsInt As DataSet = New DataSet()
+                        'Dim isPresentStatus = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsInt)
+                        'If isPresentStatus = 0 Then
+                        '    Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                        '    If rsOkQuality <= 0 Then
+                        '        sumRs += 1
+                        '    End If
+                        'End If
 
                         'save comment
-                        Dim checkComm = saveComm("I : IN PROCESS")
+                        'not in use until select a status for this alternative
+                        'Dim checkComm = saveComm("I : IN PROCESS")
 
                         If sumRs >= 1 Then
                             intResult += 1
@@ -5972,9 +6133,9 @@ Public Class CustomerClaims
 
                     End If
 
-                    If intResult.Equals(3) Then
-                        strMessage = "The Update Proccess for warranty claim status could not be completed. Otherwise you can continue with the proccess in order to close the claim."
-                    End If
+                    'If intResult.Equals(3) Then
+                    '    strMessage = "The Update Proccess for warranty claim status could not be completed. Otherwise you can continue with the proccess in order to close the claim."
+                    'End If
 
                     If intValidation = 2 Then
                         result = If(String.IsNullOrEmpty(strMessage), True, False)
