@@ -3538,7 +3538,7 @@ Public Class CustomerClaims
                     SendMessage(strMessageOut, messageType.warning)
                 End If
             Else
-                Dim methodMessage = "If you want to update the Diagnose please first fill in the informacion in the fields!"
+                Dim methodMessage = "If you want to update the Diagnose please first fill in the information in the fields!"
                 SendMessage(methodMessage, messageType.warning)
             End If
         Catch ex As Exception
@@ -7238,10 +7238,10 @@ Public Class CustomerClaims
                                     If dsDesc IsNot Nothing Then
                                         If dsDesc.Tables(0).Rows.Count > 0 Then
                                             Dim description = dsDesc.Tables(0).Rows(0).Item("IMDSC").ToString().Trim()
-                                            Dim description2 = dsDesc.Tables(0).Rows(0).Item("IMDS2").ToString().Trim()
-                                            Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
-                                            Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
-                                            txtPartDesc.Text = allDescriptions
+                                            'Dim description2 = dsDesc.Tables(0).Rows(0).Item("IMDS2").ToString().Trim()
+                                            'Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
+                                            'Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
+                                            txtPartDesc.Text = description
                                         End If
                                         'txtPartDesc.Height = imgPart.Height
                                     End If
@@ -9870,7 +9870,7 @@ Public Class CustomerClaims
                     End Using
 
                     LoadingDropDownList(ddlSearchReason, ds.Tables(0).Columns("cntde1").ColumnName,
-                                                ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, "NA - Select Reason")
+                                                ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, " ")
                 End If
             ElseIf ddl.ID = "ddlSearchDiagnose" Then
                 If ddl.Items.Count = 0 Then
@@ -9880,7 +9880,7 @@ Public Class CustomerClaims
                     End Using
 
                     LoadingDropDownList(ddlSearchDiagnose, ds.Tables(0).Columns("cntde1").ColumnName,
-                                            ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, "NA - Select Diagnose")
+                                            ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, " ")
                 End If
             ElseIf ddl.ID = "ddlSearchExtStatus" Then
                 If ddl.Items.Count = 0 Then
@@ -9891,7 +9891,7 @@ Public Class CustomerClaims
                     'cmbstatus
 
                     Dim ListItem2 As ListItem = New ListItem()
-                    ddl.Items.Add(New WebControls.ListItem("EXTERNAL STATUS", "-1"))
+                    ddl.Items.Add(New WebControls.ListItem(" ", "-1"))
                     ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
                     ddl.Items.Add(New WebControls.ListItem("ALL OPEN", "1"))
                     ddl.Items.Add(New WebControls.ListItem("ALL CLOSED", "2"))
@@ -9911,7 +9911,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
 
-                                Dim initialLi As ListItem = New ListItem("INTERNAL STATUS", "-1")
+                                Dim initialLi As ListItem = New ListItem(" ", "-1")
                                 ddlSearchIntStatus.Items.Add(initialLi)
 
                                 For Each dw As DataRow In dsData.Tables(0).Rows
@@ -9935,7 +9935,7 @@ Public Class CustomerClaims
             ElseIf ddl.ID = "ddlClaimTypeOk" Then
                 'cmbType
                 Dim ListItem As ListItem = New ListItem()
-                ddl.Items.Add(New WebControls.ListItem("CLAIM TYPE", "-1"))
+                ddl.Items.Add(New WebControls.ListItem(" ", "-1"))
                 ddl.Items.Add(New WebControls.ListItem("ALL", "0"))
                 ddl.Items.Add(New WebControls.ListItem("WARRANTY TYPES", "1"))
                 ddl.Items.Add(New WebControls.ListItem("NON-WARRANTY TYPES", "2"))
@@ -9948,7 +9948,7 @@ Public Class CustomerClaims
                     End Using
 
                     LoadingDropDownList(ddlSearchUser, dtOut.Columns("User").ColumnName,
-                                                dtOut.Columns("ID").ColumnName, dtOut, True, "NA - Select User")
+                                                dtOut.Columns("ID").ColumnName, dtOut, True, " ")
                 End If
             ElseIf ddl.ID = "ddlLocation" Then
                 If ddl.Items.Count = 0 Then
@@ -9957,7 +9957,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
                                 LoadingDropDownList(ddlLocation, dsData.Tables(0).Columns("CNTDE1").ColumnName,
-                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, "NA - Select Location")
+                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, " ")
                             End If
                         End If
                     End Using
@@ -9968,7 +9968,7 @@ Public Class CustomerClaims
                         result = objBL.getDiagnoseDataForDDL(dsData)
 
                         LoadingDropDownList(ddlDiagnoseData, dsData.Tables(0).Columns("INTDES").ColumnName,
-                                                    dsData.Tables(0).Columns("CNT03").ColumnName, dsData.Tables(0), True, "")
+                                                    dsData.Tables(0).Columns("CNT03").ColumnName, dsData.Tables(0), True, " ")
                     End Using
                 End If
             ElseIf ddl.ID = "ddlInitRev" Then
@@ -9977,7 +9977,7 @@ Public Class CustomerClaims
                         result = objBL.GetUsersInInitialReview(dsData)
 
                         LoadingDropDownList(ddlInitRev, dsData.Tables(0).Columns("usname").ColumnName,
-                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "Claims Coordinator")
+                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, " ")
                     End Using
                 End If
             ElseIf ddl.ID = "ddlTechRev" Then
@@ -9987,7 +9987,7 @@ Public Class CustomerClaims
                         'result = objBL.GetUsersInTechnicalReview(dsData)
                         result = objBL.GetClaimPrivUsr(strNames, dsData)
                         LoadingDropDownList(ddlTechRev, dsData.Tables(0).Columns("usname").ColumnName,
-                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, "Tech.Review User")
+                                                    dsData.Tables(0).Columns("ususer").ColumnName, dsData.Tables(0), True, " ")
                     End Using
                 End If
             ElseIf ddl.ID = "ddlVndNo" Then
@@ -9997,7 +9997,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
                                 LoadingDropDownList(ddlVndNo, dsData.Tables(0).Columns("VMNAME").ColumnName,
-                                                    dsData.Tables(0).Columns("VMVNUM").ColumnName, dsData.Tables(0), True, "Vendor Name")
+                                                    dsData.Tables(0).Columns("VMVNUM").ColumnName, dsData.Tables(0), True, " ")
                             End If
                         End If
                     End Using
@@ -10009,7 +10009,7 @@ Public Class CustomerClaims
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
                                 LoadingDropDownList(ddlLocat, dsData.Tables(0).Columns("CNTDE1").ColumnName,
-                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, "Location")
+                                                    dsData.Tables(0).Columns("cwlocn").ColumnName, dsData.Tables(0), True, " ")
                             End If
                         End If
                     End Using

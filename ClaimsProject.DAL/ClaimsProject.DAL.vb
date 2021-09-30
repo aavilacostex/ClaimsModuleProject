@@ -1183,7 +1183,8 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
 
-            Dim Sql = "SELECT * FROM qs36f.CLMWCH WHERE CWWRNO = " & code & " ORDER BY  CWCHDA DESC,CWCHTI DESC"
+            'Dim Sql = "SELECT * FROM qs36f.CLMWCH WHERE CWWRNO = " & code & " ORDER BY  CWCHDA DESC,CWCHTI DESC"
+            Dim Sql = "SELECT distinct A1.CWWRNO,A1.CWCHDA,A1.CWCHTI,A1.USUSER,A1.CWCHSU,A1.CWCHCO,A1.CWCFLA, A1.CWCFLN FROM qs36f.CLMWCH A1 WHERE A1.CWWRNO = " & code & " ORDER BY  CWCHDA DESC,CWCHTI DESC"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

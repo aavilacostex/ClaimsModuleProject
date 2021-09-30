@@ -266,6 +266,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents pnFilters As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''lblClaimNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClaimNo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtClaimNo control.
     '''</summary>
     '''<remarks>
@@ -273,6 +282,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtClaimNo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblPartNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPartNo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''txtPartNo control.
@@ -284,6 +302,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtPartNo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''lblDateInit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDateInit As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtDateInit control.
     '''</summary>
     '''<remarks>
@@ -291,6 +318,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtDateInit As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblDateTo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDateTo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''txtDateTo control.
@@ -302,6 +338,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtDateTo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''lblSearchExtStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblSearchExtStatus As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''ddlSearchExtStatus control.
     '''</summary>
     '''<remarks>
@@ -309,6 +354,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlSearchExtStatus As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''lblSearchIntStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblSearchIntStatus As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''ddlSearchIntStatus control.
@@ -320,6 +374,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents ddlSearchIntStatus As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''lblCustomer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCustomer As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtCustomer control.
     '''</summary>
     '''<remarks>
@@ -327,6 +390,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtCustomer As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblClaimTypeOk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClaimTypeOk As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''ddlClaimTypeOk control.
@@ -383,6 +455,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents ddlSearchUser As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''lblInitRev control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblInitRev As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''ddlInitRev control.
     '''</summary>
     '''<remarks>
@@ -390,6 +471,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlInitRev As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''lblTechRev control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTechRev As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''ddlTechRev control.
@@ -401,6 +491,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents ddlTechRev As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''lblSearchReason control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblSearchReason As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''ddlSearchReason control.
     '''</summary>
     '''<remarks>
@@ -408,6 +507,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlSearchReason As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''lblSearchDiagnose control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblSearchDiagnose As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''ddlSearchDiagnose control.
@@ -419,6 +527,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents ddlSearchDiagnose As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''lblVndNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblVndNo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''ddlVndNo control.
     '''</summary>
     '''<remarks>
@@ -426,6 +543,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlVndNo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''lblLocat control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblLocat As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''ddlLocat control.
@@ -2118,6 +2244,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents datViewer As Global.System.Web.UI.WebControls.DataList
+
+    '''<summary>
+    '''lblPartDesc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPartDesc As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''txtPartDesc control.
