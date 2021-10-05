@@ -921,8 +921,8 @@
                                                 <ItemStyle Width="20px" VerticalAlign="Middle"></ItemStyle>
                                             </asp:TemplateField>
 
-                                            <asp:BoundField DataField="MHMRNR" HeaderText="CLAIM NUMBER" ItemStyle-Width="10%" />
-                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="DATE" >
+                                            <asp:BoundField DataField="MHMRNR" HeaderText="CLAIM NUMBER" ItemStyle-Width="10%" SortExpression="mhmrnr"  />
+                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="MHDATE" >
                                                 <ItemTemplate>
                                                     <asp:Literal ID="Literal1" runat="server"
                                                         Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("MHDATE"))) %>'>        
@@ -932,8 +932,8 @@
                                             <%--<asp:BoundField DataField="MHTDES" HeaderText="TYPE" ItemStyle-Width="11%" />  removido --%>
                                             <asp:BoundField DataField="mhcunr" HeaderText="CUSTOMER" ItemStyle-Width="10%" SortExpression="mhcunr" />
                                             <asp:BoundField DataField="mhcuna" HeaderText="CUSTOMER NAME" ItemStyle-Width="15%" SortExpression="mhcuna" />
-                                            <asp:BoundField DataField="mhtomr" HeaderText="CREDIT AMOUNT" ItemStyle-Width="6%" />                                            
-                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%"  />
+                                            <asp:BoundField DataField="mhtomr" HeaderText="CREDIT AMOUNT" ItemStyle-Width="6%" SortExpression="mhtomr" />                                            
+                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%" SortExpression="mhptnr"   />
                                            <%-- <asp:BoundField DataField="actdt" HeaderText="LAST UPDATE DATE" ItemStyle-Width="15%" />--%> 
                                             <%--<asp:TemplateField HeaderText="LAST UPDATE DATE" ItemStyle-Width="7%" SortExpression="DATE">    removido
                                                 <ItemTemplate>

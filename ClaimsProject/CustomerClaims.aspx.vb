@@ -809,25 +809,68 @@ Public Class CustomerClaims
         Dim newDt As DataTable = New DataTable()
         Dim exMessage As String = Nothing
         Dim direction As String = Nothing
+        Dim bDec As Boolean = False
+        Dim bDecDate As Boolean = False
         Try
             direction = DirectCast(Session("sortDirection"), String)
             Dim dsFull = DirectCast(Session("Datasource"), DataSet)
             Dim dt As DataTable = DirectCast(grvClaimReport.DataSource, DataTable)
-            Dim field = e.SortExpression
+            Dim field = e.SortExpression.Trim().ToLower()
+
+            If field.Equals(dsFull.Tables(0).Columns(0).ColumnName.Trim().ToLower()) Or
+                field.Equals(dsFull.Tables(0).Columns(5).ColumnName.Trim().ToLower()) Or field.Equals(dsFull.Tables(0).Columns(6).ColumnName.Trim().ToLower()) Then
+                bDec = True
+            End If
+            If field.Equals(dsFull.Tables(0).Columns(3).ColumnName.Trim().ToLower()) Then
+                bDecDate = True
+            End If
 
             If dt IsNot Nothing Then
                 Dim num = 0
-                If SetSortDirection(direction) = "ASC" Then
-                    'Dim dtQuery = dt.AsEnumerable().Where(Function(ee) Integer.TryParse(ee.Item(field).ToString(), num) = True).CopyToDataTable()
-                    grvClaimReport.DataSource = dt.AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                If bDec Then
+                    If SetSortDirection(direction) = "ASC" Then
+                        'Dim dtQuery = dt.AsEnumerable().Where(Function(ee) Integer.TryParse(ee.Item(field).ToString(), num) = True).CopyToDataTable()
+                        grvClaimReport.DataSource = dt.AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                    Else
+                        grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                    End If
                 Else
-                    grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                    If bDecDate Then
+                        If SetSortDirection(direction) = "ASC" Then
+                            grvClaimReport.DataSource = dt.AsEnumerable().OrderBy(Function(o) DateTime.Parse(o.Item(field).ToString().Split(" ")(0))).CopyToDataTable()
+                        Else
+                            grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) DateTime.Parse(o.Item(field).ToString().Split(" ")(0))).CopyToDataTable()
+                        End If
+                    Else
+                        If SetSortDirection(direction) = "ASC" Then
+                            'Dim dtQuery = dt.AsEnumerable().Where(Function(ee) Integer.TryParse(ee.Item(field).ToString(), num) = True).CopyToDataTable()
+                            grvClaimReport.DataSource = dt.AsEnumerable().OrderBy(Function(o) o.Item(field).ToString()).CopyToDataTable()
+                        Else
+                            grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) o.Item(field).ToString()).CopyToDataTable()
+                        End If
+                    End If
                 End If
             Else
-                If SetSortDirection(direction) = "ASC" Then
-                    grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                If bDec Then
+                    If SetSortDirection(direction) = "ASC" Then
+                        grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                    Else
+                        grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                    End If
                 Else
-                    grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                    If bDecDate Then
+                        If SetSortDirection(direction) = "ASC" Then
+                            grvClaimReport.DataSource = dt.AsEnumerable().OrderBy(Function(o) DateTime.Parse(o.Item(field).ToString().Split(" ")(0))).CopyToDataTable()
+                        Else
+                            grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) DateTime.Parse(o.Item(field).ToString().Split(" ")(0))).CopyToDataTable()
+                        End If
+                    Else
+                        If SetSortDirection(direction) = "ASC" Then
+                            grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderBy(Function(o) o.Item(field).ToString()).CopyToDataTable()
+                        Else
+                            grvClaimReport.DataSource = dsFull.Tables(0).AsEnumerable().OrderByDescending(Function(o) o.Item(field).ToString()).CopyToDataTable()
+                        End If
+                    End If
                 End If
             End If
 
