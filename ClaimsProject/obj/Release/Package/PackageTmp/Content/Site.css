@@ -849,14 +849,14 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #rowReason, #rowExtStatus, #rowClaimNo, #rowCustomer, #rowDateInit, #rowClaimType, #rowUserTR, #rowUserIR {
-    padding: 6px 15px 6px 15px;
+    padding: 0 5px 0 5px;
     /*border-left: 4px solid #fbba42;*/
     background-color: #F7F7FD;
     /*margin-left: -5px;*/
 }
 
 #rowDiagnose, #rowUser, #rowIntStatus, #rowPartNo, #rowDateTo, #rowVendor, #rowLocat {
-    padding: 6px 15px 6px 15px;
+    padding: 0 5px 0 5px;
     /*border-left: 4px solid #fbba42;*/
     background-color: #F7F7FD;
 }
@@ -1000,7 +1000,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #rowBtnOpt {
-    padding: 15px 1px 60px 1px !important;
+    padding: 10px 1px 10px 1px !important;
 }
 
 #rowBtnSearch, #rowPageSize {

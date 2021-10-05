@@ -289,9 +289,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblClaimNo">
+<summary>
+lblClaimNo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._txtClaimNo">
 <summary>
 txtClaimNo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblPartNo">
+<summary>
+lblPartNo control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -307,9 +325,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblDateInit">
+<summary>
+lblDateInit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._txtDateInit">
 <summary>
 txtDateInit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblDateTo">
+<summary>
+lblDateTo control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -325,9 +361,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblSearchExtStatus">
+<summary>
+lblSearchExtStatus control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._ddlSearchExtStatus">
 <summary>
 ddlSearchExtStatus control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblSearchIntStatus">
+<summary>
+lblSearchIntStatus control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -343,9 +397,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblCustomer">
+<summary>
+lblCustomer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._txtCustomer">
 <summary>
 txtCustomer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblClaimTypeOk">
+<summary>
+lblClaimTypeOk control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -406,9 +478,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblInitRev">
+<summary>
+lblInitRev control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._ddlInitRev">
 <summary>
 ddlInitRev control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblTechRev">
+<summary>
+lblTechRev control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -424,9 +514,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblSearchReason">
+<summary>
+lblSearchReason control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._ddlSearchReason">
 <summary>
 ddlSearchReason control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblSearchDiagnose">
+<summary>
+lblSearchDiagnose control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -442,9 +550,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lblVndNo">
+<summary>
+lblVndNo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._ddlVndNo">
 <summary>
 ddlVndNo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblLocat">
+<summary>
+lblLocat control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -1120,6 +1246,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._hdFullDisabled">
 <summary>
 hdFullDisabled control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._hdVoided">
+<summary>
+hdVoided control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -2137,6 +2272,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._datViewer">
 <summary>
 datViewer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblPartDesc">
+<summary>
+lblPartDesc control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -3619,9 +3763,18 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.CustomerClaims._btnCloseClaim1">
+<member name="F:ClaimsProject.CustomerClaims._btnReopenClaim">
 <summary>
-btnCloseClaim1 control.
+btnReopenClaim control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._btnVoidClaim">
+<summary>
+btnVoidClaim control.
 </summary>
 <remarks>
 Auto-generated field.

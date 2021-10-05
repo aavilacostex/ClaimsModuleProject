@@ -210,8 +210,8 @@
             <div id="searchFilters" class="container-fluid">
                 <div id="rowFilters" class="row" runat="server">
 
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
+                    <%--<div class="col-md-2"></div>--%>
+                    <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-3">
                                 <asp:Panel ID="pnClaimData" CssClass="pnFilterStyles" GroupingText="General Claims Data" runat="server">
@@ -230,7 +230,8 @@
                                                     <div class="col-md-6">
                                                         <!--search by Claim Number-->
                                                         <div id="rowClaimNo" class="rowClaimNo">                                                            
-                                                            <div class="col-md-12" style="margin: 0 auto;">   
+                                                            <div class="col-md-12" style="margin: 0 auto;"> 
+                                                                <asp:Label ID="lblClaimNo" CssClass="control-label" Text="Claim Number" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtClaimNo" name="txt-claimNo" placeholder="Claim Number" class="form-control" runat="server"></asp:TextBox>
                                                                     <span class="input-group-addon"><i class="fa fa-hashtag center-vert font-awesome-custom"></i></span>
@@ -241,12 +242,12 @@
                                                     <div class="col-md-6">
                                                         <!--search by Part Number-->
                                                         <div id="rowPartNo" class="rowPartNo">                                                            
-                                                            <div class="col-md-12" style="margin: 0 auto;">                                                            
+                                                            <div class="col-md-12" style="margin: 0 auto;">   
+                                                                <asp:Label ID="lblPartNo" CssClass="control-label" Text="Part Number" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtPartNo" name="txt-partNo" placeholder="Part Number"  class="form-control" runat="server"></asp:TextBox>
                                                                      <span class="input-group-addon"><i class="fa fa-cogs center-vert font-awesome-custom"></i></span>
-                                                                </div>
-                                                            
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -264,7 +265,8 @@
                                                     <!-- <div id="rowDateInit" class="rowDateInit"> -->                                                  
                                                     <div class="col-md-6">
                                                         <div id="rowDateInit" class="rowDateInit">                                                            
-                                                            <div class="col-md-12" style="margin: 0 auto;">  
+                                                            <div class="col-md-12" style="margin: 0 auto;"> 
+                                                                <asp:Label ID="lblDateInit" CssClass="control-label" Text="Date From" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtDateInit" name="txt-dateinit" placeholder=" FROM MM/DD/AAAA" class="form-control autosuggestdateinit" runat="server"></asp:TextBox>
                                                                     <span class="input-group-addon"><i class="fa fa-calendar center-vert font-awesome-custom"></i></span>
@@ -276,6 +278,7 @@
                                                     <div class="col-md-6">
                                                         <div id="rowDateTo" class="rowDateTo">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">  
+                                                                <asp:Label ID="lblDateTo" CssClass="control-label" Text="Date To" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtDateTo" name="txt-dateto" placeholder="TO MM/DD/AAAA" class="form-control autosuggestdateto" runat="server"></asp:TextBox>
                                                                     <span class="input-group-addon"><i class="fa fa-calendar center-vert font-awesome-custom"></i></span>
@@ -298,6 +301,7 @@
                                                         <!--search by ExtStatus-->
                                                         <div id="rowExtStatus">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblSearchExtStatus" CssClass="control-label" Text="External Status" runat="server"></asp:Label>
                                                                <div class="input-group-append">
                                                                     <asp:DropDownList ID="ddlSearchExtStatus" name="sel-vndassigned" placeholder="External Status" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchExtStatus_SelectedIndexChanged" title="Search by Ext Status." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                    <span class="input-group-addon"><i class="fa fa-sign-out-alt center-vert font-awesome-custom"></i></span>
@@ -310,6 +314,7 @@
                                                         <!--search by IntStatus-->
                                                         <div id="rowIntStatus">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblSearchIntStatus" CssClass="control-label" Text="Internal Status" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:DropDownList ID="ddlSearchIntStatus" name="sel-vndassigned" placeholder="Internal Status" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchIntStatus_SelectedIndexChanged" title="Search by int Status." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sign-in-alt center-vert font-awesome-custom"></i></span>
@@ -330,11 +335,11 @@
                                                         <!--search by Customer-->
                                                         <div id="rowCustomer" class="rowCustomer">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblCustomer" CssClass="control-label" Text="Customer No." runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:TextBox ID="txtCustomer" name="txt-Customer" placeholder="Customer No." class="form-control" runat="server"></asp:TextBox>
                                                                     <span class="input-group-addon"><i class="fa fa-address-card center-vert font-awesome-custom"></i></span>
-                                                                </div>
-                                                            
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -342,11 +347,11 @@
                                                         <!--search by User-->
                                                         <div id="rowClaimType">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblClaimTypeOk" CssClass="control-label" Text="Claim Type" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
                                                                     <asp:DropDownList ID="ddlClaimTypeOk" name="sel-vndassigned" placeholder="Claim Type" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlClaimTypeOk_SelectedIndexChanged" title="Search by Claim Type." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
-                                                                </div>
-                                                            
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -372,7 +377,7 @@
                                                 <div class="form-row">
                                                     <div class="col-md-6">
                                                         <!--btn search-->
-                                                        <asp:Button ID="btnSearchFilter" Text="Search by Criteria" OnClick="btnSearchFilter_Click" CssClass="btn btn-primary rightCls" runat="server" />
+                                                        <asp:Button ID="btnSearchFilter" Text="Search" OnClick="btnSearchFilter_Click" CssClass="btn btn-primary rightCls" runat="server" />
                                                     </div>
                                                     <div class="col-md-6">
                                                         <!--btn clear fields-->
@@ -440,11 +445,11 @@
                                                         <!--search by User-->
                                                         <div id="rowUserIR">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblInitRev" CssClass="control-label" Text="Claim Coordinator" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlInitRev" name="sel-vndassigned" placeholder="User Initial Rev." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlInitRev_SelectedIndexChanged" title="Search by Initial Review User" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlInitRev" name="sel-vndassigned"  AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlInitRev_SelectedIndexChanged" title="Search by Initial Review User" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
-                                                                </div>
-                                                            
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -461,8 +466,9 @@
                                                         <!--search by User-->
                                                         <div id="rowUserTR">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblTechRev" CssClass="control-label" Text="Tech Review User" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlTechRev" name="sel-vndassigned" placeholder="User Technical Rev." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlTechRev_SelectedIndexChanged" title="Search by Technical Review User" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlTechRev" name="sel-vndassigned" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlTechRev_SelectedIndexChanged" title="Search by Technical Review User" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -483,11 +489,11 @@
                                                         <!--search by reason-->
                                                         <div id="rowReason">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblSearchReason" CssClass="control-label" Text="Reason" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned" placeholder="Reason" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" title="Search by Claim Reason." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned"  AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" title="Search by Claim Reason." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sliders-h center-vert font-awesome-custom"></i></span>
-                                                                </div>
-                                                            
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -506,14 +512,14 @@
                                                         <!--search by Diagnose-->
                                                         <div id="rowDiagnose">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblSearchDiagnose" CssClass="control-label" Text="Diagnose" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" placeholder="Diagnose" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -528,14 +534,14 @@
                                                         <!--search by Diagnose-->
                                                         <div id="rowVendor">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblVndNo" CssClass="control-label" Text="Vendor No." runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlVndNo" name="sel-vndassigned" placeholder="Vendor no." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlVndNo_SelectedIndexChanged" title="Search by Vendor Number." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlVndNo" name="sel-vndassigned" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlVndNo_SelectedIndexChanged" title="Search by Vendor Number." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-tie center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -550,14 +556,14 @@
                                                         <!--search by Diagnose-->
                                                         <div id="rowLocat">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
+                                                                <asp:Label ID="lblLocat" CssClass="control-label" Text="Location" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlLocat" name="sel-vndassigned" placeholder="Vendor no." AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlLocat_SelectedIndexChanged" title="Search by Location." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlLocat" name="sel-vndassigned" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlLocat_SelectedIndexChanged" title="Search by Location." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-map-marked-alt center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -567,7 +573,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2"></div>
+                    <%--<div class="col-md-2"></div>--%>
 
                     <div style="display: none !important;">
                         <div class="col-md-5">
@@ -800,6 +806,7 @@
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
+                    <asp:HiddenField id="hdVoided" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
                     <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
@@ -888,9 +895,9 @@
 
                                 <div id="rowGridView">
                                     <asp:GridView ID="grvClaimReport" runat="server" AutoGenerateColumns="false" ShowFooter="false" PageSize="10" 
-                                        CssClass="table table-striped table-bordered" AllowPaging="True" DataKeyNames="MHMRNR" GridLines="None" 
+                                        CssClass="table table-striped table-bordered" AllowPaging="True" DataKeyNames="MHMRNR" GridLines="None"  AllowSorting="true"
                                         OnPageIndexChanging="grvClaimReport_PageIndexChanging" OnRowDataBound="grvClaimReport_RowDataBound" OnRowCommand="grvClaimReport_RowCommand"
-                                        OnRowUpdating="grvClaimReport_RowUpdating" >
+                                        OnRowUpdating="grvClaimReport_RowUpdating" OnSorting="grvClaimReport_Sorting" >
                                         <Columns>                                           
                                             <%--<asp:TemplateField>  removido
                                                 <ItemTemplate>
@@ -915,7 +922,7 @@
                                             </asp:TemplateField>
 
                                             <asp:BoundField DataField="MHMRNR" HeaderText="CLAIM NUMBER" ItemStyle-Width="10%" />
-                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="DATE">
+                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="DATE" >
                                                 <ItemTemplate>
                                                     <asp:Literal ID="Literal1" runat="server"
                                                         Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("MHDATE"))) %>'>        
@@ -923,10 +930,10 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField> 
                                             <%--<asp:BoundField DataField="MHTDES" HeaderText="TYPE" ItemStyle-Width="11%" />  removido --%>
-                                            <asp:BoundField DataField="mhcunr" HeaderText="CUSTOMER" ItemStyle-Width="10%" />
-                                            <asp:BoundField DataField="mhcuna" HeaderText="CUSTOMER NAME" ItemStyle-Width="15%" />
+                                            <asp:BoundField DataField="mhcunr" HeaderText="CUSTOMER" ItemStyle-Width="10%" SortExpression="mhcunr" />
+                                            <asp:BoundField DataField="mhcuna" HeaderText="CUSTOMER NAME" ItemStyle-Width="15%" SortExpression="mhcuna" />
                                             <asp:BoundField DataField="mhtomr" HeaderText="CREDIT AMOUNT" ItemStyle-Width="6%" />                                            
-                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%" />
+                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%"  />
                                            <%-- <asp:BoundField DataField="actdt" HeaderText="LAST UPDATE DATE" ItemStyle-Width="15%" />--%> 
                                             <%--<asp:TemplateField HeaderText="LAST UPDATE DATE" ItemStyle-Width="7%" SortExpression="DATE">    removido
                                                 <ItemTemplate>
@@ -1397,6 +1404,7 @@
                                                     <%--<asp:Image ID="imgPart" runat="server"/>--%>
                                                 </div>
                                                 <div class="col-md-4">
+                                                    <asp:Label ID="lblPartDesc" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtPartDesc" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>
@@ -1906,8 +1914,8 @@
 
                                         <!-- row gridview see comments -->
                                         <div class="row">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-8">
+                                            <%--<div class="col-md-2"></div>--%>
+                                            <div class="col-md-12">
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
                                                         <div class="form-horizontal">
@@ -1918,13 +1926,28 @@
                                                                     OnRowCommand="grvSeeComm_RowCommand">
                                                                     <Columns>
                                                                         <asp:BoundField DataField="CWWRNO" HeaderText="ID" ItemStyle-Width="3%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
-                                                                        <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"   />
-                                                                        <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="15%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />
-                                                                        <asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="30%" />
-                                                                        <asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="30%" />
-                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="15%" />
-                                                                        <asp:BoundField DataField="CWCFLA" HeaderText="Int / Ext " ItemStyle-Width="6%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />
-                                                                        <asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
+                                                                        <asp:BoundField DataField="CWCHCO" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"   />                                                                        
+                                                                        <asp:TemplateField HeaderText="DATE ENTERED" HeaderStyle-Width="10%" ItemStyle-Width="10%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal100" runat="server"
+                                                                                    Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("CWCHDA"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="TIME ENTERED" HeaderStyle-Width="10%" ItemStyle-Width="10%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal10000" runat="server"
+                                                                                    Text='<%#String.Format("{0:T}", System.Convert.ToDateTime(Eval("CWCHTI"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <%--<asp:BoundField DataField="CWCHDA" HeaderText="DATE ENTERED" ItemStyle-Width="30%" />--%>
+                                                                        <%--<asp:BoundField DataField="CWCHTI" HeaderText="TIME ENTERED" ItemStyle-Width="30%" />--%>
+                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="10%" />
+                                                                        <asp:BoundField DataField="CWCHSU" HeaderText="SUBJECT" ItemStyle-Width="20%"  />
+                                                                        <asp:BoundField DataField="CWCDTX" HeaderText="COMMENT" ItemStyle-Width="50%"  />
+                                                                        <asp:BoundField DataField="CWCFLA" HeaderText="Int / Ext " ItemStyle-Width="6%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol"  />                                                                        
+                                                                        <%--<asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="10%">
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkExpander1" runat="server" TabIndex="1" ToolTip="Get Comment Detail" CssClass="click-in2" CommandName="commentDet"
                                                                                     OnClientClick='<%# String.Format("return divexpandcollapse(this, {0});", Eval("CWCHCO")) %>'>
@@ -1947,7 +1970,7 @@
                                                                                     </td>
                                                                                 </tr>
                                                                             </ItemTemplate>
-                                                                        </asp:TemplateField>
+                                                                        </asp:TemplateField>--%>
                                                                     </Columns>
                                                                     <HeaderStyle BackColor="#0063A6" ForeColor="White" />
                                                                     <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" PageButtonCount="10" />
@@ -1958,7 +1981,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2"></div>
+                                            <%--<div class="col-md-2"></div>--%>
                                         </div>
 
                                          <!-- row actions btns see vnd comments -->
@@ -2006,12 +2029,29 @@
                                                                     OnRowCommand="grvSeeVndComm_RowCommand">
                                                                     <Columns>
                                                                         <asp:BoundField DataField="CCCLNO" HeaderText="ID" ItemStyle-Width="3%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
-                                                                        <asp:BoundField DataField="CCCODE" HeaderText="CODE" ItemStyle-Width="10%" />
-                                                                        <asp:BoundField DataField="CCSUBJ" HeaderText="SUBJECT" ItemStyle-Width="15%" />
-                                                                        <asp:BoundField DataField="CCDATE" HeaderText="DATE ENTERED" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="CCTIME" HeaderText="TIME ENTERED" ItemStyle-Width="6%" />
-                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="6%" />
-                                                                        <asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
+                                                                        <asp:BoundField DataField="CCCODE" HeaderText="CODE" ItemStyle-Width="10%" ItemStyle-CssClass="hidecol" HeaderStyle-CssClass="hidecol" />
+
+                                                                        <asp:TemplateField HeaderText="DATE ENTERED" HeaderStyle-Width="10%" ItemStyle-Width="10%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal10000000" runat="server"
+                                                                                    Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("CCDATE"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="TIME ENTERED" HeaderStyle-Width="10%" ItemStyle-Width="10%" >
+                                                                            <ItemTemplate>
+                                                                                <asp:Literal ID="Literal100000" runat="server"
+                                                                                    Text='<%#String.Format("{0:T}", System.Convert.ToDateTime(Eval("CCTIME"))) %>'>        
+                                                                                </asp:Literal>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+
+                                                                        <%--<asp:BoundField DataField="CCDATE" HeaderText="DATE ENTERED" ItemStyle-Width="6%" />
+                                                                        <asp:BoundField DataField="CCTIME" HeaderText="TIME ENTERED" ItemStyle-Width="6%" />--%>
+                                                                        <asp:BoundField DataField="USUSER" HeaderText="USER" ItemStyle-Width="10%" />
+                                                                        <asp:BoundField DataField="CCSUBJ" HeaderText="SUBJECT" ItemStyle-Width="10%" />                                                                        
+                                                                        <asp:BoundField DataField="CCTEXT" HeaderText="COMMENT" ItemStyle-Width="60%" /> 
+                                                                        <%--<asp:TemplateField HeaderText="DETAIL" ItemStyle-Width="13%">
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkExpander" runat="server" TabIndex="1" ToolTip="Get Comment Detail" CssClass="click-in2" CommandName="commentDet"
                                                                                     OnClientClick='<%# String.Format("return divexpandcollapse(this, {0});", Eval("CCCODE")) %>'>
@@ -2034,7 +2074,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                             </ItemTemplate>
-                                                                        </asp:TemplateField>
+                                                                        </asp:TemplateField>--%>
                                                                     </Columns>
                                                                     <HeaderStyle BackColor="#0063A6" ForeColor="White" />
                                                                     <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" PageButtonCount="10" />
@@ -2109,10 +2149,10 @@
 
                                             <br />
 
-                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequental Damage" runat="server">
+                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequential Damage disableCtr" runat="server">
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
-                                                        <asp:Label ID="lblConsDamage" Text="Consequental damage, if any." CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
                                                         <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
                                                         <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
 			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
@@ -2225,7 +2265,7 @@
                                                     <asp:LinkButton ID="lnkClaimAuth" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <div class="form-row">
+                                                    <div class="form-row last">
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtClaimAuth" Enabled="false" CssClass="form-control" runat="server" />
                                                         </div>
@@ -2236,7 +2276,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-row last">
+                                            <div class="form-row hideProp">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblAmountApproved" Text="Claim amount approved by sales on top of Claims Approval" CssClass="control-label" runat="server"></asp:Label>
                                                     <asp:TextBox ID="txtAmountApproved" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
@@ -2338,16 +2378,23 @@
                                 <div id="rwCloseClaim" class="col-md-3 hideProp" runat="server">
                                     <asp:Panel ID="pnCloseClaim" GroupingText="Close Action" runat="server">
                                         <div class="form-row last">
-                                            <div class="col-md-3">
+                                            <div class="col-md-1">
                                                 <asp:Button ID="btnPurchasing" Text="Send to Purchasing" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <asp:LinkButton ID="btnCloseClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnCloseClaim_Click" ToolTip="Close Claim" runat="server">
                                                     <i class="fa fa-thumbs-up fa-1x"" aria-hidden="true"> </i>  <p>Close Claim</p>
                                                 </asp:LinkButton>
-                                                <asp:Button ID="btnCloseClaim1" Text="Close Claim" CssClass="btn btn-primary btnAdjustSize hideProp" runat="server" />
+                                                <asp:LinkButton ID="btnReopenClaim" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReopen_Click" ToolTip="Re Open Claim" runat="server">
+                                                    <i class="fa fa-edit fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
+                                                </asp:LinkButton>
                                             </div>
-                                            <div class="col-md-3"></div>
+                                            <div class="col-md-5">
+                                                <asp:LinkButton ID="btnVoidClaim" class="boxed-btn-layout btn-sm btn-rounded" OnClick="btnVoid_Click" ToolTip="Void Claim" runat="server">
+                                                    <i class="fa fa-eraser fa-1x"" aria-hidden="true"> </i>  <p>Void Claim</p>
+                                                </asp:LinkButton>
+                                            </div>
+                                            <div class="col-md-1"></div>
                                         </div>
                                     </asp:Panel>
                                 </div>
@@ -2732,6 +2779,7 @@
             //debugger 
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
+            var voidSelection = document.getElementById('<%=hdVoided.ClientID%>').value;
 
             if (fullSelection == "0") {
                 $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -2752,6 +2800,9 @@
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
                 $('#MainContent_lnkSentToComm').removeClass('disableCtr');
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
+                $('#MainContent_btnCloseClaim').addClass('hideProp');
+                $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                $('#MainContent_btnReopenClaim').removeClass('disableCtr');
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -2763,8 +2814,50 @@
                 $('#partinfo').find('textarea').attr('disabled', true);
 
                 $('#MainContent_ddlDiagnoseData').attr('disabled', false);
-                $('#MainContent_chkQuarantine').attr('disabled', false);           
+                $('#MainContent_chkQuarantine').attr('disabled', false);   
 
+                $('#MainContent_btnVoidClaim').removeClass('hideProp');
+                $('#MainContent_btnVoidClaim').removeClass('disableCtr');
+
+
+            }
+
+            if (voidSelection == "0") {
+                $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#MainContent_navsSection').find('select').attr('disabled', true);
+                $('#MainContent_navsSection').find('textarea').attr('disabled', true);
+
+                $('#tabc').find('a').removeClass('aspNetDisabled');
+                $('#tabc').find('a').addClass('disableCtr');
+
+                $('#MainContent_rowPnActions').find('a').removeClass('aspNetDisabled');
+                $('#MainContent_rowPnActions').find('a').addClass('disableCtr');
+
+                $('#MainContent_btnSeeFiles').removeClass('disableCtr');
+                $('#MainContent_btnCloseTab').removeClass('disableCtr');
+                $('#MainContent_btnCloseClaim').addClass('hideProp');
+                $('#MainContent_btnVoidClaim').addClass('hideProp');
+                $('#MainContent_lnkSentToComm').removeClass('disableCtr');
+
+                $('#rowGridViewSeeComm').find('a').removeClass('disableCtr');
+                $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
+
+                $('#MainContent_rwCloseClaim').addClass('hideProp');
+            }
+            else {
+                $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#claimoverview').find('select').attr('disabled', true);
+                $('#claimoverview').find('textarea').attr('disabled', true);
+
+                $('#partinfo').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#partinfo').find('select').attr('disabled', true);
+                $('#partinfo').find('textarea').attr('disabled', true);
+
+                $('#MainContent_ddlDiagnoseData').attr('disabled', false);
+                $('#MainContent_chkQuarantine').attr('disabled', false);
+
+                $('#MainContent_btnVoidClaim').removeClass('hideProp');
+                $('#MainContent_btnVoidClaim').removeClass('disableCtr');
             }
             
 
@@ -2971,6 +3064,16 @@
         });
 
         $('body').on('click', '#MainContent_btnExitComment', function (e) {
+            //debugger
+
+            $('#<%=hdAddComments.ClientID %>').val("0")
+            $('#<%=hdAddVndComments.ClientID %>').val("0")
+
+            $('#<%=hdSeeComments.ClientID %>').val("0")
+            $('#<%=hdSeeVndComments.ClientID %>').val("0")
+        });
+
+        $('body').on('click', '#MainContent_btnVndExitComment', function (e) {
             //debugger
 
             $('#<%=hdAddComments.ClientID %>').val("0")
@@ -3648,12 +3751,12 @@
                 if (hdAddClaimFile == "1") { $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
                 else { $('#MainContent_AddFilesSection').addClass('hideProp'); }
 
-                var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
+                <%--var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
                 if (hdDisplaySeeVndClaim == "1") {
                     $('#MainContent_seeVendorComments').closest('.container').removeClass('hideProp')
                 } else {
                     $('#MainContent_seeVendorComments').addClass('hideProp')
-                }
+                }--%>
 
                 var hdAddVndComments = document.getElementById('<%=hdAddVndComments.ClientID%>').value
                 if (hdAddVndComments == "1") {

@@ -1428,7 +1428,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim messageFix = If(String.IsNullOrEmpty(message), message, If(message.Length < maxLength, message, message.Substring(0, Math.Min(message.Length, maxLength))))
-            Dim OutReg = Regex.Replace(messageFix, "[^0-9A-Za-z .,]", String.Empty)
+            Dim OutReg = Regex.Replace(messageFix, "[^0-9A-Za-z .,:]", String.Empty)
             'type user = 'I'
             Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & OutReg & "')"
             objDatos.InsertDataInDatabase(Sql, affectedRows)
@@ -1445,7 +1445,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim messageFix = If(String.IsNullOrEmpty(message), message, If(message.Length < maxLength, message, message.Substring(0, Math.Min(message.Length, maxLength))))
-            Dim OutReg = Regex.Replace(messageFix, "[^0-9A-Za-z .,]", String.Empty)
+            Dim OutReg = Regex.Replace(messageFix, "[^0-9A-Za-z .,:]", String.Empty)
 
             'type user = 'I'
             Sql = "INSERT INTO qs36f.CLMWCD(CWWRNO,CWCHCO,CWCDCO,CWCDTX,CWPTNO) VALUES(" & code & "," & codComm & ",'" & detComm & "','" & OutReg & "','" & partNo & "')"

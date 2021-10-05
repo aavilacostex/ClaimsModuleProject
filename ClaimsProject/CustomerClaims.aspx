@@ -806,6 +806,7 @@
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
+                    <asp:HiddenField id="hdVoided" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
                     <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
@@ -2148,10 +2149,10 @@
 
                                             <br />
 
-                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequental Damage" runat="server">
+                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequential Damage disableCtr" runat="server">
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
-                                                        <asp:Label ID="lblConsDamage" Text="Consequental damage, if any." CssClass="control-label" runat="server"></asp:Label>
+                                                        <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
                                                         <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
                                                         <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
 			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
@@ -2432,6 +2433,7 @@
     <script type="text/javascript">  
 
         //from above
+      
 
         function messageFormSubmitted(mensaje, show) {
             //debugger
@@ -2778,6 +2780,7 @@
             //debugger 
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
+            var voidSelection = document.getElementById('<%=hdVoided.ClientID%>').value;
 
             if (fullSelection == "0") {
                 $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -2817,6 +2820,45 @@
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
 
+
+            }
+
+            if (voidSelection == "0") {
+                $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#MainContent_navsSection').find('select').attr('disabled', true);
+                $('#MainContent_navsSection').find('textarea').attr('disabled', true);
+
+                $('#tabc').find('a').removeClass('aspNetDisabled');
+                $('#tabc').find('a').addClass('disableCtr');
+
+                $('#MainContent_rowPnActions').find('a').removeClass('aspNetDisabled');
+                $('#MainContent_rowPnActions').find('a').addClass('disableCtr');
+
+                $('#MainContent_btnSeeFiles').removeClass('disableCtr');
+                $('#MainContent_btnCloseTab').removeClass('disableCtr');
+                $('#MainContent_btnCloseClaim').addClass('hideProp');
+                $('#MainContent_btnVoidClaim').addClass('hideProp');
+                $('#MainContent_lnkSentToComm').removeClass('disableCtr');
+
+                $('#rowGridViewSeeComm').find('a').removeClass('disableCtr');
+                $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
+
+                $('#MainContent_rwCloseClaim').addClass('hideProp');
+            }
+            else {
+                $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#claimoverview').find('select').attr('disabled', true);
+                $('#claimoverview').find('textarea').attr('disabled', true);
+
+                $('#partinfo').find('input', 'textarea', 'button').attr('disabled', 'disabled');
+                $('#partinfo').find('select').attr('disabled', true);
+                $('#partinfo').find('textarea').attr('disabled', true);
+
+                $('#MainContent_ddlDiagnoseData').attr('disabled', false);
+                $('#MainContent_chkQuarantine').attr('disabled', false);
+
+                $('#MainContent_btnVoidClaim').removeClass('hideProp');
+                $('#MainContent_btnVoidClaim').removeClass('disableCtr');
             }
             
 
@@ -3884,7 +3926,7 @@
         }
 
         function EnableAuthRequestChk() {
-            //debugger
+            debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -4271,7 +4313,23 @@
 
                 return date;
             }
-        }        
+        }       
+
+        $("#<%=txtClaimNo.ClientID%>").keypress(function (e) {
+            debugger
+            
+            var key = e.KeyCode;
+            if (key == 13) {
+                alert("pepe");
+            }
+        });
+
+        <%--        $("#<%=btnSearchFilter.ClientID%>")).focus();
+            }
+        })--%>;       
+                
+                    
+        
 
     </script>
 

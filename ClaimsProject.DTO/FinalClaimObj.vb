@@ -44,4 +44,14 @@
         End Set
     End Property
 
+    Private _requiresAuth As Boolean
+    Public Property RequiresAuth() As Boolean
+        Get
+            Return _requiresAuth
+        End Get
+        Set(ByVal value As Boolean)
+            _requiresAuth = value
+        End Set
+    End Property
+
 End Class
