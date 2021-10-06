@@ -811,6 +811,7 @@
 
                     <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
                     <asp:HiddenField ID="hdTestPath" value="" runat="server" />
+                    <asp:HiddenField ID="hdVariableStatus" value="" runat="server" />
 
                 </div>
             </div>            

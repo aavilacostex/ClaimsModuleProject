@@ -702,7 +702,9 @@ Public Class ClaimsProject : Implements IDisposable
                 Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
                 'strwhere = " where MHMRDT between '" + fromDate.ToString("MMddyy") + "' and '" + todayDate.ToString("MMddyy") + "'"
                 strwhere = "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')"
-                strjoin = " join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) left join qs36f.clwrrel e on a.wrn=e.crwrno join qs36f.cntrll f on trim(f.cnt03)=trim(cwstat) where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and f.cnt01='193' and f.cnt02='  ' "
+                strjoin = " join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) left join qs36f.clwrrel e on a.wrn=e.crwrno 
+                            join qs36f.cntrll f on trim(f.cnt03)=cwstat 
+                            where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and f.cnt01='193' and f.cnt02='  ' "
 
                 Dim Sql = "SELECT MHMRNR,WRN,CWSTAT,MHDATE,SUBSTR(b.CNTDE2,1,8) MHTDES,mhcunr,mhtomr, 
                             case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end mhptnr,  

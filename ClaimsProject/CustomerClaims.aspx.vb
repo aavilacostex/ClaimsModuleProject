@@ -631,7 +631,7 @@ Public Class CustomerClaims
                 hdFullDisabled.Value = If(statusOut.Trim().ToUpper().Equals("CLOSED") Or statusOut.Trim().ToUpper().Equals("REJECT"), "0", "1")
                 hdVoided.Value = If(statusOut.Trim().ToUpper().Equals("VOID"), "0", "1")
 
-                Dim ds1 = DirectCast(Session("ClaimsBckData"), DataSet)
+                Dim ds1 = DirectCast(Session("Datasource"), DataSet)
                 'Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
                 Dim dd = ds1.Tables(0).AsEnumerable().Where(Function(ee) ee.Item("MHMRNR").ToString().Trim().ToUpper().Equals(claimNo.Trim().ToUpper())).First
                 If dd IsNot Nothing Then
@@ -639,6 +639,7 @@ Public Class CustomerClaims
                 Else
                     claimStatus = "Not Detected Status for this Claim Number."
                 End If
+                hdVariableStatus.Value = claimStatus
 
                 'load all claim number data
                 'Dim val1 = ddlClaimType.SelectedValue
@@ -651,8 +652,11 @@ Public Class CustomerClaims
                 fillClaimData("C", claimNo)
                 hdGetCommentTab.Value = "1"
                 SeeCommentsMethod()
-                lblClaimQuickOverview.Text = "You are currently viewing Claim Number:" + txtClaimNoData.Text + ". The current status for this Claim is:  " + claimStatus + "."
+                Dim strSts = "You are currently viewing Claim Number:" + txtClaimNoData.Text + ". The current status for this Claim is:  {0} ."
+                lblClaimQuickOverview.Text = String.Format(strSts, hdVariableStatus.Value)
+
                 hdClaimNumber.Value = lblClaimQuickOverview.Text
+                Session("currentClaim") = hdClaimNumber.Value
 
                 clearAllDataFields(True)
                 'setTabsHeader(txtClaimNoData.Text)
@@ -2275,17 +2279,20 @@ Public Class CustomerClaims
 
 
                             'GetClaimsReport("", 1, Nothing, Nothing)
-                            Dim dsData = DirectCast(Session("DataSource"), DataSet)
 
-                            Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
-                            Dim dsNew As DataSet = New DataSet()
-                            dsNew.Tables.Add(dt)
+                            btnSearchFilter_Click(Nothing, Nothing)
 
-                            grvClaimReport.DataSource = dsNew.Tables(0)
-                            grvClaimReport.DataBind()
-                            Session("DataSource") = dsNew
-                            Session("ItemCounts") = dsNew.Tables(0).Rows.Count.ToString()
-                            lblTotalClaims.Text = dsNew.Tables(0).Rows.Count.ToString()
+                            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
+
+                            'Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
+                            'Dim dsNew As DataSet = New DataSet()
+                            'dsNew.Tables.Add(dt)
+
+                            'grvClaimReport.DataSource = dsNew.Tables(0)
+                            'grvClaimReport.DataBind()
+                            'Session("DataSource") = dsNew
+                            'Session("ItemCounts") = dsNew.Tables(0).Rows.Count.ToString()
+                            'lblTotalClaims.Text = dsNew.Tables(0).Rows.Count.ToString()
 
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
@@ -2361,20 +2368,22 @@ Public Class CustomerClaims
                             Dim objClaim = DirectCast(Session("finalObject"), FinalClaimObj)
                             'GetClaimsReport("", 1, Nothing, Nothing)
 
-                            Dim dsData = DirectCast(Session("DataSource"), DataSet)
+                            btnSearchFilter_Click(Nothing, Nothing)
 
-                            If Not objClaim.RequiresAuth Then
-                                Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
-                                Dim dsNew As DataSet = New DataSet()
-                                dsNew.Tables.Add(dt)
-                                dsData = dsNew
-                            End If
+                            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
 
-                            grvClaimReport.DataSource = dsData.Tables(0)
-                            grvClaimReport.DataBind()
-                            Session("DataSource") = dsData
-                            Session("ItemCounts") = dsData.Tables(0).Rows.Count.ToString()
-                            lblTotalClaims.Text = dsData.Tables(0).Rows.Count.ToString()
+                            'If Not objClaim.RequiresAuth Then
+                            '    Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
+                            '    Dim dsNew As DataSet = New DataSet()
+                            '    dsNew.Tables.Add(dt)
+                            '    dsData = dsNew
+                            'End If
+
+                            'grvClaimReport.DataSource = dsData.Tables(0)
+                            'grvClaimReport.DataBind()
+                            'Session("DataSource") = dsData
+                            'Session("ItemCounts") = dsData.Tables(0).Rows.Count.ToString()
+                            'lblTotalClaims.Text = dsData.Tables(0).Rows.Count.ToString()
 
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
@@ -2430,22 +2439,26 @@ Public Class CustomerClaims
                             clearAllDataFields()
 
                             'GetClaimsReport("", 1, Nothing, Nothing)
-                            Dim dsData = DirectCast(Session("DataSource"), DataSet)
-
-                            If Not objClaim.RequiresAuth Then
-                                Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
-                                Dim dsNew As DataSet = New DataSet()
-                                dsNew.Tables.Add(dt)
-                                dsData = dsNew
-                            End If
 
 
+                            btnSearchFilter_Click(Nothing, Nothing)
 
-                            grvClaimReport.DataSource = dsData.Tables(0)
-                            grvClaimReport.DataBind()
-                            Session("DataSource") = dsData
-                            Session("ItemCounts") = dsData.Tables(0).Rows.Count.ToString()
-                            lblTotalClaims.Text = dsData.Tables(0).Rows.Count.ToString()
+                            'Dim dsData = DirectCast(Session("DataSource"), DataSet)
+
+                            'If Not objClaim.RequiresAuth Then
+                            '    Dim dt = dsData.Tables(0).AsEnumerable().Where(Function(ee) Not ee.Item("MHMRNR").ToString().Trim().Equals(claimNo)).CopyToDataTable()
+                            '    Dim dsNew As DataSet = New DataSet()
+                            '    dsNew.Tables.Add(dt)
+                            '    dsData = dsNew
+                            'End If
+
+
+
+                            'grvClaimReport.DataSource = dsData.Tables(0)
+                            'grvClaimReport.DataBind()
+                            'Session("DataSource") = dsData
+                            'Session("ItemCounts") = dsData.Tables(0).Rows.Count.ToString()
+                            'lblTotalClaims.Text = dsData.Tables(0).Rows.Count.ToString()
 
                             hdNavTabsContent.Value = "0"
                             hdClaimNumber.Value = ""
@@ -2478,6 +2491,15 @@ Public Class CustomerClaims
                         Else
 
                             hdNavTabsContent.Value = "1"
+                            Dim strMess = Session("currentClaim").ToString()
+
+                            Dim dss = DirectCast(Session("Datasource"), DataSet)
+                            Dim bIs = dss.Tables(0).AsEnumerable().Any(Function(oo) oo.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim()))
+                            Dim qq = If(bIs, dss.Tables(0).AsEnumerable().Where(Function(aa) aa.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim())).First(), Nothing)
+                            Dim names = If(qq IsNot Nothing, qq.Item("cwstde").ToString().Trim().ToUpper(), Nothing)
+
+                            hdClaimNumber.Value = String.Format(strMess, names)
+                            lblClaimQuickOverview.Text = hdClaimNumber.Value
                             hdGridViewContent.Value = "0"
 
                             Dim lstCol As List(Of String) = New List(Of String)()
@@ -5539,6 +5561,7 @@ Public Class CustomerClaims
         Dim d1 As String = Nothing
         Dim d2 As String = Nothing
         Dim defConfUsrLimit = ConfigurationManager.AppSettings("usrDefaultlimit")
+        Dim fullUser = ConfigurationManager.AppSettings("fullUser")
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -5584,7 +5607,7 @@ Public Class CustomerClaims
                                         Exit For
                                     Else
                                         Session("UpToLimit") = True
-                                        mngLogged = True
+                                        mngLogged = False
                                         returnAuthUser = Nothing
                                         Exit For
                                     End If
@@ -5597,7 +5620,8 @@ Public Class CustomerClaims
                                     'objAprovUser = lstObj.AsEnumerable().Where(Function(a) LCase(a.CLMuser).Equals(LCase(defConfUsrLimit.Trim()))).First()
                                     'dt.AsEnumerable().OrderBy(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
                                     Dim lstTemp1 = lstObj.AsEnumerable().OrderBy(Function(a) CInt(a.CLMLimit).ToString()).ToList()
-                                    objAprovUser = lstTemp1.AsEnumerable().Where(Function(o) prcCurrentClaimCost <= Double.Parse(o.CLMLimit)).First()
+                                    Dim chkFlag = lstTemp1.AsEnumerable().Any(Function(o) prcCurrentClaimCost <= Double.Parse(o.CLMLimit))
+                                    objAprovUser = If(chkFlag, lstTemp1.AsEnumerable().Where(Function(o) prcCurrentClaimCost <= Double.Parse(o.CLMLimit)).First(), Nothing)
                                     If objAprovUser IsNot Nothing Then
                                         hdCLMemail.Value = objAprovUser.CLMemail.ToString().Trim()
                                         hdCLMuser.Value = objAprovUser.CLMuser.ToString().Trim()
@@ -5606,7 +5630,18 @@ Public Class CustomerClaims
                                         IsFullUser.Value = "0"
                                     Else
                                         Session("UpToLimit") = True
-                                        returnAuthUser = Nothing
+                                        Dim objFull = New ClaimObj500To1500User()
+
+                                        Dim pp = fullUser.ToString().Split(",")
+
+                                        objFull.CLMemail = fullUser.ToString().Split(",")(1)
+                                        objFull.CLMuser = fullUser.ToString().Split(",")(0)
+                                        objFull.CLMLimit = fullUser.ToString().Split(",")(2)
+                                        returnAuthUser = objFull
+
+                                        hdCLMemail.Value = objFull.CLMemail.ToString().Trim()
+                                        hdCLMuser.Value = objFull.CLMuser.ToString().Trim()
+                                        hdCLMLimit.Value = objFull.CLMLimit.ToString().Trim()
                                     End If
                                 End If
                             End If
@@ -6172,11 +6207,19 @@ Public Class CustomerClaims
                     Return result
                 End If
 
-            End Using
+                If intValidation = 2 Then
+                    Dim claimNo = txtClaimNoData.Text.Trim()
+                    chkinitial.Value = "I"
+                    Dim rsUpdate = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                    If rsUpdate > 0 Then
+                        Dim rsExtUpdate = objBL.UpdateNWHeaderStatForce(claimNo, "2", "7", False)
+                        If rsExtUpdate > 0 Then
+                            result = True
+                        End If
+                    End If
+                End If
 
-            If intValidation = 2 Then
-                result = True
-            End If
+            End Using
 
             Return result
         Catch ex As Exception
@@ -7610,7 +7653,7 @@ Public Class CustomerClaims
                                     GetQuarantineReq(intValue)
                                     GetCostSuggested(intValue)
                                     GetEngineInformation(intValue)
-                                    GetAuthForSalesOver500(intValue)
+                                    'GetAuthForSalesOver500(intValue)
                                     GetClaimApproved(intValue)
                                     GetLoadNewComments(intValue)
                                     'Dim strText As String = Nothing
@@ -9905,6 +9948,7 @@ Public Class CustomerClaims
 
     Public Sub GetAuthForSalesOver500(value As String)
         Dim ds = New DataSet()
+        Dim bContinue As Boolean = False
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 Dim rs = objBL.getAuthForSalesOver500(value, ds)
@@ -9934,16 +9978,41 @@ Public Class CustomerClaims
                             '    End If
                             'End If
                             'txtTotalAmount.Enabled = False
-
+                        Else
+                            bContinue = True
                         End If
+                    Else
+                        bContinue = True
                     End If
                 Else
-                    txtClaimAuth.Enabled = True
-                    txtClaimAuthDate.Enabled = True
-                    txtAmountApproved.Enabled = True
-                    chkClaimAuth.Checked = False
-                    chkClaimAuth.Enabled = True
+                    bContinue = True
                 End If
+
+                If bContinue Then
+
+                    Dim dbTotal As Double = 0
+                    Dim dbConf As Double = 0
+
+                    Dim bTotal = Double.TryParse(txtTotValue.Text.Trim(), dbTotal)
+                    Dim bConf = Double.TryParse(hdSwLimitAmt.Value.Trim(), dbConf)
+
+                    If bTotal And bConf Then
+                        If dbConf >= dbTotal Then
+                            txtClaimAuth.Enabled = True
+                            txtClaimAuthDate.Enabled = True
+                            txtAmountApproved.Enabled = True
+                            chkClaimAuth.Checked = False
+                            chkClaimAuth.Enabled = True
+                        Else
+                            txtClaimAuth.Enabled = False
+                            txtClaimAuthDate.Enabled = False
+                            txtAmountApproved.Enabled = False
+                            chkClaimAuth.Checked = False
+                            chkClaimAuth.Enabled = False
+                        End If
+                    End If
+                End If
+
             End Using
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
