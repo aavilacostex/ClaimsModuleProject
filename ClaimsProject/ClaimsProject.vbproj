@@ -176,11 +176,14 @@
     <Content Include="EmailTemplates\CustomerAcknowledgment.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\imgDesc.png" />
+    <Content Include="Images\imgAscNo.png" />
     <Content Include="Images\avatar-ctp.PNG" />
     <Content Include="Images\back1.PNG" />
     <Content Include="Images\bullet.gif" />
     <Content Include="Images\close.gif" />
     <Content Include="Images\closelabel.gif" />
+    <Content Include="Images\imgDescNo.png" />
     <Content Include="Images\download-icon.gif" />
     <Content Include="Images\footer-bg.jpg" />
     <Content Include="Images\footer-logo.png" />
@@ -195,6 +198,7 @@
     <Content Include="Images\ToProcess\6K5746-2.jpeg" />
     <Content Include="Images\ToProcess\6K5746-3.jpeg" />
     <Content Include="Images\ToProcess\6K5746-4.jpeg" />
+    <Content Include="Images\imgAsc.png" />
     <Content Include="Images\wait1.gif" />
     <Content Include="index.aspx" />
     <Content Include="Login.aspx" />

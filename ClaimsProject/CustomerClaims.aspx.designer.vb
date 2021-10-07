@@ -1274,6 +1274,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdVariableStatus As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdSelectedHeaderCell control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdSelectedHeaderCell As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>

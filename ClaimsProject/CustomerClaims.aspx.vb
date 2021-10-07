@@ -465,6 +465,68 @@ Public Class CustomerClaims
 
 #Region "GridView"
 
+    Protected Sub grvClaimReport_RowCreated(sender As Object, e As GridViewRowEventArgs)
+        Dim direction As String = Nothing
+
+        Try
+
+            If e.Row.RowType = DataControlRowType.Header Then
+
+                For Each tc As TableCell In e.Row.Cells
+
+                    If tc.HasControls() Then
+                        Dim aa = tc.Controls(0).GetType()
+                        Dim ctrType = tc.Controls(0).GetType().ToString()
+                        If ctrType.ToLower().Contains("linkbutton") Then
+                            direction = DirectCast(Session("sortDirection"), String)
+
+                            Dim lnkControl As LinkButton = DirectCast(tc.Controls(0), LinkButton)
+                            Dim img As Image = New Image()
+
+                            If Session("sortExpression") Is Nothing Or Session("sortDirection") Is Nothing Then
+
+                                If lnkControl.CommandArgument.Trim().ToLower().Equals("mhmrnr") Then
+
+                                    img.ImageUrl = "~/Images/imgDesc.png"
+
+                                End If
+
+                            Else
+                                If lnkControl IsNot Nothing And Session("sortExpression").ToString() = lnkControl.CommandArgument.Trim().ToLower() Then
+
+                                    'SetSortDirection(direction) = "ASC"
+
+                                    img.ImageUrl = "~/Images/img" + If(SetSortDirection(direction) = "ASC", "Desc", "Asc") + ".png"
+
+                                Else
+                                    'img.ImageUrl = "~/Images/imgAsc.png"
+                                End If
+                            End If
+
+                            tc.Controls.Add(New LiteralControl(" "))
+                            tc.Controls.Add(img)
+
+                            'Dim divI As HtmlGenericControl = New HtmlGenericControl("i")
+                            'divI.Attributes.Add("class", "fa fa-server")
+
+                            'Dim divSpan As HtmlGenericControl = New HtmlGenericControl("span")
+                            'divSpan.Attributes.Add("runat", "server")
+                            'divSpan.Attributes.Add("aria-hidden", "true")
+
+
+                        End If
+
+                    End If
+
+                Next
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Protected Sub grvClaimReport_RowDataBound(sender As Object, e As GridViewRowEventArgs)
         Dim exMessage As String = " "
         Try
@@ -509,6 +571,18 @@ Public Class CustomerClaims
 
                     x += 1
                 Next
+
+                Dim y As Integer = 0
+                Dim colName As String = hdSelectedHeaderCell.Value
+                For index = 0 To grvClaimReport.Columns.Count - 1
+                    Dim name = grvClaimReport.Columns(index).HeaderText
+                    If name.Equals(colName) Then
+                        e.Row.Cells(y).Attributes.Add("class", "header-Asc")
+                    End If
+
+                    y += 1
+                Next
+
             ElseIf (e.Row.RowType = DataControlRowType.Pager) Then
                 Dim strTotal = DirectCast(Session("ItemCounts"), String).ToString()
                 Dim strNumberOfPages = DirectCast(Session("PageAmounts"), String).ToString()
@@ -820,6 +894,7 @@ Public Class CustomerClaims
             Dim dsFull = DirectCast(Session("Datasource"), DataSet)
             Dim dt As DataTable = DirectCast(grvClaimReport.DataSource, DataTable)
             Dim field = e.SortExpression.Trim().ToLower()
+            Session("sortExpression") = field
 
             If field.Equals(dsFull.Tables(0).Columns(0).ColumnName.Trim().ToLower()) Or
                 field.Equals(dsFull.Tables(0).Columns(5).ColumnName.Trim().ToLower()) Or field.Equals(dsFull.Tables(0).Columns(6).ColumnName.Trim().ToLower()) Then
@@ -1809,7 +1884,8 @@ Public Class CustomerClaims
 
                 End Using
 
-                ExtraLoadGrv1(claimNo)
+                'ExtraLoadGrv1(claimNo)
+                btnSearchFilter_Click(Nothing, Nothing)
 
                 hdNavTabsContent.Value = "0"
                 hdClaimNumber.Value = ""
@@ -1868,7 +1944,8 @@ Public Class CustomerClaims
                     End If
                 End Using
 
-                ExtraLoadGrv1(claimNo)
+                'ExtraLoadGrv1(claimNo)
+                btnSearchFilter_Click(Nothing, Nothing)
 
                 hdNavTabsContent.Value = "0"
                 hdClaimNumber.Value = ""
@@ -8913,6 +8990,8 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlVndNo)
             LoadDropDownLists(ddlLocat)
             LoadDropDownLists(ddlLocation)
+
+            btnSearchFilter.Focus()
 
         Catch ex As Exception
             exMessage = ex.Message

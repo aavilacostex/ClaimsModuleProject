@@ -812,6 +812,7 @@
                     <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
                     <asp:HiddenField ID="hdTestPath" value="" runat="server" />
                     <asp:HiddenField ID="hdVariableStatus" value="" runat="server" />
+                    <asp:HiddenField ID="hdSelectedHeaderCell" value="" runat="server" />
 
                 </div>
             </div>            
@@ -898,7 +899,7 @@
                                     <asp:GridView ID="grvClaimReport" runat="server" AutoGenerateColumns="false" ShowFooter="false" PageSize="10" 
                                         CssClass="table table-striped table-bordered" AllowPaging="True" DataKeyNames="MHMRNR" GridLines="None"  AllowSorting="true"
                                         OnPageIndexChanging="grvClaimReport_PageIndexChanging" OnRowDataBound="grvClaimReport_RowDataBound" OnRowCommand="grvClaimReport_RowCommand"
-                                        OnRowUpdating="grvClaimReport_RowUpdating" OnSorting="grvClaimReport_Sorting" >
+                                        OnRowUpdating="grvClaimReport_RowUpdating" OnSorting="grvClaimReport_Sorting" OnRowCreated="grvClaimReport_RowCreated" >
                                         <Columns>                                           
                                             <%--<asp:TemplateField>  removido
                                                 <ItemTemplate>
@@ -1012,6 +1013,8 @@
                                         <HeaderStyle BackColor="#0063A6" ForeColor="White" />
                                         <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" PageButtonCount="10" />
                                         <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+                                        <%--<SortedAscendingHeaderStyle CssClass="header-Asc" />
+                                        <SortedDescendingHeaderStyle CssClass="header-Desc" />--%>
                                     </asp:GridView>
                                 </div>
                             </div>
@@ -2562,6 +2565,18 @@
             expandMultilineTxt();  //tab click
 
             JSFunction();
+        });
+
+
+        $('body').on('click', '#MainContent_grvClaimReport th > a', function (e) {
+            //debugger
+
+            $(this).closest('th').addClass('header-Asc');
+
+            var q = $(this);
+            var colName = q.text();
+            $('#<%=hdSelectedHeaderCell.ClientID %>').val(colName);          
+
         });
        
 
@@ -4314,14 +4329,25 @@
 
                 return date;
             }
-        }       
+        }    
 
-        $("#<%=txtClaimNo.ClientID%>").keypress(function (e) {
+        $("#<%=txtClaimNo.ClientID%>").focus(function (e) {
             debugger
             
-            var key = e.KeyCode;
+            var key = e.KeyCode || e.which;
             if (key == 13) {
-                alert("pepe");
+                e.preventDefault();
+                $("#<%=btnSearchFilter.ClientID%>").click();
+            }
+        });
+
+        $("#<%=txtClaimNo.ClientID%>").keypress(function (e) {
+            //debugger
+            
+            var key = e.KeyCode || e.which;
+            if (key == 13) {
+                e.preventDefault();
+                $("#<%=btnSearchFilter.ClientID%>").click();
             }
         });
 
