@@ -4329,9 +4329,32 @@
 
                 return date;
             }
-        }    
+        }   
 
-        $("#<%=txtClaimNo.ClientID%>").focus(function (e) {
+        function isEmpty(value) {
+            return (value == null || value.length === 0);
+        }
+
+        $(document).on('keyup keypress', 'form input[type="text"]', function (e) {
+            debugger
+
+            var qq = e.target.id;
+            var hsVl = $("#" + qq).val();            
+            
+            var key = e.KeyCode || e.which;
+            if (key == 13) {
+                //if (isEmpty(hsVl)) {
+                   // e.preventDefault();
+                   // return false;
+                //} else {
+                    e.preventDefault();
+                    $("#<%=btnSearchFilter.ClientID%>").click();
+                //}
+                
+            } 
+        });
+
+        <%--$("#<%=txtClaimNo.ClientID%>").focus(function (e) {
             debugger
             
             var key = e.KeyCode || e.which;
@@ -4339,9 +4362,9 @@
                 e.preventDefault();
                 $("#<%=btnSearchFilter.ClientID%>").click();
             }
-        });
+        });--%>
 
-        $("#<%=txtClaimNo.ClientID%>").keypress(function (e) {
+        <%--$("#<%=txtClaimNo.ClientID%>").keypress(function (e) {
             //debugger
             
             var key = e.KeyCode || e.which;
@@ -4349,7 +4372,7 @@
                 e.preventDefault();
                 $("#<%=btnSearchFilter.ClientID%>").click();
             }
-        });
+        });--%>
 
         <%--        $("#<%=btnSearchFilter.ClientID%>")).focus();
             }
