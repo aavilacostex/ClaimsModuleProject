@@ -45,6 +45,17 @@ textarea {
     float: left !important;
 }
 
+.modalPanel {
+    margin: 0 auto !important;
+    margin-top: 10% !important;
+    border: 1px solid #cc9600;
+    border-style: solid;
+    height: 250px;
+    width: 400px;
+    background-color: white !important;
+    opacity: 09 !important;
+}
+
 .header-Desc {
     background-color: red !important;
     cursor: pointer !important;

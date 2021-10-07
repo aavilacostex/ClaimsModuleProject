@@ -158,6 +158,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''claimQuickOverview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents claimQuickOverview As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''lblClaimQuickOverview control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClaimQuickOverview As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''loadFileSection control.
     '''</summary>
     '''<remarks>
@@ -192,42 +210,6 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnBack As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''AddFilesSection control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents AddFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''fuAddClaimFile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents fuAddClaimFile As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
-    '''btnSaveFile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSaveFile As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''btnBackFile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnBackFile As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''rowFilters control.
@@ -1283,6 +1265,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdSelectedHeaderCell As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdNavsForAddDoc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdNavsForAddDoc As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>
@@ -1434,24 +1425,6 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents grvClaimReport As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''claimQuickOverview control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents claimQuickOverview As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''lblClaimQuickOverview control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblClaimQuickOverview As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''navsSection control.
@@ -3783,4 +3756,76 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents rowBtn As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''dummylabel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dummylabel As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''panLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents panLogin As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''panInnerLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents panInnerLogin As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''AddFilesSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents AddFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''fuAddClaimFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fuAddClaimFile As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''btnSaveFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveFile As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnBackFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBackFile As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''popUpLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents popUpLogin As Global.AjaxControlToolkit.ModalPopupExtender
 End Class

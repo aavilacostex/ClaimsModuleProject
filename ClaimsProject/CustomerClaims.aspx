@@ -123,6 +123,16 @@
                 </div>
             </div>
 
+            <div id="claimQuickOverview" class="container hideProp" runat="server">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10 alert alert-success">
+                        <asp:Label id="lblClaimQuickOverview" Text="" runat="server" ></asp:Label>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>                
+            </div>
+
             <div id="loadFileSection" class="container hideProp" runat="server">
                 <div class="row">
                     <div class="col-md-3"></div>
@@ -165,7 +175,7 @@
                 </div>        
             </div>
 
-            <div id="AddFilesSection" class="container hideProp" runat="server">
+            <%--<div id="AddFilesSection" class="container hideProp" runat="server">
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
@@ -205,7 +215,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>        
-            </div>            
+            </div>--%>            
 
             <div id="searchFilters" class="container-fluid">
                 <div id="rowFilters" class="row" runat="server">
@@ -813,6 +823,7 @@
                     <asp:HiddenField ID="hdTestPath" value="" runat="server" />
                     <asp:HiddenField ID="hdVariableStatus" value="" runat="server" />
                     <asp:HiddenField ID="hdSelectedHeaderCell" value="" runat="server" />
+                    <asp:HiddenField ID="hdNavsForAddDoc" value="" runat="server" />
 
                 </div>
             </div>            
@@ -1024,17 +1035,7 @@
             </div>
 
             <%--<Atk:ModalPopupExtender ID="mdClaimDetailsExp" runat="server" PopupControlID="navsSection" Enabled ="True" TargetControlID="hdModalExtender" CancelControlID="btnClose"  ></Atk:ModalPopupExtender>
-             <asp:HiddenField ID="hdModalExtender" Value="" runat="server" />--%>
-
-            <div id="claimQuickOverview" class="container hideProp" runat="server">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 alert alert-success">
-                        <asp:Label id="lblClaimQuickOverview" Text="" runat="server" ></asp:Label>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>                
-            </div>
+             <asp:HiddenField ID="hdModalExtender" Value="" runat="server" />--%>            
 
             <div id="navsSection" class="container hideProp" runat="server">
                 <div class="row">
@@ -2157,7 +2158,7 @@
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
+                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="false" runat="server" />
                                                         <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
 			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                         </asp:LinkButton>
@@ -2413,6 +2414,58 @@
                 </div>
              
             </div>
+
+
+            <asp:Label runat="server" ID="dummylabel"></asp:Label>
+            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
+                <asp:Panel ID="panInnerLogin" runat="server" CssClass="modalPanel">
+                    <div id="AddFilesSection" class="container hideProp" runat="server">
+                <div class="row">
+                    <%--<div class="col-md-3"></div>--%>
+                    <%--<div class="col-md-12">--%>
+                        <div id="pnAddClaimFile" class="shadow-to-box">
+                            <div class="row" style="padding: 30px 0;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 center-row">
+                                    <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control" runat="server" />
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row" style="padding: 5px 0;">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row" style="padding: 20px 0;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-6" style="float: right; text-align: right !important;">
+                                            <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" OnClick="btnSaveFile_Click" runat="server" />
+                                        </div>
+                                        <div class="col-md-6" style="float: left;">
+                                            <asp:Button ID="btnBackFile" Text="   Back   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>                    
+                        </div>
+                    </div>
+                    <%--<div class="col-md-3"></div>--%>
+                </div>        
+            </div>
+                </asp:Panel>
+            </asp:Panel>
+
+            <Atk:ModalPopupExtender ID="popUpLogin" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
+                PopupControlID="panLogin" CancelControlID="btnBackFile">
+            </Atk:ModalPopupExtender>
 
             <br />
         </ContentTemplate>
@@ -3757,7 +3810,7 @@
 
             if (args.get_isPartialLoad()) {  
 
-                //debugger
+                debugger
                 //case fileExcel  
                 var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
                 if (hdFile == "1") {
@@ -3765,8 +3818,14 @@
                 } 
 
                 var hdAddClaimFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-                if (hdAddClaimFile == "1") { $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
-                else { $('#MainContent_AddFilesSection').addClass('hideProp'); }
+                if (hdAddClaimFile == "1") {
+                    $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp');
+                    $('#MainContent_navsSection').closest('.container').addClass('hideProp');
+                }
+                else {
+                    $('#MainContent_AddFilesSection').addClass('hideProp');
+                    $('#MainContent_navsSection').closest('.container').removeClass('hideProp');
+                }
 
                 <%--var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
                 if (hdDisplaySeeVndClaim == "1") {

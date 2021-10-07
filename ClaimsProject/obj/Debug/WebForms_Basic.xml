@@ -181,6 +181,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._claimQuickOverview">
+<summary>
+claimQuickOverview control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblClaimQuickOverview">
+<summary>
+lblClaimQuickOverview control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._loadFileSection">
 <summary>
 loadFileSection control.
@@ -211,42 +229,6 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._btnBack">
 <summary>
 btnBack control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._AddFilesSection">
-<summary>
-AddFilesSection control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._fuAddClaimFile">
-<summary>
-fuAddClaimFile control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._btnSaveFile">
-<summary>
-btnSaveFile control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._btnBackFile">
-<summary>
-btnBackFile control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -1306,6 +1288,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._hdNavsForAddDoc">
+<summary>
+hdNavsForAddDoc control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._addProdDev">
 <summary>
 addProdDev control.
@@ -1453,24 +1444,6 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._grvClaimReport">
 <summary>
 grvClaimReport control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._claimQuickOverview">
-<summary>
-claimQuickOverview control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._lblClaimQuickOverview">
-<summary>
-lblClaimQuickOverview control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -3802,6 +3775,78 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._rowBtn">
 <summary>
 rowBtn control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._dummylabel">
+<summary>
+dummylabel control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._panLogin">
+<summary>
+panLogin control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._panInnerLogin">
+<summary>
+panInnerLogin control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._AddFilesSection">
+<summary>
+AddFilesSection control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._fuAddClaimFile">
+<summary>
+fuAddClaimFile control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._btnSaveFile">
+<summary>
+btnSaveFile control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._btnBackFile">
+<summary>
+btnBackFile control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._popUpLogin">
+<summary>
+popUpLogin control.
 </summary>
 <remarks>
 Auto-generated field.

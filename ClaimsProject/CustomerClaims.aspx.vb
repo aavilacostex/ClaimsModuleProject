@@ -3294,6 +3294,7 @@ Public Class CustomerClaims
 
     Protected Sub btnAddFiles_Click(sender As Object, e As EventArgs) Handles btnAddFiles.Click
         Try
+            popUpLogin.Show()
             'SeeFiles()
             'AddFiles()
         Catch ex As Exception
@@ -10192,7 +10193,7 @@ Public Class CustomerClaims
 
 #End Region
 
-#Region "GeneralCtrDeactivation"
+#Region "Test Modal Popup"
 
 
 
