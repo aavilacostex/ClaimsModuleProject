@@ -1274,6 +1274,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdNavsForAddDoc As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdChangePageLoad control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdChangePageLoad As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>
@@ -3792,6 +3801,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents AddFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnAddClaimFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnAddClaimFile As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''fuAddClaimFile control.

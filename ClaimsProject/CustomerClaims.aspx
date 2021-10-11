@@ -824,6 +824,7 @@
                     <asp:HiddenField ID="hdVariableStatus" value="" runat="server" />
                     <asp:HiddenField ID="hdSelectedHeaderCell" value="" runat="server" />
                     <asp:HiddenField ID="hdNavsForAddDoc" value="" runat="server" />
+                    <asp:HiddenField ID="hdChangePageLoad" value="" runat="server" />
 
                 </div>
             </div>            
@@ -960,7 +961,8 @@
                                             <asp:BoundField DataField="CWWRNO" HeaderText="docNo" ItemStyle-Width="10%"  ItemStyle-CssClass="hidecol"  HeaderStyle-CssClass="hidecol"  />
                                             <asp:TemplateField HeaderText="STATUS" ItemStyle-Width="13%" >
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("cwstde").ToString() %>'></asp:Label>
+                                                    <%--<asp:Label ID="Label12" runat="server" Text='<%# Eval("cwstde").ToString() %>'></asp:Label>--%>
+                                                    <asp:Label ID="Label12" runat="server" Text=""></asp:Label>
                                                     <%--</td>  removido
                                                     <tr>
                                                         <td colspan="100%" class="padding0">
@@ -2418,12 +2420,12 @@
 
             <asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
-                <asp:Panel ID="panInnerLogin" runat="server" CssClass="modalPanel">
+                <asp:Panel ID="panInnerLogin" runat="server">
                     <div id="AddFilesSection" class="container hideProp" runat="server">
                 <div class="row">
                     <%--<div class="col-md-3"></div>--%>
                     <%--<div class="col-md-12">--%>
-                        <div id="pnAddClaimFile" class="shadow-to-box">
+                        <div id="pnAddClaimFile" class="modalPanel" runat="server">
                             <div class="row" style="padding: 30px 0;">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
@@ -2821,6 +2823,7 @@
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
             if (hdForceLoad == "1") {                
                 JSFunction();
+                $('<%=hdLoadAllData.ClientID%>').val(0);
             }
         }
 
@@ -3470,7 +3473,7 @@
 
         $(function () {
 
-            //debugger
+            debugger
 
             console.log("BeginFunction");            
 
@@ -3798,6 +3801,28 @@
           
             console.log("BeginPageLoad");
 
+            <%--var hdChPgLo = document.getElementById('<%=hdChangePageLoad.ClientID%>').value;
+            if (hdChPgLo != "") {
+
+                if (hdChPgLo == "1")
+                {
+
+                    $('#<%=hdGridViewContent.ClientID %>').val("0");
+                    $('#<%=hdNavTabsContent.ClientID %>').val("1");
+
+                    contentVisual();
+                }
+                else
+                {
+
+                    $('#<%=hdGridViewContent.ClientID %>').val("1");
+                    $('#<%=hdNavTabsContent.ClientID %>').val("0");
+
+                    contentVisual();
+                }
+
+            } --%>           
+
             var hdTEst = document.getElementById('<%=hdTestPath.ClientID%>').value
             if (hdTEst != "") {
                 console.log(hdTEst);
@@ -3805,6 +3830,8 @@
             }            
 
             execDatePickers();
+
+            contentVisual();
            
             //$("#navsSection").removeAttr("style");
 

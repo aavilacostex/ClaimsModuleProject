@@ -68,6 +68,18 @@ Public Class CustomerClaims
 
             Else
 
+                'If hdChangePageLoad.Value.Equals("1") Then
+                'Attributes.Add("class", "header-style")
+                'gridviewRow.Attributes.Add("class", "hideProp")
+                'rowFilters.Attributes.Add("class", "hideProp")
+                'Dim className As String = navsSection.Attributes("class").ToString()
+                'Dim myClas As String = If(className.Trim().Contains(" "), className.Split(" ")(0), className)
+                'navsSection.Attributes.Remove("class")
+                'rowFilters.Attributes.Add("class", myClas)
+                'searchFilters
+                'navsSection
+                'End If
+
                 Dim controlName As String = Page.Request.Params("__EVENTTARGET")
                 GetDDLValidation(controlName)
 
@@ -550,6 +562,11 @@ Public Class CustomerClaims
                 End If
 
                 Dim seq = e.Row.Cells(7).Text
+
+                Dim curStatus = GetCurrentIntStatus(seq)
+                Dim lbl12 = DirectCast(e.Row.FindControl("Label12"), Label)
+                lbl12.Text = curStatus
+
                 Dim lastComm = getLastCommentByNumber(seq)
                 Dim lbl1 = DirectCast(e.Row.FindControl("lblLastComment"), Label)
                 Dim messageFix = If(String.IsNullOrEmpty(lastComm), lastComm, If(lastComm.Length < 70, lastComm, lastComm.Substring(0, Math.Min(lastComm.Length, 70))))
@@ -3295,6 +3312,9 @@ Public Class CustomerClaims
     Protected Sub btnAddFiles_Click(sender As Object, e As EventArgs) Handles btnAddFiles.Click
         Try
             popUpLogin.Show()
+            hdNavTabsContent.Value = "1"
+            'hdClaimNumber.Value = ""
+            hdGridViewContent.Value = "0"
             'SeeFiles()
             'AddFiles()
         Catch ex As Exception
@@ -7577,6 +7597,8 @@ Public Class CustomerClaims
 
                         hdSeq.Value = Trim(myitem(0).Item("CWWRNO").ToString())
 
+                        'GetCurrentIntStatus(hdSeq.Value)
+
                         Dim dbValue As Double = 0
                         Dim totValue As String = Trim(myitem(0).Item("MHTOMR").ToString())
                         Dim bbValue = Double.TryParse(totValue, dbValue)
@@ -8149,6 +8171,81 @@ Public Class CustomerClaims
 #End Region
 
 #Region "Auxiliar Methods"
+
+    Public Function GetCurrentIntStatus(wrnNo As String) As String
+        Dim dsResult As DataSet = New DataSet()
+        Dim bGoAhead As Boolean = False
+        Dim values = ConfigurationManager.AppSettings("internalStatuses")
+        Dim dct As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+        Dim strStatus As String = Nothing
+        Dim strTextStatus As String = Nothing
+        Dim dctProc As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+        Try
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                Dim rsResult = objBL.getEngineInfo(wrnNo, dsResult)
+                If rsResult > 0 And dsResult IsNot Nothing Then
+                    If dsResult.Tables(0).Rows.Count > 0 Then
+
+                        createDctFromConfig(values, dct)
+                        'Dim i As Integer = 0
+                        For Each dw As DataRow In dsResult.Tables(0).Rows
+
+                            Dim qq = dct.AsEnumerable().Where(Function(a) a.Key.Equals(dw.Item("INSTAT").ToString().Trim()))
+                            If qq.Count > 0 Then
+                                dctProc.Add(qq(0).Key, qq(0).Value)
+                            End If
+
+                            'If dw.Item("INSTAT").ToString().Trim().ToLower().Equals(dct.Keys(i).Trim().ToLower()) Then
+                            '    dctProc.Add(dct.Keys(0), dct.Values(0))
+                            '    i += 1
+                            'Else
+                            '    i += 1
+                            'End If
+
+                        Next
+
+                        Dim pp = dctProc
+
+                        If dctProc IsNot Nothing Then
+                            'grvClaimReport.DataSource = dt.AsEnumerable().OrderByDescending(Function(o) CInt(o.Item(field).ToString())).CopyToDataTable()
+                            Dim qty = dctProc.AsEnumerable().OrderByDescending(Function(e) CInt(e.Value.ToString())).First()
+                            strStatus = qty.Key()
+                        End If
+
+                        Dim dd = DirectCast(Session("dsIntStatus"), DataSet)
+                        If dd IsNot Nothing Then
+                            If dd.Tables(0).Rows.Count > 0 Then
+
+                                Dim qw = dd.Tables(0).AsEnumerable().Where(Function(q) q.Item("CNT03").ToString().Trim().ToLower().Equals(strStatus.Trim().ToLower()))
+                                strTextStatus = qw(0).Item("INTDES").ToString().Trim()
+
+                            End If
+                        End If
+
+                    End If
+                End If
+
+            End Using
+            Return strTextStatus
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return strTextStatus
+        End Try
+    End Function
+
+    Public Sub createDctFromConfig(str As String, ByRef dct As Dictionary(Of String, String))
+        Try
+            Dim lst = str.Split(".").ToList()
+            For Each item As String In lst
+                dct.Add(item.Split(",")(0), item.Split(",")(1))
+            Next
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
 
     Public Function GetUserEmailByUserId(userid As String, Optional ByRef username As String = Nothing) As String
         Dim strLdap = "costex.com"
@@ -8773,11 +8870,13 @@ Public Class CustomerClaims
                             folderpathvendor = FolderPath + claimNo + "\"
                             If Directory.Exists(folderpathvendor) Then
                                 SaveFile(fuAddClaimFile, folderpathvendor)
+                                'hdChangePageLoad.Value = "1"
                             Else
                                 'create a folder
                                 Directory.CreateDirectory(folderpathvendor)
                                 If Directory.Exists(folderpathvendor) Then
                                     SaveFile(fuAddClaimFile, folderpathvendor)
+                                    'hdChangePageLoad.Value = "1"
                                 Else
                                     'error creating directory
                                 End If
@@ -8803,11 +8902,13 @@ Public Class CustomerClaims
                             folderpathvendor = FolderPath + wrnNo + "\"
                             If Directory.Exists(folderpathvendor) Then
                                 SaveFile(fuAddClaimFile, folderpathvendor)
+                                'hdChangePageLoad.Value = "1"
                             Else
                                 'create a folder
                                 Directory.CreateDirectory(folderpathvendor)
                                 If Directory.Exists(folderpathvendor) Then
                                     SaveFile(fuAddClaimFile, folderpathvendor)
+                                    'hdChangePageLoad.Value = "1"
                                 Else
                                     'error creating directory
                                 End If
@@ -8977,13 +9078,14 @@ Public Class CustomerClaims
 
             'GetClaimsReport("", 1, Nothing, strDates)
 
+            LoadDropDownLists(ddlSearchIntStatus)
+
             GetClaimsReport("", 1, Nothing, Nothing)
 
             LoadDropDownLists(ddlSearchDiagnose)
             LoadDropDownLists(ddlSearchExtStatus)
             LoadDropDownLists(ddlSearchReason)
             LoadDropDownLists(ddlSearchUser)
-            LoadDropDownLists(ddlSearchIntStatus)
             LoadDropDownLists(ddlClaimType)
             LoadDropDownLists(ddlClaimTypeOk)
             LoadDropDownLists(ddlInitRev)
@@ -10466,6 +10568,7 @@ Public Class CustomerClaims
                     If result > 0 Then
                         If dsData IsNot Nothing Then
                             If dsData.Tables(0).Rows.Count > 0 Then
+                                Session("dsIntStatus") = dsData
 
                                 Dim initialLi As ListItem = New ListItem(" ", "-1")
                                 ddlSearchIntStatus.Items.Add(initialLi)

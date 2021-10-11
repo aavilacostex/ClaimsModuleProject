@@ -695,23 +695,25 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
 
-            If claimType <> "B" Then ' warranty types
+            If claimType.Equals("C") Then ' warranty types
 
                 Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
                 Dim todayDate = DateTime.Now
                 Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
                 'strwhere = " where MHMRDT between '" + fromDate.ToString("MMddyy") + "' and '" + todayDate.ToString("MMddyy") + "'"
                 strwhere = "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')"
-                strjoin = " join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) left join qs36f.clwrrel e on a.wrn=e.crwrno 
-                            join qs36f.cntrll f on trim(f.cnt03)=cwstat 
-                            where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and f.cnt01='193' and f.cnt02='  ' "
+                strjoin = " join qs36f.clmintsts g on a.cwwrno = g.inclno
+                            join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) left join qs36f.clwrrel e on a.wrn=e.crwrno 
+                            join qs36f.cntrll f on trim(f.cnt03)=g.instat 
+                            where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and f.cnt01='193' and f.cnt02='  '
+                            and g.instat = (select instat from qs36f.clmintsts where inclno = a.cwwrno order by  incldt desc, intime desc FETCH FIRST 1 ROW ONLY) "
 
                 Dim Sql = "SELECT MHMRNR,WRN,CWSTAT,MHDATE,SUBSTR(b.CNTDE2,1,8) MHTDES,mhcunr,mhtomr, 
                             case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end mhptnr,  
                             d.CNT03,d.CNTDE1 mhstde,case coalesce(crclno,0) when 0 then 'NO' else 'YES' end mhsupclm, trim(f.CNT03) CWSTS, SUBSTR(f.CNTDE1,1,18) cwstde,
                             case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
                             else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end actdt,
-                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN                          
+                            cunam mhcuna, cuslm, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN, g.instat, g.incldt,g.intime                         
                             from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
                             (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN FROM qs36f.CSMREH 
                             LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN " & strwhere & ") a " & strjoin & " {0} order by 1 desc"
