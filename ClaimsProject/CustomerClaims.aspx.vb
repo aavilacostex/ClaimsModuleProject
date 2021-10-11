@@ -726,7 +726,9 @@ Public Class CustomerClaims
                 'Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
                 Dim dd = ds1.Tables(0).AsEnumerable().Where(Function(ee) ee.Item("MHMRNR").ToString().Trim().ToUpper().Equals(claimNo.Trim().ToUpper())).First
                 If dd IsNot Nothing Then
-                    claimStatus = dd.Item("cwstde").ToString().Trim().ToUpper()
+                    Dim wrnNo As String = dd.Item("WRN").ToString().Trim()
+                    claimStatus = GetCurrentIntStatus(wrnNo)
+                    'claimStatus = dd.Item("cwstde").ToString().Trim().ToUpper()
                 Else
                     claimStatus = "Not Detected Status for this Claim Number."
                 End If
@@ -7095,21 +7097,21 @@ Public Class CustomerClaims
                 Dim strValues As String = Nothing
                 Dim dctValues As Dictionary(Of String, String) = Nothing
                 prepareClaimClasificaction(dctValues)
-                If ddlClaimTypeOk.SelectedIndex.ToString() = "1" Then
+                If ddlClaimTypeOk.SelectedIndex.ToString() = "2" Then
                     For Each item In dctValues
                         If item.Key = "WARR" Then
                             strValues = item.Value
                             Exit For
                         End If
                     Next
-                ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "2" Then
+                ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "3" Then
                     For Each item In dctValues
                         If item.Key = "NWARR" Then
                             strValues = item.Value
                             Exit For
                         End If
                     Next
-                ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "3" Then
+                ElseIf ddlClaimTypeOk.SelectedIndex.ToString() = "4" Then
                     For Each item In dctValues
                         If item.Key = "INT" Then
                             strValues = item.Value
@@ -7125,7 +7127,7 @@ Public Class CustomerClaims
             End If
 
             If ddlSearchIntStatus.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(f.CNT03) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
+                strBuild += " AND TRIM(g.instat) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
             End If
             If ddlSearchExtStatus.SelectedIndex > 0 Then
                 Dim strValues As String = Nothing
@@ -7151,6 +7153,12 @@ Public Class CustomerClaims
             End If
             If ddlLocat.SelectedIndex > 0 Then
                 strBuild += " AND TRIM(CWLOCN) = '" + Trim(ddlLocat.SelectedItem.Value.Trim()) + "'"
+            End If
+            If ddlInitRev.SelectedIndex > 0 Then
+                strBuild += "and g.inuser = (select inuser from qs36f.clmintsts where inclno = a.cwwrno and trim(inuser) = '" + Trim(ddlInitRev.SelectedItem.Value.Trim()) + "' and trim(instat) = 'I')"
+            End If
+            If ddlTechRev.SelectedIndex > 0 Then
+                strBuild += "and g.inuser = (select inuser from qs36f.clmintsts where inclno = a.cwwrno and trim(inuser) = '" + Trim(ddlTechRev.SelectedItem.Value.Trim()) + "' and trim(instat) = 'H')"
             End If
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
@@ -8230,6 +8238,25 @@ Public Class CustomerClaims
             End Using
             Return strTextStatus
 
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return strTextStatus
+        End Try
+    End Function
+
+    Public Function GetFullStatus(wrnNo As String) As String
+        Dim strTextStatus As String = Nothing
+        Try
+            Dim dd = DirectCast(Session("dsIntStatus"), DataSet)
+            If dd IsNot Nothing Then
+                If dd.Tables(0).Rows.Count > 0 Then
+
+                    Dim qw = dd.Tables(0).AsEnumerable().Where(Function(q) q.Item("CNT03").ToString().Trim().ToLower().Equals(wrnNo.Trim().ToLower()))
+                    strTextStatus = qw(0).Item("INTDES").ToString().Trim()
+
+                End If
+            End If
+            Return strTextStatus
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             Return strTextStatus
