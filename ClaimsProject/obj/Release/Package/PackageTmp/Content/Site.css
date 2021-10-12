@@ -151,6 +151,10 @@ textarea {
     padding: 0 0 20px 0 !important;
 }
 
+#MainContent_datViewer a {
+    cursor: pointer !important;
+}
+
 .footer-area.footer-bg {
     background-image: url(../Images/footer-bg.jpg);
     background-size: cover;

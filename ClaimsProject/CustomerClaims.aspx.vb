@@ -8984,12 +8984,14 @@ Public Class CustomerClaims
                 If Directory.Exists(folderpathvendor) Then
                     hdTestPath.Value = folderpathvendor
                     System.Diagnostics.Process.Start(folderpathvendor)
+                    Dim pp = HttpContext.Current.Request.LogonUserIdentity.Name
                 Else
                     'message No files for this Claim Warning.
                 End If
 
             End If
         Catch ex As Exception
+            Dim ppp = HttpContext.Current.Request.LogonUserIdentity.Name
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + " . " + ex.ToString + " . " + ex.StackTrace + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
