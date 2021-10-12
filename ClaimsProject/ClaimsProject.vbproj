@@ -165,6 +165,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\lightbox-old.css" />
     <Content Include="Content\lightbox.css" />
     <Content Include="Content\Site.css" />
     <Content Include="CustomerClaims.aspx" />
@@ -231,6 +232,7 @@
     <Content Include="Scripts\jquery-3.6.0.slim.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
     <Content Include="Scripts\JSUpdateProgress.js" />
+    <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\lightbox\builder.js" />
     <Content Include="Scripts\lightbox\effects.js" />
     <Content Include="Scripts\lightbox\lightbox.js" />

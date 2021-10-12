@@ -123,6 +123,16 @@
                 </div>
             </div>
 
+            <div id="claimQuickOverview" class="container hideProp" runat="server">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10 alert alert-success">
+                        <asp:Label id="lblClaimQuickOverview" Text="" runat="server" ></asp:Label>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>                
+            </div>
+
             <div id="loadFileSection" class="container hideProp" runat="server">
                 <div class="row">
                     <div class="col-md-3"></div>
@@ -165,7 +175,7 @@
                 </div>        
             </div>
 
-            <div id="AddFilesSection" class="container hideProp" runat="server">
+            <%--<div id="AddFilesSection" class="container hideProp" runat="server">
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
@@ -205,7 +215,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>        
-            </div>            
+            </div>--%>            
 
             <div id="searchFilters" class="container-fluid">
                 <div id="rowFilters" class="row" runat="server">
@@ -811,6 +821,10 @@
 
                     <asp:HiddenField ID="hdLoadAllData" value="0" runat="server" />
                     <asp:HiddenField ID="hdTestPath" value="" runat="server" />
+                    <asp:HiddenField ID="hdVariableStatus" value="" runat="server" />
+                    <asp:HiddenField ID="hdSelectedHeaderCell" value="" runat="server" />
+                    <asp:HiddenField ID="hdNavsForAddDoc" value="" runat="server" />
+                    <asp:HiddenField ID="hdChangePageLoad" value="" runat="server" />
 
                 </div>
             </div>            
@@ -897,7 +911,7 @@
                                     <asp:GridView ID="grvClaimReport" runat="server" AutoGenerateColumns="false" ShowFooter="false" PageSize="10" 
                                         CssClass="table table-striped table-bordered" AllowPaging="True" DataKeyNames="MHMRNR" GridLines="None"  AllowSorting="true"
                                         OnPageIndexChanging="grvClaimReport_PageIndexChanging" OnRowDataBound="grvClaimReport_RowDataBound" OnRowCommand="grvClaimReport_RowCommand"
-                                        OnRowUpdating="grvClaimReport_RowUpdating" OnSorting="grvClaimReport_Sorting" >
+                                        OnRowUpdating="grvClaimReport_RowUpdating" OnSorting="grvClaimReport_Sorting" OnRowCreated="grvClaimReport_RowCreated" >
                                         <Columns>                                           
                                             <%--<asp:TemplateField>  removido
                                                 <ItemTemplate>
@@ -921,8 +935,8 @@
                                                 <ItemStyle Width="20px" VerticalAlign="Middle"></ItemStyle>
                                             </asp:TemplateField>
 
-                                            <asp:BoundField DataField="MHMRNR" HeaderText="CLAIM NUMBER" ItemStyle-Width="10%" />
-                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="DATE" >
+                                            <asp:BoundField DataField="MHMRNR" HeaderText="CLAIM NUMBER" ItemStyle-Width="10%" SortExpression="mhmrnr"  />
+                                            <asp:TemplateField HeaderText="DATE ENTERED" ItemStyle-Width="10%" SortExpression="MHDATE" >
                                                 <ItemTemplate>
                                                     <asp:Literal ID="Literal1" runat="server"
                                                         Text='<%#String.Format("{0:MM/dd/yyyy}", System.Convert.ToDateTime(Eval("MHDATE"))) %>'>        
@@ -932,8 +946,8 @@
                                             <%--<asp:BoundField DataField="MHTDES" HeaderText="TYPE" ItemStyle-Width="11%" />  removido --%>
                                             <asp:BoundField DataField="mhcunr" HeaderText="CUSTOMER" ItemStyle-Width="10%" SortExpression="mhcunr" />
                                             <asp:BoundField DataField="mhcuna" HeaderText="CUSTOMER NAME" ItemStyle-Width="15%" SortExpression="mhcuna" />
-                                            <asp:BoundField DataField="mhtomr" HeaderText="CREDIT AMOUNT" ItemStyle-Width="6%" />                                            
-                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%"  />
+                                            <asp:BoundField DataField="mhtomr" HeaderText="CREDIT AMOUNT" ItemStyle-Width="6%" SortExpression="mhtomr" />                                            
+                                            <asp:BoundField DataField="mhptnr" HeaderText="PART NUMBER" ItemStyle-Width="6%" SortExpression="mhptnr"   />
                                            <%-- <asp:BoundField DataField="actdt" HeaderText="LAST UPDATE DATE" ItemStyle-Width="15%" />--%> 
                                             <%--<asp:TemplateField HeaderText="LAST UPDATE DATE" ItemStyle-Width="7%" SortExpression="DATE">    removido
                                                 <ItemTemplate>
@@ -947,7 +961,8 @@
                                             <asp:BoundField DataField="CWWRNO" HeaderText="docNo" ItemStyle-Width="10%"  ItemStyle-CssClass="hidecol"  HeaderStyle-CssClass="hidecol"  />
                                             <asp:TemplateField HeaderText="STATUS" ItemStyle-Width="13%" >
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("cwstde").ToString() %>'></asp:Label>
+                                                    <%--<asp:Label ID="Label12" runat="server" Text='<%# Eval("cwstde").ToString() %>'></asp:Label>--%>
+                                                    <asp:Label ID="Label12" runat="server" Text=""></asp:Label>
                                                     <%--</td>  removido
                                                     <tr>
                                                         <td colspan="100%" class="padding0">
@@ -1011,6 +1026,8 @@
                                         <HeaderStyle BackColor="#0063A6" ForeColor="White" />
                                         <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" PageButtonCount="10" />
                                         <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+                                        <%--<SortedAscendingHeaderStyle CssClass="header-Asc" />
+                                        <SortedDescendingHeaderStyle CssClass="header-Desc" />--%>
                                     </asp:GridView>
                                 </div>
                             </div>
@@ -1020,17 +1037,7 @@
             </div>
 
             <%--<Atk:ModalPopupExtender ID="mdClaimDetailsExp" runat="server" PopupControlID="navsSection" Enabled ="True" TargetControlID="hdModalExtender" CancelControlID="btnClose"  ></Atk:ModalPopupExtender>
-             <asp:HiddenField ID="hdModalExtender" Value="" runat="server" />--%>
-
-            <div id="claimQuickOverview" class="container hideProp" runat="server">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 alert alert-success">
-                        <asp:Label id="lblClaimQuickOverview" Text="" runat="server" ></asp:Label>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>                
-            </div>
+             <asp:HiddenField ID="hdModalExtender" Value="" runat="server" />--%>            
 
             <div id="navsSection" class="container hideProp" runat="server">
                 <div class="row">
@@ -2153,7 +2160,7 @@
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="true" runat="server" />
+                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="false" runat="server" />
                                                         <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
 			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                         </asp:LinkButton>
@@ -2410,6 +2417,58 @@
              
             </div>
 
+
+            <asp:Label runat="server" ID="dummylabel"></asp:Label>
+            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
+                <asp:Panel ID="panInnerLogin" runat="server">
+                    <div id="AddFilesSection" class="container hideProp" runat="server">
+                <div class="row">
+                    <%--<div class="col-md-3"></div>--%>
+                    <%--<div class="col-md-12">--%>
+                        <div id="pnAddClaimFile" class="modalPanel" runat="server">
+                            <div class="row" style="padding: 30px 0;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 center-row">
+                                    <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control" runat="server" />
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row" style="padding: 5px 0;">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row" style="padding: 20px 0;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-6" style="float: right; text-align: right !important;">
+                                            <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" OnClick="btnSaveFile_Click" runat="server" />
+                                        </div>
+                                        <div class="col-md-6" style="float: left;">
+                                            <asp:Button ID="btnBackFile" Text="   Back   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>                    
+                        </div>
+                    </div>
+                    <%--<div class="col-md-3"></div>--%>
+                </div>        
+            </div>
+                </asp:Panel>
+            </asp:Panel>
+
+            <Atk:ModalPopupExtender ID="popUpLogin" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
+                PopupControlID="panLogin" CancelControlID="btnBackFile">
+            </Atk:ModalPopupExtender>
+
             <br />
         </ContentTemplate>
 
@@ -2433,6 +2492,7 @@
     <script type="text/javascript">  
 
         //from above
+      
 
         function messageFormSubmitted(mensaje, show) {
             //debugger
@@ -2560,6 +2620,18 @@
             expandMultilineTxt();  //tab click
 
             JSFunction();
+        });
+
+
+        $('body').on('click', '#MainContent_grvClaimReport th > a', function (e) {
+            //debugger
+
+            $(this).closest('th').addClass('header-Asc');
+
+            var q = $(this);
+            var colName = q.text();
+            $('#<%=hdSelectedHeaderCell.ClientID %>').val(colName);          
+
         });
        
 
@@ -2751,6 +2823,7 @@
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
             if (hdForceLoad == "1") {                
                 JSFunction();
+                $('<%=hdLoadAllData.ClientID%>').val(0);
             }
         }
 
@@ -3400,7 +3473,7 @@
 
         $(function () {
 
-            //debugger
+            debugger
 
             console.log("BeginFunction");            
 
@@ -3728,6 +3801,28 @@
           
             console.log("BeginPageLoad");
 
+            <%--var hdChPgLo = document.getElementById('<%=hdChangePageLoad.ClientID%>').value;
+            if (hdChPgLo != "") {
+
+                if (hdChPgLo == "1")
+                {
+
+                    $('#<%=hdGridViewContent.ClientID %>').val("0");
+                    $('#<%=hdNavTabsContent.ClientID %>').val("1");
+
+                    contentVisual();
+                }
+                else
+                {
+
+                    $('#<%=hdGridViewContent.ClientID %>').val("1");
+                    $('#<%=hdNavTabsContent.ClientID %>').val("0");
+
+                    contentVisual();
+                }
+
+            } --%>           
+
             var hdTEst = document.getElementById('<%=hdTestPath.ClientID%>').value
             if (hdTEst != "") {
                 console.log(hdTEst);
@@ -3735,12 +3830,14 @@
             }            
 
             execDatePickers();
+
+            contentVisual();
            
             //$("#navsSection").removeAttr("style");
 
             if (args.get_isPartialLoad()) {  
 
-                //debugger
+                debugger
                 //case fileExcel  
                 var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
                 if (hdFile == "1") {
@@ -3748,8 +3845,14 @@
                 } 
 
                 var hdAddClaimFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
-                if (hdAddClaimFile == "1") { $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp'); }
-                else { $('#MainContent_AddFilesSection').addClass('hideProp'); }
+                if (hdAddClaimFile == "1") {
+                    $('#MainContent_AddFilesSection').closest('.container').removeClass('hideProp');
+                    $('#MainContent_navsSection').closest('.container').addClass('hideProp');
+                }
+                else {
+                    $('#MainContent_AddFilesSection').addClass('hideProp');
+                    $('#MainContent_navsSection').closest('.container').removeClass('hideProp');
+                }
 
                 <%--var hdDisplaySeeVndClaim = document.getElementById('<%=hdDisplaySeeVndClaim.ClientID%>').value
                 if (hdDisplaySeeVndClaim == "1") {
@@ -3925,7 +4028,7 @@
         }
 
         function EnableAuthRequestChk() {
-            //debugger
+            debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -4312,7 +4415,57 @@
 
                 return date;
             }
-        }        
+        }   
+
+        function isEmpty(value) {
+            return (value == null || value.length === 0);
+        }
+
+        $(document).on('keyup keypress', 'form input[type="text"]', function (e) {
+            debugger
+
+            var qq = e.target.id;
+            var hsVl = $("#" + qq).val();            
+            
+            var key = e.KeyCode || e.which;
+            if (key == 13) {
+                //if (isEmpty(hsVl)) {
+                   // e.preventDefault();
+                   // return false;
+                //} else {
+                    e.preventDefault();
+                    $("#<%=btnSearchFilter.ClientID%>").click();
+                //}
+                
+            } 
+        });
+
+        <%--$("#<%=txtClaimNo.ClientID%>").focus(function (e) {
+            debugger
+            
+            var key = e.KeyCode || e.which;
+            if (key == 13) {
+                e.preventDefault();
+                $("#<%=btnSearchFilter.ClientID%>").click();
+            }
+        });--%>
+
+        <%--$("#<%=txtClaimNo.ClientID%>").keypress(function (e) {
+            //debugger
+            
+            var key = e.KeyCode || e.which;
+            if (key == 13) {
+                e.preventDefault();
+                $("#<%=btnSearchFilter.ClientID%>").click();
+            }
+        });--%>
+
+        <%--        $("#<%=btnSearchFilter.ClientID%>")).focus();
+            }
+        })--%>;       
+                
+                    
+        
 
     </script>
 

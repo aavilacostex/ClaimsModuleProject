@@ -21,6 +21,7 @@
 
     <%--<link href="Content/lightbox.css" rel="stylesheet" media="screen" />--%>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/lightbox.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -217,6 +218,7 @@
     <script type="text/javascript" src="Scripts/messages.js"></script>
     <script type="text/javascript" src="Scripts/Util.js"></script>
     <script type="text/javascript" src="Scripts/JSUpdateProgress.js"></script>   
+    <script type="text/javascript" src="Scripts/lightbox.js"></script>   
 
 </body>
 

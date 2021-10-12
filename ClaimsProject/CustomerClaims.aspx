@@ -1403,7 +1403,7 @@
                                                 <div class="col-md-8">
                                                     <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
                                                         <ItemTemplate>
-                                                            <a id="alink" href='<%# Container.DataItem %>' target="_blank" runat="server">
+                                                            <a id="alink" href='<%# Container.DataItem %>' data-lightbox="roadtrip" target="_blank" runat="server">
                                                                 <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' alt="pepeep" Width="100" Height="100" runat="server" />
                                                             </a>
                                                         </ItemTemplate>
@@ -1719,7 +1719,7 @@
                                                         </div>                                                        
 
                                                         <!-- row for add comment gridview -->
-                                                        <div class="form-row" style="padding-top: 10px !important;">
+                                                        <div class="form-row last" style="padding-top: 10px !important;">
                                                             <div class="col-md-12"> 
                                                                 <div class="form-group">                                                                    
                                                                     <asp:Label ID="lblMessage" CssClass="label-style" Text="Message" runat="server"></asp:Label>
@@ -1754,7 +1754,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-row">
+                                                        <div class="form-row hideProp">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <asp:ListBox ID="lstComments" EnableViewState=" true" ViewStateMode="Enabled" runat="server"> </asp:ListBox> 
@@ -1763,7 +1763,7 @@
                                                         </div>
 
                                                         <!-- row for comment action buttons -->
-                                                        <div class="form-row last">
+                                                        <div class="form-row last hideProp">
                                                             <div class="col-md-4"></div>
                                                             <div class="col-md-2">
                                                                 <asp:Button ID="btnSaveComment" Text="Save" OnClick="btnSaveComment_click" CssClass="btn btn-primary btnAdjustSize" runat="server" />
@@ -1992,7 +1992,7 @@
                                         </div>
 
                                          <!-- row actions btns see vnd comments -->
-                                        <div class="form-row">
+                                        <div class="form-row hideProp">
                                             <div class="form-group col-md-3"></div>
                                             <div class="form-group col-md-6" style="padding-top: 20px;">
                                                 <div class="row">
@@ -2794,7 +2794,7 @@
         //General Methods Begin
 
         function contentVisual() {
-            debugger
+            //debugger
 
             var hdGridVisualization = document.getElementById('<%=hdGridViewContent.ClientID%>').value
             if (hdGridVisualization == "1") {
@@ -2849,7 +2849,7 @@
         }
 
         function disableCustomInput() {
-            //debugger 
+            debugger 
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
             var voidSelection = document.getElementById('<%=hdVoided.ClientID%>').value;

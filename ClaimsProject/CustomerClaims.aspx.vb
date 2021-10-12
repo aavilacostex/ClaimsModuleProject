@@ -719,7 +719,7 @@ Public Class CustomerClaims
                 Dim dataFrom = row.Cells(8)
                 Dim myLabel As Label = DirectCast(dataFrom.FindControl("Label12"), Label)
                 Dim statusOut As String = myLabel.Text.Trim()
-                hdFullDisabled.Value = If(statusOut.Trim().ToUpper().Equals("CLOSED") Or statusOut.Trim().ToUpper().Equals("REJECT"), "0", "1")
+                hdFullDisabled.Value = If(statusOut.Trim().ToUpper().Equals("CLOSED") Or statusOut.Trim().ToUpper().Equals("REJECT") Or statusOut.Trim().ToUpper().Contains("COMPLETED"), "0", "1")
                 hdVoided.Value = If(statusOut.Trim().ToUpper().Equals("VOID"), "0", "1")
 
                 Dim ds1 = DirectCast(Session("Datasource"), DataSet)
@@ -3388,19 +3388,24 @@ Public Class CustomerClaims
     Protected Sub btnMessage_Click(sender As Object, e As EventArgs) Handles btnMessage.Click
         Dim lstMEssages As List(Of String) = New List(Of String)()
         Try
-            Dim message = txtMessage.Text
-            txtMessage.Text = Nothing
 
-            If Session("LstMessages") IsNot Nothing Then
-                lstMEssages = DirectCast(Session("LstMessages"), List(Of String))
-            End If
+            fnAddComments()
 
-            lstMEssages.Add(message)
-            Session("LstMessages") = lstMEssages
+            Session("LstMessages") = Nothing
 
-            For Each item As String In lstMEssages
-                lstComments.Items.Add(item)
-            Next
+            'Dim message = txtMessage.Text
+            'txtMessage.Text = Nothing
+
+            'If Session("LstMessages") IsNot Nothing Then
+            '    lstMEssages = DirectCast(Session("LstMessages"), List(Of String))
+            'End If
+
+            'lstMEssages.Add(message)
+            'Session("LstMessages") = lstMEssages
+
+            'For Each item As String In lstMEssages
+            '    lstComments.Items.Add(item)
+            'Next
 
             'lstComments.DataSource = lstMEssages
             'lstComments.DataBind()
@@ -8065,11 +8070,11 @@ Public Class CustomerClaims
     Public Sub fnAddComments()  ' aqui estoy revisando el funcionamiento
         Dim codComment As Integer = 0
         Dim codDetComment As Integer = 1
-        Dim lstComments As List(Of String) = New List(Of String)()
+        'Dim lstComments As List(Of String) = New List(Of String)()
         Try
 
             Dim FlagIE = getFlagStatus()
-            lstComments = DirectCast(Session("LstMessages"), List(Of String))
+            'lstComments = DirectCast(Session("LstMessages"), List(Of String))
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 If Not String.IsNullOrEmpty(txtAddWrnNo.Text) Then
@@ -8078,12 +8083,13 @@ Public Class CustomerClaims
                         Dim rsIns = objBL.InsertComment(txtAddWrnNo.Text, codComment.ToString(), Now().ToString().Split(" ")(0), Now().ToString().Split(" ")(1), txtAddSubject.Text, Session("userid").ToString().ToUpper(), FlagIE)
                         If rsIns > 0 Then
 
-                            For Each li As String In lstComments
-                                Dim rsIns1 = objBL.InsertCommentDetailwPart(txtAddWrnNo.Text, codComment.ToString(), codDetComment.ToString(), li.ToString(), txtPartNoData.Text.Trim())
-                                If rsIns1 > 0 Then
-                                    codDetComment = codDetComment + 1
-                                End If
-                            Next
+                            'For Each li As String In lstComments
+                            Dim rsIns1 = objBL.InsertCommentDetailwPart(txtAddWrnNo.Text, codComment.ToString(), codDetComment.ToString(), txtMessage.Text.ToString(), txtPartNoData.Text.Trim())
+                            If rsIns1 > 0 Then
+                                codDetComment = codDetComment + 1
+                                txtMessage.Text = Nothing
+                            End If
+                            'Next
 
                         End If
                     End If
