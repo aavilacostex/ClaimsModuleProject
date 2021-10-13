@@ -2273,6 +2273,51 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtPartDesc As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''pnPartOEM control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnPartOEM As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''fnAjUpd control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fnAjUpd As Global.AjaxControlToolkit.AjaxFileUpload
+
+    '''<summary>
+    '''loader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents loader As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
+    '''Label4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''TextBox3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''lblThirdTabDesc control.
     '''</summary>
     '''<remarks>

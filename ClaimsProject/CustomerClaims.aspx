@@ -1395,31 +1395,45 @@
                                         </asp:Panel>
 
                                     </div>
-                                    <div class="col-md-6">                                        
-                                        <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
-
-                                            <div class="form-row last">
-                                                <div class="col-md-8">
-                                                    <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
-                                                        <ItemTemplate>
-                                                            <div id="wrapper">
-                                                                <a id="alink" href='<%# Container.DataItem %>' data-lightbox="roadtrip" rel="group" runat="server">
-                                                                    <%-- class="zb" --%>
-                                                                    <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' Width="100" Height="100" runat="server" />
-                                                                </a>
-                                                            </div>
-                                                        </ItemTemplate>
-                                                    </asp:DataList>
-                                                    <%--<asp:Image ID="imgPart" runat="server"/>--%>
+                                    <div class="col-md-6"> 
+                                        <div class="row">
+                                            <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
+                                                <div class="form-row last">
+                                                    <div class="col-md-8">
+                                                        <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
+                                                            <ItemTemplate>
+                                                                <div id="wrapper">
+                                                                    <a id="alink" href='<%# Container.DataItem %>' data-lightbox="roadtrip" rel="group" runat="server">
+                                                                        <%-- class="zb" --%>
+                                                                        <asp:Image ID="Img" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' Width="100" Height="100" runat="server" />
+                                                                    </a>
+                                                                </div>
+                                                            </ItemTemplate>
+                                                        </asp:DataList>
+                                                        <%--<asp:Image ID="imgPart" runat="server"/>--%>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <asp:Label ID="lblPartDesc" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="txtPartDesc" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <asp:Label ID="lblPartDesc" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtPartDesc" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                            </asp:Panel>                                                
+                                        </div> 
+                                        <div class="row last">
+                                            <asp:Panel ID="pnPartOEM" GroupingText="OEM Images" runat="server">
+                                                <div class="form-row last">
+                                                    <div class="col-md-8">
+
+                                                        <Atk:AjaxFileUpload ID="fnAjUpd" Mode="Auto" onuploadcomplete="fnAjUpd_UploadComplete" Enabled="true" runat="server" />                                                 
+                                                        <asp:Image ID="loader" runat="server" ImageUrl="~/Images/loading.gif" Style="display: None" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <asp:Label ID="Label4" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="TextBox3" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    </div>
                                                 </div>
-                                            </div>
-
-                                        </asp:Panel>
-
+                                            </asp:Panel>                                                
+                                        </div>
                                     </div>
                                 </div>                                
                             </div>                            
@@ -2414,7 +2428,9 @@
 
                 <!-- General Btns for section -->
                 <div id="rowBtn" class="row" runat="server">
-                                                        
+                                  
+                    
+
                 </div>
              
             </div>
@@ -2427,7 +2443,7 @@
                 <div class="row">
                     <%--<div class="col-md-3"></div>--%>
                     <%--<div class="col-md-12">--%>
-                        <div id="pnAddClaimFile" class="modalPanel" runat="server">
+                        <div id="pnAddClaimFile" class="modalPanel" runat="server">pnPartImage
                             <div class="row" style="padding: 30px 0;">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>

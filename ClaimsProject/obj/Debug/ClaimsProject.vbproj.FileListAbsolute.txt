@@ -162,3 +162,6 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\obj\Debug\ClaimsProject.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\obj\Debug\WebForms_Basic.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\obj\Debug\ClaimsProject.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\System.Management.Automation.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\Microsoft.Management.Infrastructure.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\System.Management.Automation.xml

@@ -11,6 +11,8 @@ Imports System.Web
 Imports System.Net.Mail
 Imports System.Net
 Imports System.DirectoryServices.AccountManagement
+Imports System.Management.Automation
+Imports ClaimsProject.DTO.ExtremeMirror
 
 Public Class CustomerClaims
     Inherits System.Web.UI.Page
@@ -3303,9 +3305,29 @@ Public Class CustomerClaims
         End Try
     End Function
 
+    Protected Sub fnAjUpd_UploadComplete(sender As Object, e As AjaxControlToolkit.AjaxFileUploadEventArgs)
+        Try
+            Dim filePath As String = "~/Images/" + e.FileName
+            fnAjUpd.SaveAs(filePath)
+        Catch ex As Exception
+            Dim pp = ex.Message
+            Dim aa = pp
+        End Try
+    End Sub
+
     Protected Sub btnSeeFiles_Click(sender As Object, e As EventArgs) Handles btnSeeFiles.Click
         Try
-            SeeFiles()
+
+            'Dim dd = New PinvokeWindowsNetworking()
+            'Dim aa = dd.connectToRemote("\\DELLSVR\Inetpub_D\Claims_Warning", "", "", True)
+
+            'Dim ps As PowerShell = PowerShell.Create()
+            'ps.AddCommand("explorer.exe")
+            ''Dim ps1 = New PSCommand("explorer.exe").AddCommand("Select").AddParameter("\\DELLSVR\Inetpub_D\Claims_Warning")
+            ''ps.AddCommand("explorer.exe")
+            'ps.Invoke()
+
+            'SeeFiles()
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try

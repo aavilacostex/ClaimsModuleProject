@@ -80,3 +80,6 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\obj\Release\ClaimsProject.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\obj\Release\WebForms_Basic.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\obj\Release\ClaimsProject.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\System.Management.Automation.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\Microsoft.Management.Infrastructure.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\System.Management.Automation.xml

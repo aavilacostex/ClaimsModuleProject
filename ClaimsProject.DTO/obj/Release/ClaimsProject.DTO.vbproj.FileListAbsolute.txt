@@ -14,3 +14,6 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Release\ClaimsProject.DTO.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\System.Management.Automation.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\Microsoft.Management.Infrastructure.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Release\System.Management.Automation.xml
