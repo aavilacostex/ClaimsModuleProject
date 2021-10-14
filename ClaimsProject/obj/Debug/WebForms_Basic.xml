@@ -2305,24 +2305,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.CustomerClaims._fnAjUpd">
-<summary>
-fnAjUpd control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:ClaimsProject.CustomerClaims._loader">
-<summary>
-loader control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:ClaimsProject.CustomerClaims._Label4">
 <summary>
 Label4 control.
@@ -3889,6 +3871,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._fnAjUpd">
+<summary>
+fnAjUpd control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._loader">
+<summary>
+loader control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._btnSaveFile">
 <summary>
 btnSaveFile control.
@@ -3907,9 +3907,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.CustomerClaims._popUpLogin">
+<member name="F:ClaimsProject.CustomerClaims._popAjUpLog">
 <summary>
-popUpLogin control.
+popAjUpLog control.
 </summary>
 <remarks>
 Auto-generated field.

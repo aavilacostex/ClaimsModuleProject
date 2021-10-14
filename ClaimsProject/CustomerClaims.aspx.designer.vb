@@ -2282,24 +2282,6 @@ Partial Public Class CustomerClaims
     Protected WithEvents pnPartOEM As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''fnAjUpd control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents fnAjUpd As Global.AjaxControlToolkit.AjaxFileUpload
-
-    '''<summary>
-    '''loader control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents loader As Global.System.Web.UI.WebControls.Image
-
-    '''<summary>
     '''Label4 control.
     '''</summary>
     '''<remarks>
@@ -3866,6 +3848,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents fuAddClaimFile As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''fnAjUpd control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fnAjUpd As Global.AjaxControlToolkit.AjaxFileUpload
+
+    '''<summary>
+    '''loader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents loader As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
     '''btnSaveFile control.
     '''</summary>
     '''<remarks>
@@ -3884,11 +3884,11 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnBackFile As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''popUpLogin control.
+    '''popAjUpLog control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents popUpLogin As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents popAjUpLog As Global.AjaxControlToolkit.ModalPopupExtender
 End Class

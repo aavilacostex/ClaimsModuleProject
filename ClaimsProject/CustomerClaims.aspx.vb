@@ -729,6 +729,9 @@ Public Class CustomerClaims
                 Dim dd = ds1.Tables(0).AsEnumerable().Where(Function(ee) ee.Item("MHMRNR").ToString().Trim().ToUpper().Equals(claimNo.Trim().ToUpper())).First
                 If dd IsNot Nothing Then
                     Dim wrnNo As String = dd.Item("WRN").ToString().Trim()
+                    Dim dctMain = New Dictionary(Of String, String)()
+                    dctMain.Add(claimNo, wrnNo)
+                    Session("MainValues") = dctMain
                     claimStatus = GetCurrentIntStatus(wrnNo)
                     'claimStatus = dd.Item("cwstde").ToString().Trim().ToUpper()
                 Else
@@ -1847,6 +1850,10 @@ Public Class CustomerClaims
     '        exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
     '    End Try
     'End Sub
+
+    Protected Sub btnBackFile_click(sender As Object, e As EventArgs) Handles btnBackFile.Click
+        closeAtkPopup()
+    End Sub
 
     Protected Sub btnVoid_Click(sender As Object, e As EventArgs) Handles btnVoidClaim.Click
         Dim exMessage As String = " "
@@ -3305,10 +3312,51 @@ Public Class CustomerClaims
         End Try
     End Function
 
-    Protected Sub fnAjUpd_UploadComplete(sender As Object, e As AjaxControlToolkit.AjaxFileUploadEventArgs)
+    Protected Sub fnAjUpd_UploadCompleteAll(sender As Object, e As AjaxControlToolkit.AjaxFileUploadCompleteAllEventArgs)
         Try
-            Dim filePath As String = "~/Images/" + e.FileName
-            fnAjUpd.SaveAs(filePath)
+
+            'popAjUpLog.Hide()
+            hdNavTabsContent.Value = "1"
+            'hdClaimNumber.Value = ""
+            hdGridViewContent.Value = "0"
+            'closeAtkPopup()
+            btnBackFile_click(Nothing, Nothing)
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Protected Sub fnAjUpd_UploadComplete(sender As Object, e As AjaxControlToolkit.AjaxFileUploadEventArgs)
+        Dim wrnNo As String = hdSeq.Value.Trim()
+        Dim claimNo As String = txtClaimNoData.Text.Trim()
+        Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
+        Dim folderpathvendor As String = Nothing
+        Dim uploadedFiles As HttpFileCollection = Nothing
+        Dim userPostedFile As HttpPostedFile = Nothing
+        Try
+
+            Dim dct As Dictionary(Of String, String) = DirectCast(Session("MainValues"), Dictionary(Of String, String))
+            claimNo = If(String.IsNullOrEmpty(claimNo.Trim()), dct.Keys(0).ToString(), claimNo)
+            wrnNo = If(String.IsNullOrEmpty(wrnNo.Trim()), dct.Values(0).ToString(), wrnNo)
+
+            If e.FileSize > 0 Then
+                Dim name = e.FileName
+                Dim extension = Path.GetExtension(name)
+
+                folderpathvendor = FolderPath + wrnNo + "\"
+                If Directory.Exists(folderpathvendor) Then
+                    Dim pathh = folderpathvendor + name
+                    fnAjUpd.SaveAs(pathh)
+                Else
+                    Directory.CreateDirectory(folderpathvendor)
+                    If Directory.Exists(folderpathvendor) Then
+                        Dim pathh = folderpathvendor + name
+                        fnAjUpd.SaveAs(pathh)
+                    Else
+                        'error creating path
+                    End If
+                End If
+            End If
         Catch ex As Exception
             Dim pp = ex.Message
             Dim aa = pp
@@ -3317,6 +3365,19 @@ Public Class CustomerClaims
 
     Protected Sub btnSeeFiles_Click(sender As Object, e As EventArgs) Handles btnSeeFiles.Click
         Try
+            Dim wrnNo As String = hdSeq.Value.Trim()
+            Dim claimNo As String = txtClaimNoData.Text.Trim()
+
+            Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
+
+            Dim dct As Dictionary(Of String, String) = DirectCast(Session("MainValues"), Dictionary(Of String, String))
+            claimNo = If(String.IsNullOrEmpty(claimNo.Trim()), dct.Keys(0).ToString(), claimNo)
+            wrnNo = If(String.IsNullOrEmpty(wrnNo.Trim()), dct.Values(0).ToString(), wrnNo)
+
+            Dim folderpathvendor = FolderPath + wrnNo + "\"
+
+            Dim myFiles = Directory.GetFiles(folderpathvendor)
+            Dim pp = ""
 
             'Dim dd = New PinvokeWindowsNetworking()
             'Dim aa = dd.connectToRemote("\\DELLSVR\Inetpub_D\Claims_Warning", "", "", True)
@@ -3335,7 +3396,7 @@ Public Class CustomerClaims
 
     Protected Sub btnAddFiles_Click(sender As Object, e As EventArgs) Handles btnAddFiles.Click
         Try
-            popUpLogin.Show()
+            popAjUpLog.Show()
             hdNavTabsContent.Value = "1"
             'hdClaimNumber.Value = ""
             hdGridViewContent.Value = "0"
@@ -10789,6 +10850,10 @@ Public Class CustomerClaims
         Const info = "info"
         Const [Error] = "Error"
     End Structure
+
+    Public Sub closeAtkPopup()
+        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Message1", "AutomaticBack()", True)
+    End Sub
 
     Public Sub SendMessage(methodMessage As String, detailInfo As String)
         ScriptManager.RegisterStartupScript(Me, Page.GetType, "Message", "messageFormSubmitted('" & methodMessage & " ', '" & detailInfo & "')", True)

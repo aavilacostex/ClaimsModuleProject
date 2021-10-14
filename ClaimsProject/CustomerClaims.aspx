@@ -1424,8 +1424,8 @@
                                                 <div class="form-row last">
                                                     <div class="col-md-8">
 
-                                                        <Atk:AjaxFileUpload ID="fnAjUpd" Mode="Auto" onuploadcomplete="fnAjUpd_UploadComplete" Enabled="true" runat="server" />                                                 
-                                                        <asp:Image ID="loader" runat="server" ImageUrl="~/Images/loading.gif" Style="display: None" />
+                                                        <%--<Atk:AjaxFileUpload ID="fnAjUpd" Mode="Auto" onuploadcomplete="fnAjUpd_UploadComplete"  Enabled="true" runat="server" />                                                 
+                                                        <asp:Image ID="loader" runat="server" ImageUrl="~/Images/loading.gif" Style="display: None" />--%>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <asp:Label ID="Label4" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
@@ -2436,54 +2436,102 @@
             </div>
 
 
+            <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
+            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
+                <asp:Panel ID="panInnerLogin" runat="server">
+                    <div id="AddFilesSection" class="container hideProp" runat="server">
+                        <div class="row">                            
+                            <div id="pnAddClaimFile" class="modalPanel" runat="server">pnPartImage
+                                <div class="row" style="padding: 30px 0;">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 center-row">
+                                        <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control" runat="server" />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="row" style="padding: 5px 0;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="row" style="padding: 20px 0;">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-6" style="float: right; text-align: right !important;">
+                                                <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" OnClick="btnSaveFile_Click" runat="server" />
+                                            </div>
+                                            <div class="col-md-6" style="float: left;">
+                                                <asp:Button ID="btnBackFile" Text="   Back   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>                    
+                            </div>
+                        </div>                        
+                    </div> 
+                </asp:Panel>
+            </asp:Panel>--%>
+
+            <%--<Atk:ModalPopupExtender ID="popUpLogin" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
+                PopupControlID="panLogin" CancelControlID="btnBackFile">
+            </Atk:ModalPopupExtender>--%>
+
+
             <asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
                 <asp:Panel ID="panInnerLogin" runat="server">
                     <div id="AddFilesSection" class="container hideProp" runat="server">
-                <div class="row">
-                    <%--<div class="col-md-3"></div>--%>
-                    <%--<div class="col-md-12">--%>
-                        <div id="pnAddClaimFile" class="modalPanel" runat="server">pnPartImage
-                            <div class="row" style="padding: 30px 0;">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
-                                <div class="col-md-1"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-8 center-row">
-                                    <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control" runat="server" />
+                        <div class="row">
+                            <div id="pnAddClaimFile" class="modalPanel" runat="server">   
+                                <div class="row" style="padding: 30px 0;">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10 hideProp"><span id="spnAddClaimFile">Drag the file(s) to attach to the open claim.</span></div>
+                                    <div class="col-md-1"></div>
                                 </div>
-                                <div class="col-md-2"></div>
-                            </div>
-                            <div class="row" style="padding: 5px 0;">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-8"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
-                                <div class="col-md-2"></div>
-                            </div>
-                            <div class="row" style="padding: 20px 0;">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10">
-                                    <div class="row">
-                                        <div class="col-md-6" style="float: right; text-align: right !important;">
-                                            <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" OnClick="btnSaveFile_Click" runat="server" />
-                                        </div>
-                                        <div class="col-md-6" style="float: left;">
-                                            <asp:Button ID="btnBackFile" Text="   Back   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
+
+                                <div id="ajInputRow" class="row" style="padding: 30px 0;">
+                                    
+                                    <div class="col-md-12 center-row">
+                                        <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control hideProp" runat="server" />
+                                        <Atk:AjaxFileUpload ID="fnAjUpd" Mode="Auto" onuploadcomplete="fnAjUpd_UploadComplete" OnUploadCompleteAll="fnAjUpd_UploadCompleteAll" Enabled="true" runat="server" />                                                 
+                                        <asp:Image ID="loader" runat="server" ImageUrl="~/Images/loading.gif" Style="display: None" />
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row" style="padding: 30px 0 0 0;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 hideProp"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-6" style="float: right; text-align: right !important;">
+                                                <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" Visible="false" runat="server" />
+                                            </div>
+                                            <div class="col-md-6" style="float: left;">
+                                                <asp:Button ID="btnBackFile" Text="   Close   " class="btn btn-primary btn-lg btnFullSize" OnClick="btnBackFile_click" runat="server" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-1"></div>
-                            </div>                    
-                        </div>
-                    </div>
-                    <%--<div class="col-md-3"></div>--%>
-                </div>        
-            </div>
+                                    <div class="col-md-1"></div>
+                                </div> 
+                            </div>                            
+                        </div>                        
+                    </div> 
                 </asp:Panel>
             </asp:Panel>
 
-            <Atk:ModalPopupExtender ID="popUpLogin" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
+            <Atk:ModalPopupExtender ID="popAjUpLog" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
                 PopupControlID="panLogin" CancelControlID="btnBackFile">
             </Atk:ModalPopupExtender>
 
@@ -2845,6 +2893,14 @@
             }
         }
 
+        function uploadcompleteAll() {
+            alert("successfully uploaded All Files!");
+        }  
+
+        function uploaderror() {
+            alert("sonme error occured while uploading file!");
+        } 
+
         function fixVisibilityColumns() {
             //debugger
 
@@ -2865,6 +2921,47 @@
                 divId.className = "collapse"
             }
         }
+
+        function enableAjaxFileUpload() {
+            debugger
+
+            //ajax__fileupload
+            //$('.ajax__fileupload').find('input').attr('disabled', false);
+            //$('.ajax__fileupload').find('input').prop('disabled', false);
+            //$('.ajax__fileupload').find('input').attr('disabled', 'disabled');
+            //$('#MainContent_fnAjUpd_SelectFileContainer').find('input').removeClass('aspNetDisabled');
+            //$('#MainContent_fnAjUpd_SelectFileContainer').find('input').addClass('last');
+           // $('.ajax__fileupload').find('input').removeAttr("disabled");
+
+            //$('#MainContent_fnAjUpd_Html5InputFile').attr('disabled', 'disabled');
+            //$('#MainContent_fnAjUpd_Html5InputFile').attr('disabled', false);
+            //$('#MainContent_fnAjUpd_Html5InputFile').prop('disabled', false);
+            //$('#MainContent_fnAjUpd_Html5InputFile').removeAttr("disabled");
+
+            $('.ajax__fileupload').find('#MainContent_fnAjUpd_SelectFileContainer').removeClass('ajax__fileupload_selectFileContainer');
+            $('#MainContent_fnAjUpd_SelectFileContainer').addClass('ajax__fileupload_selectFileContainer hideProp');
+
+            $('.ajax__fileupload').find('#MainContent_fnAjUpd_QueueContainer').removeClass('ajax__fileupload_queueContainer');
+            $('#MainContent_fnAjUpd_QueueContainer').addClass('ajax__fileupload_queueContainer hideProp');
+
+            $('.ajax__fileupload').find('#MainContent_fnAjUpd_UploadOrCancelButton').removeClass('ajax__fileupload_uploadbutton');
+            $('#MainContent_fnAjUpd_UploadOrCancelButton').addClass('ajax__fileupload_uploadbutton margin30Vert');
+
+            $('.ajax__fileupload').find('#MainContent_fnAjUpd_ProgressBar').removeClass('ajax__fileupload_progressBar');
+            $('#MainContent_fnAjUpd_ProgressBar').addClass('ajax__fileupload_progressBar hideProp');
+            //$('#MainContent_fnAjUpd_Footer').find('.ajax__fileupload_ProgressBarHolder').addClass('ajax__fileupload_ProgressBarHolder hideProp');
+            //$('#MainContent_fnAjUpd_QueueContainer').addClass('ajax__fileupload_queueContainer hideProp');
+
+            //MainContent_fnAjUpd_QueueContainer
+            //ajax__fileupload_queueContainer
+
+        }
+
+        $('body').on('click', '#MainContent_fnAjUpd_Html5InputFile', function () {
+
+            alert("pepe");
+
+        });
 
         function disableCustomInput() {
             debugger 
@@ -3128,7 +3225,7 @@
         //General Methods End
 
 
-        //Click Method Begin
+        //Click Method Begin        
 
         $('body').on('click', '#MainContent_btnGetTemplate', function (e) {
             //debugger
@@ -3242,7 +3339,7 @@
             var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value
             if (hdFile == "1")
                 $('#<%=hdFileImportFlag.ClientID %>').val("0")
-        });
+        });        
 
         $('body').on('click', "#MainContent_btnBackFile", function (e) {
             //debugger
@@ -3669,6 +3766,8 @@
             setHeight($('#MainContent_txtCustStatement'));
 
             //$(window).scrollTop(0);
+
+            enableAjaxFileUpload();
             
             console.log("EndFunction");
 
@@ -3841,7 +3940,9 @@
                     contentVisual();
                 }
 
-            } --%>           
+            } --%>         
+
+            enableAjaxFileUpload();
 
             var hdTEst = document.getElementById('<%=hdTestPath.ClientID%>').value
             if (hdTEst != "") {
@@ -3968,6 +4069,8 @@
 
                 disableCustomInput();
 
+                enableAjaxFileUpload();
+
                 //$(window).scrollTop(0);
 
             }
@@ -4052,6 +4155,15 @@
             //__doPostBack()
 
             console.log("EndPageLoad");
+        }
+
+        function AutomaticBack() {
+            debugger
+
+            $('#<%=hdAddClaimFile.ClientID %>').val("0")
+
+            alert("pepe");
+            JSFunction();
         }
 
         function EnableAuthRequestChk() {
