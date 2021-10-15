@@ -347,6 +347,7 @@
     <Content Include="Scripts\WebForms\WebForms.js" />
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="SeeFiles.aspx" />
     <Content Include="SupplierClaims.aspx" />
     <Content Include="testStructure.aspx" />
     <Content Include="Web.config" />
@@ -432,6 +433,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SeeFiles.aspx.designer.vb">
+      <DependentUpon>SeeFiles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SeeFiles.aspx.vb">
+      <DependentUpon>SeeFiles.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Site.Master.designer.vb">
       <DependentUpon>Site.Master</DependentUpon>

@@ -3388,7 +3388,7 @@ Public Class CustomerClaims
             ''ps.AddCommand("explorer.exe")
             'ps.Invoke()
 
-            'SeeFiles()
+            SeeFiles()
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
@@ -6813,6 +6813,33 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Function GetAllFilesForView(claimNo As String) As List(Of String)
+        Dim filepath As String = Nothing
+        Dim dctFI As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Dim lstImg As List(Of String) = New List(Of String)()
+        Try
+            Dim result = GetFilesFromEXtPathByClaimNo(claimNo, filepath)
+            If result Then
+                If Not String.IsNullOrEmpty(filepath) Then
+                    GetFilesFromPath(filepath, dctFI)
+                    If dctFI IsNot Nothing Then
+                        prepareListFromVD(dctFI, lstImg)
+                        If lstImg IsNot Nothing Then
+                            Session("SeeFilesDct") = lstImg
+                            'LoadImages(lstImg)
+                        End If
+                    End If
+
+                End If
+            Else
+
+            End If
+            Return lstImg
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
     Public Function GetFilesFromEXtPathByClaimNo(claimNo As String, ByRef filePath As String) As Boolean
         Dim flag As Boolean = False
         filePath = Nothing
@@ -6831,6 +6858,46 @@ Public Class CustomerClaims
             Return flag
         End Try
     End Function
+
+    Public Sub GetFilesFromPath(filePath As String, ByRef dctFi As Dictionary(Of FileInfo, String))
+        Dim lstFiles As List(Of FileInfo) = New List(Of FileInfo)()
+        Dim dctFiles As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Try
+
+            Dim newPath = filePath + "External\"
+            Dim diImgOuter = New IO.DirectoryInfo(filePath)
+            Dim diImgInner = New IO.DirectoryInfo(newPath)
+            If diImgInner.Exists Then
+
+                'Dim images = diImg.GetFiles().Where(Function(e) e.Extension = "jpg" Or e.Extension = "jpeg" Or e.Extension = "png").Select(Function(f) New FileInfo(f.Name))
+                For Each fiii As FileInfo In diImgInner.GetFiles()
+                    Dim name = fiii.Name
+                    Dim extension = fiii.Extension
+                    'If Not extension.Trim().ToLower().Equals(".jpg") Or Not extension.Trim().ToLower().Equals(".jpeg") Or Not extension.Trim().ToLower().Equals(".png") Then
+                    dctFiles.Add(fiii, "Ext")
+                    'End If
+                Next
+
+            Else
+                'no external folder. Check for images
+                For Each fio As FileInfo In diImgOuter.GetFiles()
+                    Dim name = fio.Name
+                    Dim extension = fio.Extension
+                    'If Not extension.Trim().ToLower().Equals(".jpg") Or Not extension.Trim().ToLower().Equals(".jpeg") Or Not extension.Trim().ToLower().Equals(".png") Then
+                    dctFiles.Add(fio, "Out")
+                    'End If
+                Next
+
+            End If
+
+            dctFi = dctFiles
+            Session("SeeFilesDct") = dctFi
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            dctFi = Nothing
+        End Try
+    End Sub
 
     Public Sub GetImagesFromPath(filePath As String, ByRef dctImages As Dictionary(Of FileInfo, String))
         Dim lstFiles As List(Of FileInfo) = New List(Of FileInfo)()
@@ -9049,30 +9116,65 @@ Public Class CustomerClaims
     Public Sub SeeFiles()
         Dim wrnNo As String = hdSeq.Value.Trim()
         Dim claimNo As String = txtClaimNoData.Text.Trim()
+        Dim lst As List(Of String) = New List(Of String)()
         Try
-            If String.IsNullOrEmpty(wrnNo) And Not String.IsNullOrEmpty(claimNo) Then
 
-                Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
-                Dim folderpathvendor = FolderPath + claimNo + "\"
-                If Directory.Exists(folderpathvendor) Then
-                    System.Diagnostics.Process.Start(folderpathvendor)
-                Else
-                    'message No files for this Claim Warning.
-                End If
+            lst = GetAllFilesForView(wrnNo)
 
-            ElseIf Not String.IsNullOrEmpty(wrnNo) Then
+            Dim body As StringBuilder = New StringBuilder()
+            body.Append("<table id='table1'><tr><th>FileName</th></tr>")
 
-                Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
-                Dim folderpathvendor = FolderPath + wrnNo + "\"
-                If Directory.Exists(folderpathvendor) Then
-                    hdTestPath.Value = folderpathvendor
-                    System.Diagnostics.Process.Start(folderpathvendor)
-                    Dim pp = HttpContext.Current.Request.LogonUserIdentity.Name
-                Else
-                    'message No files for this Claim Warning.
-                End If
+            Dim i = 0
+            For Each item As String In lst
+                body.AppendFormat("<tr><td><a href='{0}' id='table1_alink_{1}'> </a></td></tr>", item, i, i, item)
+                i += 1
+            Next
 
-            End If
+            body.Append("</table>")
+
+            Dim pp = body.ToString()
+
+            OpenBrowser()
+
+
+
+
+            'Response.Redirect("SeeFiles.aspx", False)
+            'Response.Write("<script>")
+            'Response.Write("window.open('SeeFiles.aspx')")
+            'Response.Write("</script>")
+
+
+            'Dim url As String = "http://www.stackoverflow.com"
+            'Dim script As String = String.Format("window.open('{0}','_blank','comma,delimited,list,of,window,features');", url)
+
+            'Page.ClientScript.RegisterStartupScript(Me.GetType(), "OpenWindow", script, True)
+
+            'Context.Response.Write("<script language='javascript'>window.open('AccountsStmt.aspx?showledger=" & sledgerGrp & "','_newtab');</script>")
+
+            'If String.IsNullOrEmpty(wrnNo) And Not String.IsNullOrEmpty(claimNo) Then
+
+            '    Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
+            '    Dim folderpathvendor = FolderPath + claimNo + "\"
+            '    If Directory.Exists(folderpathvendor) Then
+            '        System.Diagnostics.Process.Start(folderpathvendor)
+            '    Else
+            '        'message No files for this Claim Warning.
+            '    End If
+
+            'ElseIf Not String.IsNullOrEmpty(wrnNo) Then
+
+            '    Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
+            '    Dim folderpathvendor = FolderPath + wrnNo + "\"
+            '    If Directory.Exists(folderpathvendor) Then
+            '        hdTestPath.Value = folderpathvendor
+            '        System.Diagnostics.Process.Start(folderpathvendor)
+            '        Dim pp = HttpContext.Current.Request.LogonUserIdentity.Name
+            '    Else
+            '        'message No files for this Claim Warning.
+            '    End If
+
+            'End If
         Catch ex As Exception
             Dim ppp = HttpContext.Current.Request.LogonUserIdentity.Name
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + " . " + ex.ToString + " . " + ex.StackTrace + ". At Time: " + DateTime.Now.ToString())
@@ -10853,6 +10955,10 @@ Public Class CustomerClaims
 
     Public Sub closeAtkPopup()
         ScriptManager.RegisterStartupScript(Me, Page.GetType, "Message1", "AutomaticBack()", True)
+    End Sub
+
+    Public Sub OpenBrowser(Optional pp As String = Nothing)
+        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Browser", "OpenBrowser('" & pp & "')", True)
     End Sub
 
     Public Sub SendMessage(methodMessage As String, detailInfo As String)

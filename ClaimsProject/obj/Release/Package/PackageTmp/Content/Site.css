@@ -498,6 +498,14 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding-left: 5px;
 }
 
+.ajax__fileupload_dropzone {
+    height: 100px !important;
+}
+
+#MainContent_fnAjUpd {
+    min-width: 90% !important;
+}
+
 #MainContent_pnSalesDept .last input {
     min-width: 100%;
 }
@@ -508,7 +516,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 #MainContent_pnClaimsDept, #MainContent_pnSalesDept, #MainContent_pnInternalStatus, #MainContent_pnExternalStatus,
 #MainContent_pnSubActionComment, #MainContent_pnSubActionFiles, #MainContent_pnSubActionFinal, #MainContent_pnDescription,
-#MainContent_pnTotals, #MainContent_pnPartImage, #MainContent_pnCloseClaim, #MainContent_pnSendToCommentsTab {
+#MainContent_pnTotals, #MainContent_pnPartImage, #MainContent_pnCloseClaim, #MainContent_pnSendToCommentsTab, #MainContent_pnPartOEM {
     width: 100%;
     border: 1px solid #fbba42;
     padding: 0 8px;
@@ -1551,6 +1559,10 @@ input[type="color"]:focus,
     position: relative;
     left: 15px;
     overflow: auto;
+}
+
+.margin30Vert {
+    margin-top: 35px !important;
 }
 
 .padding0 {
