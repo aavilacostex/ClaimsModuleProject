@@ -3389,6 +3389,7 @@ Public Class CustomerClaims
             'ps.Invoke()
 
             SeeFiles()
+            'SeeFiles1()
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
@@ -6873,9 +6874,9 @@ Public Class CustomerClaims
                 For Each fiii As FileInfo In diImgInner.GetFiles()
                     Dim name = fiii.Name
                     Dim extension = fiii.Extension
-                    'If Not extension.Trim().ToLower().Equals(".jpg") Or Not extension.Trim().ToLower().Equals(".jpeg") Or Not extension.Trim().ToLower().Equals(".png") Then
-                    dctFiles.Add(fiii, "Ext")
-                    'End If
+                    If Not extension.Trim().ToLower().Equals(".db") Then
+                        dctFiles.Add(fiii, "Ext")
+                    End If
                 Next
 
             End If
@@ -6885,9 +6886,9 @@ Public Class CustomerClaims
                 For Each fio As FileInfo In diImgOuter.GetFiles()
                     Dim name = fio.Name
                     Dim extension = fio.Extension
-                    'If Not extension.Trim().ToLower().Equals(".jpg") Or Not extension.Trim().ToLower().Equals(".jpeg") Or Not extension.Trim().ToLower().Equals(".png") Then
-                    dctFiles.Add(fio, "Out")
-                    'End If
+                    If Not extension.Trim().ToLower().Equals(".db") Then
+                        dctFiles.Add(fio, "Out")
+                    End If
                 Next
 
             End If
@@ -6922,8 +6923,9 @@ Public Class CustomerClaims
                         dctFiles.Add(fiii, "Ext")
                     End If
                 Next
+            End If
 
-            Else
+            If diImgOuter.Exists Then
                 'no external folder. Check for images
                 For Each fio As FileInfo In diImgOuter.GetFiles()
                     Dim name = fio.Name
@@ -6972,13 +6974,13 @@ Public Class CustomerClaims
                 url = If(Not String.IsNullOrEmpty(loc), siteUrl + claimNo + "/" + loc + "/" + partNo, siteUrl + claimNo + "/" + partNo)
                 Dim webImg As String = Nothing
 
-                Dim extension = Path.GetExtension(fullUrl)
+                Dim extension = Path.GetExtension(fullUrl).ToLower()
                 Select Case extension
                     Case ".doc", ".docx"
                         'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
-                        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                        selImg = siteUrl + "SeeFilesImportant/Word.PNG"
                             '"~/Images/Word.PNG"
-                    Case ".ppt"
+                    Case ".ppt", ".pptx"
                         'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
                         selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
                     Case ".xls", ".xlsx"
@@ -9155,6 +9157,22 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub SeeFiles1()
+        Dim wrnNo As String = hdSeq.Value.Trim()
+        Try
+
+            If Not String.IsNullOrEmpty(wrnNo) Then
+
+                Dim url As String = String.Format("\\dellsvr\Inetpub_D\Test\CTPScan.exe {0}", wrnNo)
+                Process.Start(url)
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Public Sub SeeFiles()
         Dim wrnNo As String = hdSeq.Value.Trim()
         Dim claimNo As String = txtClaimNoData.Text.Trim()
@@ -9207,10 +9225,10 @@ Public Class CustomerClaims
                     '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
                     'End If
 
-                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title={4} target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
                     i += 1
                 Else
-                    If (i + 1) = listCount Then
+                    If (i + 1) > listCount Then
                         body.Append("</tr>")
                     Else
                         body.Append("</tr><tr>")
@@ -9234,20 +9252,19 @@ Public Class CustomerClaims
                         '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
                         'End If
 
-                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title={4} target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
                         i += 1
                     End If
 
                 End If
 
             Next
-
-
             'Next
 
-
-
             body.Append("</table></div>")
+
+
+            Dim script As String = "<script language=JavaScript type=text/javascript>MyObject = new ActiveXObject(WScript.Shell) function RueMsg({7}){MyObject.Run({7}}</script> "
 
             Dim pp = body.ToString()
             Dim ppRep = pp.Replace("'", """")
