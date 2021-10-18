@@ -6867,8 +6867,8 @@ Public Class CustomerClaims
             Dim newPath = filePath + "External\"
             Dim diImgOuter = New IO.DirectoryInfo(filePath)
             Dim diImgInner = New IO.DirectoryInfo(newPath)
-            If diImgInner.Exists Then
 
+            If diImgInner.Exists Then
                 'Dim images = diImg.GetFiles().Where(Function(e) e.Extension = "jpg" Or e.Extension = "jpeg" Or e.Extension = "png").Select(Function(f) New FileInfo(f.Name))
                 For Each fiii As FileInfo In diImgInner.GetFiles()
                     Dim name = fiii.Name
@@ -6878,7 +6878,9 @@ Public Class CustomerClaims
                     'End If
                 Next
 
-            Else
+            End If
+
+            If diImgOuter.Exists Then
                 'no external folder. Check for images
                 For Each fio As FileInfo In diImgOuter.GetFiles()
                     Dim name = fio.Name
@@ -6890,6 +6892,9 @@ Public Class CustomerClaims
 
             End If
 
+            'Dim aa = dctFiles.AsEnumerable().OrderBy(Function(e) Path.GetExtension(e.Key.FullName).Substring(1))
+            'Dim aa = dctFiles.AsEnumerable().OrderBy(Function(e) Path.GetExtension(e.Key.FullName).Substring(1))
+            'dctFi = DirectCast(aa, Dictionary(Of FileInfo, String))
             dctFi = dctFiles
             Session("SeeFilesDct") = dctFi
 
@@ -6942,7 +6947,15 @@ Public Class CustomerClaims
         Dim lstStr As List(Of String) = New List(Of String)()
         Dim url As String = Nothing
         Dim fullUrl As String = Nothing
+        Dim selImg As String = Nothing
         Try
+
+            Dim filesindirectory() As String = Directory.GetFiles(Server.MapPath("~/Images"))
+            Dim localImages As List(Of String) = New List(Of String)(filesindirectory.Length())
+            For Each st As String In filesindirectory
+                localImages.Add(st)
+            Next
+
             For Each dc In dctImg
 
                 fullUrl = dc.Key.FullName
@@ -6957,6 +6970,35 @@ Public Class CustomerClaims
                 'Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANKTEST/" 'other reduced test reason
 
                 url = If(Not String.IsNullOrEmpty(loc), siteUrl + claimNo + "/" + loc + "/" + partNo, siteUrl + claimNo + "/" + partNo)
+                Dim webImg As String = Nothing
+
+                Dim extension = Path.GetExtension(fullUrl)
+                Select Case extension
+                    Case ".doc", ".docx"
+                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
+                        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                            '"~/Images/Word.PNG"
+                    Case ".ppt"
+                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
+                        selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
+                    Case ".xls", ".xlsx"
+                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Excel")).First()
+                        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                    Case ".pdf"
+                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Pdf")).First()
+                        selImg = siteUrl + "SeeFilesImportant/Pdf.PNG"
+                    Case ".msg"
+                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Outlook")).First()
+                        selImg = siteUrl + "SeeFilesImportant/Outlook.PNG"
+                    Case ".jpg", ".png", ".jpeg"
+                        webImg = url
+                        selImg = webImg
+                    Case Else
+                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("avatar-ctp")).First()
+                        selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
+                End Select
+
+                url += "," + selImg
                 lstStrImg.Add(url)
             Next
         Catch ex As Exception
@@ -7244,7 +7286,7 @@ Public Class CustomerClaims
                 Dim maxDate = txtDateTo.Text.Trim().Split(" ")(0)
                 strBuild += " AND (MHDATE >= DATE('" + minDate + "') AND MHDATE <= DATE('" + maxDate + "')) "
                 '7/19/2021
-                '6/10/2017
+            '6/10/2017
             End If
 
             If ddlClaimTypeOk.SelectedIndex > 0 Then
@@ -9117,24 +9159,103 @@ Public Class CustomerClaims
         Dim wrnNo As String = hdSeq.Value.Trim()
         Dim claimNo As String = txtClaimNoData.Text.Trim()
         Dim lst As List(Of String) = New List(Of String)()
+        Dim url As String = Nothing
+        Dim selImg As String = Nothing
+        Dim name As String = Nothing
+        Dim listCount As Integer = 0
+        Dim itemByRows As Integer = 4
         Try
 
             lst = GetAllFilesForView(wrnNo)
+            listCount = lst.Count()
+            Dim rwAmt = listCount Mod 2
+            rwAmt = If(rwAmt.Equals(0), (listCount / itemByRows), (rwAmt / itemByRows) + 1)
+            Dim val = 0
+            Dim valTd = 0
+            Dim html As String = Nothing
+            Dim flag As Boolean = False
 
             Dim body As StringBuilder = New StringBuilder()
-            body.Append("<table id='table1'><tr><th>FileName</th></tr>")
+            body.Append("<div style=text-align:center;><table id=table1 border=0 style=background-color:lightgoldenrodyellow;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>File Names</H1></td></tr>")
+
+            'For index = val To rwAmt 'only 4 rows for 14 files
+
+            body.Append("<tr>")
 
             Dim i = 0
             For Each item As String In lst
-                body.AppendFormat("<tr><td><a href='{0}' id='table1_alink_{1}'> </a></td></tr>", item, i, i, item)
-                i += 1
+
+                If i.Equals(0) Or Not (i Mod 4).Equals(0) Then
+                    flag = If(item.Trim().Contains(","), True, False)
+                    If flag Then
+                        url = item.Split(",")(0).ToString().Trim()
+                        selImg = item.Split(",")(1).ToString().Trim()
+                        Dim ct = url.Split("/").Count()
+                        name = url.Split("/")(ct - 1).ToString().Trim()
+                        'Else
+                        '    url = item.ToString().Trim()
+                        '    selImg = "~/Images/avatar-ctp.PNG"
+                    End If
+
+
+                    'If name.Length > 20 Then
+                    '    Dim aa1 = name.Substring(0, 8)
+                    '    Dim aa3 = name.Substring(name.Length - 9)
+                    '    Dim aa4 = name.Substring(name.Length - 1)
+
+                    '    Dim aa2 = name.Substring(name.Length - 15, 15)
+                    '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
+                    'End If
+
+                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title={4} target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                    i += 1
+                Else
+                    If (i + 1) = listCount Then
+                        body.Append("</tr>")
+                    Else
+                        body.Append("</tr><tr>")
+
+                        If flag Then
+                            url = item.Split(",")(0).ToString().Trim()
+                            selImg = item.Split(",")(1).ToString().Trim()
+                            Dim ct = url.Split("/").Count()
+                            name = url.Split("/")(ct - 1).ToString().Trim()
+                            'Else
+                            '    url = item.ToString().Trim()
+                            '    selImg = "~/Images/avatar-ctp.PNG"
+                        End If
+
+                        'If name.Length > 20 Then
+                        '    Dim aa1 = name.Substring(0, 8)
+                        '    Dim aa3 = name.Substring(name.Length - 9)
+                        '    Dim aa4 = name.Substring(name.Length - 1)
+
+                        '    Dim aa2 = name.Substring(name.Length - 9, name.Length - 1)
+                        '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
+                        'End If
+
+                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title={4} target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        i += 1
+                    End If
+
+                End If
+
             Next
 
-            body.Append("</table>")
+
+            'Next
+
+
+
+            body.Append("</table></div>")
 
             Dim pp = body.ToString()
+            Dim ppRep = pp.Replace("'", """")
 
-            OpenBrowser()
+            'Dim pp1 = "<html><head></head><body>ohai</body></html>"
+            'Dim pp2 = "<style> .seffilesAttr { border: 1px solid red !important;width: 100px !important;height: 100px !important;max-width: 100px !important;min-width: 100px !important; }</style> <table id=table1 width=200 border=1 ><tr><th>FileName</th></tr><tr><td><a id=table1_alink_0 href=http://svrwebapps.costex.com/IMAGEBANK/27137/External/RELATORIO.pdf>IMG</a></td></tr></table>"
+
+            OpenBrowser(ppRep)
 
 
 
@@ -9315,6 +9436,9 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlLocation)
 
             btnSearchFilter.Focus()
+
+
+            'GetAllFilesForView("27137")
 
         Catch ex As Exception
             exMessage = ex.Message

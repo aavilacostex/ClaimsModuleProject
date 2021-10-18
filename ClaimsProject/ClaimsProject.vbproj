@@ -185,6 +185,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\close.png" />
+    <Content Include="Images\Excel.PNG" />
     <Content Include="Images\imgDesc.png" />
     <Content Include="Images\imgAscNo.png" />
     <Content Include="Images\avatar-ctp.PNG" />
@@ -202,7 +203,10 @@
     <Content Include="Images\minus.gif" />
     <Content Include="Images\next.png" />
     <Content Include="Images\nextlabel.gif" />
+    <Content Include="Images\Outlook.PNG" />
+    <Content Include="Images\Pdf.png" />
     <Content Include="Images\plus.gif" />
+    <Content Include="Images\Powerpoint.PNG" />
     <Content Include="Images\prev.png" />
     <Content Include="Images\prevlabel.gif" />
     <Content Include="Images\spinner.gif" />
@@ -212,6 +216,7 @@
     <Content Include="Images\ToProcess\6K5746-4.jpeg" />
     <Content Include="Images\imgAsc.png" />
     <Content Include="Images\wait1.gif" />
+    <Content Include="Images\Word.PNG" />
     <Content Include="Images\zbox-buttons.png" />
     <Content Include="index.aspx" />
     <Content Include="Login.aspx" />
