@@ -842,6 +842,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdNavTabsContent As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdSeeFilesContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdSeeFilesContent As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdComments control.
     '''</summary>
     '''<remarks>
@@ -3794,6 +3803,78 @@ Partial Public Class CustomerClaims
     Protected WithEvents rowBtn As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''dummylabel1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dummylabel1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''seeFilesSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents seeFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''filesPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents filesPanel As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnDiv control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnDiv As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnFilesPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnFilesPanel As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Button2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''BtnBackSeeFiles control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents BtnBackSeeFiles As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnSeeFileMsg control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSeeFileMsg As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''dummylabel control.
     '''</summary>
     '''<remarks>
@@ -3891,4 +3972,13 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents popAjUpLog As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''popSeeFiles control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents popSeeFiles As Global.AjaxControlToolkit.ModalPopupExtender
 End Class

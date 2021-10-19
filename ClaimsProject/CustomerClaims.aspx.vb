@@ -1855,6 +1855,10 @@ Public Class CustomerClaims
         closeAtkPopup()
     End Sub
 
+    Protected Sub BtnBackSeeFiles_click(sender As Object, e As EventArgs) Handles BtnBackSeeFiles.Click
+        'closeAtkPopup()
+    End Sub
+
     Protected Sub btnVoid_Click(sender As Object, e As EventArgs) Handles btnVoidClaim.Click
         Dim exMessage As String = " "
         Dim methodMessage As String = Nothing
@@ -3365,19 +3369,21 @@ Public Class CustomerClaims
 
     Protected Sub btnSeeFiles_Click(sender As Object, e As EventArgs) Handles btnSeeFiles.Click
         Try
-            Dim wrnNo As String = hdSeq.Value.Trim()
-            Dim claimNo As String = txtClaimNoData.Text.Trim()
+            'Dim wrnNo As String = hdSeq.Value.Trim()
+            'Dim claimNo As String = txtClaimNoData.Text.Trim()
 
-            Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
+            'Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
 
-            Dim dct As Dictionary(Of String, String) = DirectCast(Session("MainValues"), Dictionary(Of String, String))
-            claimNo = If(String.IsNullOrEmpty(claimNo.Trim()), dct.Keys(0).ToString(), claimNo)
-            wrnNo = If(String.IsNullOrEmpty(wrnNo.Trim()), dct.Values(0).ToString(), wrnNo)
+            'Dim dct As Dictionary(Of String, String) = DirectCast(Session("MainValues"), Dictionary(Of String, String))
+            'claimNo = If(String.IsNullOrEmpty(claimNo.Trim()), dct.Keys(0).ToString(), claimNo)
+            'wrnNo = If(String.IsNullOrEmpty(wrnNo.Trim()), dct.Values(0).ToString(), wrnNo)
 
-            Dim folderpathvendor = FolderPath + wrnNo + "\"
+            'Dim folderpathvendor = FolderPath + wrnNo + "\"
 
-            Dim myFiles = Directory.GetFiles(folderpathvendor)
-            Dim pp = ""
+            'Dim myFiles = Directory.GetFiles(folderpathvendor)
+            'Dim pp = ""
+
+
 
             'Dim dd = New PinvokeWindowsNetworking()
             'Dim aa = dd.connectToRemote("\\DELLSVR\Inetpub_D\Claims_Warning", "", "", True)
@@ -3389,6 +3395,12 @@ Public Class CustomerClaims
             'ps.Invoke()
 
             SeeFiles()
+            popSeeFiles.Show()
+
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+            hdSeeFilesContent.Value = "1"
+
             'SeeFiles1()
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
@@ -6824,7 +6836,7 @@ Public Class CustomerClaims
                 If Not String.IsNullOrEmpty(filepath) Then
                     GetFilesFromPath(filepath, dctFI)
                     If dctFI IsNot Nothing Then
-                        prepareListFromVD(dctFI, lstImg)
+                        prepareListFromVD(dctFI, lstImg, True)
                         If lstImg IsNot Nothing Then
                             Session("SeeFilesDct") = lstImg
                             'LoadImages(lstImg)
@@ -6945,7 +6957,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub prepareListFromVD(dctImg As Dictionary(Of FileInfo, String), ByRef lstStrImg As List(Of String))
+    Public Sub prepareListFromVD(dctImg As Dictionary(Of FileInfo, String), ByRef lstStrImg As List(Of String), Optional urlType As Boolean = False)
         Dim lstStr As List(Of String) = New List(Of String)()
         Dim url As String = Nothing
         Dim fullUrl As String = Nothing
@@ -7000,7 +7012,10 @@ Public Class CustomerClaims
                         selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
                 End Select
 
-                url += "," + selImg
+                If urlType Then
+                    url += "," + selImg
+                End If
+
                 lstStrImg.Add(url)
             Next
         Catch ex As Exception
@@ -9173,6 +9188,26 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Protected Sub btnSeeFileMsg_Click(sender As Object, e As EventArgs, Optional url As String = Nothing) Handles btnSeeFileMsg.Click
+        Try
+
+            If String.IsNullOrEmpty(url.Trim()) Then
+                url = "http://svrwebapps.costex.com/IMAGEBANK/27232/RE-2da-Opcion.msg"
+            End If
+
+            Dim app As Microsoft.Office.Interop.Outlook.Application = New Microsoft.Office.Interop.Outlook.Application()
+
+            'Dim item1 = CType(app.Session.OpenSharedItem(url), Microsoft.Office.Interop.Outlook.MailItem)
+            Dim item = DirectCast(app.Session.OpenSharedItem(url), Microsoft.Office.Interop.Outlook.MailItem)
+            Dim body = item.HTMLBody
+            Dim att As Integer = item.Attachments.Count
+            item.Display(True)
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Public Sub SeeFiles()
         Dim wrnNo As String = hdSeq.Value.Trim()
         Dim claimNo As String = txtClaimNoData.Text.Trim()
@@ -9182,6 +9217,7 @@ Public Class CustomerClaims
         Dim name As String = Nothing
         Dim listCount As Integer = 0
         Dim itemByRows As Integer = 4
+        Dim method As String = "ctl00$MainContent$btnSeeFileMsg"
         Try
 
             lst = GetAllFilesForView(wrnNo)
@@ -9194,7 +9230,7 @@ Public Class CustomerClaims
             Dim flag As Boolean = False
 
             Dim body As StringBuilder = New StringBuilder()
-            body.Append("<div style=text-align:center;><table id=table1 border=0 style=background-color:lightgoldenrodyellow;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>File Names</H1></td></tr>")
+            body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Files for the Claim: {0}</H1></td></tr>", wrnNo)
 
             'For index = val To rwAmt 'only 4 rows for 14 files
 
@@ -9215,6 +9251,12 @@ Public Class CustomerClaims
                         '    selImg = "~/Images/avatar-ctp.PNG"
                     End If
 
+                    'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
+                    'OpenMsgFile(url)
+                    'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
+                    'Else
+                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                    'End If
 
                     'If name.Length > 20 Then
                     '    Dim aa1 = name.Substring(0, 8)
@@ -9225,10 +9267,12 @@ Public Class CustomerClaims
                     '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
                     'End If
 
-                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                    'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','{0}') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
+                    'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
                     i += 1
+
                 Else
-                    If (i + 1) > listCount Then
+                        If (i + 1) > listCount Then
                         body.Append("</tr>")
                     Else
                         body.Append("</tr><tr>")
@@ -9252,7 +9296,14 @@ Public Class CustomerClaims
                         '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
                         'End If
 
-                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
+                        'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
+                        'Else
+                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        'End If
+
+                        'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','{0}') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                         i += 1
                     End If
 
@@ -9264,15 +9315,17 @@ Public Class CustomerClaims
             body.Append("</table></div>")
 
 
-            Dim script As String = "<script language=JavaScript type=text/javascript>MyObject = new ActiveXObject(WScript.Shell) function RueMsg({7}){MyObject.Run({7}}</script> "
+            'Dim script As String = "<script language=JavaScript type=text/javascript>MyObject = new ActiveXObject(WScript.Shell) function RueMsg({7}){MyObject.Run({7}}</script> "
 
             Dim pp = body.ToString()
             Dim ppRep = pp.Replace("'", """")
-
+            'ppRep = pp
             'Dim pp1 = "<html><head></head><body>ohai</body></html>"
             'Dim pp2 = "<style> .seffilesAttr { border: 1px solid red !important;width: 100px !important;height: 100px !important;max-width: 100px !important;min-width: 100px !important; }</style> <table id=table1 width=200 border=1 ><tr><th>FileName</th></tr><tr><td><a id=table1_alink_0 href=http://svrwebapps.costex.com/IMAGEBANK/27137/External/RELATORIO.pdf>IMG</a></td></tr></table>"
 
-            OpenBrowser(ppRep)
+            pnFilesPanel.Controls.Add(New LiteralControl(ppRep))
+
+            'OpenBrowser(ppRep)
 
 
 

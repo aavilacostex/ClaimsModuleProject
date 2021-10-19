@@ -765,6 +765,7 @@
 
                     <asp:HiddenField ID="hdGridViewContent" Value="1"  runat="server" />
                     <asp:HiddenField ID="hdNavTabsContent" Value="0"  runat="server" />
+                    <asp:HiddenField ID="hdSeeFilesContent" Value="0"  runat="server" />
 
                     <asp:HiddenField ID="hdComments" Value="" runat="server" />
                     <asp:HiddenField ID="hdFlagUpload" Value="" runat="server" />
@@ -2435,6 +2436,36 @@
              
             </div>
 
+            <asp:Label runat="server" ID="dummylabel1"></asp:Label>
+            <div id="seeFilesSection" class="container hideProp" runat="server">                               
+
+                <div id="filesPanel" runat="server">
+                    <div id="pnDiv" class="row" runat="server">
+                        <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles1" runat="server">
+                        </asp:Panel>
+                    </div>
+
+                    <div class="row" style="background-color: #F7F7FD;padding: 15px 0;">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-6" style="float: right; text-align: right !important;">
+                                    <asp:Button ID="Button2" Text="Upload" class="btn btn-primary btn-lg btnFullSize" Visible="false" runat="server" />
+                                </div>
+                                <div class="col-md-6" style="float: left;">
+                                    <asp:Button ID="BtnBackSeeFiles" Text="   Close   " class="btn btn-primary btn-lg btnFullSize" OnClick="BtnBackSeeFiles_click" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div> 
+                    
+                    <div class="row hideProp">
+                        <asp:LinkButton ID="btnSeeFileMsg" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+
 
             <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
@@ -2506,11 +2537,12 @@
                                     
                                 </div>
 
-                                <div class="row" style="padding: 30px 0 0 0;">
+                                <div class="row" style="padding: 70px 0 0 0;">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-8 hideProp"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
                                     <div class="col-md-2"></div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-10">
@@ -2519,7 +2551,7 @@
                                                 <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" Visible="false" runat="server" />
                                             </div>
                                             <div class="col-md-6" style="float: left;">
-                                                <asp:Button ID="btnBackFile" Text="   Close   " class="btn btn-primary btn-lg btnFullSize" OnClick="btnBackFile_click" runat="server" />                                                
+                                                <asp:Button ID="btnBackFile" Text="   Close   " class="btn btn-primary btn-md btnFullSize" OnClick="btnBackFile_click" runat="server" />                                                
                                             </div>
                                         </div>
                                     </div>
@@ -2533,6 +2565,10 @@
 
             <Atk:ModalPopupExtender ID="popAjUpLog" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
                 PopupControlID="panLogin" CancelControlID="btnBackFile">
+            </Atk:ModalPopupExtender>
+
+            <Atk:ModalPopupExtender ID="popSeeFiles" runat="server" TargetControlID="dummylabel1" BehaviorID="popupCopyCtrl"
+                PopupControlID="filesPanel" CancelControlID="BtnBackSeeFiles" >
             </Atk:ModalPopupExtender>
 
             <br />
@@ -2748,9 +2784,11 @@
             if (hdGridView == "1") {
                 $('#<%=hdGridViewContent.ClientID %>').val("0");
                 $('#<%=hdNavTabsContent.ClientID %>').val("1");
+                $('#<%=hdSeeFilesContent.ClientID %>').val("0");
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
+                $('#<%=hdSeeFilesContent.ClientID %>').val("0");
 
             }
 
@@ -2887,6 +2925,7 @@
             if (hdGridVisualization == "1") {
                 $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
                 $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                $('#MainContent_navsSection').closest('.container').addClass('hideProp')
             }
             else {
                 $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
@@ -2905,6 +2944,30 @@
                 $('#MainContent_navsSection').closest('.container').addClass('hideProp')
                 $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
                 $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+            }
+
+            var hdSeeFilesVisualization = document.getElementById('<%=hdSeeFilesContent.ClientID%>').value
+            if (hdSeeFilesVisualization == "1") {
+                $('#MainContent_seeFilesSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_seeFilesSection").removeAttr("style");
+
+                $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+
+                if (hdTabsVisualization == "1") {
+                    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                    $("#MainContent_navsSection").removeAttr("style");
+                    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                }
+                else {
+                    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                }                
             }
 
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
@@ -2966,7 +3029,7 @@
             $('#MainContent_fnAjUpd_QueueContainer').addClass('ajax__fileupload_queueContainer hideProp');
 
             $('.ajax__fileupload').find('#MainContent_fnAjUpd_UploadOrCancelButton').removeClass('ajax__fileupload_uploadbutton');
-            $('#MainContent_fnAjUpd_UploadOrCancelButton').addClass('ajax__fileupload_uploadbutton margin30Vert');
+            $('#MainContent_fnAjUpd_UploadOrCancelButton').addClass('ajax__fileupload_uploadbutton margin30Vert btn btn-primary btn-sm btnMidSize');
 
             $('.ajax__fileupload').find('#MainContent_fnAjUpd_ProgressBar').removeClass('ajax__fileupload_progressBar');
             $('#MainContent_fnAjUpd_ProgressBar').addClass('ajax__fileupload_progressBar hideProp');
