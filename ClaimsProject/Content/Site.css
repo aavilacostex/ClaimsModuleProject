@@ -1603,6 +1603,33 @@ input[type="color"]:focus,
     max-width: 100% !important;
 }
 
+#MainContent_pnPartImage a {
+    cursor: pointer;
+}
+
+#MainContent_pnPartImage img {
+    border: 1px solid #fbba42;
+    box-shadow: 3px 3px 6px 0px #fbba42;
+}
+
+#MainContent_pnPartOEM a {
+    cursor: pointer;
+}
+
+#MainContent_pnPartOEM img {
+    border: 1px solid #fbba42;
+    box-shadow: 3px 3px 6px 0px #fbba42;
+}
+
+.datalist-header {
+    background-color: black;
+    color: #fbba42;
+    padding: 8px;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-align: center;
+}
+
 #imgNewItem, #imgAllMap {
     max-width: 100%;
 }

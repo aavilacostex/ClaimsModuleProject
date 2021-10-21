@@ -50,7 +50,7 @@ textarea {
     margin-top: 10% !important;
     border: 1px solid #cc9600;
     border-style: solid;
-    height: 250px;
+    height: 300px;
     width: 400px;
     background-color: white !important;
     opacity: 09 !important;
@@ -1545,6 +1545,14 @@ input[type="color"]:focus,
     width: 98% !important;
 }
 
+.seffilesAttr {
+    border: 1px solid red !important;
+    width: 100px !important;
+    height: 100px !important;
+    max-width: 100px !important;
+    min-width: 100px !important;
+}
+
 .divCustomClass {
     overflow: auto;
     display: none;
@@ -1760,6 +1768,29 @@ input[type=file]::-ms-value {
 
 #MainContent_addCommentsR .form-row .col-md-12 .form-group select, #MainContent_addVendorComments .form-row .col-md-12 .form-group select {
     min-width: 100% !important;
+}
+
+#MainContent_fnAjUpd_FileStatusContainer {
+    right: 0px;
+    top: 2px;
+    height: 20px;
+    line-height: 20px;
+    visibility: visible;
+    position: absolute;
+    font-size: 10px;
+}
+
+#MainContent_fnAjUpd_ctl00 {
+    height: 180px;
+}
+
+pnFilterStyles1 {
+    padding: 6px 15px 26px 15px;
+    background-color: #F7F7FD;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    border-left: 4px solid #fbba42;
 }
 
 .pnFilterStyles {

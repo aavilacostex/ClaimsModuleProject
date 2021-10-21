@@ -2291,22 +2291,40 @@ Partial Public Class CustomerClaims
     Protected WithEvents pnPartOEM As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Label4 control.
+    '''DataListCTP control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents DataListCTP As Global.System.Web.UI.WebControls.DataList
 
     '''<summary>
-    '''TextBox3 control.
+    '''DataListOEM control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents DataListOEM As Global.System.Web.UI.WebControls.DataList
+
+    '''<summary>
+    '''lblPartDesc1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPartDesc1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtPartDesc1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPartDesc1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''lblThirdTabDesc control.

@@ -159,6 +159,8 @@ Public Class CustomerClaims
                 'End If
 
                 LoadImages()
+                LoadImagesOEM()
+                LoadImagesCTP()
 
                 If Not String.IsNullOrEmpty(controlName) Then
                     Session("currentCtr") = controlName
@@ -1856,6 +1858,9 @@ Public Class CustomerClaims
     End Sub
 
     Protected Sub BtnBackSeeFiles_click(sender As Object, e As EventArgs) Handles BtnBackSeeFiles.Click
+        hdSeeFilesContent.Value = "0"
+        hdGridViewContent.Value = "0"
+        hdNavTabsContent.Value = "1"
         'closeAtkPopup()
     End Sub
 
@@ -3369,31 +3374,6 @@ Public Class CustomerClaims
 
     Protected Sub btnSeeFiles_Click(sender As Object, e As EventArgs) Handles btnSeeFiles.Click
         Try
-            'Dim wrnNo As String = hdSeq.Value.Trim()
-            'Dim claimNo As String = txtClaimNoData.Text.Trim()
-
-            'Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
-
-            'Dim dct As Dictionary(Of String, String) = DirectCast(Session("MainValues"), Dictionary(Of String, String))
-            'claimNo = If(String.IsNullOrEmpty(claimNo.Trim()), dct.Keys(0).ToString(), claimNo)
-            'wrnNo = If(String.IsNullOrEmpty(wrnNo.Trim()), dct.Values(0).ToString(), wrnNo)
-
-            'Dim folderpathvendor = FolderPath + wrnNo + "\"
-
-            'Dim myFiles = Directory.GetFiles(folderpathvendor)
-            'Dim pp = ""
-
-
-
-            'Dim dd = New PinvokeWindowsNetworking()
-            'Dim aa = dd.connectToRemote("\\DELLSVR\Inetpub_D\Claims_Warning", "", "", True)
-
-            'Dim ps As PowerShell = PowerShell.Create()
-            'ps.AddCommand("explorer.exe")
-            ''Dim ps1 = New PSCommand("explorer.exe").AddCommand("Select").AddParameter("\\DELLSVR\Inetpub_D\Claims_Warning")
-            ''ps.AddCommand("explorer.exe")
-            'ps.Invoke()
-
             SeeFiles()
             popSeeFiles.Show()
 
@@ -3413,6 +3393,7 @@ Public Class CustomerClaims
             hdNavTabsContent.Value = "1"
             'hdClaimNumber.Value = ""
             hdGridViewContent.Value = "0"
+            hdSeeFilesContent.Value = "0"
             'SeeFiles()
             'AddFiles()
         Catch ex As Exception
@@ -6771,6 +6752,64 @@ Public Class CustomerClaims
 
 #Region "Work with Images"
 
+    Public Sub LoadImagesCTP(Optional images As List(Of String) = Nothing)
+        Try
+            'Dim filesinDir As String() = Directory.GetFiles(Server.MapPath("~/Images/ToProcess/"))
+            'Dim images As List(Of String) = New List(Of String)(filesinDir.Count())
+
+            'For Each item As String In filesinDir
+            '    images.Add(String.Format("~/Images/ToProcess/{0}", System.IO.Path.GetFileName(item)))
+            '    'images.Add("~/Images/back1.png")
+            'Next
+            'pepe
+
+            If DataListCTP.Items.Count = 0 Then
+                If Session("DataListCTP") IsNot Nothing Then
+                    Dim lstImg = DirectCast(Session("DataListCTP"), List(Of String))
+                    If lstImg.Count > 0 Then
+                        DataListCTP.DataSource = lstImg
+                        DataListCTP.DataBind()
+                    End If
+                End If
+            Else
+                DataListCTP.DataSource = images
+                DataListCTP.DataBind()
+            End If
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Public Sub LoadImagesOEM(Optional images As List(Of String) = Nothing)
+        Try
+            'Dim filesinDir As String() = Directory.GetFiles(Server.MapPath("~/Images/ToProcess/"))
+            'Dim images As List(Of String) = New List(Of String)(filesinDir.Count())
+
+            'For Each item As String In filesinDir
+            '    images.Add(String.Format("~/Images/ToProcess/{0}", System.IO.Path.GetFileName(item)))
+            '    'images.Add("~/Images/back1.png")
+            'Next
+            'pepe
+
+            If DataListOEM.Items.Count = 0 Then
+                If Session("DataListOEM") IsNot Nothing Then
+                    Dim lstImg = DirectCast(Session("DataListOEM"), List(Of String))
+                    If lstImg.Count > 0 Then
+                        DataListOEM.DataSource = lstImg
+                        DataListOEM.DataBind()
+                    End If
+                End If
+            Else
+                DataListOEM.DataSource = images
+                DataListOEM.DataBind()
+            End If
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
     Public Sub LoadImages(Optional images As List(Of String) = Nothing)
         Try
             'Dim filesinDir As String() = Directory.GetFiles(Server.MapPath("~/Images/ToProcess/"))
@@ -6795,6 +6834,83 @@ Public Class CustomerClaims
                 datViewer.DataBind()
             End If
 
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Public Sub FixImagesOEM(partNo As String)
+        Dim filepath As String = Nothing
+        Dim dctFI As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Dim lstImg As List(Of String) = New List(Of String)()
+        Dim PathConf As String = ConfigurationManager.AppSettings("vdOEMPartsPath").ToString()
+        Try
+            Dim result = GetFilesFromEXtPathByClaimNoOEM(partNo, filepath)
+            If result Then
+                If Not String.IsNullOrEmpty(filepath) Then
+                    GetImagesFromPathOEM(filepath, dctFI)
+                    If dctFI IsNot Nothing Then
+                        prepareListFromVDOEM(dctFI, lstImg)
+                        If lstImg IsNot Nothing Then
+                            Session("DataListOEM") = lstImg
+                            LoadImagesOEM(lstImg)
+                        End If
+                    End If
+                End If
+            Else
+
+                'Dim lastPos As Integer = name.LastIndexOf("\")
+                'Dim NoFilePath = name.Substring(0, lastPos - 1)
+                Dim noImg As String = "pic_not_av.jpg"
+                Dim newPath = PathConf + noImg
+                Dim di = New IO.DirectoryInfo(PathConf)
+                If di.Exists Then
+
+                    For Each fio As FileInfo In di.GetFiles()
+                        Dim name = fio.Name
+                        If name.ToLower().Contains(noImg.ToLower()) Then
+                            dctFI.Add(fio, "Out")
+                            Exit For
+                        End If
+                    Next
+
+                    If dctFI IsNot Nothing Then
+                        prepareListFromVDOEM(dctFI, lstImg)
+                        If lstImg IsNot Nothing Then
+                            Session("DataListOEM") = lstImg
+                            LoadImagesOEM(lstImg)
+                        End If
+                    End If
+
+                End If
+
+            End If
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Public Sub FixImagesCTP(partNo As String)
+        Dim filepath As String = Nothing
+        Dim dctFI As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Dim lstImg As List(Of String) = New List(Of String)()
+        Try
+            Dim result = GetFilesFromEXtPathByClaimNoCTP(partNo, filepath)
+            If result Then
+                If Not String.IsNullOrEmpty(filepath) Then
+                    GetImagesFromPathCTP(filepath, partNo, dctFI)
+                    If dctFI IsNot Nothing Then
+                        prepareListFromVDCTP(dctFI, lstImg)
+                        If lstImg IsNot Nothing Then
+                            Session("DataListCTP") = lstImg
+                            LoadImagesCTP(lstImg)
+                        End If
+                    End If
+
+                End If
+            Else
+
+            End If
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
@@ -6853,11 +6969,52 @@ Public Class CustomerClaims
         End Try
     End Function
 
+    Public Function GetFilesFromEXtPathByClaimNoCTP(partNo As String, ByRef filePath As String) As Boolean
+        Dim flag As Boolean = False
+        filePath = Nothing
+        Dim PathConf As String = ConfigurationManager.AppSettings("vdCTPPartsPath").ToString()
+        Try
+            Dim path = PathConf
+            Dim di = New IO.DirectoryInfo(path)
+            If di.Exists Then
+                flag = True
+                filePath = path
+                Return flag
+            Else
+                Return flag
+            End If
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return flag
+        End Try
+    End Function
+
+    Public Function GetFilesFromEXtPathByClaimNoOEM(partNo As String, ByRef filePath As String) As Boolean
+        Dim flag As Boolean = False
+        filePath = Nothing
+        Dim PathConf As String = ConfigurationManager.AppSettings("vdOEMPartsPath").ToString()
+        Try
+            Dim path = PathConf + partNo + "\"
+            Dim di = New IO.DirectoryInfo(path)
+            If di.Exists Then
+                flag = True
+                filePath = path
+                Return flag
+            Else
+                Return flag
+            End If
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return flag
+        End Try
+    End Function
+
     Public Function GetFilesFromEXtPathByClaimNo(claimNo As String, ByRef filePath As String) As Boolean
         Dim flag As Boolean = False
         filePath = Nothing
+        Dim PathConf As String = ConfigurationManager.AppSettings("vdWarningImgPath").ToString()
         Try
-            Dim path = "\\dellsvr\Inetpub_D\Claims_Warning\" + claimNo + "\" ' add to config
+            Dim path = PathConf + claimNo + "\"
             Dim di = New IO.DirectoryInfo(path)
             If di.Exists Then
                 flag = True
@@ -6905,15 +7062,91 @@ Public Class CustomerClaims
 
             End If
 
-            'Dim aa = dctFiles.AsEnumerable().OrderBy(Function(e) Path.GetExtension(e.Key.FullName).Substring(1))
-            'Dim aa = dctFiles.AsEnumerable().OrderBy(Function(e) Path.GetExtension(e.Key.FullName).Substring(1))
-            'dctFi = DirectCast(aa, Dictionary(Of FileInfo, String))
             dctFi = dctFiles
             Session("SeeFilesDct") = dctFi
 
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             dctFi = Nothing
+        End Try
+    End Sub
+
+    Public Sub GetImagesFromPathCTP(filePath As String, partNo As String, ByRef dctImages As Dictionary(Of FileInfo, String))
+        Dim lstFiles As List(Of FileInfo) = New List(Of FileInfo)()
+        Dim dctFiles As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Try
+
+            Dim diImgOuter = New IO.DirectoryInfo(filePath)
+
+            If diImgOuter.Exists Then
+                'no external folder. Check for images
+                For Each fio As FileInfo In diImgOuter.GetFiles()
+                    Dim name = fio.Name
+                    Dim extension = fio.Extension
+                    If name.Split(".")(0).ToUpper().Equals(partNo.ToUpper()) Then
+                        If extension.Trim().ToLower().Equals(".jpg") Or extension.Trim().ToLower().Equals(".jpeg") Or extension.Trim().ToLower().Equals(".png") Then
+                            dctFiles.Add(fio, "Out")
+                        End If
+                    End If
+                Next
+
+                If dctFiles.Count = 0 Then
+                    For Each fio1 As FileInfo In diImgOuter.GetFiles()
+                        Dim name = fio1.Name
+                        Dim extension = fio1.Extension
+                        Dim noImg As String = "pic_not_av.jpg"
+                        If name.ToUpper().Equals(noImg.ToUpper()) Then
+                            dctFiles.Add(fio1, "Out")
+                        End If
+                    Next
+                End If
+
+            End If
+
+            dctImages = dctFiles
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            dctImages = Nothing
+        End Try
+    End Sub
+
+    Public Sub GetImagesFromPathOEM(filePath As String, ByRef dctImages As Dictionary(Of FileInfo, String))
+        Dim lstFiles As List(Of FileInfo) = New List(Of FileInfo)()
+        Dim dctFiles As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Try
+
+            Dim diImgOuter = New IO.DirectoryInfo(filePath)
+
+            If diImgOuter.Exists Then
+                'no external folder. Check for images
+                For Each fio As FileInfo In diImgOuter.GetFiles()
+                    Dim name = fio.Name
+                    If name.ToUpper().Contains("OEM_") Then
+                        Dim extension = fio.Extension
+                        If extension.Trim().ToLower().Equals(".jpg") Or extension.Trim().ToLower().Equals(".jpeg") Or extension.Trim().ToLower().Equals(".png") Then
+                            dctFiles.Add(fio, "Out")
+                        End If
+                    Else
+                        Dim lastPos As Integer = name.LastIndexOf("\")
+                        Dim NoFilePath = name.Substring(0, lastPos - 1)
+                        Dim noImg As String = "pic_not_av.jpg"
+
+                        Dim di = New IO.DirectoryInfo(NoFilePath)
+                        If di.Exists Then
+                            NoFilePath += noImg
+                            dctFiles.Add(fio, "Out")
+                        End If
+
+                    End If
+                Next
+            End If
+
+            dctImages = dctFiles
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            dctImages = Nothing
         End Try
     End Sub
 
@@ -6957,6 +7190,77 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub prepareListFromVDOEM(dctImg As Dictionary(Of FileInfo, String), ByRef lstStrImg As List(Of String), Optional urlType As Boolean = False)
+        Dim lstStr As List(Of String) = New List(Of String)()
+        Dim url As String = Nothing
+        Dim fullUrl As String = Nothing
+        Dim selImg As String = Nothing
+        Dim noImg As String = "pic_not_av.jpg"
+        Dim UrlOEM As String = ConfigurationManager.AppSettings("VDWebURlOEM").ToString()
+        Dim siteUrl = UrlOEM
+        Try
+
+            Dim filesindirectory() As String = Directory.GetFiles(Server.MapPath("~/Images"))
+            Dim localImages As List(Of String) = New List(Of String)(filesindirectory.Length())
+            For Each st As String In filesindirectory
+                localImages.Add(st)
+            Next
+
+            For Each dc In dctImg
+
+                fullUrl = dc.Key.FullName
+                Dim arrValues = fullUrl.Split("\")
+                If fullUrl.ToLower().Contains(noImg) Then
+                    url = UrlOEM + noImg
+                Else
+                    Dim partNoFolder = arrValues(5).ToString().Trim()
+                    Dim partNo = arrValues(6).ToString().Trim()
+
+                    url = siteUrl + partNoFolder + "/" + partNo
+                End If
+
+                Dim extension = Path.GetExtension(fullUrl).ToLower()
+                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, urlType)
+#Region "No"
+
+                'Select Case extension
+                '    Case ".doc", ".docx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Word.PNG"
+                '            '"~/Images/Word.PNG"
+                '    Case ".ppt", ".pptx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
+                '    Case ".xls", ".xlsx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Excel")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                '    Case ".pdf"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Pdf")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Pdf.PNG"
+                '    Case ".msg"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Outlook")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Outlook.PNG"
+                '    Case ".jpg", ".png", ".jpeg"
+                '        webImg = url
+                '        selImg = webImg
+                '    Case Else
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("avatar-ctp")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
+                'End Select
+
+                'If urlType Then
+                '    url += "," + selImg
+                'End If
+
+#End Region
+                lstStrImg.Add(strUrl)
+            Next
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            lstStrImg = Nothing
+        End Try
+    End Sub
+
     Public Sub prepareListFromVD(dctImg As Dictionary(Of FileInfo, String), ByRef lstStrImg As List(Of String), Optional urlType As Boolean = False)
         Dim lstStr As List(Of String) = New List(Of String)()
         Dim url As String = Nothing
@@ -6979,50 +7283,165 @@ Public Class CustomerClaims
                 Dim partNo = If(arrValues.Length = 7, arrValues(6).ToString().Trim(), arrValues(7).ToString().Trim())
                 Dim loc = If(dc.Value.ToString().Trim().ToLower().Equals("ext"), "External", "")
 
-                Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANK/" 'production reason
-                'Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANKOWN/" 'test reason
-                'Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANKTEST/" 'other reduced test reason
+                Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANK/"
 
                 url = If(Not String.IsNullOrEmpty(loc), siteUrl + claimNo + "/" + loc + "/" + partNo, siteUrl + claimNo + "/" + partNo)
-                Dim webImg As String = Nothing
-
                 Dim extension = Path.GetExtension(fullUrl).ToLower()
-                Select Case extension
-                    Case ".doc", ".docx"
-                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
-                        selImg = siteUrl + "SeeFilesImportant/Word.PNG"
-                            '"~/Images/Word.PNG"
-                    Case ".ppt", ".pptx"
-                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
-                        selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
-                    Case ".xls", ".xlsx"
-                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Excel")).First()
-                        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
-                    Case ".pdf"
-                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Pdf")).First()
-                        selImg = siteUrl + "SeeFilesImportant/Pdf.PNG"
-                    Case ".msg"
-                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Outlook")).First()
-                        selImg = siteUrl + "SeeFilesImportant/Outlook.PNG"
-                    Case ".jpg", ".png", ".jpeg"
-                        webImg = url
-                        selImg = webImg
-                    Case Else
-                        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("avatar-ctp")).First()
-                        selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
-                End Select
+                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, urlType)
 
-                If urlType Then
-                    url += "," + selImg
-                End If
+#Region "No"
 
-                lstStrImg.Add(url)
+                'Select Case extension
+                '    Case ".doc", ".docx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Word.PNG"
+                '            '"~/Images/Word.PNG"
+                '    Case ".ppt", ".pptx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
+                '    Case ".xls", ".xlsx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Excel")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                '    Case ".pdf"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Pdf")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Pdf.PNG"
+                '    Case ".msg"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Outlook")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Outlook.PNG"
+                '    Case ".jpg", ".png", ".jpeg"
+                '        webImg = url
+                '        selImg = webImg
+                '    Case Else
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("avatar-ctp")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
+                'End Select
+
+                'If urlType Then
+                '    url += "," + selImg
+                'End If
+
+#End Region
+
+                lstStrImg.Add(strUrl)
             Next
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
             lstStrImg = Nothing
         End Try
     End Sub
+
+    Public Sub prepareListFromVDCTP(dctImg As Dictionary(Of FileInfo, String), ByRef lstStrImg As List(Of String), Optional urlType As Boolean = False)
+        Dim lstStr As List(Of String) = New List(Of String)()
+        Dim url As String = Nothing
+        Dim fullUrl As String = Nothing
+        Dim selImg As String = Nothing
+        Dim noImg As String = "pic_not_av.jpg"
+        Dim UrlOEM As String = ConfigurationManager.AppSettings("VDWebURlCTP").ToString()
+        Dim siteUrl = UrlOEM
+        Try
+
+            Dim filesindirectory() As String = Directory.GetFiles(Server.MapPath("~/Images"))
+            Dim localImages As List(Of String) = New List(Of String)(filesindirectory.Length())
+            For Each st As String In filesindirectory
+                localImages.Add(st)
+            Next
+
+            For Each dc In dctImg
+
+                fullUrl = dc.Key.FullName
+                Dim arrValues = fullUrl.Split("\")
+
+                Dim partNo = arrValues(5).ToString().Trim()
+                'Dim partNo = If(arrValues.Length = 7, arrValues(6).ToString().Trim(), arrValues(7).ToString().Trim())
+                'Dim loc = If(dc.Value.ToString().Trim().ToLower().Equals("ext"), "External", "")
+
+                url = siteUrl + partNo
+                Dim extension = Path.GetExtension(fullUrl).ToLower()
+                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, urlType)
+#Region "No"
+
+                'Select Case extension
+                '    Case ".doc", ".docx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Word.PNG"
+                '            '"~/Images/Word.PNG"
+                '    Case ".ppt", ".pptx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
+                '    Case ".xls", ".xlsx"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Excel")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                '    Case ".pdf"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Pdf")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Pdf.PNG"
+                '    Case ".msg"
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Outlook")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/Outlook.PNG"
+                '    Case ".jpg", ".png", ".jpeg"
+                '        webImg = url
+                '        selImg = webImg
+                '    Case Else
+                '        'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("avatar-ctp")).First()
+                '        selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
+                'End Select
+
+                'If urlType Then
+                '    url += "," + selImg
+                'End If
+
+#End Region
+                lstStrImg.Add(strUrl)
+            Next
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            lstStrImg = Nothing
+        End Try
+    End Sub
+
+    Public Function PreparaUrlAndImage(extension As String, siteUrl As String, url As String, Optional urlType As Boolean = False) As String
+        'Dim url As String = Nothing
+        Dim fullUrl As String = Nothing
+        Dim selImg As String = Nothing
+        Dim webImg As String = Nothing
+        Try
+
+            'Dim extension = Path.GetExtension(fullpath).ToLower()
+            Select Case extension
+                Case ".doc", ".docx"
+                    'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Word")).First()
+                    selImg = siteUrl + "SeeFilesImportant/Word.PNG"
+                            '"~/Images/Word.PNG"
+                Case ".ppt", ".pptx"
+                    'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Powerpoint")).First()
+                    selImg = siteUrl + "SeeFilesImportant/Powerpoint.PNG"
+                Case ".xls", ".xlsx"
+                    'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Excel")).First()
+                    selImg = siteUrl + "SeeFilesImportant/Excel.PNG"
+                Case ".pdf"
+                    'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Pdf")).First()
+                    selImg = siteUrl + "SeeFilesImportant/Pdf.PNG"
+                Case ".msg"
+                    'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("Outlook")).First()
+                    selImg = siteUrl + "SeeFilesImportant/Outlook.PNG"
+                Case ".jpg", ".png", ".jpeg"
+                    webImg = url
+                    selImg = webImg
+                Case Else
+                    'selImg = localImages.AsEnumerable().Where(Function(e) e.Contains("avatar-ctp")).First()
+                    selImg = siteUrl + "SeeFilesImportant/avatar-ctp.PNG"
+            End Select
+
+            If urlType Then
+                url += "," + selImg
+            End If
+
+            Return url
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return url
+        End Try
+    End Function
 
 #End Region
 
@@ -7903,6 +8322,8 @@ Public Class CustomerClaims
                                         'test purpose
                                         'FixImages("26456")
                                         FixImages(hdSeq.Value.Trim())
+                                        FixImagesOEM(txtPartNoData.Text.Trim())
+                                        FixImagesCTP(txtPartNoData.Text.Trim())
 
                                         'external status - claim status
                                         Dim dsStatus = New DataSet()
@@ -8000,6 +8421,7 @@ Public Class CustomerClaims
                                             'Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
                                             'Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
                                             txtPartDesc.Text = description
+                                            txtPartDesc1.Text = txtPartNoData.Text.ToUpper() + " - " + description.ToUpper()
                                         End If
                                         'txtPartDesc.Height = imgPart.Height
                                     End If
@@ -9172,22 +9594,6 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub SeeFiles1()
-        Dim wrnNo As String = hdSeq.Value.Trim()
-        Try
-
-            If Not String.IsNullOrEmpty(wrnNo) Then
-
-                Dim url As String = String.Format("\\dellsvr\Inetpub_D\Test\CTPScan.exe {0}", wrnNo)
-                Process.Start(url)
-
-            End If
-
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
     Protected Sub btnSeeFileMsg_Click(sender As Object, e As EventArgs, Optional url As String = Nothing) Handles btnSeeFileMsg.Click
         Try
 
@@ -9197,7 +9603,6 @@ Public Class CustomerClaims
 
             Dim app As Microsoft.Office.Interop.Outlook.Application = New Microsoft.Office.Interop.Outlook.Application()
 
-            'Dim item1 = CType(app.Session.OpenSharedItem(url), Microsoft.Office.Interop.Outlook.MailItem)
             Dim item = DirectCast(app.Session.OpenSharedItem(url), Microsoft.Office.Interop.Outlook.MailItem)
             Dim body = item.HTMLBody
             Dim att As Integer = item.Attachments.Count
@@ -9232,10 +9637,7 @@ Public Class CustomerClaims
             Dim body As StringBuilder = New StringBuilder()
             body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Files for the Claim: {0}</H1></td></tr>", wrnNo)
 
-            'For index = val To rwAmt 'only 4 rows for 14 files
-
             body.Append("<tr>")
-
             Dim i = 0
             For Each item As String In lst
 
@@ -9246,33 +9648,17 @@ Public Class CustomerClaims
                         selImg = item.Split(",")(1).ToString().Trim()
                         Dim ct = url.Split("/").Count()
                         name = url.Split("/")(ct - 1).ToString().Trim()
-                        'Else
-                        '    url = item.ToString().Trim()
-                        '    selImg = "~/Images/avatar-ctp.PNG"
                     End If
 
                     'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
                     'OpenMsgFile(url)
                     'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                     'Else
-                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
                     'End If
-
-                    'If name.Length > 20 Then
-                    '    Dim aa1 = name.Substring(0, 8)
-                    '    Dim aa3 = name.Substring(name.Length - 9)
-                    '    Dim aa4 = name.Substring(name.Length - 1)
-
-                    '    Dim aa2 = name.Substring(name.Length - 15, 15)
-                    '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
-                    'End If
-
-                    'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','{0}') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
-                    'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
                     i += 1
-
                 Else
-                        If (i + 1) > listCount Then
+                    If (i + 1) > listCount Then
                         body.Append("</tr>")
                     Else
                         body.Append("</tr><tr>")
@@ -9287,61 +9673,24 @@ Public Class CustomerClaims
                             '    selImg = "~/Images/avatar-ctp.PNG"
                         End If
 
-                        'If name.Length > 20 Then
-                        '    Dim aa1 = name.Substring(0, 8)
-                        '    Dim aa3 = name.Substring(name.Length - 9)
-                        '    Dim aa4 = name.Substring(name.Length - 1)
-
-                        '    Dim aa2 = name.Substring(name.Length - 9, name.Length - 1)
-                        '    Dim pp22 = If(name.Length > 20, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 9, name.Length - 1), name)
-                        'End If
-
                         'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
                         'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                         'Else
-                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
                         'End If
-
-                        'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
-                        'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','{0}') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                         i += 1
                     End If
-
                 End If
-
             Next
-            'Next
-
             body.Append("</table></div>")
-
-
-            'Dim script As String = "<script language=JavaScript type=text/javascript>MyObject = new ActiveXObject(WScript.Shell) function RueMsg({7}){MyObject.Run({7}}</script> "
 
             Dim pp = body.ToString()
             Dim ppRep = pp.Replace("'", """")
-            'ppRep = pp
-            'Dim pp1 = "<html><head></head><body>ohai</body></html>"
-            'Dim pp2 = "<style> .seffilesAttr { border: 1px solid red !important;width: 100px !important;height: 100px !important;max-width: 100px !important;min-width: 100px !important; }</style> <table id=table1 width=200 border=1 ><tr><th>FileName</th></tr><tr><td><a id=table1_alink_0 href=http://svrwebapps.costex.com/IMAGEBANK/27137/External/RELATORIO.pdf>IMG</a></td></tr></table>"
-
             pnFilesPanel.Controls.Add(New LiteralControl(ppRep))
 
+#Region "No"
+
             'OpenBrowser(ppRep)
-
-
-
-
-            'Response.Redirect("SeeFiles.aspx", False)
-            'Response.Write("<script>")
-            'Response.Write("window.open('SeeFiles.aspx')")
-            'Response.Write("</script>")
-
-
-            'Dim url As String = "http://www.stackoverflow.com"
-            'Dim script As String = String.Format("window.open('{0}','_blank','comma,delimited,list,of,window,features');", url)
-
-            'Page.ClientScript.RegisterStartupScript(Me.GetType(), "OpenWindow", script, True)
-
-            'Context.Response.Write("<script language='javascript'>window.open('AccountsStmt.aspx?showledger=" & sledgerGrp & "','_newtab');</script>")
 
             'If String.IsNullOrEmpty(wrnNo) And Not String.IsNullOrEmpty(claimNo) Then
 
@@ -9366,6 +9715,9 @@ Public Class CustomerClaims
             '    End If
 
             'End If
+
+#End Region
+
         Catch ex As Exception
             Dim ppp = HttpContext.Current.Request.LogonUserIdentity.Name
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + " . " + ex.ToString + " . " + ex.StackTrace + ". At Time: " + DateTime.Now.ToString())
@@ -9464,7 +9816,7 @@ Public Class CustomerClaims
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
             ''test purpose
-            'Session("userid") = "AROBLES"
+            Session("userid") = "AROBLES"
             ''test purpose
             Session("fullObj") = Nothing
             Session("isDDL") = False
