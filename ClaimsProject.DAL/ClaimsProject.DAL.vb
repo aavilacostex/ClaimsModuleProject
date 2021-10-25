@@ -972,7 +972,8 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
 
-            Dim Sql = "select ususer, usname from qs36f.csuser where trim(ususer) in (select trim(inuser) from qs36f.clmintsts where trim(instat)='I') and decode = 12 and trim(uspty9) <> 'R' and usslmn <> 0"
+            'Dim Sql = "select ususer, usname from qs36f.csuser where trim(ususer) in (select trim(inuser) from qs36f.clmintsts where trim(instat)='I') and decode = 12 and trim(uspty9) <> 'R' and usslmn <> 0"
+            Dim sql = "select A2.ususer, A2.usname from qs36f.cntrll A1 join qs36f.csuser A2 on trim(ucase(A1.cntde1)) = trim(ucase(A2.ususer))  where A1.cnt01 = 'CCO'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -988,7 +989,8 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
 
-            Dim Sql = "select ususer, usname from qs36f.csuser where trim(ususer) in (select trim(inuser) from qs36f.clmintsts where trim(instat)='H') and decode = 12 and trim(uspty9) <> 'R' and usslmn = 0"
+            'Dim Sql = "select ususer, usname from qs36f.csuser where trim(ususer) in (select trim(inuser) from qs36f.clmintsts where trim(instat)='H') and decode = 12 and trim(uspty9) <> 'R' and usslmn = 0"
+            Dim sql = "select A2.ususer, A2.usname from qs36f.cntrll A1 join qs36f.csuser A2 on trim(ucase(A1.cntde1)) = trim(ucase(A2.ususer)) where cnt01 = 'CTR'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
