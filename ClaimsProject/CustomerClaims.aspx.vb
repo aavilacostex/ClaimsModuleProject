@@ -2610,9 +2610,11 @@ Public Class CustomerClaims
                             Dim dss = DirectCast(Session("Datasource"), DataSet)
                             Dim bIs = dss.Tables(0).AsEnumerable().Any(Function(oo) oo.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim()))
                             Dim qq = If(bIs, dss.Tables(0).AsEnumerable().Where(Function(aa) aa.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim())).First(), Nothing)
-                            Dim names = If(qq IsNot Nothing, qq.Item("cwstde").ToString().Trim().ToUpper(), Nothing)
 
-                            hdClaimNumber.Value = String.Format(strMess, names)
+                            Dim names = GetCurrentIntStatus(hdSeq.Value.Trim())
+                            'Dim names = If(qq IsNot Nothing, qq.Item("cwstde").ToString().Trim().ToUpper(), Nothing)
+
+                            hdClaimNumber.Value = String.Format(Session("BaseMessage").ToString(), txtClaimNoData.Text.Trim(), names)
                             lblClaimQuickOverview.Text = hdClaimNumber.Value
                             hdGridViewContent.Value = "0"
 
@@ -4306,6 +4308,20 @@ Public Class CustomerClaims
 
                                         validation = True
 
+                                    End If
+                                Else
+                                    Dim appFlg = dsCheck.Tables(0).Rows(0).Item("INTAPPRV").ToString().Trim().ToUpper()
+                                    If String.IsNullOrEmpty(appFlg) Then
+                                        chkinitial.Value = "L"
+                                        Dim rss = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
+
+                                        txtTotValue.Text = txtParts.Text.ToString()
+                                        txtTotValue.Enabled = False
+
+                                        chkApproved.Enabled = False
+                                        chkDeclined.Enabled = False
+
+                                        validation = True
                                     End If
                                 End If
 
@@ -9805,6 +9821,8 @@ Public Class CustomerClaims
             BuildDates()
 
             Dim strTechReviewUsr = ConfigurationManager.AppSettings("AuthTechReview")
+            Dim baseMess = ConfigurationManager.AppSettings("BaseMessage")
+            Session("BaseMessage") = baseMess
             Session("techReviewUsr") = strTechReviewUsr
 
             Dim strDate1 = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("strDates")), ConfigurationManager.AppSettings("strDates"), strDateFirst + "," + curDate)
@@ -10651,7 +10669,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetInternalStatus(intValue)
+    Public Sub GetInternalStatus(intValue As String)
         Dim ds = New DataSet()
         Dim strDateOut As String = Nothing
         Try

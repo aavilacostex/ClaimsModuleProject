@@ -4180,13 +4180,13 @@
 
                 setTabsClaimNo()
 
-                partialCreditSelected()
-
-                EnableAuthRequestChk()
+                partialCreditSelected()                
 
                 expandMultilineTxt() //page load update panel
 
                 disableCustomInput();
+
+                EnableAuthRequestChk()
 
                 enableAjaxFileUpload();
 
@@ -4257,9 +4257,7 @@
 
             setTabsClaimNo()
 
-            partialCreditSelected()
-
-            EnableAuthRequestChk()
+            partialCreditSelected()            
 
             //setClassFA();
 
@@ -4268,6 +4266,8 @@
             expandMultilineTxt() //page load outer
 
             disableCustomInput();
+
+            EnableAuthRequestChk()
 
             //$(window).scrollTop(0);
 
@@ -4286,7 +4286,7 @@
         }
 
         function EnableAuthRequestChk() {
-            //debugger
+            debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -4299,9 +4299,17 @@
                 if (numbAuthreq > 500) {
 
                     if (isPresentBl && hdUserType == "1") {
+
+                        $('#MainContent_chkClaimAuth').closest('span').removeClass('aspNetDisabled');
+                        $('#<%=chkClaimAuth.ClientID%>').closest('span').removeClass('aspNetDisabled');
+
                         $('#<%=chkClaimAuth.ClientID %>').removeAttr("disabled");
                         $('#<%=txtClaimAuth.ClientID %>').removeAttr("disabled");
                         $('#<%=txtClaimAuthDate.ClientID %>').removeAttr("disabled");
+
+                        $('#<%=lnkClaimAuth.ClientID %>').removeClass('aspNetDisabled');
+                        $('#<%=lnkClaimAuth.ClientID %>').removeClass('btn btn-primary btnSmallSize disableCtr');
+                        $('#<%=lnkClaimAuth.ClientID %>').addClass('btn btn-primary btnSmallSize');
                     }
 
                     if (userSelected != "" && userDateSelected != "") {
