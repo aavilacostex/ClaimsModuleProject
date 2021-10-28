@@ -10,10 +10,7 @@
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchReason" />
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchDiagnose" />
             <asp:AsyncPostBackTrigger ControlID ="ddlDiagnoseData"  />
-            <asp:AsyncPostBackTrigger ControlID ="ddlLocation"  />
-            <%--<asp:AsyncPostBackTrigger ControlID ="ddlSearchExtStatus" />--%> 
-            <%--<asp:AsyncPostBackTrigger ControlID ="ddlSearchIntStatus" /> 
-            <asp:AsyncPostBackTrigger ControlID ="ddlSearchUser" /> --%>
+            <asp:AsyncPostBackTrigger ControlID ="ddlLocation"  />            
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
             <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />

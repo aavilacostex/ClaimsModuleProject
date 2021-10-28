@@ -1398,7 +1398,7 @@
                                     </div>
                                     <div class="col-md-6"> 
                                         <div class="row">
-                                            <asp:Panel ID="pnPartImage" GroupingText="Part Images" runat="server">
+                                            <asp:Panel ID="pnPartImage" GroupingText="Claim Images" runat="server">
                                                 <div class="form-row last">
                                                     <div class="col-md-8">
                                                         <asp:DataList ID="datViewer" CssClass="inheritclass" RepeatColumns="3" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
@@ -1420,17 +1420,48 @@
                                                 </div>
                                             </asp:Panel>                                                
                                         </div> 
+                                        <br />
                                         <div class="row last">
-                                            <asp:Panel ID="pnPartOEM" GroupingText="OEM Images" runat="server">
+                                            <asp:Panel ID="pnPartOEM" GroupingText="Part Images" runat="server">
                                                 <div class="form-row last">
                                                     <div class="col-md-8">
+                                                        <div class="form-row">
+                                                            <div class="col-md-6">                                                               
+                                                                <asp:DataList ID="DataListCTP" CssClass="inheritclass" RepeatColumns="1" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
+                                                                    <HeaderTemplate>CTP PART IMAGE</HeaderTemplate>
+                                                                    <HeaderStyle CssClass="datalist-header" />
+                                                                    <ItemTemplate>
+                                                                        <div id="wrapper">
+                                                                            <a id="alinkCTP" href='<%# Container.DataItem %>' data-lightbox="roadtrip" rel="group" runat="server">
+                                                                                <%-- class="zb" --%>
+                                                                                <asp:Image ID="ImgCTP" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' Width="150" Height="150" runat="server" />
+                                                                            </a>
+                                                                        </div>
+                                                                    </ItemTemplate>
+                                                                </asp:DataList>
+                                                            </div>
+                                                            <div class="col-md-6">                                                                
+                                                                <asp:DataList ID="DataListOEM" CssClass="inheritclass" RepeatColumns="1" CellPadding="5" EnableViewState="true" ViewStateMode="Enabled" runat="server">
+                                                                    <HeaderTemplate>OEM PART IMAGE</HeaderTemplate>
+                                                                    <HeaderStyle CssClass="datalist-header" />
+                                                                    <ItemTemplate>
+                                                                        <div id="wrapper">
+                                                                            <a id="alinkOEM" href='<%# Container.DataItem %>' data-lightbox="roadtrip" rel="group" runat="server">
+                                                                                <%-- class="zb" --%>
+                                                                                <asp:Image ID="ImgOEM" CssClass="imgStyle" ImageUrl='<%# Container.DataItem %>' Width="150" Height="150" runat="server" />
+                                                                            </a>
+                                                                        </div>
+                                                                    </ItemTemplate>
+                                                                </asp:DataList>
+                                                            </div>
+                                                        </div>
 
                                                         <%--<Atk:AjaxFileUpload ID="fnAjUpd" Mode="Auto" onuploadcomplete="fnAjUpd_UploadComplete"  Enabled="true" runat="server" />                                                 
                                                         <asp:Image ID="loader" runat="server" ImageUrl="~/Images/loading.gif" Style="display: None" />--%>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <asp:Label ID="Label4" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
-                                                        <asp:TextBox ID="TextBox3" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                        <asp:Label ID="lblPartDesc1" CssClass="control-label" Text="Part Description" runat="server"></asp:Label>
+                                                        <asp:TextBox ID="txtPartDesc1" Text="" Enabled="false" TextMode="MultiLine" runat="server"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </asp:Panel>                                                
@@ -3068,6 +3099,7 @@
                 $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
 
                 $('#MainContent_pnPartImage').find('a').removeClass('disableCtr');
+                $('#MainContent_pnPartOEM').find('a').removeClass('disableCtr');
 
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
                 $('#MainContent_lnkSentToComm').removeClass('disableCtr');
