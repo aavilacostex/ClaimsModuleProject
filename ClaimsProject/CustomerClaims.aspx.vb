@@ -9816,7 +9816,7 @@ Public Class CustomerClaims
             Session("intStatusSelected") = Nothing
             Session("SelectedRadio") = Nothing
             ''test purpose
-            Session("userid") = "AROBLES"
+            'Session("userid") = "AROBLES"
             ''test purpose
             Session("fullObj") = Nothing
             Session("isDDL") = False
