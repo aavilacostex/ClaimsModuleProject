@@ -157,7 +157,7 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-6">
                                 <div class="footer-logo">
-                                    <a href="http://costexm15:10090/ctpsystem/public/">
+                                    <a href="#">
                                         <img src="~/Images/footer-logo.png" runat="server" />
                                     </a>
                                 </div>
@@ -193,10 +193,10 @@
                                     <div class="footer-menu">
                                         <div class="widget_nav_menu">
                                             <ul>
-                                                <li><a href="http://costexm15:10090/ctpsystem/public/">Home</a></li>
+                                                <li><a href="https://www.costex.com/">Home</a></li>
                                                 <li><a href="#">Blog</a></li>
-                                                <li><a href="http://costexm15:10090/ctpsystem/public/about">About Us</a></li>
-                                                <li><a href="http://costexm15:10090/ctpsystem/public/about">Contact</a></li>
+                                                <li><a href="https://www.costex.com/about-us/">About Us</a></li>
+                                                <li><a href="https://www.costex.com/contact-us/">Contact</a></li>
                                                 <li><a href="#">Terms & Conditions</a></li>
                                             </ul>
                                         </div>

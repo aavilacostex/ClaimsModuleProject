@@ -1904,7 +1904,7 @@ Public Class CustomerClaims
                                                 methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
                                                 SendMessage(methodMessage, messageType.Error)
                                             Else
-                                                methodMessage = "The Void Proccess was succesful."
+                                                methodMessage = "The Void Proccess was successful."
                                                 SendMessage(methodMessage, messageType.success)
                                             End If
 
@@ -1968,7 +1968,7 @@ Public Class CustomerClaims
                                             methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
                                             SendMessage(methodMessage, messageType.Error)
                                         Else
-                                            methodMessage = "The Re-Open Proccess was succesful."
+                                            methodMessage = "The Re-Open Proccess was successful."
                                             SendMessage(methodMessage, messageType.success)
                                         End If
                                     End If
@@ -7766,7 +7766,9 @@ Public Class CustomerClaims
                 Dim strValues As String = Nothing
                 Dim selection As String = ddlSearchExtStatus.SelectedItem.Text.Trim().ToLower()
                 prepareExternStatus(selection, strValues)
-                strBuild += " AND TRIM(d.CNT03) IN (" + strValues + ")"
+                'strBuild += " AND TRIM(d.CNT03) IN (" + strValues + ")"
+                strBuild += " AND TRIM(MHSTAT) IN (" + strValues + ")"
+                'and trim(mhstat) in ('9')
                 'list returned in prepareExternal method
             End If
             If Not String.IsNullOrEmpty(txtCustomer.Text.Trim()) Then
@@ -9009,7 +9011,7 @@ Public Class CustomerClaims
                             For Each dw As DataRow In dsResult.Tables(0).Rows
                                 If dw.Item("CATSTS").ToString().Trim().ToUpper().Equals("U") Then
                                     lstStsOpen.Add(dw.Item("CNT03").ToString().Trim().ToLower())
-                                ElseIf String.IsNullOrWhiteSpace(dw.Item("CATSTS").ToString().Trim()) Then
+                                ElseIf String.IsNullOrWhiteSpace(dw.Item("CATSTS").ToString().Trim()) And (Not dw.Item("CNT03").ToString().Trim().Equals("9")) Then
                                     lstStsClose.Add(dw.Item("CNT03").ToString().Trim().ToLower())
                                 ElseIf dw.Item("CNT03").ToString().Trim().Equals("9") Then
                                     lstStsVoid.Add(dw.Item("CNT03").ToString().Trim().ToLower())
@@ -9035,7 +9037,7 @@ Public Class CustomerClaims
                     Next
                 ElseIf criteria.ToLower().Contains("void") Then
                     'lstValues = lstStsVoid
-                    For Each item As String In lstStsClose
+                    For Each item As String In lstStsVoid
                         If item.Trim().Equals("9") Then
                             strValues += "'" + item.Trim().ToLower() + "',"
                         End If
