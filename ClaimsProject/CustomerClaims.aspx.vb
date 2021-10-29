@@ -4333,6 +4333,21 @@ Public Class CustomerClaims
                             Exit Sub
                         End If
 
+                    Else
+
+                        If chkApproved.Enabled = False Then
+                            strMessage = "You must first click the Claim Approval checkbox to continue."
+                        ElseIf String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                            strMessage = "You must first click the Claim Approval checkbox to continue."
+                        ElseIf qy Then
+                            strMessage = "You do not have authorization to request the claim approval."
+                        ElseIf dbConf > dbTotal Then
+                            strMessage = "The claim total cost is bigger than your configured value to request the claim approval."
+                        End If
+
+                        SendMessage(strMessage, messageType.warning)
+                        Exit Sub
+
                     End If
 
                     If validation Then
@@ -7581,7 +7596,7 @@ Public Class CustomerClaims
                     Mailtext = Mailtext.Replace("[PARTS]", obj.TotalParts)
                     Mailtext = Mailtext.Replace("[FREIGHT]", obj.TotalFreight)
                     Mailtext = Mailtext.Replace("[EXTRA]", obj.AdditionalCost)
-                    Mailtext = Mailtext.Replace("[APPROBEDBY]", obj.ApprovedBy)
+                    Mailtext = Mailtext.Replace("[APPROVEDBY]", obj.ApprovedBy)
                 End If
 
             End If
@@ -8691,9 +8706,9 @@ Public Class CustomerClaims
             cEmailObj.TotalParts = txtParts.Text.Trim()
             cEmailObj.TotalFreight = txtFreight.Text.Trim()
             cEmailObj.AdditionalCost = txtAmountApproved.Text.Trim()
-            cEmailObj.ApprovedBy = txtClaimAuth.Text.Trim()
+            cEmailObj.ApprovedBy = Session("userid").ToString().Trim()
             cEmailObj.ConsequentalDamage = txtConsDamageTotal.Text.Trim()
-            cEmailObj.Description = ""
+            cEmailObj.Description = txtCustStatement.Text.Trim()
             cEmailObj.EmailTo = ""
 
 #End Region
