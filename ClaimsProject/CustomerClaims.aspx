@@ -39,9 +39,10 @@
                                             <div class="breadcrumb-area page-list">
                                                 <div class="row" style="padding: 20px 0;">
                                                     <div class="col-md-4"></div>
-                                                    <div class="col-md-7 link">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <a href="/Default">Home</a>
+                                                    <div class="col-md-7 link">                                                        
+                                                        <asp:LinkButton ID="lnkHome" class="btn-rounded" OnClick="lnkHome_Click" runat="server">
+                                                            <i class="fa fa-map-marker fa-1x"" aria-hidden="true"> </i> Home
+                                                        </asp:LinkButton>                                                        
                                                         " - "
                                                     <span>CLAIMS</span>
                                                     </div>
@@ -814,6 +815,7 @@
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
+                    <asp:HiddenField id="hdIsReopen" Value="" runat="server" />
                     <asp:HiddenField id="hdVoided" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
@@ -1720,7 +1722,7 @@
                                                         </div>
 
                                                         <!-- row for datefrom and dateto -->
-                                                        <div id="rowAddCommInit" class="form-row">                                                            
+                                                        <div id="rowAddCommInit" class="form-row hideProp">                                                            
                                                             <div class="col-md-6 padding0">
                                                                 <label for="sel-vndassigned">From</label>
                                                                 <div class="input-group-append">
@@ -3104,6 +3106,9 @@
                 $('#MainContent_btnCloseClaim').addClass('hideProp');
                 $('#MainContent_btnReopenClaim').removeClass('hideProp');
                 $('#MainContent_btnReopenClaim').removeClass('disableCtr');
+
+
+
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');

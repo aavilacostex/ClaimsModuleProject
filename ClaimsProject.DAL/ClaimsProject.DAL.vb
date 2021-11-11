@@ -702,10 +702,11 @@ Public Class ClaimsProject : Implements IDisposable
                 Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
                 'strwhere = " where MHMRDT between '" + fromDate.ToString("MMddyy") + "' and '" + todayDate.ToString("MMddyy") + "'"
                 strwhere = "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')"
-                strjoin = " join qs36f.clmintsts g on a.cwwrno = g.inclno
-                            join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) left join qs36f.clwrrel e on a.wrn=e.crwrno 
-                            join qs36f.cntrll f on trim(f.cnt03)=g.instat 
-                            where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and f.cnt01='193' and f.cnt02='  '"
+                strjoin = " left join qs36f.clmintsts g on a.cwwrno = g.inclno
+                            join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) 
+                            left join qs36f.clwrrel e on a.wrn=e.crwrno 
+                            left join qs36f.cntrll f on trim(f.cnt03)=g.instat and f.cnt01='193' and f.cnt02='  '
+                            where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and trim(a.MHRTTY) = 'C' "
 
                 Dim Sql = "SELECT distinct MHMRNR,WRN,CWSTAT,MHDATE,SUBSTR(b.CNTDE2,1,8) MHTDES,mhcunr,mhtomr, 
                             case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end mhptnr,  
@@ -1022,7 +1023,7 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
 
-            Dim Sql = "select ususer, usname from qs36f.csuser where trim(ususer) in (select trim(inuser) from qs36f.clmintsts where trim(instat)='H') and decode = 12 and trim(uspty9) <> 'R' "
+            Dim Sql = "select ususer, usname from qs36f.csuser where decode = 12 and trim(uspty9) <> 'R' "
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

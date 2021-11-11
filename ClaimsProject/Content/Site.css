@@ -1511,7 +1511,7 @@ input[type="color"]:focus,
 }
 
 #spnLoadExcel, #spnAddFile, #spnAddFile2, #spnAddFile3, #spnUpdatePart, #spnUpdatePart2, #spnProdDev1, #spnProdDev2, #spnProdDev3, #spnClaimDetails, #spnLoadText {
-    text-transform: uppercase;
+    text-transform: capitalize;
     color: black;
     font-size: 22px;
     font-weight: bold;

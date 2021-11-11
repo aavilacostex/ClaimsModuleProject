@@ -1968,6 +1968,9 @@ Public Class CustomerClaims
                                             methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
                                             SendMessage(methodMessage, messageType.Error)
                                         Else
+
+                                            hdIsReopen.Value = "1"
+
                                             methodMessage = "The Re-Open Proccess was successful."
                                             SendMessage(methodMessage, messageType.success)
                                         End If
@@ -3845,6 +3848,15 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             Dim pp = ex.Message
+        End Try
+    End Sub
+
+    Protected Sub lnkHome_Click(sender As Object, e As EventArgs) Handles lnkHome.Click
+        Dim strMessage As String = Nothing
+        Try
+            btnCloseTab_Click(Nothing, Nothing)
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 

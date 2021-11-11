@@ -41,6 +41,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents lnkLogout As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''lnkHome control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkHome As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''btnGetTemplate control.
     '''</summary>
     '''<remarks>
@@ -1218,6 +1227,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdFullDisabled As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdIsReopen control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdIsReopen As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''hdVoided control.
