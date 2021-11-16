@@ -322,6 +322,8 @@ Public Class CustomerClaims
                         'Dim flagValue1 = ddlClaimType.SelectedItem.Value
 
                         result = objBL.GetClaimsDataUpdated("C", dsResult) ' look for warranty types (<> 'B')
+
+                        'DoExcel(dsResult.Tables(0))
                         'result = objBL.GetClaimsReportSingle(dsResult)
                         'resultFull = objBL.GetClaimsReportFull(dsResult1)
                     End If
@@ -3711,6 +3713,8 @@ Public Class CustomerClaims
                         result = objBL.GetClaimsDataUpdated("C", dsResult)
                     End If
 
+                    DoExcel(dsResult.Tables(0))
+
                     Session("DataSource") = dsResult
                     loadSessionClaims(dsResult)
 
@@ -7097,6 +7101,7 @@ Public Class CustomerClaims
                 'no external folder. Check for images
                 For Each fio As FileInfo In diImgOuter.GetFiles()
                     Dim name = fio.Name
+                    'Dim fileDate = fio.LastAccessTime.ToString()
                     Dim extension = fio.Extension
                     If Not extension.Trim().ToLower().Equals(".db") Then
                         dctFiles.Add(fio, "Out")
@@ -7309,6 +7314,7 @@ Public Class CustomerClaims
         Dim url As String = Nothing
         Dim fullUrl As String = Nothing
         Dim selImg As String = Nothing
+        Dim fileDate As String = Nothing
         Try
 
             Dim filesindirectory() As String = Directory.GetFiles(Server.MapPath("~/Images"))
@@ -7322,6 +7328,8 @@ Public Class CustomerClaims
                 fullUrl = dc.Key.FullName
                 Dim arrValues = fullUrl.Split("\")
 
+                fileDate = dc.Key.LastAccessTime.ToString()
+
                 Dim claimNo = arrValues(5).ToString().Trim()
                 Dim partNo = If(arrValues.Length = 7, arrValues(6).ToString().Trim(), arrValues(7).ToString().Trim())
                 Dim loc = If(dc.Value.ToString().Trim().ToLower().Equals("ext"), "External", "")
@@ -7330,7 +7338,7 @@ Public Class CustomerClaims
 
                 url = If(Not String.IsNullOrEmpty(loc), siteUrl + claimNo + "/" + loc + "/" + partNo, siteUrl + claimNo + "/" + partNo)
                 Dim extension = Path.GetExtension(fullUrl).ToLower()
-                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, urlType)
+                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, fileDate, urlType)
 
 #Region "No"
 
@@ -7441,7 +7449,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Function PreparaUrlAndImage(extension As String, siteUrl As String, url As String, Optional urlType As Boolean = False) As String
+    Public Function PreparaUrlAndImage(extension As String, siteUrl As String, url As String, Optional fileDate As String = Nothing, Optional urlType As Boolean = False) As String
         'Dim url As String = Nothing
         Dim fullUrl As String = Nothing
         Dim selImg As String = Nothing
@@ -7477,6 +7485,8 @@ Public Class CustomerClaims
             If urlType Then
                 url += "," + selImg
             End If
+
+            url += "," + fileDate
 
             Return url
 
@@ -7972,6 +7982,70 @@ Public Class CustomerClaims
         Catch ex As Exception
             Dim msg = ex.Message
             Dim pp = msg
+        End Try
+    End Sub
+
+    Public Sub DoExcel(dtResult As DataTable)
+        Dim fileExtension As String = ""
+        Dim fileName As String = ""
+        Dim exMessage As String = Nothing
+        Try
+            If dtResult IsNot Nothing Then
+                If dtResult.Rows.Count > 0 Then
+
+                    Dim userPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                    Dim folderPath As String = userPath & "\claims-doc\"
+
+                    If Not Directory.Exists(folderPath) Then
+                        Directory.CreateDirectory(folderPath)
+                    End If
+
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        fileExtension = objBL.Determine_OfficeVersion()
+                        If String.IsNullOrEmpty(fileExtension) Then
+                            Exit Sub
+                        End If
+
+                        Dim title As String
+                        title = "claims_data_Generated_by "
+                        fileName = objBL.adjustDatetimeFormat(title, fileExtension)
+
+                    End Using
+
+                    Dim fullPath = folderPath + fileName
+
+                    Using wb As New XLWorkbook()
+                        wb.Worksheets.Add(dtResult, "Claims")
+                        wb.SaveAs(fullPath)
+
+                        'Response.Clear()
+                        'Response.Buffer = True
+                        'Response.Charset = ""
+                        'Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        'Response.AddHeader("content-disposition", "attachment;filename=SqlExport.xlsx")
+                        'Using MyMemoryStream As New MemoryStream()
+                        '    wb.SaveAs(MyMemoryStream)
+                        '    MyMemoryStream.WriteTo(Response.OutputStream)
+                        '    Response.Flush()
+                        '    Response.End()
+                        'End Using
+                    End Using
+
+                    If File.Exists(fullPath) Then
+                        'Dim rsConfirm As DialogResult = MessageBox.Show("The file was created successfully in this path " & folderPath & " .Do you want to open the created document location?", "CTP System", MessageBoxButtons.YesNo)
+                        'If rsConfirm = DialogResult.Yes Then
+                        '    Try
+                        '        Process.Start("explorer.exe", folderPath)
+                        '    Catch Win32Exception As Win32Exception
+                        '        Shell("explorer " & folderPath, AppWinStyle.NormalFocus)
+                        '    End Try
+                        'End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -9664,6 +9738,7 @@ Public Class CustomerClaims
         Dim lst As List(Of String) = New List(Of String)()
         Dim url As String = Nothing
         Dim selImg As String = Nothing
+        Dim fileDate As String = Nothing
         Dim name As String = Nothing
         Dim listCount As Integer = 0
         Dim itemByRows As Integer = 4
@@ -9691,6 +9766,7 @@ Public Class CustomerClaims
                     If flag Then
                         url = item.Split(",")(0).ToString().Trim()
                         selImg = item.Split(",")(1).ToString().Trim()
+                        fileDate = item.Split(",")(2).ToString().Trim()
                         Dim ct = url.Split("/").Count()
                         name = url.Split("/")(ct - 1).ToString().Trim()
                     End If
@@ -9699,7 +9775,7 @@ Public Class CustomerClaims
                     'OpenMsgFile(url)
                     'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                     'Else
-                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break: break-all;>{7}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate)
                     'End If
                     i += 1
                 Else
@@ -9711,6 +9787,7 @@ Public Class CustomerClaims
                         If flag Then
                             url = item.Split(",")(0).ToString().Trim()
                             selImg = item.Split(",")(1).ToString().Trim()
+                            fileDate = item.Split(",")(2).ToString().Trim()
                             Dim ct = url.Split("/").Count()
                             name = url.Split("/")(ct - 1).ToString().Trim()
                             'Else
@@ -9721,7 +9798,7 @@ Public Class CustomerClaims
                         'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
                         'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                         'Else
-                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name))
+                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break: break-all;>{7}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate)
                         'End If
                         i += 1
                     End If
