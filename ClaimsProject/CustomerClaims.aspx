@@ -815,7 +815,7 @@
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
-                    <asp:HiddenField id="hdIsReopen" Value="" runat="server" />
+                    <asp:HiddenField id="hdIsReopen" Value="1" runat="server" />
                     <asp:HiddenField id="hdVoided" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
@@ -825,6 +825,8 @@
                     <asp:HiddenField ID="hdSelectedHeaderCell" value="" runat="server" />
                     <asp:HiddenField ID="hdNavsForAddDoc" value="" runat="server" />
                     <asp:HiddenField ID="hdChangePageLoad" value="" runat="server" />
+                    <asp:HiddenField ID="hdLastCommentValue" value="" runat="server" />
+                    <asp:HiddenField ID="hdOnlyReopen" value="" runat="server" />
 
                 </div>
             </div>            
@@ -1175,18 +1177,18 @@
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <asp:Label ID="lblInstDate" Text="Installation Date" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtInstDate" CssClass="form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtInstDate" CssClass="form-control cData" runat="server"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <asp:Label ID="lblHWorked" Text="Hours Worked" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtHWorked" CssClass="form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtHWorked" CssClass="form-control cData" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>                                            
 
                                             <div class="form-row last">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblCustStatement" Text="Customer's Statement" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtCustStatement" CssClass="form-control" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtCustStatement" CssClass="form-control cData" TextMode="MultiLine" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>
 
@@ -1212,21 +1214,21 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblContactName" Text="Contact Name" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtContactName" CssClass="form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtContactName" CssClass="form-control cData" runat="server"></asp:TextBox>
                                                 </div>                                                
                                             </div>
 
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblContactPhone" Text="Contact Phone" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtContactPhone" CssClass="form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtContactPhone" CssClass="form-control cData" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>
 
                                             <div class="form-row last">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblContactEmail" Text="Contact Email" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:TextBox ID="txtContactEmail" CssClass="form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtContactEmail" CssClass="form-control cData" runat="server"></asp:TextBox>
                                                 </div>                                                
                                             </div>
 
@@ -2623,7 +2625,7 @@
 
     <script type="text/javascript">  
 
-        //from above
+        //from above        
 
         function debugBase64(base64URL) {
             debugger
@@ -2644,8 +2646,6 @@
             //window.open("https://www.w3schools.com");
 
         }
-
-
 
         function messageFormSubmitted(mensaje, show) {
             //debugger
@@ -2775,7 +2775,6 @@
             JSFunction();
         });
 
-
         $('body').on('click', '#MainContent_grvClaimReport th > a', function (e) {
             //debugger
 
@@ -2785,8 +2784,7 @@
             var colName = q.text();
             $('#<%=hdSelectedHeaderCell.ClientID %>').val(colName);          
 
-        });
-       
+        });       
 
         $('body').on('click', '.click-in', function (e) {
 
@@ -2943,10 +2941,32 @@
             }
         }
 
-
         //end from above
 
         //General Methods Begin
+
+        function SetReopenBtn() {
+            debugger
+
+            var hdReopenFlag = document.getElementById('<%=hdIsReopen.ClientID%>').value;
+            var hdLastComment = document.getElementById('<%=hdLastCommentValue.ClientID%>').value;
+            if (hdReopenFlag == "1" && hdLastComment == "1") {
+                $('#MainContent_btnCloseClaim').addClass('hideProp');
+                $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                $('#MainContent_btnReopenClaim').removeClass('disableCtr');
+                
+            }
+            else {
+                $('#MainContent_btnReopenClaim').addClass('hideProp');
+                $('#MainContent_btnCloseClaim').removeClass('hideProp');
+                $('#MainContent_btnCloseClaim').removeClass('disableCtr');
+
+                $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
+                $('#MainContent_btnAddFiles').removeClass('disableCtr');
+                //$('#MainContent_btnSaveTab').removeClass('disableCtr');
+            }
+
+        }
 
         function contentVisual() {
             //debugger
@@ -3105,9 +3125,7 @@
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
                 $('#MainContent_btnCloseClaim').addClass('hideProp');
                 $('#MainContent_btnReopenClaim').removeClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('disableCtr');
-
-
+                $('#MainContent_btnReopenClaim').removeClass('disableCtr');                
 
             }
             else {
@@ -3124,7 +3142,6 @@
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
-
 
             }
 
@@ -3165,6 +3182,11 @@
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
             }
+
+            $('.cData').attr('disabled', false);
+            $('#MainContent_pnInformation').find('input').attr('disabled', false);
+
+
             
 
            // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
@@ -4195,6 +4217,8 @@
 
                 enableAjaxFileUpload();
 
+                SetReopenBtn();
+
                 //$(window).scrollTop(0);
 
             }
@@ -4274,6 +4298,8 @@
 
             EnableAuthRequestChk()
 
+            SetReopenBtn();
+
             //$(window).scrollTop(0);
 
             //__doPostBack()
@@ -4286,7 +4312,7 @@
 
             $('#<%=hdAddClaimFile.ClientID %>').val("0")
 
-            alert("pepe");
+            //alert("pepe");
             JSFunction();
         }
 

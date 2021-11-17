@@ -263,6 +263,8 @@
     <Content Include="Images\ToProcess\6K5746-3.jpeg" />
     <Content Include="Images\ToProcess\6K5746-4.jpeg" />
     <Content Include="Images\imgAsc.png" />
+    <Content Include="Images\video1.png" />
+    <Content Include="Images\video2.PNG" />
     <Content Include="Images\wait1.gif" />
     <Content Include="Images\Word.PNG" />
     <Content Include="Images\zbox-buttons.png" />

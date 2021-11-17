@@ -1310,6 +1310,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdChangePageLoad As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdLastCommentValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdLastCommentValue As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdOnlyReopen control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdOnlyReopen As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''addProdDev control.
     '''</summary>
     '''<remarks>
