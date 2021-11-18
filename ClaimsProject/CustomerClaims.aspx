@@ -14,6 +14,7 @@
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
             <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
+            <asp:PostBackTrigger ControlID="btnGetTemplate" />
         </Triggers>
 
         <ContentTemplate>            
@@ -56,7 +57,7 @@
                         <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded hideProp" runat="server">
+                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
                                                             <i class="fa fa-plus fa-1x"" aria-hidden="true"> </i> Get Template
                                     </asp:LinkButton>
                                 </div>

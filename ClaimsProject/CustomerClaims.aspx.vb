@@ -1639,80 +1639,11 @@ Public Class CustomerClaims
         Dim fileName As String = ""
         Dim methodMessage As String = ""
         Try
-            Dim sourcePath As String = ConfigurationManager.AppSettings("urlClaimsTemplate")
-            Dim myFileExternal As FileInfo = New FileInfo(sourcePath)
-            Dim extFile = myFileExternal.Name
+            'Session("selectedUser") = userid
+            'Session("PMP84DATAFULL") = ds
 
-            Dim userPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            Dim folderPath As String = userPath & "\Claims_Data\"
+            DownloadExcel()
 
-            If Not Directory.Exists(folderPath) Then
-                Directory.CreateDirectory(folderPath)
-            Else
-                Dim files = Directory.GetFiles(folderPath)
-                If files.Length = 1 Then
-                    Dim fi = Nothing
-                    For Each item In files
-                        fi = item
-                        Dim isOpened = IsFileinUse(New FileInfo(fi))
-                        If Not isOpened Then
-                            File.Delete(item)
-                        Else
-                            methodMessage = "Please close the file " & fi & " in order to proceed!"
-                            SendMessage(methodMessage, messageType.info)
-                            'Dim rsError As DialogResult = MessageBox.Show("Please close the file " & fi & " in order to proceed!", "CTP System", MessageBoxButtons.OK)
-                            'btnSelect.Enabled = False
-                            Exit Sub
-                        End If
-                    Next
-                Else
-                    For Each item1 In files
-                        Dim fi1 = Nothing
-                        If LCase(item1).Contains(LCase(extFile)) Then
-                            fi1 = item1
-                            Dim isOpened = IsFileinUse(New FileInfo(fi1))
-                            If Not isOpened Then
-                                File.Delete(item1)
-                            Else
-                                methodMessage = "Please close the file " & fi1 & " in order to proceed!"
-                                SendMessage(methodMessage, messageType.info)
-                                'Dim rsError As DialogResult = MessageBox.Show("Please close the file " & fi & " in order to proceed!", "CTP System", MessageBoxButtons.OK)
-                                'btnSelect.Enabled = False
-                                Exit Sub
-                            End If
-                        End If
-                    Next
-                End If
-            End If
-
-            Dim myFile As FileInfo = New FileInfo(sourcePath)
-            fileName = myFile.Name
-            Dim endFolderpath = folderPath & fileName
-            File.Copy(sourcePath, endFolderpath)
-
-            Dim updatedFolderPath = folderPath & fileName
-
-            Dim newFile As FileInfo = New FileInfo(updatedFolderPath)
-
-            If newFile.Exists Then
-                methodMessage = "The template document will be downloaded to your documents folder"
-                SendMessage(methodMessage, messageType.info)
-
-                'fuOPenEx.GetRouteUrl()
-
-                Session("DocumentToLoad") = updatedFolderPath
-                btnImportExcel.Visible = True
-
-                System.Diagnostics.Process.Start(updatedFolderPath)
-            End If
-
-            'If File.Exists(folderPath) Then
-            '    Try
-            '        Process.Start("explorer.exe", folderPath)
-            '    Catch Win32Exception As Win32Exception
-            '        Shell("explorer " & folderPath, AppWinStyle.NormalFocus)
-            '    End Try
-            'End If
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
@@ -3880,7 +3811,7 @@ Public Class CustomerClaims
                         result = objBL.GetClaimsDataUpdated("C", dsResult)
                     End If
 
-                    DoExcel(dsResult.Tables(0))
+                    'DoExcel(dsResult.Tables(0))  download excel to local, only works local
 
                     Session("DataSource") = dsResult
                     loadSessionClaims(dsResult)
@@ -7716,6 +7647,123 @@ Public Class CustomerClaims
 #End Region
 
 #Region "Utils"
+
+    Private Function GetDatasetDataValidation(ds As DataSet) As Boolean
+        Dim bContinue As Boolean = False
+        Try
+            If ds IsNot Nothing Then
+                If ds.Tables(0).Rows.Count > 0 Then
+                    bContinue = True
+                Else
+                    bContinue = False
+                End If
+            Else
+                bContinue = False
+            End If
+            Return bContinue
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, ex.Message, ex.ToString)
+            Return bContinue
+        End Try
+
+    End Function
+
+    Public Sub DownloadExcel()
+        Dim exMessage As String = Nothing
+        Dim fileExtension As String = ""
+        Dim fileName As String = ""
+        Dim folderPath As String = ""
+        Dim resultMethod As Boolean = False
+        Try
+            'Dim pathToProcess = ConfigurationManager.AppSettings("urlWlTemplateToProcess")
+            Dim pathToProcess = ""
+            'Dim updUserPath = userPath + "\WishList-Template\"
+            folderPath = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("ExcelTemplate")), ConfigurationManager.AppSettings("ExcelTemplate"), "")
+            Dim methodMessage = If(Not String.IsNullOrEmpty(folderPath), "The template document will be downloaded to your documents folder", "There is not a path defined for this document. Call an administrator!!")
+
+            If Not String.IsNullOrEmpty(folderPath) Then
+
+                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                    'check file folder availability
+                    If Not Directory.Exists(folderPath) Then
+                        Directory.CreateDirectory(folderPath)
+                    Else
+
+                        Dim files = Directory.GetFiles(folderPath)
+                        Dim fi = Nothing
+                        If files.Length = 1 Then
+                            For Each item In files
+                                fi = item
+                                Dim isOpened = IsFileinUse(New FileInfo(fi))
+                                If Not isOpened Then
+                                    File.Delete(item)
+                                Else
+                                    SendMessage("Please close the file " & fi & " in order to proceed!", messageType.info)
+                                    Exit Sub
+                                End If
+                            Next
+                        End If
+                    End If
+
+                    'check extension and prepare name
+                    fileExtension = objBL.Determine_OfficeVersion()
+                    If String.IsNullOrEmpty(fileExtension) Then
+                        fileExtension = "xlsx"
+                    End If
+
+                    Dim title As String
+                    title = "Claims_Report_Generated_by "
+                    fileName = objBL.adjustDatetimeFormat(title, fileExtension)
+
+                    'prepare the fullpath and save the document to path folder
+                    Dim fullPath = folderPath + fileName
+                    Dim ds = DirectCast(Session("DataSource"), DataSet)
+
+                    Dim bContinue = GetDatasetDataValidation(ds)
+
+                    If bContinue Then
+
+                        Using wb As New XLWorkbook()
+                            wb.Worksheets.Add(ds.Tables(0), "Claims-Report")
+                            wb.SaveAs(fullPath)
+                        End Using
+
+                        'send the document to the handler to process the download through the browser
+                        If File.Exists(fullPath) Then
+
+                            Dim newLocalFile As FileInfo = New FileInfo(fullPath)
+                            If newLocalFile.Exists Then
+                                Try
+                                    Session("filePathExcelOutput") = fullPath
+                                    Response.Redirect("DownloadDoc.ashx", False)
+                                    'Process.Start("explorer.exe", localFilePath)
+                                Catch Win32Exception As Win32Exception
+                                    Shell("explorer " & fullPath, AppWinStyle.NormalFocus)
+                                Catch ex As Exception
+                                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "Error Ocurred: " + ex.Message + " for user " + Session("userid").ToString(), "Occurs at time: " + DateTime.Now.ToString())
+                                End Try
+                            End If
+
+                        End If
+
+                    Else
+                        Dim userSelected As String = Nothing
+                        userSelected = If(String.IsNullOrEmpty(Session("selectedUser")), Session("userid").ToString(), Session("selectedUser").ToString())
+                        SendMessage("There is no data to show for the user " & userSelected & ". ", messageType.info)
+
+                    End If
+
+                End Using
+
+            Else
+
+            End If
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
 
     Protected Function SetSortDirection(sortDirection As String) As String
         Dim _sortDirection As String = Nothing
