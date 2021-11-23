@@ -56,12 +56,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
-                                                            <i class="fa fa-plus fa-1x"" aria-hidden="true"> </i> Get Template
+                                                            <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Download Excel
                                     </asp:LinkButton>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <asp:Button id="pepe" class="btn btn-primary btn-lg float-right btnFullSize hideProp" OnClick="pepe_click" Text="Click Here" runat="server"/>
                                     <asp:LinkButton ID="btnImportExcel" class="boxed-btn-layout btn-rounded hideProp" Visible="false" runat="server">
                                                             <i class="fa fa-file-excel-o fa-1x" aria-hidden="true"> </i> IMPORT
                                     </asp:LinkButton>
@@ -817,6 +818,7 @@
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
                     <asp:HiddenField id="hdIsReopen" Value="1" runat="server" />
+                    <asp:HiddenField id="hdIsReversed" Value="1" runat="server" />
                     <asp:HiddenField id="hdVoided" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
@@ -828,6 +830,10 @@
                     <asp:HiddenField ID="hdChangePageLoad" value="" runat="server" />
                     <asp:HiddenField ID="hdLastCommentValue" value="" runat="server" />
                     <asp:HiddenField ID="hdOnlyReopen" value="" runat="server" />
+                    <asp:HiddenField ID="hdShowAckMsgForm" value="0" runat="server" />
+                    <asp:HiddenField ID="hdForceCloseBtn" value="" runat="server" />
+                    <asp:HiddenField ID="hdConfirmationOption" value="" runat="server" />
+                    <asp:HiddenField ID="hdCanClose" value="" runat="server" />
 
                 </div>
             </div>            
@@ -1508,7 +1514,7 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblAcknowledgeEmail" Text="Acknowledge Email" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkAcknowledgeEmail" runat="server" />
+                                                    <asp:CheckBox ID="chkAcknowledgeEmail" OnCheckedChanged="chkAcknowledgeEmail_CheckedChanged" AutoPostBack="true" runat="server" />
                                                     <asp:LinkButton ID="lnkAcknowledgeEmail" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
@@ -1521,6 +1527,12 @@
                                                         </div>
                                                     </div>                                                    
                                                 </div>                                                
+                                            </div>
+
+                                            <div id="rwAckEmailMsg" class="form-row paddingVert hideProp" runat="server">
+                                                <div class="col-md-12">
+                                                    <asp:TextBox ID="txtMsgAftAckEmail" Text="" CssClass="form-control fullTextBox" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                </div>
                                             </div>
 
                                             <div class="form-row">
@@ -2283,7 +2295,7 @@
                                                     <div class="col-md-12">
                                                         <%--<asp:Label ID="lblClaim" Text="Claim" CssClass="control-label undermark" runat="server"></asp:Label>--%>
                                                         <div class="form-row">
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-1">
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <asp:Label ID="lblApproved" CssClass="control-label" Text="Approved" runat="server" />
@@ -2297,12 +2309,18 @@
                                                             <div class="col-md-1">
                                                                 <asp:CheckBox ID="chkDeclined" AutoPostBack="true" runat="server" />
                                                             </div>
+                                                            <div class="col-md-1">
+                                                            </div>
                                                             <div class="col-md-2">
+                                                                <asp:Label ID="lblCanClose" CssClass="control-label" Text="CM Done" runat="server" />
                                                                 <asp:LinkButton ID="lnkCheckApprove" class="btn btn-primary btnSmallSize hideProp" runat="server">
 			                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                                 </asp:LinkButton>
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-1">
+                                                                <asp:CheckBox ID="chkCanClose" CssClass="cg" Enabled="false" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2444,6 +2462,9 @@
                                                 </asp:LinkButton>
                                                 <asp:LinkButton ID="btnReopenClaim" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReopen_Click" ToolTip="Re Open Claim" runat="server">
                                                     <i class="fa fa-edit fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
+                                                </asp:LinkButton>
+                                                <asp:LinkButton ID="btnReverseReject" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReverseReject_Click" ToolTip="Reverse Rej." runat="server">
+                                                    <i class="fa fa-history fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
                                                 </asp:LinkButton>
                                             </div>
                                             <div class="col-md-5">
@@ -2626,17 +2647,31 @@
 
     <script type="text/javascript">  
 
-        //from above        
+        //from above   
+
+        function pepepe() {
+
+            $('#<%=hdConfirmationOption.ClientID %>').val('0');
+            //alert("okokok");
+        }
+
+        $('#myModal .modal-footer > button').on('click', function (e) {
+            debugger
+
+            var button = $(event.target);
+
+            var ppe = "a";
+        });
 
         function debugBase64(base64URL) {
-            debugger
+            //debugger
 
             var win = window.open();
             win.document.write('<iframe src="' + base64URL + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
         }
       
         function OpenBrowser(pp) {
-            debugger
+            //debugger
             //var html = '<html><head></head><body>ohai</body></html>';
             var uri = "data:text/html," + encodeURIComponent(pp);
             //var newWindow = window.open(uri);
@@ -2656,6 +2691,15 @@
             //}, 3000);
         }
 
+        function messageFormSubmitted1(mensaje, show) {
+            //debugger
+            messages.confirm(mensaje, { type: show });
+            //messages.prompt(mensaje, { type: show });
+            //setTimeout(function () {
+            //    $("#myModal").hide();
+            //}, 3000);
+        }
+
         function afterDdlCheck(hdFieldId, divId) {
             //debugger
 
@@ -2666,6 +2710,56 @@
             }
         }
 
+        function AcknowledgeEmailBuild() {
+            debugger
+
+            var hdAck = document.getElementById('<%=hdShowAckMsgForm.ClientID%>').value;
+            var hdHasText = document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value;  
+            //if (hdHasText != "")
+
+            if (hdAck == "1" && hdHasText == "") {
+                $('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp')
+            }
+            else {
+                $('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                $('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');       
+            }
+
+            if (hdAck == "0" && hdHasText != "") {
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true);
+
+                $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled");
+                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled");
+
+                $('#<%=hdShowAckMsgForm.ClientID %>').val('0');
+            }
+        }
+
+        $('body').on('click', '#MainContent_lnkAcknowledgeEmail', function () {
+
+            //debugger
+
+            $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+            $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
+
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+            $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled");
+            $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled");
+
+            $('#<%=hdShowAckMsgForm.ClientID %>').val('0');
+
+            //$('#<%=rwAckEmailMsg.ClientID %>').removeClass('form-row paddingVert');
+            //$('#<%=rwAckEmailMsg.ClientID %>').addClass('form-row paddingVert hideProp');        
+
+            //alert('pepe');
+        });
+                
         $('body').on('click', '#accordion_2 h5 a', function () {
             //debugger
             //alert("pepe");
@@ -2768,7 +2862,8 @@
             }
             else {
                 $('#<%=hdShowCloseBtn.ClientID%>').val("0");
-                $('#MainContent_rwCloseClaim').addClass('hideProp');
+                $('#MainContent_rwCloseClaim').removeClass('col-md-3');
+                $('#MainContent_rwCloseClaim').addClass('col-md-3 hideProp');
             }
 
             expandMultilineTxt();  //tab click
@@ -2951,22 +3046,34 @@
 
             var hdReopenFlag = document.getElementById('<%=hdIsReopen.ClientID%>').value;
             var hdLastComment = document.getElementById('<%=hdLastCommentValue.ClientID%>').value;
-            if (hdReopenFlag == "1" && hdLastComment == "1") {
-                $('#MainContent_btnCloseClaim').addClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('disableCtr');
-                
-            }
-            else {
+            var hdForceClosBtn = document.getElementById('<%=hdForceCloseBtn.ClientID%>').value;
+
+            if (hdForceClosBtn == "1") {
+
                 $('#MainContent_btnReopenClaim').addClass('hideProp');
                 $('#MainContent_btnCloseClaim').removeClass('hideProp');
                 $('#MainContent_btnCloseClaim').removeClass('disableCtr');
 
-                $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
-                $('#MainContent_btnAddFiles').removeClass('disableCtr');
-                //$('#MainContent_btnSaveTab').removeClass('disableCtr');
             }
+            else {
 
+                if (hdReopenFlag == "1" && hdLastComment == "1") {
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('disableCtr');
+
+                }
+                else {
+                    $('#MainContent_btnReopenClaim').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('disableCtr');
+
+                    $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
+                    $('#MainContent_btnAddFiles').removeClass('disableCtr');
+                    //$('#MainContent_btnSaveTab').removeClass('disableCtr');
+                }
+
+            }
         }
 
         function contentVisual() {
@@ -3058,7 +3165,7 @@
         }
 
         function enableAjaxFileUpload() {
-            debugger
+            //debugger
 
             //ajax__fileupload
             //$('.ajax__fileupload').find('input').attr('disabled', false);
@@ -3103,6 +3210,7 @@
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
             var voidSelection = document.getElementById('<%=hdVoided.ClientID%>').value;
+            var hdForceClosBtn = document.getElementById('<%=hdForceCloseBtn.ClientID%>').value;
 
             if (fullSelection == "0") {
                 $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -3124,10 +3232,21 @@
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
                 $('#MainContent_lnkSentToComm').removeClass('disableCtr');
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
-                $('#MainContent_btnCloseClaim').addClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('disableCtr');                
+                $('#MainContent_btnSaveTab').removeClass('disableCtr');
 
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
+
+
+                if (hdForceClosBtn == "1") {
+                    $('#MainContent_btnReopenClaim').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('disableCtr');
+                }
+                else {
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('disableCtr');
+                }  
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -3143,6 +3262,8 @@
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
+
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
 
             }
 
@@ -3167,6 +3288,7 @@
                 $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
 
                 $('#MainContent_rwCloseClaim').addClass('hideProp');
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -3182,16 +3304,21 @@
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
             }
 
             $('.cData').attr('disabled', false);
-            $('#MainContent_pnInformation').find('input').attr('disabled', false);
-
-
-            
+            $('#MainContent_pnInformation').find('input').attr('disabled', false);            
 
            // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
             //$('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+        }
+
+        function customExpandMultilineText() {
+            var tField = document.getElementById('<%=txtMsgAftAckEmail.ClientID%>');
+            var a1 = tField.scrollHeight;
+            //tField.style.minHeight = a1 > 0 ? (tCustStat.scrollHeight) + "px" : ((tCustStat.scrollHeight) + 10) + "px";
+            tField.style.minHeight = ((tField.scrollHeight) + 30) + "px";
         }
 
         function expandMultilineTxt() {
@@ -3236,7 +3363,7 @@
         }
         
         function setVisSeeFile() {
-            debugger
+            //debugger
 
             $('#<%=hdSeeFilesContent.ClientID %>').val("0");
         }
@@ -3367,6 +3494,25 @@
 
             afterRadioCheck(hd1, collapse1)
             afterRadioCheck(hd2, collapse2)
+        }
+
+        function canCloseFunctionality() {
+            debugger 
+
+            var hdCnClose = document.getElementById('<%=hdCanClose.ClientID%>').value;
+            if (hdCnClose == "1") {
+
+                //$('#MainContent_chkCanClose').attr('checked', true);
+                $('#MainContent_chkCanClose').prop('checked', true);
+                //$('.cg').attr('checked', true);
+                //$('.cg').prop('checked', true);
+            }
+            else {
+                //$('#MainContent_chkCanClose').attr('checked', false);
+                $('#MainContent_chkCanClose').prop('checked', false);
+                //$('.cg').attr('checked', false);
+                //$('.cg').prop('checked', false);
+            }
         }
 
         //General Methods End
@@ -3512,7 +3658,6 @@
                 $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
                 $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
                 $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
-                
               
             }
         });
@@ -3528,6 +3673,27 @@
                 $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
 
 
+            }
+        });
+
+        $('body').on('change', "#<%=chkAcknowledgeEmail.ClientID %>", function () {
+            debugger
+            
+            if ($(this).is(':checked')) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+
+                $('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp');
+                $('#<%=hdShowAckMsgForm.ClientID %>').val('1');
+            }
+            else {
+                $('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                $('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');    
+
+                $('#<%=hdShowAckMsgForm.ClientID %>').val('0');
             }
         });
 
@@ -3735,7 +3901,7 @@
 
         $(function () {
 
-            debugger
+            //debugger
 
             console.log("BeginFunction");  
 
@@ -4063,7 +4229,7 @@
         }
 
         function pageLoad(event, args) {
-            debugger
+            //debugger
           
             console.log("BeginPageLoad");
 
@@ -4220,12 +4386,18 @@
 
                 SetReopenBtn();
 
+                customExpandMultilineText();
+
+                AcknowledgeEmailBuild();
+
+                canCloseFunctionality();
+
                 //$(window).scrollTop(0);
 
             }
 
             function addZBox() {
-                debugger
+                //debugger
 
                 $(".zb").zbox({ margin: 40 });
             }
@@ -4301,15 +4473,21 @@
 
             SetReopenBtn();
 
+            AcknowledgeEmailBuild();
+
             //$(window).scrollTop(0);
 
             //__doPostBack()
+
+            customExpandMultilineText();
+
+            canCloseFunctionality();
 
             console.log("EndPageLoad");
         }
 
         function AutomaticBack() {
-            debugger
+            //debugger
 
             $('#<%=hdAddClaimFile.ClientID %>').val("0")
 
@@ -4318,7 +4496,7 @@
         }
 
         function EnableAuthRequestChk() {
-            debugger
+            //debugger
 
             var hdAuthReq = document.getElementById('<%=txtTotValue.ClientID%>').value;
             var isPresentBl = document.getElementById('<%=chkClaimAuth.ClientID%>').hasAttribute("disabled");
@@ -4367,7 +4545,7 @@
                 }
             }
 
-        }
+        }        
 
         function partialCreditSelected() {
 
@@ -4480,20 +4658,32 @@
                 $('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
                 $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
 
-
             }
 
-            if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {                
-                
-                $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+            if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {
+                //debugger
+
+                <%--$('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
                 $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
 
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                 $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
+                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")--%>
 
+                var hdHasText = document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value;
+                if (hdHasText != "") {
+                    $('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                    $('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');
+                }
+                else {
+                    $('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp')
+                }                
+            }
+            else {
+                //$('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                //$('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');       
             }
 
             if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
@@ -4720,7 +4910,7 @@
         }
 
         $(document).on('keyup keypress', 'form input[type="text"]', function (e) {
-            debugger
+            //debugger
 
             var qq = e.target.id;
             var hsVl = $("#" + qq).val();            

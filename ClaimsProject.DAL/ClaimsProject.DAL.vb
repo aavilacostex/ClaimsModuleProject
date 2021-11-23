@@ -933,6 +933,38 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetClaimWithCM1(value As String, customer As String, cm As Double, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            'and abs(ohsl$) = " & cm & "
+            Dim Sql = "select * from qs36f.Ordhd22 where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetClaimWithCM2(value As String, customer As String, cm As Double, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            'and abs(ohsl$) = " & cm & "
+            Dim Sql = "select * from qs36f.hordhd where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function GetClaimInProcessST(value As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         dsResult.Locale = CultureInfo.InvariantCulture

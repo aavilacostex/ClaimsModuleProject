@@ -657,7 +657,9 @@ Public Class ClaimsProject : Implements IDisposable
     Public Function InsertInternalStatus(code As String, chkinitial As String, userid As String, datenow As String, hournow As String, Optional flag As Boolean = False) As Integer
         Dim exMessage As String = Nothing
         Dim result As Integer = -1
+        Dim resultPrev As Integer = -1
         Dim sql As String = " "
+        Dim dsResult As DataSet = New DataSet()
         'Dim maxItem As Integer
         Try
             Dim objDal = New DAL.ClaimsProject()
@@ -666,7 +668,12 @@ Public Class ClaimsProject : Implements IDisposable
             'Dim adjustedHournow = hournow.Split(".")(0).Replace(":", ".")
             Dim adjustedHournow = hournow
 
-            result = objDal.InsertInternalStatus(code, chkinitial, userid, adjustedDatenow, adjustedHournow, flag)
+            resultPrev = objDal.GetIfIntStatusExist(code, chkinitial, dsResult)
+            If resultPrev.Equals(0) Then
+                result = objDal.InsertInternalStatus(code, chkinitial, userid, adjustedDatenow, adjustedHournow, flag)
+            Else
+                result = resultPrev
+            End If
             Return result
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
@@ -1061,6 +1068,34 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDal = New DAL.ClaimsProject()
             result = objDal.GetClaimWithCM(value, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+    Public Function GetClaimWithCM1(value As String, customer As String, cm As Double, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetClaimWithCM1(value, customer, cm, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+    Public Function GetClaimWithCM2(value As String, customer As String, cm As Double, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetClaimWithCM2(value, customer, cm, dsResult)
             Return result
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString

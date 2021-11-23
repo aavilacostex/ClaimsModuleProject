@@ -1333,6 +1333,33 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._hdLastCommentValue">
+<summary>
+hdLastCommentValue control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._hdOnlyReopen">
+<summary>
+hdOnlyReopen control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._hdShowAckMsgForm">
+<summary>
+hdShowAckMsgForm control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._addProdDev">
 <summary>
 addProdDev control.
@@ -2488,6 +2515,24 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._txtAcknowledgeEmailDate">
 <summary>
 txtAcknowledgeEmailDate control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._rwAckEmailMsg">
+<summary>
+rwAckEmailMsg control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._txtMsgAftAckEmail">
+<summary>
+txtMsgAftAckEmail control.
 </summary>
 <remarks>
 Auto-generated field.

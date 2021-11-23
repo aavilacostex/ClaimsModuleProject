@@ -1581,6 +1581,10 @@ input[type="color"]:focus,
     padding: 0 8px !important;
 }
 
+.paddingVert {
+    padding: 4px 0 !important;
+}
+
 .hideProp {
     display: none !important;
 }

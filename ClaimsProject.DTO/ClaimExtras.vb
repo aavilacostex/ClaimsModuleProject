@@ -74,6 +74,16 @@
         End Set
     End Property
 
+    Private _claimCanCLose As Boolean
+    Public Property CanClose() As Boolean
+        Get
+            Return _claimCanCLose
+        End Get
+        Set(ByVal value As Boolean)
+            _claimCanCLose = value
+        End Set
+    End Property
+
 
 
 End Class

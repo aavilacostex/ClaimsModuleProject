@@ -59,6 +59,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnGetTemplate As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''pepe control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pepe As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''btnImportExcel control.
     '''</summary>
     '''<remarks>
@@ -1238,6 +1247,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdIsReopen As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdIsReversed control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdIsReversed As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdVoided control.
     '''</summary>
     '''<remarks>
@@ -1326,6 +1344,42 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdOnlyReopen As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdShowAckMsgForm control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdShowAckMsgForm As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdForceCloseBtn control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdForceCloseBtn As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdConfirmationOption control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdConfirmationOption As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdCanClose control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdCanClose As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''addProdDev control.
@@ -2489,6 +2543,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtAcknowledgeEmailDate As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''rwAckEmailMsg control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rwAckEmailMsg As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''txtMsgAftAckEmail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtMsgAftAckEmail As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''lblInfoCust control.
     '''</summary>
     '''<remarks>
@@ -3605,6 +3677,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents chkDeclined As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lblCanClose control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCanClose As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''lnkCheckApprove control.
     '''</summary>
     '''<remarks>
@@ -3612,6 +3693,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lnkCheckApprove As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''chkCanClose control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkCanClose As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''pnSalesDept control.
@@ -3837,6 +3927,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnReopenClaim As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''btnReverseReject control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnReverseReject As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''btnVoidClaim control.

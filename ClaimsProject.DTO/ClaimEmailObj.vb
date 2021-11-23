@@ -121,4 +121,14 @@
         End Set
     End Property
 
+    Private _message As String
+    Public Property MESSAGE() As String
+        Get
+            Return _message
+        End Get
+        Set(ByVal value As String)
+            _message = value
+        End Set
+    End Property
+
 End Class
