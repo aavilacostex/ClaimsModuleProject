@@ -654,7 +654,7 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function InsertInternalStatus(code As String, chkinitial As String, userid As String, datenow As String, hournow As String, Optional flag As Boolean = False) As Integer
+    Public Function InsertInternalStatus(code As String, chkinitial As String, userid As String, datenow As String, hournow As String, Optional flag As Boolean = False, Optional ByRef justExist As Boolean = False) As Integer
         Dim exMessage As String = Nothing
         Dim result As Integer = -1
         Dim resultPrev As Integer = -1
@@ -673,6 +673,7 @@ Public Class ClaimsProject : Implements IDisposable
                 result = objDal.InsertInternalStatus(code, chkinitial, userid, adjustedDatenow, adjustedHournow, flag)
             Else
                 result = resultPrev
+                justExist = True
             End If
             Return result
         Catch ex As Exception

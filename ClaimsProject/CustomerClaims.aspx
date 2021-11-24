@@ -2464,7 +2464,7 @@
                                                     <i class="fa fa-edit fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
                                                 </asp:LinkButton>
                                                 <asp:LinkButton ID="btnReverseReject" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReverseReject_Click" ToolTip="Reverse Rej." runat="server">
-                                                    <i class="fa fa-history fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
+                                                    <i class="fa fa-history fa-1x"" aria-hidden="true"> </i>  <p>Reverse Rej.</p>
                                                 </asp:LinkButton>
                                             </div>
                                             <div class="col-md-5">
@@ -3057,20 +3057,27 @@
             }
             else {
 
-                if (hdReopenFlag == "1" && hdLastComment == "1") {
+                if (hdReopenFlag == "1") {
                     $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReverseReject').addClass('hideProp');
                     $('#MainContent_btnReopenClaim').removeClass('hideProp');
                     $('#MainContent_btnReopenClaim').removeClass('disableCtr');
 
                 }
-                else {
+                else if (hdReopenFlag == "0") {
                     $('#MainContent_btnReopenClaim').addClass('hideProp');
-                    $('#MainContent_btnCloseClaim').removeClass('hideProp');
-                    $('#MainContent_btnCloseClaim').removeClass('disableCtr');
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReverseReject').removeClass('hideProp');
+                    $('#MainContent_btnReverseReject').removeClass('disableCtr');
 
                     $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
                     $('#MainContent_btnAddFiles').removeClass('disableCtr');
                     //$('#MainContent_btnSaveTab').removeClass('disableCtr');
+                }
+                else {
+                    $('#MainContent_btnReopenClaim').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReverseReject').addClass('hideProp');                    
                 }
 
             }
