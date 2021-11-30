@@ -1597,6 +1597,41 @@ input[type="color"]:focus,
 #MainContent_lblPartNumber {
     text-transform: uppercase;
     color: #666666;
+    background-color:white !important;
+}
+
+#MainContent_ackCommentHead {
+    background-color: #fbba42 !important;   
+    padding: 0;
+    text-align: center;
+}
+
+#MainContent_ackCommentHead > p {
+    margin: 0 auto !important;
+    font-size: 22px;
+    color: black !important;
+}
+
+.clsMesageSaved {
+    color: green;
+    font-size: 11px;
+    font-weight: 600;
+    float: right;
+    padding: 0;
+}
+
+#MainContent_pn1Div {
+    border: 2px groove whitesmoke;
+}
+
+.ajax__html_editor_extender_container {
+    width: 500px !important;
+    height: 210px !important;
+}
+
+.ajax__html_editor_extender_texteditor {
+    height: 150px !important;
+    background-color: white !important;
 }
 
 #MainContent_txtPartNumber {

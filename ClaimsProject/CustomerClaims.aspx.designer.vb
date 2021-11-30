@@ -869,6 +869,24 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdSeeFilesContent As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdAckPopContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdAckPopContent As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdTextEditorAckMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdTextEditorAckMessage As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdComments control.
     '''</summary>
     '''<remarks>
@@ -2480,6 +2498,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents lnkInitialReview As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''lblAckMessageStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAckMessageStatus As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtInitialReview control.
     '''</summary>
     '''<remarks>
@@ -2559,6 +2586,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtMsgAftAckEmail As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblTextEditorAck control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTextEditorAck As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''lblInfoCust control.
@@ -4028,6 +4064,105 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnSeeFileMsg As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''dummylabel2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dummylabel2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''acknowledgeEmailSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents acknowledgeEmailSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''ackEmailP control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ackEmailP As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pn1Div control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pn1Div As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnAckEmail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnAckEmail As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''ackCommentHead control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ackCommentHead As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''txtEditorExtender1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtEditorExtender1 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''htmlEditorExtender1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents htmlEditorExtender1 As Global.AjaxControlToolkit.HtmlEditorExtender
+
+    '''<summary>
+    '''btnSaveMessageAck control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveMessageAck As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''BtnBackSeeFiles1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents BtnBackSeeFiles1 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnSeeFileMsg1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSeeFileMsg1 As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''dummylabel control.
     '''</summary>
     '''<remarks>
@@ -4134,4 +4269,13 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents popSeeFiles As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''popAckEmail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents popAckEmail As Global.AjaxControlToolkit.ModalPopupExtender
 End Class

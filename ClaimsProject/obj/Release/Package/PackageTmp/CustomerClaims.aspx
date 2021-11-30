@@ -56,12 +56,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
-                                                            <i class="fa fa-plus fa-1x"" aria-hidden="true"> </i> Get Template
+                                                            <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Download Excel
                                     </asp:LinkButton>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <asp:Button id="pepe" class="btn btn-primary btn-lg float-right btnFullSize hideProp" OnClick="pepe_click" Text="Click Here" runat="server"/>
                                     <asp:LinkButton ID="btnImportExcel" class="boxed-btn-layout btn-rounded hideProp" Visible="false" runat="server">
                                                             <i class="fa fa-file-excel-o fa-1x" aria-hidden="true"> </i> IMPORT
                                     </asp:LinkButton>
@@ -817,6 +818,7 @@
 
                     <asp:HiddenField id="hdFullDisabled" Value="" runat="server" />
                     <asp:HiddenField id="hdIsReopen" Value="1" runat="server" />
+                    <asp:HiddenField id="hdIsReversed" Value="1" runat="server" />
                     <asp:HiddenField id="hdVoided" Value="" runat="server" />
                     <asp:HiddenField ID="IsFullUser" value="" runat="server" />
 
@@ -829,6 +831,9 @@
                     <asp:HiddenField ID="hdLastCommentValue" value="" runat="server" />
                     <asp:HiddenField ID="hdOnlyReopen" value="" runat="server" />
                     <asp:HiddenField ID="hdShowAckMsgForm" value="0" runat="server" />
+                    <asp:HiddenField ID="hdForceCloseBtn" value="" runat="server" />
+                    <asp:HiddenField ID="hdConfirmationOption" value="" runat="server" />
+                    <asp:HiddenField ID="hdCanClose" value="" runat="server" />
 
                 </div>
             </div>            
@@ -2290,7 +2295,7 @@
                                                     <div class="col-md-12">
                                                         <%--<asp:Label ID="lblClaim" Text="Claim" CssClass="control-label undermark" runat="server"></asp:Label>--%>
                                                         <div class="form-row">
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-1">
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <asp:Label ID="lblApproved" CssClass="control-label" Text="Approved" runat="server" />
@@ -2304,12 +2309,18 @@
                                                             <div class="col-md-1">
                                                                 <asp:CheckBox ID="chkDeclined" AutoPostBack="true" runat="server" />
                                                             </div>
+                                                            <div class="col-md-1">
+                                                            </div>
                                                             <div class="col-md-2">
+                                                                <asp:Label ID="lblCanClose" CssClass="control-label" Text="CM Done" runat="server" />
                                                                 <asp:LinkButton ID="lnkCheckApprove" class="btn btn-primary btnSmallSize hideProp" runat="server">
 			                                                        <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                                 </asp:LinkButton>
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-1">
+                                                                <asp:CheckBox ID="chkCanClose" CssClass="cg" Enabled="false" runat="server" />
+                                                            </div>
+                                                            <div class="col-md-1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2451,6 +2462,9 @@
                                                 </asp:LinkButton>
                                                 <asp:LinkButton ID="btnReopenClaim" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReopen_Click" ToolTip="Re Open Claim" runat="server">
                                                     <i class="fa fa-edit fa-1x"" aria-hidden="true"> </i>  <p>Re Open Claim</p>
+                                                </asp:LinkButton>
+                                                <asp:LinkButton ID="btnReverseReject" class="boxed-btn-layout btn-sm btn-rounded hideProp" OnClick="btnReverseReject_Click" ToolTip="Reverse Rej." runat="server">
+                                                    <i class="fa fa-history fa-1x"" aria-hidden="true"> </i>  <p>Reverse Rej.</p>
                                                 </asp:LinkButton>
                                             </div>
                                             <div class="col-md-5">
@@ -2633,7 +2647,21 @@
 
     <script type="text/javascript">  
 
-        //from above        
+        //from above   
+
+        function pepepe() {
+
+            $('#<%=hdConfirmationOption.ClientID %>').val('0');
+            //alert("okokok");
+        }
+
+        $('#myModal .modal-footer > button').on('click', function (e) {
+            debugger
+
+            var button = $(event.target);
+
+            var ppe = "a";
+        });
 
         function debugBase64(base64URL) {
             //debugger
@@ -2658,6 +2686,15 @@
         function messageFormSubmitted(mensaje, show) {
             //debugger
             messages.alert(mensaje, { type: show });
+            //setTimeout(function () {
+            //    $("#myModal").hide();
+            //}, 3000);
+        }
+
+        function messageFormSubmitted1(mensaje, show) {
+            //debugger
+            messages.confirm(mensaje, { type: show });
+            //messages.prompt(mensaje, { type: show });
             //setTimeout(function () {
             //    $("#myModal").hide();
             //}, 3000);
@@ -3005,26 +3042,45 @@
         //General Methods Begin
 
         function SetReopenBtn() {
-            //debugger
+            debugger
 
             var hdReopenFlag = document.getElementById('<%=hdIsReopen.ClientID%>').value;
             var hdLastComment = document.getElementById('<%=hdLastCommentValue.ClientID%>').value;
-            if (hdReopenFlag == "1" && hdLastComment == "1") {
-                $('#MainContent_btnCloseClaim').addClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('disableCtr');
-                
-            }
-            else {
+            var hdForceClosBtn = document.getElementById('<%=hdForceCloseBtn.ClientID%>').value;
+
+            if (hdForceClosBtn == "1") {
+
                 $('#MainContent_btnReopenClaim').addClass('hideProp');
                 $('#MainContent_btnCloseClaim').removeClass('hideProp');
                 $('#MainContent_btnCloseClaim').removeClass('disableCtr');
 
-                $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
-                $('#MainContent_btnAddFiles').removeClass('disableCtr');
-                //$('#MainContent_btnSaveTab').removeClass('disableCtr');
             }
+            else {
 
+                if (hdReopenFlag == "1") {
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReverseReject').addClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('disableCtr');
+
+                }
+                else if (hdReopenFlag == "0") {
+                    $('#MainContent_btnReopenClaim').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReverseReject').removeClass('hideProp');
+                    $('#MainContent_btnReverseReject').removeClass('disableCtr');
+
+                    $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
+                    $('#MainContent_btnAddFiles').removeClass('disableCtr');
+                    //$('#MainContent_btnSaveTab').removeClass('disableCtr');
+                }
+                else {
+                    $('#MainContent_btnReopenClaim').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReverseReject').addClass('hideProp');                    
+                }
+
+            }
         }
 
         function contentVisual() {
@@ -3157,10 +3213,11 @@
         });
 
         function disableCustomInput() {
-            //debugger 
+            debugger 
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
             var voidSelection = document.getElementById('<%=hdVoided.ClientID%>').value;
+            var hdForceClosBtn = document.getElementById('<%=hdForceCloseBtn.ClientID%>').value;
 
             if (fullSelection == "0") {
                 $('#MainContent_navsSection').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -3182,10 +3239,21 @@
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
                 $('#MainContent_lnkSentToComm').removeClass('disableCtr');
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
-                $('#MainContent_btnCloseClaim').addClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('hideProp');
-                $('#MainContent_btnReopenClaim').removeClass('disableCtr');                
+                $('#MainContent_btnSaveTab').removeClass('disableCtr');
 
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
+
+
+                if (hdForceClosBtn == "1") {
+                    $('#MainContent_btnReopenClaim').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('disableCtr');
+                }
+                else {
+                    $('#MainContent_btnCloseClaim').addClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('hideProp');
+                    $('#MainContent_btnReopenClaim').removeClass('disableCtr');
+                }  
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -3201,6 +3269,8 @@
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
+
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
 
             }
 
@@ -3225,6 +3295,7 @@
                 $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
 
                 $('#MainContent_rwCloseClaim').addClass('hideProp');
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
             }
             else {
                 $('#claimoverview').find('input', 'textarea', 'button').attr('disabled', 'disabled');
@@ -3240,13 +3311,11 @@
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
             }
 
             $('.cData').attr('disabled', false);
-            $('#MainContent_pnInformation').find('input').attr('disabled', false);
-
-
-            
+            $('#MainContent_pnInformation').find('input').attr('disabled', false);            
 
            // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
             //$('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
@@ -3434,6 +3503,25 @@
             afterRadioCheck(hd2, collapse2)
         }
 
+        function canCloseFunctionality() {
+            debugger 
+
+            var hdCnClose = document.getElementById('<%=hdCanClose.ClientID%>').value;
+            if (hdCnClose == "1") {
+
+                //$('#MainContent_chkCanClose').attr('checked', true);
+                $('#MainContent_chkCanClose').prop('checked', true);
+                //$('.cg').attr('checked', true);
+                //$('.cg').prop('checked', true);
+            }
+            else {
+                //$('#MainContent_chkCanClose').attr('checked', false);
+                $('#MainContent_chkCanClose').prop('checked', false);
+                //$('.cg').attr('checked', false);
+                //$('.cg').prop('checked', false);
+            }
+        }
+
         //General Methods End
 
 
@@ -3577,7 +3665,6 @@
                 $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
                 $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
                 $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
-                
               
             }
         });
@@ -4310,6 +4397,8 @@
 
                 AcknowledgeEmailBuild();
 
+                canCloseFunctionality();
+
                 //$(window).scrollTop(0);
 
             }
@@ -4398,6 +4487,8 @@
             //__doPostBack()
 
             customExpandMultilineText();
+
+            canCloseFunctionality();
 
             console.log("EndPageLoad");
         }

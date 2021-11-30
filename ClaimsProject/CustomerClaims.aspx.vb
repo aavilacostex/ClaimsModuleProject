@@ -1236,6 +1236,13 @@ Public Class CustomerClaims
 
     Public Sub chkAcknowledgeEmail_CheckedChanged(sender As Object, e As EventArgs) Handles chkAcknowledgeEmail.CheckedChanged
         Try
+
+            popAckEmail.Show()
+
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+            hdAckPopContent.Value = "1"
+
             'hdShowAckMsgForm.Value = If(chkAcknowledgeEmail.Checked, "1", "0")
         Catch ex As Exception
 
@@ -1813,6 +1820,30 @@ Public Class CustomerClaims
         hdSeeFilesContent.Value = "0"
         hdGridViewContent.Value = "0"
         hdNavTabsContent.Value = "1"
+        'closeAtkPopup()
+    End Sub
+
+    Protected Sub BtnBackSeeFiles1_click(sender As Object, e As EventArgs) Handles BtnBackSeeFiles1.Click
+        hdAckPopContent.Value = "0"
+        hdGridViewContent.Value = "0"
+        hdNavTabsContent.Value = "1"
+        'closeAtkPopup()
+    End Sub
+
+    Protected Sub btnSaveMessageAck_click(sender As Object, e As EventArgs) Handles btnSaveMessageAck.Click
+        Dim exMessage As String = " "
+        Try
+            lblTextEditorAck.Text = txtEditorExtender1.Text
+            hdTextEditorAckMessage.Value = lblTextEditorAck.Text
+
+            hdAckPopContent.Value = "0"
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+        End Try
+
         'closeAtkPopup()
     End Sub
 
@@ -4151,7 +4182,7 @@ Public Class CustomerClaims
                 UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
                 AcknowledgeEmailProcess(wrnNo, strMessage)
                 If Not String.IsNullOrEmpty(strMessage) Then
-                    txtMsgAftAckEmail.Text = ""
+                    lblTextEditorAck.Text = ""
                     UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, True)
                 End If
 
@@ -5262,7 +5293,7 @@ Public Class CustomerClaims
                                 Dim messageOut As String = Nothing
                                 If objEmail IsNot Nothing Then
                                     'email for acknowledge email
-                                    Dim emailMsg = txtMsgAftAckEmail.Text.Trim()
+                                    Dim emailMsg = If(String.IsNullOrEmpty(lblTextEditorAck.Text.Trim()), hdTextEditorAckMessage.Value.Trim(), lblTextEditorAck.Text.Trim())
                                     objEmail.MESSAGE = emailMsg
 
                                     Dim bresult = PrepareEmail(objEmail, "2", messageOut)
@@ -7270,7 +7301,14 @@ Public Class CustomerClaims
                 If Session("DataListCTP") IsNot Nothing Then
                     Dim lstImg = DirectCast(Session("DataListCTP"), List(Of String))
                     If lstImg.Count > 0 Then
-                        DataListCTP.DataSource = lstImg
+
+                        Dim lstNew As List(Of String) = New List(Of String)()
+
+                        For Each lst As String In lstImg
+                            lstNew.Add(lst.Split(",")(0).ToString().Trim())
+                        Next
+
+                        DataListCTP.DataSource = lstNew
                         DataListCTP.DataBind()
                     End If
                 End If
@@ -7299,7 +7337,14 @@ Public Class CustomerClaims
                 If Session("DataListOEM") IsNot Nothing Then
                     Dim lstImg = DirectCast(Session("DataListOEM"), List(Of String))
                     If lstImg.Count > 0 Then
-                        DataListOEM.DataSource = lstImg
+
+                        Dim lstNew As List(Of String) = New List(Of String)()
+
+                        For Each lst As String In lstImg
+                            lstNew.Add(lst.Split(",")(0).ToString().Trim())
+                        Next
+
+                        DataListOEM.DataSource = lstNew
                         DataListOEM.DataBind()
                     End If
                 End If
@@ -7323,12 +7368,18 @@ Public Class CustomerClaims
             '    'images.Add("~/Images/back1.png")
             'Next
             'pepe
+            Dim lstNew As List(Of String) = New List(Of String)()
 
             If datViewer.Items.Count = 0 Then
                 If Session("DatViewer") IsNot Nothing Then
                     Dim lstImg = DirectCast(Session("DatViewer"), List(Of String))
                     If lstImg.Count > 0 Then
-                        datViewer.DataSource = lstImg
+
+                        For Each lst As String In lstImg
+                            lstNew.Add(lst.Split(",")(0).ToString().Trim())
+                        Next
+
+                        datViewer.DataSource = lstNew
                         datViewer.DataBind()
                     End If
                 End If

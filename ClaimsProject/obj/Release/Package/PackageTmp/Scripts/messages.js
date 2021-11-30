@@ -49,9 +49,9 @@
                 confirm: function (message, options) {
                     var deferred = $.Deferred(),
                         defaults = {
-                            title: 'Mensaje',
-                            buttonLabels: ['Cancelar', 'Aceptar'],
-                            iconClass: 'glyphicon glyphicon-info-sign text-info',
+                            title: 'Message',
+                            buttonLabels: ['Cancel', 'Accept'],
+                            iconClass: 'fa fa-info-circle text-info',
                             type: 'info'
                         };
 
@@ -60,7 +60,7 @@
                     //set buttons
                     var buttons = [];
                     $.each(defaults.buttonLabels, function (index) {
-                        var buttonType = defaults.buttonLabels.length == index + 1 ? 'btn-primary' : 'btn-default';
+                        var buttonType = defaults.buttonLabels.length == index + 1 ? 'btn-primary' : 'btn-danger';
                         buttons.push('<button class="btn ' + buttonType + '">' + this + '</button>');
                     });
 
@@ -79,8 +79,24 @@
                             backdrop: false
                         })
                         .on('hidden.bs.modal', function () {
-                            $(this).remove();
-                        });
+                            //$(this).remove();
+                        })
+                        .on('click', function () {
+                            debugger
+                            var eee = $(event.target);
+                            var eeeq = $(event.currentTarget);
+                            var www = $(document.activeElement);
+
+                            var v1 = $(this).text;
+                            var v2 = $(this).buttonType;
+                            var v3 = $(this).defaultText;
+                            var v4 = $(this).title;
+                            var v5 = $(this).buttonIndex;
+                            var v6 = $(this).buttonName;
+                            alert(eee);
+                            //pepepe();
+                        })
+                        ;
                     return deferred.promise();
                 },
                 notification: function (message, options) {
@@ -124,8 +140,8 @@
                 prompt: function (message, options) {
                     var deferred = $.Deferred(),
                         defaults = {
-                            title: 'Mensaje',
-                            buttonLabels: ['Cancelar', 'Aceptar'],
+                            title: 'Message',
+                            buttonLabels: ['Cancel', 'Accept'],
                             defaultText: ''
                         };
 
