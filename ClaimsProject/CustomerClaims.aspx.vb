@@ -1236,14 +1236,23 @@ Public Class CustomerClaims
 
     Public Sub chkAcknowledgeEmail_CheckedChanged(sender As Object, e As EventArgs) Handles chkAcknowledgeEmail.CheckedChanged
         Try
+            Dim ctrName As String = Nothing
+            If Session("currentCtr") IsNot Nothing Then
+                ctrName = Session("currentCtr").ToString()
 
-            popAckEmail.Show()
+                If ((LCase(ctrName).Contains("chk"))) Then
+                    popAckEmail.Show()
 
-            hdGridViewContent.Value = "0"
-            hdNavTabsContent.Value = "1"
-            hdAckPopContent.Value = "1"
+                    hdGridViewContent.Value = "0"
+                    hdNavTabsContent.Value = "1"
+                    hdAckPopContent.Value = "1"
+                    'chkAcknowledgeEmail.Enabled = False
 
-            'hdShowAckMsgForm.Value = If(chkAcknowledgeEmail.Checked, "1", "0")
+                    'hdShowAckMsgForm.Value = If(chkAcknowledgeEmail.Checked, "1", "0")
+                Else
+
+                End If
+            End If
         Catch ex As Exception
 
         End Try
@@ -1824,6 +1833,9 @@ Public Class CustomerClaims
     End Sub
 
     Protected Sub BtnBackSeeFiles1_click(sender As Object, e As EventArgs) Handles BtnBackSeeFiles1.Click
+
+        popAckEmail.Hide()
+
         hdAckPopContent.Value = "0"
         hdGridViewContent.Value = "0"
         hdNavTabsContent.Value = "1"
@@ -1839,6 +1851,8 @@ Public Class CustomerClaims
             hdAckPopContent.Value = "0"
             hdGridViewContent.Value = "0"
             hdNavTabsContent.Value = "1"
+
+            'lnkAcknowledgeEmail_Click(Nothing, Nothing)
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
@@ -2299,6 +2313,8 @@ Public Class CustomerClaims
             hdGetCommentTab.Value = "0"
             hdAddVndComments.Value = "0"
             hdAddComments.Value = "0"
+            hdAckPopContent.Value = "0"
+            hdLoadAllData.Value = "1"
 
             clearAllDataFields()
 
@@ -4182,8 +4198,11 @@ Public Class CustomerClaims
                 UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
                 AcknowledgeEmailProcess(wrnNo, strMessage)
                 If Not String.IsNullOrEmpty(strMessage) Then
-                    lblTextEditorAck.Text = ""
                     UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, True)
+                Else
+                    txtEditorExtender1.Text = ""
+                    lblTextEditorAck.Text = ""
+                    hdAckPopContent.Value = "0"
                 End If
 
                 'prepareAckMessage(strMessageEmail)

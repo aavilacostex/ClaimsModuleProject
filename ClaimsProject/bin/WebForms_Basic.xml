@@ -2521,15 +2521,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:ClaimsProject.CustomerClaims._lblAckMessageStatus">
-<summary>
-lblAckMessageStatus control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:ClaimsProject.CustomerClaims._txtInitialReview">
 <summary>
 txtInitialReview control.
@@ -2569,6 +2560,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._lnkAcknowledgeEmail">
 <summary>
 lnkAcknowledgeEmail control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblAckMessageStatus">
+<summary>
+lblAckMessageStatus control.
 </summary>
 <remarks>
 Auto-generated field.

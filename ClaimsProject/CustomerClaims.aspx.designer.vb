@@ -2498,15 +2498,6 @@ Partial Public Class CustomerClaims
     Protected WithEvents lnkInitialReview As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''lblAckMessageStatus control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblAckMessageStatus As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''txtInitialReview control.
     '''</summary>
     '''<remarks>
@@ -2550,6 +2541,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lnkAcknowledgeEmail As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''lblAckMessageStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAckMessageStatus As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''txtAcknowledgeEmail control.
