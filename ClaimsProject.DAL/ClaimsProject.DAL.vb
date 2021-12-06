@@ -313,7 +313,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "select cntde1 mhwrea, substr(cntde2,42,1) flgoth from qs36f.cntrll where cnt01 = '188' and trim(cnt03)= '" & Trim(reason) & "'"
+            Sql = "select cntde1 mhwrea, substr(cntde2,42,1) flgoth from qs36f.cntrll where cnt01 = '188' and cnt02 = '' and trim(cnt03)= '" & Trim(reason) & "'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -426,7 +426,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "select cntde1 mhwtyp, substr(cntde2,42,1) flgoth from qs36f.cntrll where cnt01 = '185' and trim(cnt03)= '" & Trim(status) & "'"
+            Sql = "select cntde1 mhwtyp, substr(cntde2,42,1) flgoth from qs36f.cntrll where cnt01 = '187' and trim(cnt03)= '" & Trim(status) & "'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -442,7 +442,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "select SubStr(cntde2,1,12) mhstde, SubStr(cntde2,44,1) FlgUpd from qs36f.cntrll where cnt01 = '186' and trim(cnt03)= '" & Trim(status) & "'"
+            Sql = "select SubStr(cntde2,1,12) mhstde, SubStr(cntde2,44,1) FlgUpd from qs36f.cntrll where cnt01 = '186' and cnt02 = '' and trim(cnt03)= '" & Trim(status) & "'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -681,6 +681,60 @@ Public Class ClaimsProject : Implements IDisposable
         Catch ex As Exception
             exMessage = ex.Message
             Dim pepe = "a"
+        End Try
+    End Function
+
+    Public Function GetClaimDataToExcel(claimType As String, ByRef dsResult As DataSet, Optional strFilters As String = Nothing) As Integer
+        Dim result As Integer = -1
+        dsResult = New DataSet()
+        Dim exMessage As String = " "
+        Dim strwhere As String = Nothing
+        Dim strjoin As String = Nothing
+        Dim newQuery As String = Nothing
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            If claimType.Equals("C") Then
+
+                Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
+                Dim todayDate = DateTime.Now
+                Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
+                'strwhere = " where MHMRDT between '" + fromDate.ToString("MMddyy") + "' and '" + todayDate.ToString("MMddyy") + "'"
+                strwhere = "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')"
+                strjoin = " left join qs36f.clmintsts g on a.cwwrno = g.inclno
+                            join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) 
+                            left join qs36f.clwrrel e on a.wrn=e.crwrno 
+                            left join qs36f.cntrll f on trim(f.cnt03)=g.instat and f.cnt01='193' and f.cnt02='  '
+                            where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and trim(a.MHRTTY) = 'C' "
+
+                Dim Sql = "SELECT distinct MHMRNR ClaimNumber,(SELECT CNTDE1 FROM qs36f.CNTRLL WHERE CNT01 = '193' AND TRIM(CNT02) = ' ' AND TRIM(CNT03) =  CWSTAT)  InternalStatus,  
+                            MHDATE ClaimDate,SUBSTR(b.CNTDE2,1,8) ClaimType,mhcunr CustomerNumber,mhtomr TotalCost, 
+                            case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end PartNumber,  
+                            d.CNTDE1 ClaimStatus,
+                            case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
+                            else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end LastUpdateDate,
+                            cunam CustomerName, (select usname from qs36f.csuser where trim(usslmn) = cuslm) SalesmanNumber,
+                            (select cntde1 mhwrea from qs36f.cntrll where cnt01 = '188' and cnt02 = '' and trim(cnt03)= MHREASN) Reason,
+                            (SELECT SUBSTR(CNTDE1,1,50) CWDIAGD FROM qs36f.CNTRLL WHERE CNT01 = '189' AND CNT02 = '  ' AND TRIM(CNT03) = MHDIAG) Diagnose,
+                            CWUSER User, CWVENO VendorNumber, (SELECT VMNAME FROM qs36f.VNMAS WHERE VMVNUM = CWVENO) VendorName,
+                            CWLOCN ClaimLocation
+                            from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
+                            (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN FROM qs36f.CSMREH 
+                            LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN  " & strwhere & ") a " & strjoin & " {0} order by 1 desc"
+
+                newQuery = String.Format(Sql, strFilters)
+                Sql = newQuery
+
+                result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+                Return result
+
+            End If
+
+        Catch ex As Exception
+            exMessage = ex.Message
+            Dim pepe = "a"
+            Return result
         End Try
     End Function
 
@@ -1061,6 +1115,56 @@ Public Class ClaimsProject : Implements IDisposable
         Catch ex As Exception
             Return result
         End Try
+    End Function
+
+    Public Function GetVendorByNumber(vendorNo As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = Nothing
+        Dim Sql As String
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Dim dsOut = New DataSet()
+            Sql = "SELECT VMNAME FROM qs36f.VNMAS WHERE VMVNUM = " & vendorNo & " "
+            affectedRows = objDatos.GetDataFromDatabase(Sql, dsOut, dt)
+            'result = objDatos.GetOdBcDataFromDatabase(Sql, dsResult)
+            dsResult = dsOut
+            Return affectedRows
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            objLog.writeLog(strLogCadenaCabecera, objLog.ErrorTypeEnum.Exception, ex.Message, ex.ToString())
+            Return result
+        End Try
+
+    End Function
+
+    Public Function GetSalesmanNameByNumber(salesNo As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = Nothing
+        Dim Sql As String
+        dsResult = New DataSet()
+        dsResult.Locale = CultureInfo.InvariantCulture
+        Dim result As Integer = -1
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Dim dsOut = New DataSet()
+            Sql = "select usname from qs36f.csuser where trim(usslmn) = '" & salesNo & "' "
+            affectedRows = objDatos.GetDataFromDatabase(Sql, dsOut, dt)
+            'result = objDatos.GetOdBcDataFromDatabase(Sql, dsResult)
+            dsResult = dsOut
+            Return affectedRows
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            objLog.writeLog(strLogCadenaCabecera, objLog.ErrorTypeEnum.Exception, ex.Message, ex.ToString())
+            Return result
+        End Try
+
     End Function
 
 #Region "Comments "
@@ -1797,6 +1901,23 @@ Public Class ClaimsProject : Implements IDisposable
             objDatos.UpdateDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+#End Region
+
+#Region "Deletes"
+
+    Public Function DeleteFromIntStatus(wrno As String, sts As String) As Integer
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim Sql = "delete from qs36f.clmintsts where trim(inclno) = '" + wrno + "' and trim(instat) in ('" + sts + "')"
+            objDatos.DeleteRecordFromDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+
             Return affectedRows
         End Try
     End Function

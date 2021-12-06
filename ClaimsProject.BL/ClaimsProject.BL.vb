@@ -948,6 +948,26 @@ Public Class ClaimsProject : Implements IDisposable
 
 #End Region
 
+#Region "DELETES"
+
+    Public Function DeleteFromIntStatus(wrno As String, sts As String) As Integer
+        Dim exMessage As String = Nothing
+        Dim result As Integer = -1
+        Dim sql As String = " "
+        'Dim maxItem As Integer
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.DeleteFromIntStatus(wrno, sts)
+            Return result
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+#End Region
+
 #Region "Import Method"
 
     Public Function GetRGANumberByClaim(code As String, ByRef dsResult As DataSet) As Integer
@@ -1478,6 +1498,20 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetClaimDataToExcel(claimType As String, ByRef dsResult As DataSet, Optional strFilters As String = Nothing) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetClaimDataToExcel(claimType, dsResult, strFilters)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
     Public Function GetClaimsDataUpdated(claimType As String, ByRef dsResult As DataSet, Optional strFilters As String = Nothing) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
@@ -1971,6 +2005,36 @@ Public Class ClaimsProject : Implements IDisposable
             Return lstTest
         Catch ex As Exception
             Return lstTest
+        End Try
+    End Function
+
+    Public Function GetVendorByNumber(vendorNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Dim sql As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetVendorByNumber(vendorNo, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+    Public Function GetSalesmanNameByNumber(salesNo As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Dim sql As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetSalesmanNameByNumber(salesNo, dsResult)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
         End Try
     End Function
 

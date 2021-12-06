@@ -85,6 +85,7 @@
     <Compile Include="ClaimStatus.vb" />
     <Compile Include="ClaimTotalValues.vb" />
     <Compile Include="DetaisHeader.vb" />
+    <Compile Include="DownloadExcelObj.vb" />
     <Compile Include="ExtClaimObj.vb" />
     <Compile Include="ExternalStatus.vb" />
     <Compile Include="FinalClaimObj.vb" />

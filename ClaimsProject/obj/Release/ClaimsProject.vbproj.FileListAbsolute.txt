@@ -118,3 +118,8 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\pt-BR\MsgReader.resources.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\zh-CN\MsgReader.resources.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\zh-TW\MsgReader.resources.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\AjaxControlToolkit.HtmlEditor.Sanitizer.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\HtmlAgilityPack.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\RichTextEditor.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\HtmlAgilityPack.pdb
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject\bin\HtmlAgilityPack.xml

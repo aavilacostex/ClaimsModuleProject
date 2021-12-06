@@ -13,6 +13,8 @@ Imports System.Net
 Imports System.DirectoryServices.AccountManagement
 Imports System.Management.Automation
 Imports ClaimsProject.DTO.ExtremeMirror
+Imports Outlook = Microsoft.Office.Interop.Outlook
+Imports System.Runtime.InteropServices
 
 Public Class CustomerClaims
     Inherits System.Web.UI.Page
@@ -1240,7 +1242,7 @@ Public Class CustomerClaims
             If Session("currentCtr") IsNot Nothing Then
                 ctrName = Session("currentCtr").ToString()
 
-                If ((LCase(ctrName).Contains("chk"))) Then
+                If ((LCase(ctrName).Contains("chkack"))) Then
                     popAckEmail.Show()
 
                     hdGridViewContent.Value = "0"
@@ -1958,23 +1960,29 @@ Public Class CustomerClaims
 
                                 Dim upd1 = UpdateWIntFinalStat(wrnNo, chkinitial.Value, "")
                                 If upd1 > 0 Then
-                                    Dim rsUpdate = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
-                                    If rsUpdate < 0 Then
-                                        methodMessage = "There is an error updating the status for the Warranty Claim Number: " + wrnNo + "."
-                                        SendMessage(methodMessage, messageType.Error)
-                                    Else
-                                        Dim rsExtUpdate = objBL.UpdateNWHeaderStatForce(claimNo, "2", curExtStat, True)
-                                        If rsExtUpdate < 0 Then
-                                            methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
+                                    Dim del1 = DeleteFromIntStatus(wrnNo, "R")
+                                    If del1 Then
+                                        Dim rsUpdate = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                                        If rsUpdate < 0 Then
+                                            methodMessage = "There is an error updating the status for the Warranty Claim Number: " + wrnNo + "."
                                             SendMessage(methodMessage, messageType.Error)
                                         Else
+                                            Dim rsExtUpdate = objBL.UpdateNWHeaderStatForce(claimNo, "2", curExtStat, True)
+                                            If rsExtUpdate < 0 Then
+                                                methodMessage = "There is an error updating the status for the Claim Number: " + claimNo + "."
+                                                SendMessage(methodMessage, messageType.Error)
+                                            Else
 
-                                            'hdIsReopen.Value = "0"
-                                            hdIsReversed.Value = "0"
+                                                'hdIsReopen.Value = "0"
+                                                hdIsReversed.Value = "0"
 
-                                            methodMessage = "The Reverse Reject Proccess was successful."
-                                            SendMessage(methodMessage, messageType.success)
+                                                methodMessage = "The Reverse Reject Proccess was successful."
+                                                SendMessage(methodMessage, messageType.success)
+                                            End If
                                         End If
+                                    Else
+                                        methodMessage = "There is an error deleting the rejected internal status for warning number" + wrnNo + "."
+                                        SendMessage(methodMessage, messageType.Error)
                                     End If
                                 Else
                                     methodMessage = "There is an error updating the internal status for the Warranty Claim Number: " + wrnNo + "."
@@ -2790,7 +2798,6 @@ Public Class CustomerClaims
 
                             'GetClaimsReport("", 1, Nothing, Nothing)
 
-
                             btnSearchFilter_Click(Nothing, Nothing)
 
                             'Dim dsData = DirectCast(Session("DataSource"), DataSet)
@@ -2801,8 +2808,6 @@ Public Class CustomerClaims
                             '    dsNew.Tables.Add(dt)
                             '    dsData = dsNew
                             'End If
-
-
 
                             'grvClaimReport.DataSource = dsData.Tables(0)
                             'grvClaimReport.DataBind()
@@ -4743,6 +4748,30 @@ Public Class CustomerClaims
 
 #Region "Action Methods"
 
+    Public Function DeleteFromIntStatus(wrno As String, sts As String) As Boolean
+        Dim rsResult As Integer = -1
+        Dim strMessage As String = Nothing
+        Dim blResult As Boolean = False
+        Try
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                rsResult = objBL.DeleteFromIntStatus(wrno.Trim(), sts.Trim())
+                If rsResult < 0 Then
+                    strMessage = "There is an deleting the rejected internal status for warning number" + wrno + "."
+                Else
+                    blResult = True
+                End If
+
+            End Using
+
+            Return blResult
+        Catch ex As Exception
+            Return blResult
+        End Try
+
+    End Function
+
     Private Function endReopenProc(wrnNo As String, claimNo As String, ByRef strMessage As String) As Boolean
         Dim blEndProc As Boolean = False
         strMessage = ""
@@ -5176,6 +5205,27 @@ Public Class CustomerClaims
             Return result
         End Try
     End Function
+
+    Public Sub GetInternalStsByCode(code As String)
+        Try
+
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                Dim dsIntStatus = New DataSet()
+                Dim rsIntStatus = objBL.getDataByInternalStsLet(code, dsIntStatus)
+                If rsIntStatus > 0 Then
+                    If dsIntStatus IsNot Nothing Then
+                        If dsIntStatus.Tables(0).Rows.Count > 0 Then
+                            Session("IntSts") = dsIntStatus.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim()
+                        End If
+                    End If
+                End If
+            End Using
+
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
 
     Public Function InitialStatusProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
@@ -6614,65 +6664,61 @@ Public Class CustomerClaims
                             'Dim check = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsCheck)
                             'If check = 0 Then
                             Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                                If rsIns > 0 Then
-                                    chkApproved.Enabled = False
-                                    chkDeclined.Enabled = False
-                                    chkClaimCompleted.Enabled = False
-                                    txtClaimCompletedDate.Text = datenow
-                                    txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
-                                    txtClaimCompleted.Enabled = False
-                                    txtClaimCompletedDate.Enabled = False
+                            If rsIns > 0 Then
+                                chkApproved.Enabled = False
+                                chkDeclined.Enabled = False
+                                chkClaimCompleted.Enabled = False
+                                txtClaimCompletedDate.Text = datenow
+                                txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+                                txtClaimCompleted.Enabled = False
+                                txtClaimCompletedDate.Enabled = False
 
-                                    chkinitial.Value = "L"
-                                    BuildDates()
-                                    'datenow = Now().Date().ToString() 'force  yyyy-mm-dd
-                                    'hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                                chkinitial.Value = "L"
+                                BuildDates()
+                                'datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                                'hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                                    Dim rsFinalUpd = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
-                                    If rsFinalUpd > 0 Then
+                                Dim rsFinalUpd = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
+                                If rsFinalUpd > 0 Then
 
-                                        Dim dsOverEmail = New DataSet()
-                                        Dim rsOverEmail = objBL.getOverEmailMsg(wrnNo, "B", dsOverEmail)
-                                        If rsOverEmail > 0 Then
-                                            If dsOverEmail IsNot Nothing Then
-                                                If dsOverEmail.Tables(0).Rows.Count > 0 Then
-                                                    Dim flagOverEmail = dsOverEmail.Tables(0).Rows(0).Item("INOVREMLST").ToString().Trim()
-                                                    If String.IsNullOrEmpty(flagOverEmail) Then
+                                    Dim dsOverEmail = New DataSet()
+                                    Dim rsOverEmail = objBL.getOverEmailMsg(wrnNo, "B", dsOverEmail)
+                                    If rsOverEmail > 0 Then
+                                        If dsOverEmail IsNot Nothing Then
+                                            If dsOverEmail.Tables(0).Rows.Count > 0 Then
+                                                Dim flagOverEmail = dsOverEmail.Tables(0).Rows(0).Item("INOVREMLST").ToString().Trim()
+                                                If String.IsNullOrEmpty(flagOverEmail) Then
 
-                                                        Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
-                                                        Dim messageOut As String = Nothing
-                                                        If objEmail IsNot Nothing Then
-                                                            'email for ask for auth over 500
-                                                            Dim bresult As Boolean = False
-                                                            If totalClaimValue <= dbLimit Then
-                                                                bresult = PrepareEmail(objEmail, "0", messageOut)
-                                                            Else
-                                                                bresult = PrepareEmail(objEmail, "3", messageOut)
-                                                            End If
-
-                                                            If Not bresult Then
-                                                                strMessage += messageOut
-                                                            End If
-                                                        End If
-                                                        'send email
-
-                                                        chkApproved.Enabled = False
-                                                        chkDeclined.Enabled = False
-
-                                                        Dim rsUpdOverEmail = objBL.UpdateWOverEmailStat(wrnNo, "B", "Y")
-                                                        If rsUpdOverEmail > 0 Then
-                                                            result = True
+                                                    Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
+                                                    Dim messageOut As String = Nothing
+                                                    If objEmail IsNot Nothing Then
+                                                        'email for ask for auth over 500
+                                                        Dim bresult As Boolean = False
+                                                        If totalClaimValue <= dbLimit Then
+                                                            bresult = PrepareEmail(objEmail, "0", messageOut)
                                                         Else
-                                                            'error log
-                                                            strMessage = "There is an error updating the Warranty Claim Flag for email status for Warning Number: " + wrnNo + "."
-                                                            Return result
+                                                            bresult = PrepareEmail(objEmail, "3", messageOut)
                                                         End If
-                                                    Else
+
+                                                        If Not bresult Then
+                                                            strMessage += messageOut
+                                                        End If
+                                                    End If
+                                                    'send email
+
+                                                    chkApproved.Enabled = False
+                                                    chkDeclined.Enabled = False
+
+                                                    Dim rsUpdOverEmail = objBL.UpdateWOverEmailStat(wrnNo, "B", "Y")
+                                                    If rsUpdOverEmail > 0 Then
                                                         result = True
+                                                    Else
+                                                        'error log
+                                                        strMessage = "There is an error updating the Warranty Claim Flag for email status for Warning Number: " + wrnNo + "."
+                                                        Return result
                                                     End If
                                                 Else
-                                                    strMessage = "There is an error getting the flag for email message for the Warning Number: " + wrnNo + "."
-                                                    Return result
+                                                    result = True
                                                 End If
                                             Else
                                                 strMessage = "There is an error getting the flag for email message for the Warning Number: " + wrnNo + "."
@@ -6683,21 +6729,25 @@ Public Class CustomerClaims
                                             Return result
                                         End If
                                     Else
-                                        'error log
-                                        strMessage = "There is an error updating the Warranty Claim Internal Status for Warning Number: " + wrnNo + "."
+                                        strMessage = "There is an error getting the flag for email message for the Warning Number: " + wrnNo + "."
                                         Return result
                                     End If
                                 Else
                                     'error log
-                                    If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
-                                        strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
-                                        Return result
-                                    End If
+                                    strMessage = "There is an error updating the Warranty Claim Internal Status for Warning Number: " + wrnNo + "."
+                                    Return result
                                 End If
-                                'End If
-
-                                'End If
                             Else
+                                'error log
+                                If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                                    strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
+                                    Return result
+                                End If
+                            End If
+                            'End If
+
+                            'End If
+                        Else
                             strMessage = "The Claim Amount must be more than the configured limit for the current user in order to send an email. Total Amount: " + totalClaimValue.ToString() +
                             ". Configured Limit: " + totalLimit.ToString() + ". The email to request authorization to approve the credit has been sent."
                             result = True
@@ -6862,7 +6912,7 @@ Public Class CustomerClaims
             Return result
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
-            Return Result
+            Return result
         End Try
     End Function
 
@@ -8098,52 +8148,164 @@ Public Class CustomerClaims
 
                     'prepare the fullpath and save the document to path folder
                     Dim fullPath = folderPath + fileName
-                    Dim ds = DirectCast(Session("DataSource"), DataSet)
+                    'Dim ds = DirectCast(Session("DataSource"), DataSet)
 
-                    Dim bContinue = GetDatasetDataValidation(ds)
+                    Dim dsNew As DataSet = New DataSet()
+                    Dim rs1 = objBL.GetClaimDataToExcel("C", dsNew)
 
-                    If bContinue Then
+                    If rs1 > 0 Then
 
-                        Using wb As New XLWorkbook()
-                            wb.Worksheets.Add(ds.Tables(0), "Claims-Report")
-                            wb.SaveAs(fullPath)
-                        End Using
+                        Dim bContinue = GetDatasetDataValidation(dsNew)
+                        If bContinue Then
 
-                        'send the document to the handler to process the download through the browser
-                        If File.Exists(fullPath) Then
+#Region "old Way 1"
 
-                            Dim newLocalFile As FileInfo = New FileInfo(fullPath)
-                            If newLocalFile.Exists Then
-                                Try
-                                    Session("filePathExcelOutput") = fullPath
-                                    Response.Redirect("DownloadDoc.ashx", False)
-                                    'Process.Start("explorer.exe", localFilePath)
-                                Catch Win32Exception As Win32Exception
-                                    Shell("explorer " & fullPath, AppWinStyle.NormalFocus)
-                                Catch ex As Exception
-                                    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "Error Ocurred: " + ex.Message + " for user " + Session("userid").ToString(), "Occurs at time: " + DateTime.Now.ToString())
-                                End Try
+                            'Dim lstDownExc = FillDownloadExcObj(ds)
+                            'Dim ds1 = New DataSet()
+                            'Dim dtResult = ListToDataTable(lstDownExc)
+                            'If dtResult IsNot Nothing Then
+                            '    If dtResult.Rows.Count > 0 Then
+                            '        ds1.Tables.Add(dtResult)
+                            '    End If
+                            'End If
+
+#End Region
+#Region "old way 2"
+
+                            'Dim dsNew As DataSet = New DataSet()
+                            'Dim dtNew As DataTable = New DataTable()
+                            'dtNew = ds.Tables(0).Copy()
+
+                            'dtNew.Columns.Remove("WRN")
+                            'dtNew.Columns.Remove("CNT03")
+                            'dtNew.Columns.Remove("MHSUPCLM")
+                            'dtNew.Columns.Remove("CWWRNO")
+                            'dtNew.Columns.Remove("CWPTNO")
+
+                            'dtNew.Columns.Add("InternalStatus", GetType(String))
+                            'dtNew.Columns.Add("SalesmanName", GetType(String))
+                            'dtNew.Columns.Add("Reason", GetType(String))
+                            'dtNew.Columns.Add("Diagnose", GetType(String))
+                            'dtNew.Columns.Add("VendorName", GetType(String))
+
+                            'dtNew.Columns("MHMRNR").ColumnName = "ClaimNumber"
+                            'dtNew.Columns("MHDATE").ColumnName = "ClaimDate"
+                            'dtNew.Columns("MHTDES").ColumnName = "ClaimType"
+                            'dtNew.Columns("MHCUNR").ColumnName = "CustomerNumber"
+                            'dtNew.Columns("MHCUNA").ColumnName = "CustomerName"
+                            'dtNew.Columns("MHTOMR").ColumnName = "TotalCost"
+                            'dtNew.Columns("MHPTNR").ColumnName = "PartNumber"
+                            'dtNew.Columns("MHSTDE").ColumnName = "ClaimStatus"
+                            'dtNew.Columns("ACTDT").ColumnName = "LastUpdateDate"
+                            ''dtNew.Columns("MHREASN").ColumnName = "Reason"
+                            ''dtNew.Columns("MHDIAG").ColumnName = "Diagnose"
+                            'dtNew.Columns("CWVENO").ColumnName = "VendorNumber"
+                            'dtNew.Columns("CWLOCN").ColumnName = "Location"
+                            'dtNew.Columns("CWUSER").ColumnName = "User"
+
+
+
+                            'For Each dw As DataRow In dtNew.Rows
+
+                            '    GetInternalStsByCode(dw.Item("CWSTAT").ToString().Trim())
+                            '    GetSalesmanNameByNumber(dw.Item("CUSLM").ToString().Trim())
+                            '    GetClaimDiagnose(ds, True, dw.Item("MHDIAG").ToString().Trim())
+                            '    GetClaimReason(ds, True, dw.Item("MHREASN").ToString().Trim())
+                            '    GetVendorByNumber(dw.Item("VendorNumber").ToString().Trim())
+
+                            '    dw.Item("InternalStatus") = If(Session("IntSts") IsNot Nothing, Session("IntSts").ToString().Trim(), "")
+                            '    dw.Item("SalesmanName") = If(Session("SlsName") IsNot Nothing, Session("SlsName").ToString().Trim(), "")
+                            '    dw.Item("Reason") = If(Session("ClaimReason") IsNot Nothing, Session("ClaimReason").ToString().Trim(), "")
+                            '    dw.Item("Diagnose") = If(Session("ClaimDiagnose") IsNot Nothing, Session("ClaimDiagnose").ToString().Trim(), "")
+                            '    dw.Item("VendorName") = If(Session("VndnName") IsNot Nothing, Session("VndnName").ToString().Trim(), "")
+
+                            'Next
+
+                            'dtNew.Columns.Remove("CWSTAT")
+                            'dtNew.Columns.Remove("CUSLM")
+                            'dtNew.Columns.Remove("MHDIAG")
+                            'dtNew.Columns.Remove("MHREASN")
+
+                            'dtNew.AcceptChanges()
+
+                            'dsNew.Tables.Add(dtNew)
+
+#End Region
+                            Using wb As New XLWorkbook()
+                                wb.Worksheets.Add(dsNew.Tables(0), "Claims-Report")
+                                wb.SaveAs(fullPath)
+                            End Using
+
+                            'send the document to the handler to process the download through the browser
+                            If File.Exists(fullPath) Then
+
+                                Dim newLocalFile As FileInfo = New FileInfo(fullPath)
+                                If newLocalFile.Exists Then
+                                    Try
+                                        Session("filePathExcelOutput") = fullPath
+                                        Response.Redirect("DownloadDoc.ashx", False)
+                                        'Process.Start("explorer.exe", localFilePath)
+                                    Catch Win32Exception As Win32Exception
+                                        Shell("explorer " & fullPath, AppWinStyle.NormalFocus)
+                                    Catch ex As Exception
+                                        writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "Error Ocurred: " + ex.Message + " for user " + Session("userid").ToString(), "Occurs at time: " + DateTime.Now.ToString())
+                                    End Try
+                                End If
                             End If
-
+                        Else
+                            Dim userSelected As String = Nothing
+                            userSelected = If(String.IsNullOrEmpty(Session("selectedUser")), Session("userid").ToString(), Session("selectedUser").ToString())
+                            SendMessage("There is no data to show for the user " & userSelected & ". ", messageType.info)
                         End If
-
-                    Else
-                        Dim userSelected As String = Nothing
-                        userSelected = If(String.IsNullOrEmpty(Session("selectedUser")), Session("userid").ToString(), Session("selectedUser").ToString())
-                        SendMessage("There is no data to show for the user " & userSelected & ". ", messageType.info)
-
                     End If
 
                 End Using
-
             Else
 
             End If
-
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
+
+    Protected Function FillDownloadExcObj(ds As DataSet) As List(Of DownloadExcelObj)
+
+        Dim lstDE = New List(Of DownloadExcelObj)()
+        Try
+            For Each dw As DataRow In ds.Tables(0).Rows
+                Dim objDE = New DownloadExcelObj()
+                objDE.ClaimNumber = dw.Item("MHMRNR").ToString().Trim()
+                'objDE.WarningNo = dw.Item("WRN").ToString().Trim()
+                GetInternalStsByCode(dw.Item("CWSTAT").ToString().Trim())
+                objDE.InternalStatus = If(Session("IntSts") Is Nothing, "", Session("IntSts").ToString().Trim())
+                objDE.ClaimDate = dw.Item("MHDATE").ToString().Trim()
+                objDE.ClaimType = dw.Item("MHTDES").ToString().Trim()
+                objDE.CustomerNumber = dw.Item("MHCUNR").ToString().Trim()
+                objDE.CustomerName = dw.Item("MHCUNA").ToString().Trim()
+                objDE.TotalCost = dw.Item("MHTOMR").ToString().Trim()
+                objDE.PartNumber = dw.Item("MHPTNR").ToString().Trim()
+                objDE.ClaimStatus = dw.Item("MHSTDE").ToString().Trim()
+                objDE.LastUpdateDate = dw.Item("ACTDT").ToString().Trim()
+                'objDE.SalesmanNo = dw.Item("CUSLM").ToString().Trim()
+                GetSalesmanNameByNumber(dw.Item("CUSLM").ToString().Trim())
+                objDE.SalesmanName = If(Session("SlsName") Is Nothing, "", Session("SlsName").ToString().Trim())
+                GetClaimDiagnose(ds, True, dw.Item("MHDIAG").ToString().Trim())
+                GetClaimReason(ds, True, dw.Item("MHREASN").ToString().Trim())
+                objDE.Reason = If(Session("ClaimReason") Is Nothing, "", Session("ClaimReason").ToString().Trim())
+                objDE.Diagnose = If(Session("ClaimDiagnose") Is Nothing, "", Session("ClaimDiagnose").ToString().Trim())
+                objDE.User = dw.Item("CWUSER").ToString().Trim()
+                objDE.Vendor = dw.Item("CWVENO").ToString().Trim()
+                GetVendorByNumber(dw.Item("CWVENO").ToString().Trim())
+                objDE.VendorName = If(Session("VndnName") Is Nothing, "", Session("VndnName").ToString().Trim())
+                objDE.Location = dw.Item("CWLOCN").ToString().Trim()
+                lstDE.Add(objDE)
+            Next
+            Return lstDE
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return Nothing
+        End Try
+    End Function
 
     Protected Function SetSortDirection(sortDirection As String) As String
         Dim _sortDirection As String = Nothing
@@ -8209,6 +8371,29 @@ Public Class CustomerClaims
             Return htmlTable
         Catch ex As Exception
             Return Nothing
+        End Try
+    End Function
+
+    Public Function CheckIfOutlookPresent() As Boolean
+        Dim application As Outlook.Application
+        Try
+            If Process.GetProcessesByName("OUTLOOK").Count() > 0 Then
+
+                ' If so, use the GetActiveObject method to obtain the process and cast it to an Application object.
+                application = DirectCast(Marshal.GetActiveObject("Outlook.Application"), Outlook.Application)
+                Return True
+            Else
+
+                ' If not, create a new instance of Outlook and sign in to the default profile.
+                application = New Outlook.Application()
+                Dim ns As Outlook.NameSpace = application.GetNamespace("MAPI")
+                ns.Logon("", "", Missing.Value, Missing.Value)
+                ns = Nothing
+                Return False
+            End If
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return False
         End Try
     End Function
 
@@ -8284,7 +8469,7 @@ Public Class CustomerClaims
             msg.IsBodyHtml = True
             msg.From = New MailAddress(emailSender)
             msg.To.Add(userEmail)
-            msg.To.Add("aavila@costex.com")
+            msg.To.Add(TestNotUsers)
             Dim msgSubject = If(flag.Equals("2"), "Acknowledgement Email for User.", If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
             msg.Subject = msgSubject
             msg.Body = Mailtext
@@ -8299,6 +8484,9 @@ Public Class CustomerClaims
             _smtp.Send(msg)
 
             bResult = True
+
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " Email sent to:" + userEmail + ". The claim number is: " + obj.ClaimNo + ". The total cost is:" + obj.TotalApproved + ". At Time: " + DateTime.Now.ToString())
+
             Return bResult
 
         Catch ex As Exception
@@ -8433,7 +8621,7 @@ Public Class CustomerClaims
                 Dim maxDate = txtDateTo.Text.Trim().Split(" ")(0)
                 strBuild += " AND (MHDATE >= DATE('" + minDate + "') AND MHDATE <= DATE('" + maxDate + "')) "
                 '7/19/2021
-            '6/10/2017
+                '6/10/2017
             End If
 
             If ddlClaimTypeOk.SelectedIndex > 0 Then
@@ -9707,6 +9895,32 @@ Public Class CustomerClaims
                         End If
 
                     End If
+                Else
+                    Dim dsData As DataSet = New DataSet()
+                    Dim sts1 As String = Nothing
+                    Dim claimId As String = Nothing
+                    Dim rs1 = objBL.GetWrnClaimsHeader(wrnNo, dsData)
+                    If rs1 > 0 Then
+                        If dsData IsNot Nothing Then
+                            If dsData.Tables(0).Rows.Count > 0 Then
+                                sts1 = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
+                            End If
+                        End If
+                    End If
+                    GetActualStatus(Nothing, sts1, True)
+                    strTextStatus = If(Session("cwstde") IsNot Nothing, Session("cwstde").ToString().Trim(), "")
+
+                    If String.IsNullOrEmpty(strTextStatus) Then
+                        Dim dsNW As DataSet = New DataSet()
+                        Dim sts2 As String = Nothing
+                        claimId = dsData.Tables(0).Rows(0).Item("CWDOCN").ToString().Trim()
+                        GetNWClaimData(claimId, sts2, dsNW, True)
+
+                        Dim dsStatus = New DataSet()
+                        GetClaimExternalStatus(sts2, dsStatus, True)
+                        strTextStatus = If(Session("mhstde") IsNot Nothing, Session("mhstde").ToString().Trim(), "")
+                    End If
+
                 End If
 
             End Using
@@ -10640,6 +10854,12 @@ Public Class CustomerClaims
             'Dim strDateReduc As String = firstDate.ToString("yyMM", System.Globalization.CultureInfo.InvariantCulture)
             Dim curDate = DateTime.Now.Date().ToString("MM/dd/yyyy")
 
+            'Try
+            '    CheckIfOutlookPresent()
+            'Catch ex1 As Exception
+            '    writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex1.Message + ". At Time: " + DateTime.Now.ToString())
+            'End Try
+
             BuildDates()
 
             Dim strTechReviewUsr = ConfigurationManager.AppSettings("AuthTechReview")
@@ -11108,31 +11328,37 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetNWClaimData(docData As String, ByRef nonwarrantyState As String, ByRef dsNW As DataSet)
+    Public Sub GetNWClaimData(docData As String, ByRef nonwarrantyState As String, ByRef dsNW As DataSet, Optional onlySts As Boolean = False)
+
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 Dim rsNW = objBL.getNWrnClaimsHeader(docData, dsNW)
                 If rsNW > 0 Then
                     If dsNW IsNot Nothing Then
                         If dsNW.Tables(0).Rows.Count > 0 Then
-                            Dim Freight = dsNW.Tables(0).Rows(0).Item("MHFRAM").ToString().Trim()
-                            Dim DbFreight As Double = 0
-                            If Not String.IsNullOrEmpty(Freight) Then
-                                If Double.TryParse(Freight, DbFreight) Then
-                                    txtFreight.Text = Math.Round(DbFreight, 2).ToString()
-                                Else
-                                    txtFreight.Text = "0"
-                                    'log error de conversion
+
+                            If onlySts Then
+                                nonwarrantyState = dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString()
+                            Else
+                                Dim Freight = dsNW.Tables(0).Rows(0).Item("MHFRAM").ToString().Trim()
+                                Dim DbFreight As Double = 0
+                                If Not String.IsNullOrEmpty(Freight) Then
+                                    If Double.TryParse(Freight, DbFreight) Then
+                                        txtFreight.Text = Math.Round(DbFreight, 2).ToString()
+                                    Else
+                                        txtFreight.Text = "0"
+                                        'log error de conversion
+                                    End If
                                 End If
-                            End If
-                            txtParts.Text = dsNW.Tables(0).Rows(0).Item("MHTOMR").ToString().Trim()
-                            Dim wrnNo As String = hdSeq.Value.Trim()
+                                txtParts.Text = dsNW.Tables(0).Rows(0).Item("MHTOMR").ToString().Trim()
+                                Dim wrnNo As String = hdSeq.Value.Trim()
 
-                            CalculateTotalClaimValue(dsNW.Tables(0).Rows(0).Item("MHFRAM").ToString().Trim(), wrnNo)
+                                CalculateTotalClaimValue(dsNW.Tables(0).Rows(0).Item("MHFRAM").ToString().Trim(), wrnNo)
 
-                            nonwarrantyState = dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString()
-                            If dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString() = "1" Then
-                                'carga en el grid
+                                nonwarrantyState = dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString()
+                                If dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString() = "1" Then
+                                    'carga en el grid
+                                End If
                             End If
                         Else
                             txtFreight.Text = "0"
@@ -11152,7 +11378,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetClaimExternalStatus(nonwarrantyState As String, ByRef dsStatus As DataSet)
+    Public Sub GetClaimExternalStatus(nonwarrantyState As String, ByRef dsStatus As DataSet, Optional updTxt As Boolean = False)
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 dsStatus = New DataSet()
@@ -11165,9 +11391,15 @@ Public Class CustomerClaims
                         End If
                     End If
                 End If
-                txtClaimStatus.Text = hdmhstde.Value
-                hdmhwtyp.Value = ""
-                hdflgoth.Value = ""
+
+                If updTxt Then
+                    Session("mhstde") = hdmhstde.Value
+                Else
+                    txtClaimStatus.Text = hdmhstde.Value
+                    hdmhwtyp.Value = ""
+                    hdflgoth.Value = ""
+                End If
+
             End Using
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
@@ -11210,25 +11442,98 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetClaimReason(dsNW As DataSet)
+    Public Sub GetVendorByNumber(vendorNo As String)
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                Dim dsReason = New DataSet()
-                Dim value2 = dsNW.Tables(0).Rows(0).Item("MHREASN").ToString().Trim()
-                Dim rs2 = objBL.getDataByReason(value2, dsReason)
-                If rs2 > 0 Then
-                    If dsReason IsNot Nothing Then
-                        If dsReason.Tables(0).Rows.Count > 0 Then
-                            hdmhwrea.Value = dsReason.Tables(0).Rows(0).Item("MHWREA").ToString().Trim()
-                            hdflgoth.Value = dsReason.Tables(0).Rows(0).Item("FLGOTH").ToString().Trim()
+                Dim dsResult = New DataSet()
+                Dim rs = objBL.GetVendorByNumber(vendorNo, dsResult)
+                If rs > 0 Then
+                    If dsResult IsNot Nothing Then
+                        If dsResult.Tables(0).Rows.Count > 0 Then
+                            Session("VndnName") = dsResult.Tables(0).Rows(0).Item("VMNAME").ToString().Trim()
+                        Else
+                            Session("VndnName") = Nothing
+                        End If
+                    Else
+                        Session("VndnName") = Nothing
+                    End If
+                Else
+                    Session("VndnName") = Nothing
+                End If
 
-                            If hdflgoth.Value = "O" Then
-                                Dim dsGen1 = New DataSet()
-                                Dim rsTRS = objBL.getDataByGeneric1(txtClaimNoData.Text, dsGen1)
-                                If rsTRS > 0 Then
-                                    If dsGen1 IsNot Nothing Then
-                                        If dsGen1.Tables(0).Rows.Count > 0 Then
-                                            hdmhwrea.Value += " - " & dsGen1.Tables(0).Rows(0).Item("MHOTRS").ToString()
+            End Using
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Session("VndnName") = Nothing
+        End Try
+    End Sub
+
+    Public Sub GetSalesmanNameByNumber(salesNo As String)
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                Dim dsResult = New DataSet()
+                Dim rs = objBL.GetSalesmanNameByNumber(salesNo, dsResult)
+                If rs > 0 Then
+                    If dsResult IsNot Nothing Then
+                        If dsResult.Tables(0).Rows.Count > 0 Then
+                            Session("SlsName") = dsResult.Tables(0).Rows(0).Item("USNAME").ToString().Trim()
+                        Else
+                            Session("SlsName") = Nothing
+                        End If
+                    Else
+                        Session("SlsName") = Nothing
+                    End If
+                Else
+                    Session("SlsName") = Nothing
+                End If
+
+            End Using
+        Catch ex As Exception
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Session("SlsName") = Nothing
+        End Try
+    End Sub
+
+    Public Sub GetClaimReason(dsNW As DataSet, Optional flag As Boolean = False, Optional rsValue As String = Nothing)
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                If flag Then
+                    Dim dsReason = New DataSet()
+                    Dim value2 = rsValue
+                    Dim rs2 = objBL.getDataByReason(value2, dsReason)
+                    If rs2 > 0 Then
+                        If dsReason IsNot Nothing Then
+                            If dsReason.Tables(0).Rows.Count > 0 Then
+                                Session("ClaimReason") = dsReason.Tables(0).Rows(0).Item("MHWREA").ToString().Trim()
+                            Else
+                                Session("ClaimReason") = Nothing
+                            End If
+                        Else
+                            Session("ClaimReason") = Nothing
+                        End If
+                    Else
+                        Session("ClaimReason") = Nothing
+                    End If
+                Else
+                    Dim dsReason = New DataSet()
+                    Dim value2 = dsNW.Tables(0).Rows(0).Item("MHREASN").ToString().Trim()
+                    Dim rs2 = objBL.getDataByReason(value2, dsReason)
+                    If rs2 > 0 Then
+                        If dsReason IsNot Nothing Then
+                            If dsReason.Tables(0).Rows.Count > 0 Then
+                                hdmhwrea.Value = dsReason.Tables(0).Rows(0).Item("MHWREA").ToString().Trim()
+                                Session("ClaimReason") = hdmhwrea.Value
+                                hdflgoth.Value = dsReason.Tables(0).Rows(0).Item("FLGOTH").ToString().Trim()
+
+                                If hdflgoth.Value = "O" Then
+                                    Dim dsGen1 = New DataSet()
+                                    Dim rsTRS = objBL.getDataByGeneric1(txtClaimNoData.Text, dsGen1)
+                                    If rsTRS > 0 Then
+                                        If dsGen1 IsNot Nothing Then
+                                            If dsGen1.Tables(0).Rows.Count > 0 Then
+                                                hdmhwrea.Value += " - " & dsGen1.Tables(0).Rows(0).Item("MHOTRS").ToString()
+                                            End If
                                         End If
                                     End If
                                 End If
@@ -11245,21 +11550,39 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetActualStatus(dsData As DataSet)
+    Public Sub GetActualStatus(dsData As DataSet, Optional wrnNo As String = Nothing, Optional updTxtField As Boolean = False)
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                 Dim dsStatus2 = New DataSet()
-                Dim value3 = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
+                Dim value3 As String = Nothing
+
+                If Not String.IsNullOrEmpty(wrnNo) Then
+                    value3 = wrnNo
+                Else
+                    If dsData IsNot Nothing Then
+                        If dsData.Tables(0).Rows.Count > 0 Then
+                            value3 = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
+                        End If
+                    End If
+                End If
+                'value3 = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
+
                 Dim rs3 = objBL.getDataByStatus1(value3, dsStatus2)
 
                 If rs3 > 0 Then
                     If dsStatus2 IsNot Nothing Then
                         If dsStatus2.Tables(0).Rows.Count > 0 Then
-                            hdcwstde.Value = dsStatus2.Tables(0).Rows(0).Item("CWSTDE").trim()
+                            hdcwstde.Value = dsStatus2.Tables(0).Rows(0).Item("mhwtyp").trim()
                         End If
                     End If
                 End If
-                txtActualStatus.Text = hdcwstde.Value.Trim().ToUpper()
+
+                If updTxtField Then
+                    Session("cwstde") = hdcwstde.Value
+                Else
+                    txtActualStatus.Text = hdcwstde.Value.Trim().ToUpper()
+                End If
+
             End Using
         Catch ex As Exception
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
@@ -11343,21 +11666,43 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetClaimDiagnose(dsNW As DataSet)
+    Public Sub GetClaimDiagnose(dsNW As DataSet, Optional flag As Boolean = False, Optional rsValue As String = Nothing)
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                Dim dsDiag = New DataSet()
-                Dim value4 = dsNW.Tables(0).Rows(0).Item("MHDIAG").ToString().Trim()
-                Dim rs4 = objBL.getDataByDiagnose(value4, dsDiag)
-                hdSelectedDiagnose.Value = String.Empty
-                If rs4 > 0 Then
-                    If dsDiag IsNot Nothing Then
-                        If dsDiag.Tables(0).Rows.Count > 0 Then
-                            hdcwdiagd.Value = dsDiag.Tables(0).Rows(0).Item("CWDIAGD").ToString().Trim()
-                            hdSelectedDiagnose.Value = hdcwdiagd.Value
+
+                If flag Then
+                    Dim dsDiag = New DataSet()
+                    Dim value4 = rsValue
+                    Dim rs4 = objBL.getDataByDiagnose(value4, dsDiag)
+                    If rs4 > 0 Then
+                        If dsDiag IsNot Nothing Then
+                            If dsDiag.Tables(0).Rows.Count > 0 Then
+                                Session("ClaimDiagnose") = dsDiag.Tables(0).Rows(0).Item("CWDIAGD").ToString().Trim()
+                            Else
+                                Session("ClaimDiagnose") = Nothing
+                            End If
+                        Else
+                            Session("ClaimDiagnose") = Nothing
+                        End If
+                    Else
+                        Session("ClaimDiagnose") = Nothing
+                    End If
+                Else
+                    Dim dsDiag = New DataSet()
+                    Dim value4 = dsNW.Tables(0).Rows(0).Item("MHDIAG").ToString().Trim()
+                    Dim rs4 = objBL.getDataByDiagnose(value4, dsDiag)
+                    hdSelectedDiagnose.Value = String.Empty
+                    If rs4 > 0 Then
+                        If dsDiag IsNot Nothing Then
+                            If dsDiag.Tables(0).Rows.Count > 0 Then
+                                hdcwdiagd.Value = dsDiag.Tables(0).Rows(0).Item("CWDIAGD").ToString().Trim()
+                                Session("ClaimDiagnose") = hdcwdiagd.Value
+                                hdSelectedDiagnose.Value = hdcwdiagd.Value
+                            End If
                         End If
                     End If
                 End If
+
                 'txtDiagnoseData.Text = hdcwdiagd.Value
             End Using
         Catch ex As Exception

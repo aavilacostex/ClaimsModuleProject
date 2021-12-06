@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Claims Page" Language="vb" AutoEventWireup="true" CodeBehind="CustomerClaims.aspx.vb" MasterPageFile="~/Site.Master" Inherits="ClaimsProject.CustomerClaims" ViewStateMode="Disabled" %>
+﻿<%@ Page Title="Claims Page" Language="vb" AutoEventWireup="true" CodeBehind="CustomerClaims.aspx.vb" MasterPageFile="~/Site.Master" Inherits="ClaimsProject.CustomerClaims" ViewStateMode="Disabled" ValidateRequest="false" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Atk" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -56,9 +56,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-7">
                                     <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
-                                                            <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Download Excel
+                                                            <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Excel File
                                     </asp:LinkButton>
                                 </div>
                                 <div class="col-md-3">
@@ -766,6 +766,8 @@
                     <asp:HiddenField ID="hdGridViewContent" Value="1"  runat="server" />
                     <asp:HiddenField ID="hdNavTabsContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdSeeFilesContent" Value="0"  runat="server" />
+                    <asp:HiddenField ID="hdAckPopContent" Value="0"  runat="server" />
+                    <asp:HiddenField ID="hdTextEditorAckMessage" Value=""  runat="server" />
 
                     <asp:HiddenField ID="hdComments" Value="" runat="server" />
                     <asp:HiddenField ID="hdFlagUpload" Value="" runat="server" />
@@ -1499,7 +1501,7 @@
                                                     <asp:CheckBox ID="chkInitialReview" runat="server" />
                                                     <asp:LinkButton ID="lnkInitialReview" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
-                                                    </asp:LinkButton>
+                                                    </asp:LinkButton>                                                    
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInitialReview" CssClass="form-control" runat="server" />                                                            
@@ -1518,6 +1520,7 @@
                                                     <asp:LinkButton ID="lnkAcknowledgeEmail" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
+                                                    <asp:Label ID="lblAckMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtAcknowledgeEmail" CssClass="form-control" runat="server" />                                                            
@@ -1531,7 +1534,8 @@
 
                                             <div id="rwAckEmailMsg" class="form-row paddingVert hideProp" runat="server">
                                                 <div class="col-md-12">
-                                                    <asp:TextBox ID="txtMsgAftAckEmail" Text="" CssClass="form-control fullTextBox" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtMsgAftAckEmail" Text="" CssClass="form-control fullTextBox hideProp" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    <asp:Label ID="lblTextEditorAck" CssClass="hideProp" runat="server"></asp:Label>
                                                 </div>
                                             </div>
 
@@ -2520,6 +2524,50 @@
                 </div>
             </div>
 
+            <asp:Label runat="server" ID="dummylabel2"></asp:Label>
+            <div id="acknowledgeEmailSection" class="container hideProp" runat="server">                               
+
+                <div id="ackEmailP" runat="server">
+                    <div id="pn1Div" class="row" runat="server">
+                        <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles1" runat="server">
+                            <div class="container">
+                                <div class="row">                                    
+                                    <div class="col-md-12 padding0">
+                                        <div id="ackCommentHead" runat="server"><p>Insert the comment here!!</p></div>                                        
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 padding0">
+                                        <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="true" runat="server"></Atk:HtmlEditorExtender>
+                                    </div>
+                                </div>
+                            </div>                           
+
+                        </asp:Panel>
+                    </div>
+
+                    <div class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-6" style="text-align: right !important;">
+                                    <asp:Button ID="btnSaveMessageAck" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageAck_click"  runat="server" />
+                                </div>
+                                <div class="col-md-6" style="text-align: left !important;">
+                                    <asp:Button ID="BtnBackSeeFiles1" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles1_click" OnClientClick="setVisAckPop(); return false" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div> 
+                    
+                    <div class="row hideProp">
+                        <asp:LinkButton ID="btnSeeFileMsg1" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+
 
             <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
@@ -2625,6 +2673,10 @@
                 PopupControlID="filesPanel" CancelControlID="BtnBackSeeFiles"  >
             </Atk:ModalPopupExtender>
 
+            <Atk:ModalPopupExtender ID="popAckEmail" runat="server" TargetControlID="dummylabel2" BehaviorID="popupCopyCtrl"
+                PopupControlID="ackEmailP" CancelControlID="BtnBackSeeFiles1"  >
+            </Atk:ModalPopupExtender>
+
             <br />
         </ContentTemplate>
 
@@ -2711,13 +2763,27 @@
         }
 
         function AcknowledgeEmailBuild() {
-            debugger
+            //debugger
+           
+            var hdHasText = document.getElementById('<%=hdTextEditorAckMessage.ClientID%>').value;            
+
+            if (hdHasText == "") {
+                $('#MainContent_lblAckMessageStatus').addClass('hideProp')
+            }
+            else {
+                $('#MainContent_lblAckMessageStatus').removeClass('clsMesageSaved hideProp');
+                $('#MainContent_lblAckMessageStatus').addClass('clsMesageSaved');
+            }            
+        }
+
+        function AcknowledgeEmailBuild1() {
+            //debugger
 
             var hdAck = document.getElementById('<%=hdShowAckMsgForm.ClientID%>').value;
             var hdHasText = document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value;  
             //if (hdHasText != "")
 
-            if (hdAck == "1" && hdHasText == "") {
+            if (hdHasText == "") {
                 $('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp')
             }
             else {
@@ -2727,7 +2793,7 @@
 
             if (hdAck == "0" && hdHasText != "") {
                 $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize');
 
                 $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
                 $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true);
@@ -2739,7 +2805,7 @@
             }
         }
 
-        $('body').on('click', '#MainContent_lnkAcknowledgeEmail', function () {
+        <%--$('body').on('click', '#MainContent_lnkAcknowledgeEmail', function () {
 
             //debugger
 
@@ -2747,7 +2813,7 @@
             $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
 
             $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
-            $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize');  //disableCtr
 
             $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled");
             $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled");
@@ -2758,7 +2824,7 @@
             //$('#<%=rwAckEmailMsg.ClientID %>').addClass('form-row paddingVert hideProp');        
 
             //alert('pepe');
-        });
+        });--%>
                 
         $('body').on('click', '#accordion_2 h5 a', function () {
             //debugger
@@ -2909,10 +2975,12 @@
                 $('#<%=hdGridViewContent.ClientID %>').val("0");
                 $('#<%=hdNavTabsContent.ClientID %>').val("1");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
+                $('#<%=hdAckPopContent.ClientID %>').val("0");
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
+                $('#<%=hdAckPopContent.ClientID %>').val("0");
 
             }
 
@@ -3042,7 +3110,7 @@
         //General Methods Begin
 
         function SetReopenBtn() {
-            debugger
+            //debugger
 
             var hdReopenFlag = document.getElementById('<%=hdIsReopen.ClientID%>').value;
             var hdLastComment = document.getElementById('<%=hdLastCommentValue.ClientID%>').value;
@@ -3114,7 +3182,7 @@
             var hdSeeFilesVisualization = document.getElementById('<%=hdSeeFilesContent.ClientID%>').value
             if (hdSeeFilesVisualization == "1") {
                 $('#MainContent_seeFilesSection').closest('.container').removeClass('hideProp')
-                $("#MainContent_seeFilesSection").removeAttr("style");
+                $('#MainContent_seeFilesSection').removeAttr("style");
 
                 $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
                 $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
@@ -3133,6 +3201,42 @@
                     $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
                     $('#MainContent_navsSection').closest('.container').addClass('hideProp')
                 }                
+            }
+
+            var hdAckPopVisualization = document.getElementById('<%=hdAckPopContent.ClientID%>').value
+            if (hdAckPopVisualization == "1") {
+
+                debugger
+
+                $('#MainContent_acknowledgeEmailSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_acknowledgeEmailSection").removeAttr("style");
+
+                //$('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+
+                debugger
+
+                //if (hdTabsVisualization == "1") {
+                //    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                //    $("#MainContent_navsSection").removeAttr("style");
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //}
+                //else {
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                //}
+
+                $('#MainContent_acknowledgeEmailSection').closest('.container').removeClass('container hideProp')
+                $('#MainContent_acknowledgeEmailSection').removeClass('container hideProp')
+
+                $('#MainContent_acknowledgeEmailSection').closest('.container').addClass('container hideProp')
+                $('#MainContent_acknowledgeEmailSection').addClass('container hideProp')
+
             }
 
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
@@ -3213,7 +3317,7 @@
         });
 
         function disableCustomInput() {
-            debugger 
+            //debugger 
             
             var fullSelection = document.getElementById('<%=hdFullDisabled.ClientID%>').value;
             var voidSelection = document.getElementById('<%=hdVoided.ClientID%>').value;
@@ -3375,6 +3479,18 @@
             $('#<%=hdSeeFilesContent.ClientID %>').val("0");
         }
 
+        function setVisAckPop() {
+            //debugger
+
+            $('#<%=hdAckPopContent.ClientID %>').val("0");
+        }
+
+        function setVisAckPop1() {
+            //debugger
+
+            $('#<%=hdAckPopContent.ClientID %>').val("0");
+        }
+
         function activeTab() {
 
             //debugger
@@ -3504,7 +3620,7 @@
         }
 
         function canCloseFunctionality() {
-            debugger 
+            //debugger 
 
             var hdCnClose = document.getElementById('<%=hdCanClose.ClientID%>').value;
             if (hdCnClose == "1") {
@@ -3678,8 +3794,6 @@
                 $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
                 $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
                 $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
-
-
             }
         });
 
@@ -3693,14 +3807,14 @@
                 $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
                 $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
 
-                $('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp');
-                $('#<%=hdShowAckMsgForm.ClientID %>').val('1');
+                //$('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp');
+                //$('#<%=hdShowAckMsgForm.ClientID %>').val('1');
             }
             else {
-                $('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
-                $('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');    
+                //$('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                //$('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');    
 
-                $('#<%=hdShowAckMsgForm.ClientID %>').val('0');
+                //$('#<%=hdShowAckMsgForm.ClientID %>').val('0');
             }
         });
 
@@ -4393,7 +4507,7 @@
 
                 SetReopenBtn();
 
-                customExpandMultilineText();
+                //customExpandMultilineText();
 
                 AcknowledgeEmailBuild();
 
@@ -4486,7 +4600,7 @@
 
             //__doPostBack()
 
-            customExpandMultilineText();
+            //customExpandMultilineText();
 
             canCloseFunctionality();
 
@@ -4670,28 +4784,33 @@
             if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {
                 //debugger
 
-                <%--$('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
-                $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
+                if (document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value != "") {
+                    $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true);
 
-                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                    $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
-                $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")--%>
+                    $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
+                }
+                else {
+                    $('#<%=chkAcknowledgeEmail.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', true); 
 
-                var hdHasText = document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value;
+                    $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
+                }                
+
+                <%--var hdHasText = document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value;
                 if (hdHasText != "") {
                     $('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
                     $('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');
                 }
                 else {
                     $('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp')
-                }                
-            }
-            else {
-                //$('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
-                //$('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');       
-            }
+                } --%>               
+            }            
 
             if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
                

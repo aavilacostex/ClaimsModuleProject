@@ -56,9 +56,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-7">
                                     <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
-                                                            <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Download Excel
+                                                            <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Excel File
                                     </asp:LinkButton>
                                 </div>
                                 <div class="col-md-3">
@@ -3794,8 +3794,6 @@
                 $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
                 $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
                 $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
-
-
             }
         });
 
