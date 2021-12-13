@@ -2530,7 +2530,7 @@
                 <div id="ackEmailP" runat="server">
                     <div id="pn1Div" class="row" runat="server">
                         <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles1" runat="server">
-                            <div class="container">
+                            <div id="rwContainerChanged" class="container padding0">
                                 <div class="row">                                    
                                     <div class="col-md-12 padding0">
                                         <div id="ackCommentHead" runat="server"><p>Insert the comment here!!</p></div>                                        
@@ -2539,7 +2539,7 @@
                                 <div class="row">
                                     <div class="col-md-12 padding0">
                                         <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
-                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="true" runat="server"></Atk:HtmlEditorExtender>
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="false" runat="server"></Atk:HtmlEditorExtender>
                                     </div>
                                 </div>
                             </div>                           
@@ -2547,19 +2547,19 @@
                         </asp:Panel>
                     </div>
 
-                    <div class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-6" style="text-align: right !important;">
+                    <div id="rwBottomBar" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
+                        <div class="col-md-1 padding0"></div>
+                        <div class="col-md-10 padding0">
+                            <div class="form-row padding0">
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
                                     <asp:Button ID="btnSaveMessageAck" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageAck_click"  runat="server" />
                                 </div>
-                                <div class="col-md-6" style="text-align: left !important;">
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
                                     <asp:Button ID="BtnBackSeeFiles1" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles1_click" OnClientClick="setVisAckPop(); return false" runat="server" />
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
+                        <div class="col-md-1 padding0"></div>
                     </div> 
                     
                     <div class="row hideProp">
@@ -3480,9 +3480,38 @@
         }
 
         function setVisAckPop() {
-            //debugger
+            debugger
 
             $('#<%=hdAckPopContent.ClientID %>').val("0");
+
+            $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+            $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', false); 
+            $('#<%=chkAcknowledgeEmail.ClientID %>').prop('checked', false);
+
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled'); 
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+
+            $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", false);
+            $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", false);
+
+
+            if (document.getElementById('<%=txtInitialReview.ClientID%>').value == "") {
+                $('#<%=chkInitialReview.ClientID %>').removeClass('disableCtr');
+                $('#<%=chkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=chkInitialReview.ClientID %>').attr('disabled', false);
+                $('#<%=chkInitialReview.ClientID %>').prop('checked', false);
+
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('disableCtr');
+
+                $('#<%=txtInitialReview.ClientID %>').attr("disabled", false);
+                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", false);
+            }
+            else {
+                var ppp = document.getElementById('<%=txtInitialReview.ClientID%>').value;
+                var ee = ""
+            }
         }
 
         function setVisAckPop1() {

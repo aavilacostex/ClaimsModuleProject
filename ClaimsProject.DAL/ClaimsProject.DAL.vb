@@ -434,6 +434,22 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function getClaimTypByValue(value As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Sql = "select cntde1 mhwtyp, substr(cntde2,42,1) flgoth from qs36f.cntrll where cnt01 = '185' and cnt02 = '' and trim(cnt03)= '" & Trim(value) & "'"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function getDataByStatus(status As String, ByRef dsResult As DataSet) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1

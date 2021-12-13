@@ -1902,6 +1902,216 @@ pnFilterStyles1 {
     border: 1px solid black;
 }
 
+
+/*
+
+    Media Queries
+
+*/
+
+@media (min-width: 1201px) {
+
+    #MainContent_ackEmailP {
+        max-width: 1140px !important;
+    }
+
+    #MainContent_pn1Div {
+        max-width: 100% !important;
+        height: 550px !important;
+        margin: 0 auto;
+    }
+
+    #MainContent_pnAckEmail {
+        max-width: 94% !important;
+        margin: 0 auto;
+    }
+
+    .ajax__html_editor_extender_container {
+        max-width: 100% !important;
+    }
+
+    .ajax__html_editor_extender_texteditor {
+        height: 465px !important;
+    }
+
+    #MainContent_claimQuickOverview {
+        max-width: 100% !important;
+    }
+
+    #rwBottomBar {
+        margin: 0 auto !important;
+        max-width: 100% !important;
+    }
+
+    #rwContainerChanged {
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 1200px) {
+
+    #MainContent_ackEmailP {
+        min-width: 900px !important;
+    }
+
+    #MainContent_pn1Div {
+        min-width: 100% !important;
+        height: 472px !important;
+        margin: 0 auto;
+    }
+
+    #MainContent_pnAckEmail {
+        min-width: 97% !important;
+        margin: 0 auto;
+    }
+
+    .ajax__html_editor_extender_container {
+        min-width: 100% !important;
+    }
+
+    .ajax__html_editor_extender_texteditor {
+        height: 410px !important;
+    }
+
+    #MainContent_claimQuickOverview {
+        min-width: 100% !important;
+    }
+
+    #rwBottomBar {
+        margin: 0 auto !important;
+        min-width: 100% !important;
+    }
+
+    #rwContainerChanged {
+        min-width: 100% !important;
+    }
+}
+
+@media (max-width: 992px) {
+
+    #MainContent_ackEmailP {
+        min-width: 750px !important;
+    }
+
+    #MainContent_pn1Div {
+        min-width: 100% !important;
+        height: 415px !important;
+        margin: 0 auto !important;
+    }
+
+    #MainContent_pnAckEmail {
+        min-width: 96% !important;
+    }
+
+    .ajax__html_editor_extender_container {
+        /*min-width: 750px !important;*/
+        min-width: 100% !important;
+    }
+
+    .ajax__html_editor_extender_texteditor {
+        height: 310px !important;
+    }
+
+    #MainContent_claimQuickOverview {
+        min-width: 100% !important;
+    }
+
+    #rwBottomBar {
+        margin: 0 auto !important;
+        min-width: 100% !important;
+    }
+
+    #rwContainerChanged {
+        min-width: 100% !important;
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    #MainContent_ackEmailP {
+        min-width: 550px !important;
+    }
+
+    #MainContent_pn1Div {
+        min-width: 100% !important;
+        height: 370px !important;
+    }
+
+    #MainContent_pnAckEmail {
+        min-width: 95% !important;
+    }
+
+    .ajax__html_editor_extender_container {
+        min-width: 100% !important;
+    }
+
+    .ajax__html_editor_extender_texteditor {
+        height: 285px !important;
+        min-width: 100% !important;
+    }
+
+    #MainContent_claimQuickOverview {
+        min-width: 100% !important;
+    }
+
+    #rwBottomBar {
+        margin: 0 auto !important;
+        min-width: 100% !important;
+    }
+
+    #rwContainerChanged {
+        min-width: 100% !important;
+    }
+
+    #rwBottomBar .form-row .col-md-6 {
+        padding: 0 0 5px 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+
+    #MainContent_ackEmailP {
+        min-width: 510px !important;
+        left: 30px !important;
+
+    }
+
+    #MainContent_pn1Div {
+        min-width: 100% !important;
+        height: 350px !important;
+    }
+
+    #MainContent_pnAckEmail {
+        min-width: 94% !important;
+    }
+
+    .ajax__html_editor_extender_container {
+        min-width: 100% !important;
+    }
+
+    .ajax__html_editor_extender_texteditor {
+        height: 265px !important;
+    }
+
+    #MainContent_claimQuickOverview {
+        min-width: 100% !important;
+    }
+
+    #rwBottomBar {
+        margin: 0 auto !important;
+        min-width: 100% !important;
+    }
+
+    #rwContainerChanged {
+        min-width: 100% !important;
+    }
+
+    #rwBottomBar .form-row .col-md-6 {
+        padding: 0 0 5px 0 !important;
+    }
+}
+
 /*#rowRadios {
     width: 100% !important;
 }
