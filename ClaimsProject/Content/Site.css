@@ -264,9 +264,12 @@ textarea {
 }
 
 .breadcrumb-bg {
-    padding: 10px 0 0 0;
-    background-color: #fbba42;
+    /*padding: 10px 0 0 0;*/
+    background-color: #fbba42; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to bottom right, #ffaf1a, #ffe4b3);
     text-align: left;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    border-radius: 0.25rem !important;
 }
 
 .page-list {
@@ -337,10 +340,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 #tabc {
     border: 1px solid #fbba42;
-    background-color: #fce4b6;
+    background-color: white;
     border-top: 0;
     width: 100% !important;
     padding-bottom: 20px;
+    border-bottom: 10px solid antiquewhite;
+    border-bottom-style: groove;
 }
 
 #tabc #issue-description .form-row {
@@ -348,7 +353,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 .fa-1x {
-    font-size: 1.3em !important;
+    /*font-size: 1.3em !important;*/
 }
 
 #MainContent_pnSubActionFinal a > p {
@@ -403,9 +408,9 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #ntab .nav-item {
-    border: 1px solid #fbba42 !important;
+    border: 1px inset #fbba42 !important;
     border-radius: 3px 3px 0 0;
-    margin-right: 5px;
+    margin-right: 2px;
     border-bottom: 0px !important;
 }
 
@@ -426,17 +431,19 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #ntab > .nav-item > .nav-link.active {
-    color: black !important;
+    color: white !important;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
     background-color: #fce4b6 !important;
     border-bottom-color: transparent;
+    text-shadow: 1px 1px #404040;
+    background-image: linear-gradient(180deg, #faa405, #fcd282);
 }
 
 #ntab i {
      padding: 4px 0 0 10px;   
-     color: #fbba42;
+     color: white;
      font-weight: bold;
 }
 
@@ -445,14 +452,16 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #tabc fieldset > legend, #MainContent_pnActions fieldset > legend {
-    color: black !important;
+    color: white !important;
+    font-weight: bold;
     text-align: center;
     padding: 2px;
     border-radius: 10px 10px 0 0;
     border-bottom: 2px groove whitesmoke;
     /*background-color: #fbba42 !important;*/
-    background-color: #fbba42; /* For browsers that do not support gradients */
-    background-image: linear-gradient(180deg, #faa405, #fcd282);
+    background-color: #fcc969; /* For browsers that do not support gradients */
+    /*background-image: linear-gradient(180deg, #faa405, #fcd282);*/
+    text-shadow: 1px 1px #404040;
 }
 
 #MainContent_txtRetNo, #MainContent_txtWrnNo {
@@ -481,10 +490,11 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 #MainContent_pnInformation, #MainContent_pnContact, #MainContent_pnISDet, #MainContent_pnVndClaimComm, #MainContent_pnClaimComm, #MainContent_pnRestock {
     width: 100%;
-    border: 1px solid #fbba42;
+    /*border: 1px solid #fbba42;*/
     padding: 0 8px;
-    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 50%);
     border-radius: 0.25rem !important;
+    background-color: #fef6e6;
 }
 
 #rowAddCommInit, #rowAddVndCommInit {
@@ -528,9 +538,9 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 #MainContent_pnSubActionComment, #MainContent_pnSubActionFiles, #MainContent_pnSubActionFinal, #MainContent_pnDescription,
 #MainContent_pnTotals, #MainContent_pnPartImage, #MainContent_pnCloseClaim, #MainContent_pnSendToCommentsTab, #MainContent_pnPartOEM {
     width: 100%;
-    border: 1px solid #fbba42;
+    /*border: 1px solid #fbba42;*/
     padding: 0 8px;
-    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 50%);
     border-radius: 0.25rem !important;
 }
 
@@ -548,6 +558,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 0;
     border-radius: 10px;
     box-shadow: 0px 2px 4px rgb(31 30 47 / 50%);
+    background-color: #fef6e6;
 }
 
 #MainContent_pnSubActionComment fieldset > legend, #MainContent_pnSubActionFiles fieldset > legend, #MainContent_pnSubActionFinal fieldset > legend,
@@ -583,6 +594,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 */
+
+#rowGridView tr:nth-child(2n) {
+    background-color: white !important;
+}
+
+#rowGridView tr:nth-child(2n+1) {
+    background-color: #F7F7FD !important;
+}
+
 #rowGridView1 tr > td {
     text-align: center !important;
     font-size: 18px !important;
@@ -590,7 +610,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 #rowGridView th, #rowGridView1 th {
     text-align: center !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     padding: 3px 1px 0 1px !important;
     padding: 7px 5px 7px 5px !important;
     cursor: pointer !important;
@@ -654,7 +674,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     text-transform: uppercase;
     float: left;
     padding: 5px 40px;
-    background-color: #dee2e6 !important;
+    background-color: #FFCD45 !important;
 }
 
 .pagination-ys #MainContent_grvLostSales_ndtt, .pagination-ys #MainContent_grvWishList_ndtt, .pagination-ys #MainContent_grvLogs_ndtt,
@@ -663,11 +683,11 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #MainContent_grvLogs .pagination-ys td, #MainContent_grvClaimReport .pagination-ys td {
-    background-color: #dee2e6 !important;
+    background-color: #FFCD45 !important;
 }
 
 #MainContent_grvLogs_ndtt, #MainContent_grvLogs_ndtt span, #MainContent_grvClaimReport_ndtt, #MainContent_grvClaimReport_ndtt span, {
-    background-color: #dee2e6 !important;
+    background-color: #FFCD45 !important;
 }
 
 #rowGridView .footer-style > td {
@@ -708,11 +728,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     float: left;
     padding: 8px 12px;
     line-height: 1.42857143;
-    text-decoration: none;
-    color: #006400;
+    text-decoration: none;    
     background-color: #ffffff;
     border: 1px solid #dddddd;
     margin-left: -1px;
+    color: black;
+    font-weight: 600;
 }
 
 .pagination-ys table > tbody > tr > td > span {
@@ -724,7 +745,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     margin-left: -1px;
     z-index: 2;
     color: #aea79f;
-    background-color: #f5f5f5;
+    background-color: #fde4b4;
     border-color: #dddddd;
     cursor: default;
 }
@@ -732,27 +753,28 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 .pagination-ys table > tbody > tr > td:first-child > a,
 .pagination-ys table > tbody > tr > td:first-child > span {
     margin-left: 0;
-    border-bottom-left-radius: 4px;
-    border-top-left-radius: 4px;
+    /*border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;*/
     text-decoration: none;
 }
 
 .pagination-ys table > tbody > tr > td:last-child > a,
 .pagination-ys table > tbody > tr > td:last-child > span {
-    border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
+    /*border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;*/
     text-decoration: none;
 }
 
-.pagination-ys table > tbody > tr > td > a:hover,
-.pagination-ys table > tbody > tr > td > span:hover,
-.pagination-ys table > tbody > tr > td > a:focus,
-.pagination-ys table > tbody > tr > td > span:focus {
-    color: #11866f;
-    background-color: #eeeeee;
-    border-color: #dddddd;
-    text-decoration: none;
-}
+    .pagination-ys table > tbody > tr > td > a:hover,
+    .pagination-ys table > tbody > tr > td > span:hover,
+    .pagination-ys table > tbody > tr > td > a:focus,
+    .pagination-ys table > tbody > tr > td > span:focus {
+        color: white;
+        font-weight: 600;
+        background-color: #faa405;
+        border-color: #c88304;
+        text-decoration: none;
+    }
 
 .pagination-ys > td:last-child > table {
     float: right;
@@ -1413,6 +1435,7 @@ input[type="color"]:focus,
 
 .boxed-btn-layout.btn-rounded {
     border-radius: 5px;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
 }
 
 .boxed-btn-layout.blank {
@@ -1473,11 +1496,17 @@ input[type="color"]:focus,
 
 .input-group-addon > i {
     padding-right: 10px !important;
+    text-shadow: 1px 1px #808080;
+    font-weight: bold;
 }
 
 .font-awesome-custom {
     color: white !important;
     font-size: 14px !important;
+}
+
+.btn {
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 50%) !important;
 }
 
 #MainContent_lnkSearchVendorNo, #MainContent_lnkSearchPartNo {
@@ -1501,6 +1530,7 @@ input[type="color"]:focus,
 .page-list a {
     color: black !important;
     text-decoration: none !important;
+    cursor: pointer;
 }
 
     .page-list a:hover {
@@ -1840,7 +1870,7 @@ input[type=file]::-ms-value {
 
 #MainContent_rowBtn, #MainContent_rowPnActions {
     padding: 10px 0 0 0;
-    background-color: #fce4b6;
+    background-color: white;
     border: 1px solid #fbba42;
     border-top: 0;
 }
@@ -1874,6 +1904,7 @@ pnFilterStyles1 {
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
     border-left: 4px solid #fbba42;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 10%);
 }
 
 .pnFilterStyles {
@@ -1884,6 +1915,7 @@ pnFilterStyles1 {
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
     border-left: 4px solid #fbba42;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 10%);
 }
 
 .pnFilterStyles > fieldset > legend {

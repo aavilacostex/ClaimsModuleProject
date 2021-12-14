@@ -31,14 +31,14 @@
 
             <div class="container-fluid">
                 <div class="breadcrumb-area breadcrumb-bg">
-                    <div class="row">
-                        <div class="col-md-offset-4 col-md-9 center">
+                    <div class="row" style="padding: 10px 0 0 0;">
+                        <div class="col-md-9" style="margin: 0 auto;padding: 8px 0 0 0;">
                             <div class="breadcrumb-inner">
                                 <div class="row">
                                     <div class="col-md-11">
-                                        <div class="bread-crumb-inner">
+                                        <div class="bread-crumb-inner" style="margin: 0 auto;">
                                             <div class="breadcrumb-area page-list">
-                                                <div class="row" style="padding: 20px 0;">
+                                                <div class="row">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-7 link">                                                        
                                                         <asp:LinkButton ID="lnkHome" class="btn-rounded" OnClick="lnkHome_Click" runat="server">
