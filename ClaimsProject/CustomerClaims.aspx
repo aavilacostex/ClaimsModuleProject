@@ -767,7 +767,9 @@
                     <asp:HiddenField ID="hdNavTabsContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdSeeFilesContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdAckPopContent" Value="0"  runat="server" />
+                    <asp:HiddenField ID="hdInfoCustContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdTextEditorAckMessage" Value=""  runat="server" />
+                    <asp:HiddenField ID="hdTextEditorInfoCustMessage" Value=""  runat="server" />
 
                     <asp:HiddenField ID="hdComments" Value="" runat="server" />
                     <asp:HiddenField ID="hdFlagUpload" Value="" runat="server" />
@@ -1055,19 +1057,29 @@
                     <!-- Tab links -->
                     <ul id="ntab" class="nav nav-tabs" role="tablist" style="visibility: visible;">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#claimoverview" role="tab" aria-selected="false">claim overview</a>
+                            <a class="nav-link active" data-toggle="tab" href="#claimoverview" role="tab" aria-selected="false">
+                                claim overview <i class="fa fa-1x fa-file-alt download" aria-hidden="true"> </i> 
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">defective part information</a>
+                            <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">defective part information
+                                <i class="fa fa-1x fa-cog download" aria-hidden="true"> </i> 
+                            </a>
                         </li>                        
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
+                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments
+                                <i class="fa fa-1x fa-comment download" aria-hidden="true"> </i> 
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status</a>
+                            <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status
+                                <i class="fa fa-1x fa-info-circle download" aria-hidden="true"> </i> 
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits</a>
+                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits
+                                <i class="fa fa-1x fa-file-invoice-dollar download" aria-hidden="true"> </i> 
+                            </a>
                         </li>
                     </ul>
 
@@ -1542,10 +1554,11 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblInfoCust" Text="Info Requested to Customer" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkInfoCust" runat="server" />
+                                                    <asp:CheckBox ID="chkInfoCust" OnCheckedChanged="chkInfoCust_CheckedChanged" AutoPostBack="true" runat="server" />
                                                     <asp:LinkButton ID="lnkInfoCust" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
+                                                    <asp:Label ID="lblInfoCMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInfoCust" CssClass="form-control" runat="server" />                                                            
@@ -1555,6 +1568,13 @@
                                                         </div>
                                                     </div>                                                    
                                                 </div>                                                
+                                            </div>
+
+                                            <div id="rwAckEmailMsg1" class="form-row paddingVert hideProp" runat="server">
+                                                <div class="col-md-12">
+                                                    <asp:TextBox ID="txtMsgAftAckEmail1" Text="" CssClass="form-control fullTextBox hideProp" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    <asp:Label ID="lblTextEditorInfoCust" CssClass="hideProp" runat="server"></asp:Label>
+                                                </div>
                                             </div>
 
                                             <div class="form-row">
@@ -2568,6 +2588,48 @@
                 </div>
             </div>
 
+            <asp:Label runat="server" ID="dummylabel3"></asp:Label>
+            <div id="infoCustSection" class="container hideProp" runat="server"> 
+                <div id="infoCustP" runat="server">
+                    <div id="pn2Div" class="row" runat="server">
+                        <asp:Panel ID="pnInfoCust" CssClass="pnFilterStyles1" runat="server">
+                            <div id="rwContainerChanged1" class="container padding0">
+                                <div class="row">                                    
+                                    <div class="col-md-12 padding0">
+                                        <div id="infoCustHead" runat="server"><p>Insert the comment here!!</p></div>                                        
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 padding0">
+                                        <asp:TextBox runat="server" ID="txtEditorExtender2" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender2" TargetControlID="txtEditorExtender2" EnableSanitization="false" DisplaySourceTab ="false" runat="server"></Atk:HtmlEditorExtender>
+                                    </div>
+                                </div>
+                            </div>                           
+
+                        </asp:Panel>
+                    </div>
+
+                    <div id="rwBottomBar1" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
+                        <div class="col-md-1 padding0"></div>
+                        <div class="col-md-10 padding0">
+                            <div class="form-row padding0">
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
+                                    <asp:Button ID="btnSaveMessageInfoC" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageInfoC_click"  runat="server" />
+                                </div>
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
+                                    <asp:Button ID="BtnBackSeeFiles2" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles2_click" OnClientClick="setVisInfoCust(); return false" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 padding0"></div>
+                    </div> 
+                    
+                    <div class="row hideProp">
+                        <asp:LinkButton ID="LinkButton1" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                    </div>
+                </div>
+            </div>
 
             <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
@@ -2677,6 +2739,10 @@
                 PopupControlID="ackEmailP" CancelControlID="BtnBackSeeFiles1"  >
             </Atk:ModalPopupExtender>
 
+            <Atk:ModalPopupExtender ID="popInfoCust" runat="server" TargetControlID="dummylabel3" BehaviorID="popupCopyCtrl"
+                PopupControlID="infoCustP" CancelControlID="BtnBackSeeFiles2"  >
+            </Atk:ModalPopupExtender>
+
             <br />
         </ContentTemplate>
 
@@ -2774,6 +2840,20 @@
                 $('#MainContent_lblAckMessageStatus').removeClass('clsMesageSaved hideProp');
                 $('#MainContent_lblAckMessageStatus').addClass('clsMesageSaved');
             }            
+        }
+
+        function InfoCustomerBuild() {
+            //debugger
+
+            var hdHasText = document.getElementById('<%=hdTextEditorInfoCustMessage.ClientID%>').value;
+
+            if (hdHasText == "") {
+                $('#MainContent_lblInfoCMessageStatus').addClass('hideProp')
+            }
+            else {
+                $('#MainContent_lblInfoCMessageStatus').removeClass('clsMesageSaved hideProp');
+                $('#MainContent_lblInfoCMessageStatus').addClass('clsMesageSaved');
+            }
         }
 
         function AcknowledgeEmailBuild1() {
@@ -2976,11 +3056,13 @@
                 $('#<%=hdNavTabsContent.ClientID %>').val("1");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
+                $('#<%=hdInfoCustContent.ClientID %>').val("0");
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
+                $('#<%=hdInfoCustContent.ClientID %>').val("0");
 
             }
 
@@ -3236,6 +3318,42 @@
 
                 $('#MainContent_acknowledgeEmailSection').closest('.container').addClass('container hideProp')
                 $('#MainContent_acknowledgeEmailSection').addClass('container hideProp')
+
+            }
+
+            var hdInfoCustVisualization = document.getElementById('<%=hdInfoCustContent.ClientID%>').value
+            if (hdInfoCustVisualization == "1") {
+
+                debugger
+
+                $('#MainContent_infoCustSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_infoCustSection").removeAttr("style");
+
+                //$('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+
+                debugger
+
+                //if (hdTabsVisualization == "1") {
+                //    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                //    $("#MainContent_navsSection").removeAttr("style");
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //}
+                //else {
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                //}
+
+                $('#MainContent_infoCustSection').closest('.container').removeClass('container hideProp')
+                $('#MainContent_infoCustSection').removeClass('container hideProp')
+
+                $('#MainContent_infoCustSection').closest('.container').addClass('container hideProp')
+                $('#MainContent_infoCustSection').addClass('container hideProp')
 
             }
 
@@ -3507,6 +3625,53 @@
 
                 $('#<%=txtInitialReview.ClientID %>').attr("disabled", false);
                 $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", false);
+            }
+            else {
+                var ppp = document.getElementById('<%=txtInitialReview.ClientID%>').value;
+                var ee = ""
+            }
+        }
+
+        function setVisInfoCust() {
+            debugger
+
+            $('#<%=hdInfoCustContent.ClientID %>').val("0");
+
+            $('#<%=chkInfoCust.ClientID %>').removeClass('disableCtr');
+            $('#<%=chkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=chkInfoCust.ClientID %>').attr('disabled', false);
+            $('#<%=chkInfoCust.ClientID %>').prop('checked', false);
+
+            $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=lnkInfoCust.ClientID %>').removeClass('disableCtr');
+
+            $('#<%=txtInfoCust.ClientID %>').attr("disabled", false);
+            $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", false);
+
+
+            if (document.getElementById('<%=txtInitialReview.ClientID%>').value == "") {
+                $('#<%=chkInitialReview.ClientID %>').removeClass('disableCtr');
+                $('#<%=chkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=chkInitialReview.ClientID %>').attr('disabled', false);
+                $('#<%=chkInitialReview.ClientID %>').prop('checked', false);
+
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('disableCtr');
+
+                $('#<%=txtInitialReview.ClientID %>').attr("disabled", false);
+                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", false);
+            }
+            else if(document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value == "") {
+                $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', false);
+                $('#<%=chkAcknowledgeEmail.ClientID %>').prop('checked', false);
+
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+
+                $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", false);
+                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", false);
             }
             else {
                 var ppp = document.getElementById('<%=txtInitialReview.ClientID%>').value;
@@ -3829,6 +3994,27 @@
         $('body').on('change', "#<%=chkAcknowledgeEmail.ClientID %>", function () {
             debugger
             
+            if ($(this).is(':checked')) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+
+                //$('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp');
+                //$('#<%=hdShowAckMsgForm.ClientID %>').val('1');
+            }
+            else {
+                //$('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                //$('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');    
+
+                //$('#<%=hdShowAckMsgForm.ClientID %>').val('0');
+            }
+        });
+
+        $('body').on('change', "#<%=chkInfoCust.ClientID %>", function () {
+            debugger
+
             if ($(this).is(':checked')) {
                 //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
                 $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
@@ -4540,6 +4726,8 @@
 
                 AcknowledgeEmailBuild();
 
+                InfoCustomerBuild();
+
                 canCloseFunctionality();
 
                 //$(window).scrollTop(0);
@@ -4624,6 +4812,8 @@
             SetReopenBtn();
 
             AcknowledgeEmailBuild();
+
+            InfoCustomerBuild();
 
             //$(window).scrollTop(0);
 
@@ -4842,16 +5032,24 @@
             }            
 
             if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
-               
-                $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                if (document.getElementById('<%=txtInfoCust.ClientID%>').value != "") {
+                    $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
 
-                $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
+                    $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                }
+                else {
+                    $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
+
+                    $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                }
             }
 
             if ($('#<%=chkPartRequested.ClientID %>').is(':checked')) {

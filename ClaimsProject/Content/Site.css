@@ -434,6 +434,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     border-bottom-color: transparent;
 }
 
+#ntab i {
+     padding: 4px 0 0 10px;   
+     color: #fbba42;
+     font-weight: bold;
+}
+
 #tabc h3 {
     padding: 3px;
 }
@@ -444,7 +450,9 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 2px;
     border-radius: 10px 10px 0 0;
     border-bottom: 2px groove whitesmoke;
-    background-color: #fbba42 !important;
+    /*background-color: #fbba42 !important;*/
+    background-color: #fbba42; /* For browsers that do not support gradients */
+    background-image: linear-gradient(180deg, #faa405, #fcd282);
 }
 
 #MainContent_txtRetNo, #MainContent_txtWrnNo {
@@ -475,6 +483,8 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     width: 100%;
     border: 1px solid #fbba42;
     padding: 0 8px;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    border-radius: 0.25rem !important;
 }
 
 #rowAddCommInit, #rowAddVndCommInit {
@@ -520,6 +530,8 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     width: 100%;
     border: 1px solid #fbba42;
     padding: 0 8px;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    border-radius: 0.25rem !important;
 }
 
 #MainContent_pnActions, #MainContent_pnSubTotalClaimed, #MainContent_pnSubTotalClaim, #MainContent_pnConsequentalDamage, #MainContent_pnPartialCredit {
@@ -527,12 +539,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     border: 1px solid #fbba42;
     padding: 0 8px;
     padding-bottom: 15px;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    border-radius: 0.25rem !important;
 }
 
 #MainContent_pnSubActionComment, #MainContent_pnSubActionFiles, #MainContent_pnSubActionFinal, #MainContent_pnSubTotalClaimed, #MainContent_pnSubTotalClaim,
 #MainContent_pnConsequentalDamage, #MainContent_pnPartialCredit, #MainContent_pnCloseClaim, #MainContent_pnSendToCommentsTab {
     padding: 0;
     border-radius: 10px;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 50%);
 }
 
 #MainContent_pnSubActionComment fieldset > legend, #MainContent_pnSubActionFiles fieldset > legend, #MainContent_pnSubActionFinal fieldset > legend,
@@ -956,6 +971,8 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 #MainContent_claimQuickOverview .col-md-10 {
     text-align: center !important;
+    background-color: #d4edda;
+    background-image: linear-gradient( 180deg, #d4edda, #edf7ef);
 }
 
 .innerGrv {
@@ -1600,13 +1617,13 @@ input[type="color"]:focus,
     background-color:white !important;
 }
 
-#MainContent_ackCommentHead {
-    background-color: #fbba42 !important;   
+#MainContent_ackCommentHead, #MainContent_infoCustHead {
+    background-color: #fbba42 !important;
     padding: 0;
     text-align: center;
 }
 
-#MainContent_ackCommentHead > p {
+#MainContent_ackCommentHead > p, #MainContent_infoCustHead > p {
     margin: 0 auto !important;
     font-size: 22px;
     color: black !important;
@@ -1911,17 +1928,17 @@ pnFilterStyles1 {
 
 @media (min-width: 1201px) {
 
-    #MainContent_ackEmailP {
+    #MainContent_ackEmailP, #MainContent_infoCustP {
         max-width: 1140px !important;
     }
 
-    #MainContent_pn1Div {
+    #MainContent_pn1Div, #MainContent_pn2Div {
         max-width: 100% !important;
         height: 550px !important;
         margin: 0 auto;
     }
 
-    #MainContent_pnAckEmail {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
         max-width: 94% !important;
         margin: 0 auto;
     }
@@ -1938,29 +1955,29 @@ pnFilterStyles1 {
         max-width: 100% !important;
     }
 
-    #rwBottomBar {
+    #rwBottomBar, #rwBottomBar1 {
         margin: 0 auto !important;
         max-width: 100% !important;
     }
 
-    #rwContainerChanged {
+    #rwContainerChanged, #rwContainerChanged1 {
         max-width: 100% !important;
     }
 }
 
 @media (max-width: 1200px) {
 
-    #MainContent_ackEmailP {
+    #MainContent_ackEmailP, #MainContent_infoCustP {
         min-width: 900px !important;
     }
 
-    #MainContent_pn1Div {
+    #MainContent_pn1Div, #MainContent_pn2Div {
         min-width: 100% !important;
         height: 472px !important;
         margin: 0 auto;
     }
 
-    #MainContent_pnAckEmail {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
         min-width: 97% !important;
         margin: 0 auto;
     }
@@ -1977,29 +1994,29 @@ pnFilterStyles1 {
         min-width: 100% !important;
     }
 
-    #rwBottomBar {
+    #rwBottomBar, #rwBottomBar1 {
         margin: 0 auto !important;
         min-width: 100% !important;
     }
 
-    #rwContainerChanged {
+    #rwContainerChanged, #rwContainerChanged1 {
         min-width: 100% !important;
     }
 }
 
 @media (max-width: 992px) {
 
-    #MainContent_ackEmailP {
+    #MainContent_ackEmailP, #MainContent_infoCustP {
         min-width: 750px !important;
     }
 
-    #MainContent_pn1Div {
+    #MainContent_pn1Div, #MainContent_pn2Div {
         min-width: 100% !important;
         height: 415px !important;
         margin: 0 auto !important;
     }
 
-    #MainContent_pnAckEmail {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
         min-width: 96% !important;
     }
 
@@ -2016,12 +2033,12 @@ pnFilterStyles1 {
         min-width: 100% !important;
     }
 
-    #rwBottomBar {
+    #rwBottomBar, #rwBottomBar1 {
         margin: 0 auto !important;
         min-width: 100% !important;
     }
 
-    #rwContainerChanged {
+    #rwContainerChanged, #rwContainerChanged1 {
         min-width: 100% !important;
         margin: 0 auto !important;
     }
@@ -2029,16 +2046,16 @@ pnFilterStyles1 {
 
 @media (max-width: 768px) {
 
-    #MainContent_ackEmailP {
+    #MainContent_ackEmailP, #MainContent_infoCustP {
         min-width: 550px !important;
     }
 
-    #MainContent_pn1Div {
+    #MainContent_pn1Div, #MainContent_pn2Div {
         min-width: 100% !important;
         height: 370px !important;
     }
 
-    #MainContent_pnAckEmail {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
         min-width: 95% !important;
     }
 
@@ -2055,34 +2072,33 @@ pnFilterStyles1 {
         min-width: 100% !important;
     }
 
-    #rwBottomBar {
+    #rwBottomBar, #rwBottomBar1 {
         margin: 0 auto !important;
         min-width: 100% !important;
     }
 
-    #rwContainerChanged {
+    #rwContainerChanged, #rwContainerChanged1 {
         min-width: 100% !important;
     }
 
-    #rwBottomBar .form-row .col-md-6 {
+    #rwBottomBar .form-row .col-md-6, #rwBottomBar1 .form-row .col-md-6 {
         padding: 0 0 5px 0 !important;
     }
 }
 
 @media (max-width: 576px) {
 
-    #MainContent_ackEmailP {
+    #MainContent_ackEmailP, #MainContent_infoCustP {
         min-width: 510px !important;
         left: 30px !important;
-
     }
 
-    #MainContent_pn1Div {
+    #MainContent_pn1Div, #MainContent_pn2Div {
         min-width: 100% !important;
         height: 350px !important;
     }
 
-    #MainContent_pnAckEmail {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
         min-width: 94% !important;
     }
 
@@ -2098,16 +2114,16 @@ pnFilterStyles1 {
         min-width: 100% !important;
     }
 
-    #rwBottomBar {
+    #rwBottomBar, #rwBottomBar1 {
         margin: 0 auto !important;
         min-width: 100% !important;
     }
 
-    #rwContainerChanged {
+    #rwContainerChanged, #rwContainerChanged1 {
         min-width: 100% !important;
     }
 
-    #rwBottomBar .form-row .col-md-6 {
+    #rwBottomBar .form-row .col-md-6, #rwBottomBar1 .form-row .col-md-6 {
         padding: 0 0 5px 0 !important;
     }
 }

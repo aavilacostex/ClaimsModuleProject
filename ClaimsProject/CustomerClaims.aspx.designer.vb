@@ -878,6 +878,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdAckPopContent As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdInfoCustContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdInfoCustContent As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdTextEditorAckMessage control.
     '''</summary>
     '''<remarks>
@@ -885,6 +894,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdTextEditorAckMessage As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdTextEditorInfoCustMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdTextEditorInfoCustMessage As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''hdComments control.
@@ -2624,6 +2642,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents lnkInfoCust As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''lblInfoCMessageStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblInfoCMessageStatus As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtInfoCust control.
     '''</summary>
     '''<remarks>
@@ -2640,6 +2667,33 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtInfoCustDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''rwAckEmailMsg1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rwAckEmailMsg1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''txtMsgAftAckEmail1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtMsgAftAckEmail1 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblTextEditorInfoCust control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTextEditorInfoCust As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''lblPartRequested control.
@@ -4163,6 +4217,105 @@ Partial Public Class CustomerClaims
     Protected WithEvents btnSeeFileMsg1 As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''dummylabel3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dummylabel3 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''infoCustSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents infoCustSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''infoCustP control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents infoCustP As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pn2Div control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pn2Div As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnInfoCust control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnInfoCust As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''infoCustHead control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents infoCustHead As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''txtEditorExtender2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtEditorExtender2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''htmlEditorExtender2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents htmlEditorExtender2 As Global.AjaxControlToolkit.HtmlEditorExtender
+
+    '''<summary>
+    '''btnSaveMessageInfoC control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveMessageInfoC As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''BtnBackSeeFiles2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents BtnBackSeeFiles2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''LinkButton1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LinkButton1 As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''dummylabel control.
     '''</summary>
     '''<remarks>
@@ -4278,4 +4431,13 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents popAckEmail As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''popInfoCust control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents popInfoCust As Global.AjaxControlToolkit.ModalPopupExtender
 End Class

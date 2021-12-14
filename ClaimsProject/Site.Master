@@ -47,7 +47,7 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <div class="container-fluid">
+        <div class="container-fluid padding0" style="background-color: #fef6e6;">
 
             <div class="support-bar-area row">
                 <div class="col-lg-1"></div>

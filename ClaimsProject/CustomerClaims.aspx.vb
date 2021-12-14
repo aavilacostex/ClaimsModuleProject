@@ -1267,6 +1267,38 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub chkInfoCust_CheckedChanged(sender As Object, e As EventArgs) Handles chkInfoCust.CheckedChanged
+        Try
+            Dim ctrName As String = Nothing
+            If Session("currentCtr") IsNot Nothing Then
+                ctrName = Session("currentCtr").ToString()
+
+                If chkInitialReview.Checked And chkAcknowledgeEmail.Checked Then
+                    If ((LCase(ctrName).Contains("chkinfoc"))) Then
+                        popInfoCust.Show()
+
+                        hdGridViewContent.Value = "0"
+                        hdNavTabsContent.Value = "1"
+                        hdAckPopContent.Value = "0"
+                        hdInfoCustContent.Value = "1"
+                        'chkAcknowledgeEmail.Enabled = False
+
+                        'hdShowAckMsgForm.Value = If(chkAcknowledgeEmail.Checked, "1", "0")
+                    Else
+
+                    End If
+                Else
+                    Dim strMessage = "In order to update the Info Customer Status, the Initial Review and Acknowledge Email Statuses must have been selected each one."
+                    chkAcknowledgeEmail.Checked = False
+                    SendMessage(strMessage, messageType.info)
+                    Exit Sub
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 #End Region
 
 #Region "DropDownList"
@@ -1846,6 +1878,18 @@ Public Class CustomerClaims
         popAckEmail.Hide()
 
         hdAckPopContent.Value = "0"
+        hdInfoCustContent.Value = "0"
+        hdGridViewContent.Value = "0"
+        hdNavTabsContent.Value = "1"
+        'closeAtkPopup()
+    End Sub
+
+    Protected Sub BtnBackSeeFiles2_click(sender As Object, e As EventArgs) Handles BtnBackSeeFiles2.Click
+
+        popInfoCust.Hide()
+
+        hdInfoCustContent.Value = "0"
+        hdAckPopContent.Value = "0"
         hdGridViewContent.Value = "0"
         hdNavTabsContent.Value = "1"
         'closeAtkPopup()
@@ -1858,6 +1902,26 @@ Public Class CustomerClaims
             hdTextEditorAckMessage.Value = lblTextEditorAck.Text
 
             hdAckPopContent.Value = "0"
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+
+            'lnkAcknowledgeEmail_Click(Nothing, Nothing)
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+        End Try
+
+        'closeAtkPopup()
+    End Sub
+
+    Protected Sub btnSaveMessageInfoC_click(sender As Object, e As EventArgs) Handles btnSaveMessageInfoC.Click
+        Dim exMessage As String = " "
+        Try
+            lblTextEditorInfoCust.Text = txtEditorExtender2.Text
+            hdTextEditorInfoCustMessage.Value = lblTextEditorInfoCust.Text
+
+            hdAckPopContent.Value = "0"
+            hdInfoCustContent.Value = "0"
             hdGridViewContent.Value = "0"
             hdNavTabsContent.Value = "1"
 
@@ -2329,6 +2393,7 @@ Public Class CustomerClaims
             hdAddVndComments.Value = "0"
             hdAddComments.Value = "0"
             hdAckPopContent.Value = "0"
+            hdInfoCustContent.Value = "0"
             hdLoadAllData.Value = "1"
 
             clearAllDataFields()
@@ -4216,12 +4281,18 @@ Public Class CustomerClaims
                     Else
                         txtEditorExtender1.Text = ""
                         lblTextEditorAck.Text = ""
+                        txtEditorExtender2.Text = ""
+                        lblTextEditorInfoCust.Text = ""
                         hdAckPopContent.Value = "0"
+                        hdInfoCustContent.Value = "0"
                     End If
                 Else
                     txtEditorExtender1.Text = ""
                     lblTextEditorAck.Text = ""
+                    txtEditorExtender2.Text = ""
+                    lblTextEditorInfoCust.Text = ""
                     hdAckPopContent.Value = "0"
+                    hdInfoCustContent.Value = "0"
                 End If
                 'AcknowledgeEmailProcess(wrnNo, strMessage)
 
@@ -4263,15 +4334,17 @@ Public Class CustomerClaims
                         UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, True)
                     Else
                         'add new modal popup for this
-                        'txtEditorExtender1.Text = ""
-                        'lblTextEditorAck.Text = ""
-                        'hdAckPopContent.Value = "0"
+                        txtEditorExtender2.Text = ""
+                        lblTextEditorInfoCust.Text = ""
+                        hdInfoCustContent.Value = "0"
+                        hdAckPopContent.Value = "0"
                     End If
                 Else
                     'add new modal popup for this
-                    'txtEditorExtender1.Text = ""
-                    'lblTextEditorAck.Text = ""
-                    'hdAckPopContent.Value = "0"
+                    txtEditorExtender2.Text = ""
+                    lblTextEditorInfoCust.Text = ""
+                    hdAckPopContent.Value = "0"
+                    hdInfoCustContent.Value = "0"
                 End If
 
                 'InfoRequestedProcess(wrnNo, strMessage)
@@ -5478,6 +5551,7 @@ Public Class CustomerClaims
     Public Function InfoRequestedProcess(wrnNo As String, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         strMessage = Nothing
+        Dim justExist As Boolean = False
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -5488,7 +5562,7 @@ Public Class CustomerClaims
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow, justExist)
                     If rsInsInitReview > 0 Then
                         txtInfoCust.Text = Session("userid").ToString().ToUpper()
                         txtInfoCustDate.Text = datenow
@@ -5522,14 +5596,26 @@ Public Class CustomerClaims
                             Return result
                         End If
 
-                        Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
-                        If rsLastUpd > 0 Then
-                            'open outlook to send email to customer
-                            result = True
-                        Else
-                            'error log
-                            strMessage = "There is an error updating the Warranty Header status for Warning Number: " + wrnNo + "."
-                            Return result
+                        If Not justExist Then
+                            Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                            If rsLastUpd > 0 Then
+                                Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
+                                Dim messageOut As String = Nothing
+                                If objEmail IsNot Nothing Then
+                                    Dim emailMsg = If(String.IsNullOrEmpty(lblTextEditorInfoCust.Text.Trim()), hdTextEditorInfoCustMessage.Value.Trim(), lblTextEditorInfoCust.Text.Trim())
+                                    objEmail.MESSAGE = emailMsg
+
+                                    Dim bresult = PrepareEmail(objEmail, "4", messageOut)
+                                    If Not bresult Then
+                                        strMessage += messageOut
+                                    End If
+                                    result = True
+                                End If
+                            Else
+                                    'error log
+                                    strMessage = "There is an error updating the Warranty Header status for Warning Number: " + wrnNo + "."
+                                Return result
+                            End If
                         End If
                     Else
                         'insertion error
@@ -8472,6 +8558,7 @@ Public Class CustomerClaims
     Public Function PrepareEmail(obj As ClaimEmailObj, flag As String, Optional ByRef strMessage As String = Nothing, Optional applyCM As Boolean = False) As Boolean
         Dim exMessage As String = Nothing
         Dim bResult As Boolean = False
+        Dim mustChangeTemplate As Boolean = False
         Try
             Dim emailSender As String = ConfigurationManager.AppSettings("username").ToString()
             Dim emailSenderPassword As String = ConfigurationManager.AppSettings("password").ToString()
@@ -8485,6 +8572,12 @@ Public Class CustomerClaims
             Dim TestNotUsers = ConfigurationManager.AppSettings("claimNotificatedUsersTest").ToString()
             Dim FullPrivilegeUser = ConfigurationManager.AppSettings("claimFullPrivilegesApprove").ToString()
             Dim EmailPrsCMGen = ConfigurationManager.AppSettings("EmailPersonApplyCM").ToString()
+            Dim CostexPhoneNumber = ConfigurationManager.AppSettings("CostexPhone").ToString()
+
+            If flag.Equals("4") Then
+                mustChangeTemplate = True
+                flag = "2"
+            End If
 
             Dim FileTemplate = Directory.GetFiles(Server.MapPath("~/EmailTemplates/"))
             Dim i As Integer = 0
@@ -8531,26 +8624,45 @@ Public Class CustomerClaims
                     Mailtext = Mailtext.Replace("[APPROVEDBY]", obj.ApprovedBy)
                 End If
 
+                Dim userEmail1 As String = Nothing
+                Dim username1 As String = Nothing
+                Dim ext As String = Nothing
+                GetUserEmailByUserId(Session("userid").ToString().Trim(), username1, userEmail1, ext)
+                emailSender = If(flagEmail.Equals("1"), userEmail1.Trim(), TestNotUsers.Trim())
+
+                Mailtext = Mailtext.Replace("[SENDER]", username1)
+
             Else
                 Dim userEmail1 As String = Nothing
                 Dim username1 As String = Nothing
-                GetUserEmailByUserId(Session("userid").ToString().Trim(), username1, userEmail1)
+                Dim ext As String = Nothing
+                GetUserEmailByUserId(Session("userid").ToString().Trim(), username1, userEmail1, ext)
                 emailSender = If(flagEmail.Equals("1"), userEmail1.Trim(), TestNotUsers.Trim())
 
                 Mailtext = Mailtext.Replace("[CUSTOMER]", If(flagEmail.Equals("1"), txtContactEmail.Text.Trim(), TestNotUsers.Trim())) 'obj.EmailTo
                 Mailtext = Mailtext.Replace("[USERNAME]", If(flagEmail.Equals("1"), txtContactName.Text.Trim(), TestNotUsers.Trim().Split("@")(0)))
+                Mailtext = Mailtext.Replace("[COORDINATOR]", username1)
+                Mailtext = Mailtext.Replace("[OWNNUMBER]", CostexPhoneNumber)
+                Mailtext = Mailtext.Replace("[OWNEXT]", ext)
                 userEmail = If(flagEmail.Equals("1"), txtContactEmail.Text.Trim(), TestNotUsers.Trim())
             End If
 
+            Dim strSts2Text As String = "Acknowledgement Email for User., Information Requested to the user."
+            Dim niceText = If(mustChangeTemplate, strSts2Text.Trim().Split(",")(1).Trim(), strSts2Text.Trim().Split(",")(0).Trim())
+
             Dim msg As MailMessage = New MailMessage()
             msg.IsBodyHtml = True
-            'emailSender = "jdmira@costex.com" test purpose
+            'emailSender = "jdmira@costex.com" 'test purpose
             msg.From = New MailAddress(emailSender)
             msg.To.Add(userEmail)
             msg.To.Add(TestNotUsers)
-            Dim msgSubject = If(flag.Equals("2"), "Acknowledgement Email for User.", If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
+            msg.To.Add("ansberto.avila85@gmail.com")
+            Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
             msg.Subject = msgSubject
+            Dim txt = Mailtext
             msg.Body = Mailtext
+            'msg.BodyEncoding = System.Text.Encoding.ASCII
+            'msg.Body = msg.Body.Replace(Environment.NewLine, "<br/>")
 
             Dim _smtp As SmtpClient = New SmtpClient()
             _smtp.Host = emailSenderHost
@@ -10248,7 +10360,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Function GetUserEmailByUserId(userid As String, Optional ByRef username As String = Nothing, Optional ByRef userEmail As String = Nothing) As String
+    Public Function GetUserEmailByUserId(userid As String, Optional ByRef username As String = Nothing, Optional ByRef userEmail As String = Nothing, Optional ByRef ext As String = Nothing) As String
         Dim strLdap = "costex.com"
         userEmail = Nothing
         Try
@@ -10257,6 +10369,7 @@ Public Class CustomerClaims
                 If yourUser IsNot Nothing Then
                     userEmail = yourUser.EmailAddress.Trim().ToLower()
                     username = yourUser.Name.ToString()
+                    ext = yourUser.VoiceTelephoneNumber.ToString()
                 End If
             End Using
             Return userEmail

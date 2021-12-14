@@ -23,4 +23,3 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.pdb
-C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Debug\ClaimsProject.UTIL.vbprojAssemblyReference.cache
