@@ -259,6 +259,7 @@
     <Content Include="Images\logo.png" />
     <Content Include="Images\mapall.PNG" />
     <Content Include="Images\minus.gif" />
+    <Content Include="Images\navbar-bakcground.png" />
     <Content Include="Images\next.png" />
     <Content Include="Images\nextlabel.gif" />
     <Content Include="Images\Outlook.PNG" />

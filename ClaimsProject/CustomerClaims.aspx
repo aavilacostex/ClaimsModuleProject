@@ -1058,27 +1058,27 @@
                     <ul id="ntab" class="nav nav-tabs" role="tablist" style="visibility: visible;">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#claimoverview" role="tab" aria-selected="false">
-                                claim overview <i class="fa fa-1x fa-file-alt download" aria-hidden="true"> </i> 
+                                <i class="fa fa-1x fa-file-alt download" aria-hidden="true"> </i> claim overview  
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">defective part information
-                                <i class="fa fa-1x fa-cog download" aria-hidden="true"> </i> 
+                            <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-cog download" aria-hidden="true"> </i>  defective part information                                
                             </a>
                         </li>                        
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments
-                                <i class="fa fa-1x fa-comment download" aria-hidden="true"> </i> 
+                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-comment download" aria-hidden="true"> </i>  claim comments                                
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status
-                                <i class="fa fa-1x fa-info-circle download" aria-hidden="true"> </i> 
+                            <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-info-circle download" aria-hidden="true"> </i>  status                                
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits
-                                <i class="fa fa-1x fa-file-invoice-dollar download" aria-hidden="true"> </i> 
+                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-file-invoice-dollar download" aria-hidden="true"> </i>  credits                                 
                             </a>
                         </li>
                     </ul>
@@ -2394,6 +2394,8 @@
                                 
                     </div>                            
                 </div>
+
+                <div class="row" style="padding:5px 0 !important;"></div>
 
                 <!-- Actions for Files Management -->
                 <div id="rowPnActions" class="row" runat="server">

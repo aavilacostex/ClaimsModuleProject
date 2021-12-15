@@ -75,19 +75,63 @@ textarea {
 }
 
 #MainNavBar {
-    float: right !important;
-    padding: 20px 0 0 0;
-    /* color: black; */
+    float: left !important;
+    padding: 20px 0 0 40px;
+    color: white;
     font-size: 17px;
     letter-spacing: 0.3px;
 }
 
 #MainNavBar ul li > a {
-    color: black;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 #MainNavBar ul li > a:hover {
     color: #fbba42;
+}
+
+.dropdown-menu {
+    background-color: #ffaf1a !important;
+}
+
+#MainNavBar ul > li > ul > li > a {
+    color: white !important;    
+    border-bottom: 3px double white;    
+}
+
+#MainNavBar ul > li > ul > li > a:hover {
+    color: black !important;
+    background-color: #ffaf1a !important;
+    border-color: black !important;
+}
+
+#MainNavBar ul > li > div > a > span {
+    color: white !important;    
+    font-weight: bold;
+}
+
+#MainNavBar ul > li > div > a > span:hover {
+    color: black !important;
+    border-color: black !important;
+    background-color: #ffaf1a !important;
+}
+
+#MainNavBar ul > li > div > a {
+    color: white !important;
+    border-bottom: 3px double white;
+    font-weight: bold;
+}
+
+#MainNavBar ul > li > div > a:hover {
+    color: black !important;
+    border-color: black !important;
+    background-color: #ffaf1a !important;
+}
+
+.bg-black {
+    background-color: black !important;
 }
 
 .support-bar-area {
@@ -96,12 +140,16 @@ textarea {
     height: 50px;
 }
 
+.navbar-brand {
+    float: right !important;
+}
+
 .navbar-brand.logo > img {
-    height: 80px !important;
-    max-width: 100%;
+    /*height: 80px !important;
+    max-width: 100%;*/
     vertical-align: middle;
     border-style: none;
-    padding: 0 0 0 100px;
+    /*padding: 0 0 0 100px;*/
 }
 
 .right-content-area {
@@ -238,7 +286,8 @@ textarea {
 }
 
 #MainNavBar ul li {
-    padding-right: 15px !important;
+    padding: 0 5px !important;
+    white-space: nowrap;
 }
 
 #text-content-area {
@@ -339,13 +388,14 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #tabc {
-    border: 1px solid #fbba42;
-    background-color: white;
+    /*border: 1px solid #fbba42;*/
+    background-color: #f2f2f2;
     border-top: 0;
     width: 100% !important;
     padding-bottom: 20px;
-    border-bottom: 10px solid antiquewhite;
-    border-bottom-style: groove;
+    /*border-bottom: 10px solid antiquewhite;
+    border-bottom-style: groove;*/
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
 }
 
 #tabc #issue-description .form-row {
@@ -415,10 +465,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 #ntab li a {
-    color: black !important;
+    color: #ffffff !important;
     font-size: 16px;
+    font-weight: bold;
     text-transform: uppercase;
-    background-color: white !important;
+    text-shadow: 1px 1px #404040;
+    background-image: linear-gradient(to bottom right, #fcc969, #feedcd);
 }
 
 #ntab {
@@ -441,8 +493,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     background-image: linear-gradient(180deg, #faa405, #fcd282);
 }
 
+#ntab > .nav-item > .nav-link.active > i {
+    color: white !important;
+}
+
 #ntab i {
-     padding: 4px 0 0 10px;   
+     padding: 4px 10px 0 0;   
      color: white;
      font-weight: bold;
 }
@@ -542,14 +598,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 0 8px;
     box-shadow: 0px 2px 4px rgb(31 30 47 / 50%);
     border-radius: 0.25rem !important;
+    background-color: #fef6e6 !important;
 }
 
 #MainContent_pnActions, #MainContent_pnSubTotalClaimed, #MainContent_pnSubTotalClaim, #MainContent_pnConsequentalDamage, #MainContent_pnPartialCredit {
     width: 100%;
-    border: 1px solid #fbba42;
+    /*border: 1px solid #fbba42;*/
     padding: 0 8px;
     padding-bottom: 15px;
-    box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);
+    /*box-shadow: 0px 2px 4px rgb(31 30 47 / 20%);*/
     border-radius: 0.25rem !important;
 }
 
@@ -594,6 +651,17 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 }
 
 */
+#MainNavBar i {
+    padding: 0 3px !important;
+}
+
+#rowGridViewSeeComm tr:nth-child(2n) {
+    background-color: white !important;
+}
+
+#rowGridViewSeeComm tr:nth-child(2n+1) {
+    background-color: #F7F7FD !important;
+}
 
 #rowGridView tr:nth-child(2n) {
     background-color: white !important;
@@ -1862,6 +1930,14 @@ input[type=file]::-ms-value {
     color: black;
 }
 
+.form-control:disabled, .form-control[readonly] {
+    box-shadow: 0px 1px 3px rgb(31 30 47 / 20%);
+    font-style: italic;
+    background-color: #fbba42;
+    background-image: linear-gradient( to bottom right, #f2f2f2, #ffffff);
+    opacity: 1;
+}
+
 #MainContent_navsSection {
     /*display: none !important;*/
     position: inherit !important;
@@ -1869,10 +1945,16 @@ input[type=file]::-ms-value {
 }
 
 #MainContent_rowBtn, #MainContent_rowPnActions {
-    padding: 10px 0 0 0;
-    background-color: white;
-    border: 1px solid #fbba42;
+    /*padding: 10px 0 0 0;*/
+    background-color: #f2f2f2;
+    /*border: 1px solid #fbba42;*/
     border-top: 0;
+    padding-top: 10px;
+    box-shadow: 0px 0px 10px rgb(31 30 47 / 20%);
+}
+
+#MainContent_rowBtn {
+    padding: 0 !important;
 }
 
 #ntab .nav-item .nav-link {
@@ -1957,6 +2039,26 @@ pnFilterStyles1 {
     Media Queries
 
 */
+
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+    #mainNav {
+        display: initial !important;
+        background-color:red;
+    }
+
+    #mainNav .col-lg-5 {
+        float:right;
+    }
+
+    #MainNavBar {
+        font-size: 5px !important;
+    }
+
+    .navbar-brand.logo > img {
+        height: inherit !important;
+        max-width: inherit !important;
+    }    
+}
 
 @media (min-width: 1201px) {
 
@@ -2074,6 +2176,16 @@ pnFilterStyles1 {
         min-width: 100% !important;
         margin: 0 auto !important;
     }
+
+    .navbar-brand.logo {
+        float: right;
+        display: none !important;
+    }  
+
+    .navbar-brand.logo > img {
+        height: inherit !important;
+        max-width: inherit !important;
+    }   
 }
 
 @media (max-width: 768px) {
