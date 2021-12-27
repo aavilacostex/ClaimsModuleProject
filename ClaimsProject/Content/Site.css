@@ -82,6 +82,29 @@ textarea {
     letter-spacing: 0.3px;
 }
 
+.inline-cls {
+    display: inline-block !important;
+}
+
+.no-inline {
+    /*display: none !important;*/
+}
+
+.tab-content > .active {
+    display: block !important;
+}
+
+.tab-content > .tab-pane:not(.active) {
+    display: none !important;
+}
+
+.tab-content .tab-pane:not(.active) {
+    display: none !important;
+}
+
+.popp {
+}
+
 #MainNavBar ul li > a {
     color: white;
     font-weight: bold;
@@ -97,14 +120,14 @@ textarea {
 }
 
 #MainNavBar ul > li > ul > li > a {
-    color: white !important;    
-    border-bottom: 3px double white;    
+    color: black !important;    
+    border-bottom: 3px double black;    
 }
 
 #MainNavBar ul > li > ul > li > a:hover {
-    color: black !important;
+    color: white !important;
     background-color: #ffaf1a !important;
-    border-color: black !important;
+    border-color: white !important;
 }
 
 #MainNavBar ul > li > div > a > span {
@@ -1636,9 +1659,17 @@ input[type="color"]:focus,
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#pnLoadFile, #pnAddPartManual, #pnAddPartManual2, #pnAddPartManual3, #pnUpdatePart, #pnDisplayImage, #pnUpdatePart2, #pnDisplayImage2, #pnProdDev1, #pnProdDev2, #pnClaimDetails, #pdDisplayLogin {
+#pnLoadFile, #pnAddPartManual, #pnAddPartManual2, #pnAddPartManual3, #pnUpdatePart, #pnDisplayImage, #pnUpdatePart2, #pnDisplayImage2, #pnProdDev1, #pnProdDev2, #pnClaimDetails {
     padding-bottom: 20px;
-    margin: 25px 0;
+    
+}
+
+#pdDisplayLogin {
+    margin: 0 auto;
+}
+
+.chgbck {    
+    margin: 0 auto !important;
 }
 
 #rowImportDoc .col-md-8, #rowImportDoc .col-md-4 {
@@ -2000,6 +2031,22 @@ pnFilterStyles1 {
     box-shadow: 0px 2px 4px rgb(31 30 47 / 10%);
 }
 
+#lgImgLogo {
+    position: absolute;
+    top: -40px;
+    width: 95%;
+    padding: 15px 0;
+    margin: 0 auto;
+}
+
+#lgImgLogo img {
+    width: 20% !important;
+}
+
+#pdDisplayLogin .chgbck {
+    background-color: #edf0f5;
+}
+
 .pnFilterStyles > fieldset > legend {
     color: black !important;
     text-align: center;
@@ -2040,10 +2087,10 @@ pnFilterStyles1 {
 
 */
 
+/*
 @media screen and (min-width: 992px) and (max-width: 1200px) {
     #mainNav {
-        display: initial !important;
-        background-color:red;
+        display: initial !important;        
     }
 
     #mainNav .col-lg-5 {
@@ -2059,45 +2106,8 @@ pnFilterStyles1 {
         max-width: inherit !important;
     }    
 }
+    */
 
-@media (min-width: 1201px) {
-
-    #MainContent_ackEmailP, #MainContent_infoCustP {
-        max-width: 1140px !important;
-    }
-
-    #MainContent_pn1Div, #MainContent_pn2Div {
-        max-width: 100% !important;
-        height: 550px !important;
-        margin: 0 auto;
-    }
-
-    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
-        max-width: 94% !important;
-        margin: 0 auto;
-    }
-
-    .ajax__html_editor_extender_container {
-        max-width: 100% !important;
-    }
-
-    .ajax__html_editor_extender_texteditor {
-        height: 465px !important;
-    }
-
-    #MainContent_claimQuickOverview {
-        max-width: 100% !important;
-    }
-
-    #rwBottomBar, #rwBottomBar1 {
-        margin: 0 auto !important;
-        max-width: 100% !important;
-    }
-
-    #rwContainerChanged, #rwContainerChanged1 {
-        max-width: 100% !important;
-    }
-}
 
 @media (max-width: 1200px) {
 
@@ -2269,6 +2279,143 @@ pnFilterStyles1 {
 
     #rwBottomBar .form-row .col-md-6, #rwBottomBar1 .form-row .col-md-6 {
         padding: 0 0 5px 0 !important;
+    }
+
+    #lgImgLogo img {
+        width: 10% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    #MainContent_ackEmailP, #MainContent_infoCustP {
+        max-width: 1140px !important;
+    }
+
+    #MainContent_pn1Div, #MainContent_pn2Div {
+        max-width: 100% !important;
+        height: 550px !important;
+        margin: 0 auto;
+    }
+
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
+        max-width: 94% !important;
+        margin: 0 auto;
+    }
+
+    .ajax__html_editor_extender_container {
+        max-width: 100% !important;
+    }
+
+    .ajax__html_editor_extender_texteditor {
+        height: 465px !important;
+    }
+
+    #MainContent_claimQuickOverview {
+        max-width: 100% !important;
+    }
+
+    #rwBottomBar, #rwBottomBar1 {
+        margin: 0 auto !important;
+        max-width: 100% !important;
+    }
+
+    #rwContainerChanged, #rwContainerChanged1 {
+        max-width: 100% !important;
+    }
+
+    #lgImgLogo {
+        width: 94% !important;
+    }
+
+    #lgImgLogo img {
+        width: 17% !important;
+    }
+
+    #pdDisplayLogin .col-md-8 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    #pdDisplayLogin .col-md-6 {
+        flex: 0 0 100% !important;
+        max-width: 80% !important;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #pdDisplayLogin {
+        max-width: 100% !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+
+    #lgImgLogo img {
+        width: 20% !important;
+    }
+
+    #lgImgLogo {
+        width: 93% !important;
+    }
+
+    #pdDisplayLogin .col-md-8 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    #pdDisplayLogin .col-md-6 {
+        flex: 0 0 100% !important;
+        max-width: 80% !important;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #pdDisplayLogin {
+        max-width: 100% !important;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 575px) {
+    #lgImgLogo img {
+        width: 10% !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    #pdDisplayLogin {
+        max-width: 100% !important;
+    }
+
+    #lgImgLogo img {
+        width: 30% !important;
+    }
+
+    #lgImgLogo {
+        width: 92% !important;
+    }
+
+    #pdDisplayLogin .col-md-6 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    #pdDisplayLogin .col-md-8 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+
+    #lgImgLogo img {
+        width: 10% !important;
+    }
+
+    #lgImgLogo {
+        width: 94% !important;
     }
 }
 

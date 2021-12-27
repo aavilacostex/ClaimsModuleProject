@@ -27,8 +27,10 @@ Public Class DownloadDoc
             response.TransmitFile(path)
             'response.WriteFile(path)
             response.Flush()
-
             File.Delete(path)
+            'response.Write(True)
+            'context.Session.Add("DownloadEnd", True)
+            'context.Session("DownloadEnd") = True
             response.End()
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString

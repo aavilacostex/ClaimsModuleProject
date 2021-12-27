@@ -89,7 +89,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CLMINTSTS WHERE INDESC <> ' ' AND INCLNO = " & Trim(value)
+            Sql = "SELECT INDESC FROM qs36f.CLMINTSTS WHERE INDESC <> ' ' AND INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -105,7 +105,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CLMINTSTS WHERE INSTAT = '" + status + "' AND INCLNO = " & Trim(value)
+            Sql = "SELECT INTAPPRV FROM qs36f.CLMINTSTS WHERE INSTAT = '" + status + "' AND INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -121,7 +121,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CLMINTSTS WHERE INOVER$ = 'Y' AND INCLNO = " & Trim(value)
+            Sql = "SELECT INUSER, INCLDT, INAPESLS FROM qs36f.CLMINTSTS WHERE INOVER$ = 'Y' AND INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -137,7 +137,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CLMINTSTS WHERE INCLNO = " & Trim(value)
+            Sql = "SELECT INEMOD, INESER, INEARR, INSTAT FROM qs36f.CLMINTSTS WHERE INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -169,7 +169,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CLMINTSTS WHERE INTQUA = 'Y' AND INCLNO = " & Trim(value)
+            Sql = "SELECT INUSER, INCLDT FROM qs36f.CLMINTSTS WHERE INTQUA = 'Y' AND INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -233,7 +233,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CLMINTSTS   WHERE INCLNO = " & Trim(code) & " ORDER BY INCLDT, INTIME "
+            Sql = "SELECT INUSER, INCLDT, INSTAT FROM qs36f.CLMINTSTS   WHERE INCLNO = " & Trim(code) & " ORDER BY INCLDT, INTIME "
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -249,7 +249,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM qs36f.CUMSTA WHERE CUNUM = " & value
+            Sql = "SELECT CUNAM FROM qs36f.CUMSTA WHERE CUNUM = " & value
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -600,7 +600,7 @@ Public Class ClaimsProject : Implements IDisposable
             If parameter IsNot Nothing Then
                 Sql = "SELECT " + parameter + " FROM qs36f.INMSTA WHERE IMPTN = '" & Trim(partNo) & "'"
             Else
-                Sql = "SELECT * FROM qs36f.INMSTA WHERE IMPTN = '" & Trim(partNo) & "'"
+                Sql = "SELECT IMDSC FROM qs36f.INMSTA WHERE IMPTN = '" & Trim(partNo) & "'"
             End If
 
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
@@ -1011,7 +1011,7 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             'and abs(ohsl$) = " & cm & "
-            Dim Sql = "select * from qs36f.Ordhd22 where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
+            Dim Sql = "select OHOR# from qs36f.Ordhd22 where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1027,7 +1027,7 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             'and abs(ohsl$) = " & cm & "
-            Dim Sql = "select * from qs36f.hordhd where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
+            Dim Sql = "select OHOR# from qs36f.hordhd where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

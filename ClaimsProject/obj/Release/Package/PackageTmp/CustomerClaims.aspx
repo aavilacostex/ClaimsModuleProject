@@ -14,7 +14,8 @@
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
             <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
-            <asp:PostBackTrigger ControlID="btnGetTemplate" />
+            <%--<asp:PostBackTrigger ControlID="btnGetTemplate" />--%>
+            <%--<asp:PostBackTrigger ControlID = "pepe" />--%>
         </Triggers>
 
         <ContentTemplate>            
@@ -31,14 +32,14 @@
 
             <div class="container-fluid">
                 <div class="breadcrumb-area breadcrumb-bg">
-                    <div class="row">
-                        <div class="col-md-offset-4 col-md-9 center">
+                    <div class="row" style="padding: 10px 0 0 0;">
+                        <div class="col-md-9" style="margin: 0 auto;padding: 8px 0 0 0;">
                             <div class="breadcrumb-inner">
                                 <div class="row">
                                     <div class="col-md-11">
-                                        <div class="bread-crumb-inner">
+                                        <div class="bread-crumb-inner" style="margin: 0 auto;">
                                             <div class="breadcrumb-area page-list">
-                                                <div class="row" style="padding: 20px 0;">
+                                                <div class="row">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-7 link">                                                        
                                                         <asp:LinkButton ID="lnkHome" class="btn-rounded" OnClick="lnkHome_Click" runat="server">
@@ -57,12 +58,12 @@
                         <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-7">
-                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
+                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" OnClick="btnGetTemplate_Click" OnClientClick="return test22();" runat="server">
                                                             <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Excel File
                                     </asp:LinkButton>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:Button id="pepe" class="btn btn-primary btn-lg float-right btnFullSize hideProp" OnClick="pepe_click" Text="Click Here" runat="server"/>
+                                    <asp:Button id="pepe" class="btn btn-primary btn-lg float-right btnFullSize hideProp" OnClick="pepe_click" OnClientClick="return test22();" Text="Click Here" runat="server"/>
                                     <asp:LinkButton ID="btnImportExcel" class="boxed-btn-layout btn-rounded hideProp" Visible="false" runat="server">
                                                             <i class="fa fa-file-excel-o fa-1x" aria-hidden="true"> </i> IMPORT
                                     </asp:LinkButton>
@@ -767,7 +768,9 @@
                     <asp:HiddenField ID="hdNavTabsContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdSeeFilesContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdAckPopContent" Value="0"  runat="server" />
+                    <asp:HiddenField ID="hdInfoCustContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdTextEditorAckMessage" Value=""  runat="server" />
+                    <asp:HiddenField ID="hdTextEditorInfoCustMessage" Value=""  runat="server" />
 
                     <asp:HiddenField ID="hdComments" Value="" runat="server" />
                     <asp:HiddenField ID="hdFlagUpload" Value="" runat="server" />
@@ -1055,19 +1058,29 @@
                     <!-- Tab links -->
                     <ul id="ntab" class="nav nav-tabs" role="tablist" style="visibility: visible;">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#claimoverview" role="tab" aria-selected="false">claim overview</a>
+                            <a class="nav-link active" data-toggle="tab" href="#claimoverview" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-file-alt download" aria-hidden="true"> </i> claim overview  
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">defective part information</a>
+                            <a class="nav-link" data-toggle="tab" href="#partinfo" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-cog download" aria-hidden="true"> </i>  defective part information                                
+                            </a>
                         </li>                        
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">claim comments</a>
+                            <a class="nav-link" data-toggle="tab" href="#claim-comments" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-comment download" aria-hidden="true"> </i>  claim comments                                
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">status</a>
+                            <a class="nav-link" data-toggle="tab" href="#claimstatus" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-info-circle download" aria-hidden="true"> </i>  status                                
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">credits</a>
+                            <a class="nav-link" data-toggle="tab" href="#claimcredit" role="tab" aria-selected="false">
+                                <i class="fa fa-1x fa-file-invoice-dollar download" aria-hidden="true"> </i>  credits                                 
+                            </a>
                         </li>
                     </ul>
 
@@ -1305,7 +1318,7 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblQuarantine" Text="Quarantine Required?" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkQuarantine" runat="server" />
+                                                    <asp:CheckBox ID="chkQuarantine" onclick="setQuarantine();" AutoPostBack="true" runat="server" />
                                                     <asp:LinkButton ID="lnkQuarantine" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
@@ -1542,10 +1555,11 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblInfoCust" Text="Info Requested to Customer" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkInfoCust" runat="server" />
+                                                    <asp:CheckBox ID="chkInfoCust" OnCheckedChanged="chkInfoCust_CheckedChanged" AutoPostBack="true" runat="server" />
                                                     <asp:LinkButton ID="lnkInfoCust" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
+                                                    <asp:Label ID="lblInfoCMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInfoCust" CssClass="form-control" runat="server" />                                                            
@@ -1555,6 +1569,13 @@
                                                         </div>
                                                     </div>                                                    
                                                 </div>                                                
+                                            </div>
+
+                                            <div id="rwAckEmailMsg1" class="form-row paddingVert hideProp" runat="server">
+                                                <div class="col-md-12">
+                                                    <asp:TextBox ID="txtMsgAftAckEmail1" Text="" CssClass="form-control fullTextBox hideProp" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                                    <asp:Label ID="lblTextEditorInfoCust" CssClass="hideProp" runat="server"></asp:Label>
+                                                </div>
                                             </div>
 
                                             <div class="form-row">
@@ -1650,7 +1671,7 @@
                                         </asp:Panel>
                                     </div>
                                     <div class="col-md-3">                                        
-                                        <asp:Panel ID="pnExternalStatus" GroupingText="External Status" CssClass="hidecol" runat="server">
+                                        <asp:Panel ID="pnExternalStatus10" GroupingText="External Status" CssClass="hidecol" runat="server">
 
                                             <div class="form-row"> 
                                                 <div class="col-md-3"></div>
@@ -2222,7 +2243,7 @@
 
                                             <br />
 
-                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequential Damage disableCtr" runat="server">
+                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequential Damage" runat="server">
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
@@ -2374,6 +2395,8 @@
                                 
                     </div>                            
                 </div>
+
+                <div class="row" style="padding:5px 0 !important;"></div>
 
                 <!-- Actions for Files Management -->
                 <div id="rowPnActions" class="row" runat="server">
@@ -2530,7 +2553,7 @@
                 <div id="ackEmailP" runat="server">
                     <div id="pn1Div" class="row" runat="server">
                         <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles1" runat="server">
-                            <div class="container">
+                            <div id="rwContainerChanged" class="container padding0">
                                 <div class="row">                                    
                                     <div class="col-md-12 padding0">
                                         <div id="ackCommentHead" runat="server"><p>Insert the comment here!!</p></div>                                        
@@ -2539,7 +2562,7 @@
                                 <div class="row">
                                     <div class="col-md-12 padding0">
                                         <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
-                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="true" runat="server"></Atk:HtmlEditorExtender>
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="false" runat="server"></Atk:HtmlEditorExtender>
                                     </div>
                                 </div>
                             </div>                           
@@ -2547,19 +2570,19 @@
                         </asp:Panel>
                     </div>
 
-                    <div class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-6" style="text-align: right !important;">
+                    <div id="rwBottomBar" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
+                        <div class="col-md-1 padding0"></div>
+                        <div class="col-md-10 padding0">
+                            <div class="form-row padding0">
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
                                     <asp:Button ID="btnSaveMessageAck" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageAck_click"  runat="server" />
                                 </div>
-                                <div class="col-md-6" style="text-align: left !important;">
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
                                     <asp:Button ID="BtnBackSeeFiles1" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles1_click" OnClientClick="setVisAckPop(); return false" runat="server" />
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
+                        <div class="col-md-1 padding0"></div>
                     </div> 
                     
                     <div class="row hideProp">
@@ -2568,6 +2591,48 @@
                 </div>
             </div>
 
+            <asp:Label runat="server" ID="dummylabel3"></asp:Label>
+            <div id="infoCustSection" class="container hideProp" runat="server"> 
+                <div id="infoCustP" runat="server">
+                    <div id="pn2Div" class="row" runat="server">
+                        <asp:Panel ID="pnInfoCust" CssClass="pnFilterStyles1" runat="server">
+                            <div id="rwContainerChanged1" class="container padding0">
+                                <div class="row">                                    
+                                    <div class="col-md-12 padding0">
+                                        <div id="infoCustHead" runat="server"><p>Insert the comment here!!</p></div>                                        
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 padding0">
+                                        <asp:TextBox runat="server" ID="txtEditorExtender2" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender2" TargetControlID="txtEditorExtender2" EnableSanitization="false" DisplaySourceTab ="false" runat="server"></Atk:HtmlEditorExtender>
+                                    </div>
+                                </div>
+                            </div>                           
+
+                        </asp:Panel>
+                    </div>
+
+                    <div id="rwBottomBar1" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
+                        <div class="col-md-1 padding0"></div>
+                        <div class="col-md-10 padding0">
+                            <div class="form-row padding0">
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
+                                    <asp:Button ID="btnSaveMessageInfoC" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageInfoC_click"  runat="server" />
+                                </div>
+                                <div class="col-md-6 padding0" style="text-align: center !important;">
+                                    <asp:Button ID="BtnBackSeeFiles2" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles2_click" OnClientClick="setVisInfoCust(); return false" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 padding0"></div>
+                    </div> 
+                    
+                    <div class="row hideProp">
+                        <asp:LinkButton ID="LinkButton1" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                    </div>
+                </div>
+            </div>
 
             <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
@@ -2677,10 +2742,42 @@
                 PopupControlID="ackEmailP" CancelControlID="BtnBackSeeFiles1"  >
             </Atk:ModalPopupExtender>
 
+            <Atk:ModalPopupExtender ID="popInfoCust" runat="server" TargetControlID="dummylabel3" BehaviorID="popupCopyCtrl"
+                PopupControlID="infoCustP" CancelControlID="BtnBackSeeFiles2"  >
+            </Atk:ModalPopupExtender>
+
             <br />
         </ContentTemplate>
 
     </asp:UpdatePanel>
+
+    <div>
+        <asp:Panel ID="panelUpdateProgress" runat="server" CssClass="updateProgress">
+            <asp:UpdateProgress ID="UpdateProgress1" class="no-inline" runat="server" DisplayAfter="1">
+                <ProgressTemplate>
+                    <div class="no-inline" style="position: relative; text-align: center; background-color: #eeeeee; top: 0px;left: 0px; height:40px;">
+                            <img src="Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </asp:Panel>
+        <Atk:ModalPopupExtender ID="ventanaModal" runat="server" TargetControlID="panelUpdateProgress"  PopupControlID="panelUpdateProgress" Enabled ="True"></Atk:ModalPopupExtender>
+    </div>
+
+    <div>
+        <asp:Button ID ="btnCancelReq" CssClass="hideProp" runat="server" />
+    </div>
+
+    <%--<div>
+        <asp:Panel ID="panelUpdateProgress1" runat="server" CssClass="updateProgress">
+            <asp:UpdateProgress ID="UpdateProgress2" runat="server" DisplayAfter="1">
+                <ProgressTemplate>
+                    <div style="position: relative; text-align: center; background-color: #eeeeee; top: 0px;left: 0px; height:40px;">
+                            <img src="Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </asp:Panel>
+        <Atk:ModalPopupExtender ID="ventanaModal1" runat="server" TargetControlID="panelUpdateProgress1"  PopupControlID="panelUpdateProgress1" OkControlID="updatepnl" OnOkScript="pepe1();" Enabled ="True"></Atk:ModalPopupExtender>
+    </div>--%>
 
     <%--<script type="text/javascript" src="/Scripts/lightbox/prototype.js"></script>
     <script type="text/javascript" src="/Scripts/lightbox/lightbox.js"></script>--%>
@@ -2699,13 +2796,123 @@
 
     <script type="text/javascript">  
 
+        var ventanaModal = '<%= ventanaModal.ClientID %>'; 
+
+        //const myTT = setTimeout(testStop, 5000);
+        var myTT = 10;
+
+        function setUpdPnVisibility(flag) {
+
+            if (flag == true) {
+                $('#MainContent_panelUpdateProgress').removeClass('updateProgress');
+                $('#MainContent_panelUpdateProgress').addClass('updateProgress hideProp');
+
+                $('#MainContent_ventanaModal_backgroundElement').removeClass('no-inline');
+                $('#MainContent_ventanaModal_backgroundElement').addClass('hideProp');
+            }
+            else {
+                $('#MainContent_panelUpdateProgress').removeClass('updateProgress hideProp');
+                $('#MainContent_panelUpdateProgress').addClass('updateProgress');
+
+                $('#MainContent_ventanaModal_backgroundElement').removeClass('hideProp');               
+            }            
+        }
+
+        function test22() {
+            debugger 
+
+            var updateProgress = $find("<%= UpdateProgress1.ClientID %>");            
+            pepe1();
+            const myTT = setTimeout(testStop, 10000);
+            const myTT1 = setTimeout(JSFunction, 10000);
+            //testStop()
+        }
+
+        function testStop() {
+        /*const myTT = setTimeout(testStop, 5000);*/
+
+            setUpdPnVisibility(true);
+
+            clearTimeout(myTT);
+            //JSFunction(); 
+        }
+
+        //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+        //    alert('postback returned');
+        //});
+
+        var updateProgress = null;
+        function pepe() {
+            debugger
+
+            myTT = setTimeout(testStop, 7000);
+            <%--updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout("updateProgress.set_visible(true)", updateProgress.get_displayAfter());
+            return true;--%>
+                        
+        }
+
+        //$.ajax({
+
+        //    beforeSend: function () {
+        //        alert("before");
+        //    },
+
+        //    complete: function () {
+        //        alert("complete");
+        //    }
+
+        //});        
+
+        var updateProgress2 = null;
+        function pepe1() {
+            debugger
+
+            updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout(function () {
+                updateProgress.set_visible(true);
+            }, updateProgress.get_displayAfter());
+
+            $('<%=panelUpdateProgress.ClientID%>').removeClass('updateProgress');
+            $('<%=panelUpdateProgress.ClientID%>').addClass('updateProgress inline-cls');
+
+            $('<%=ventanaModal.ClientID%>').removeClass('no-inline');
+            $('<%=ventanaModal.ClientID%>').addClass('inline-cls');
+            
+            return true;
+        }
+
+        function prm_EndRequest() {
+            //debugger
+
+            <%--updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout(function () {
+                updateProgress.set_visible(false);
+            }, updateProgress.get_displayAfter());
+            return true;--%>
+
+            // get the divImage and hide it again
+            ////var panelProg1 = document.getElementById('<%=panelUpdateProgress.ClientID%>').value
+            ////var modal1 = document.getElementById('<%=ventanaModal.ClientID%>').value
+            //var panelProg = $get('panelUpdateProgress');
+            ////$('#<%=panelUpdateProgress.ClientID %>').addClass('updateProgress hideProp');
+            ////$('#<%=ventanaModal.ClientID %>').hide();
+            //addClass('popp hideProp');
+
+            //panelProg.style.display = 'none';
+
+            // Enable button that caused a postback
+            //$get(sender._postBackSettings.sourceElement.id).disabled = false;
+        }
+
         //from above   
 
         function pepepe() {
+            debugger
 
             $('#<%=hdConfirmationOption.ClientID %>').val('0');
             //alert("okokok");
-        }
+        }        
 
         $('#myModal .modal-footer > button').on('click', function (e) {
             debugger
@@ -2729,7 +2936,6 @@
             //var newWindow = window.open(uri);
 
             debugBase64(uri);
-
 
             //window.open("https://www.w3schools.com");
 
@@ -2774,6 +2980,20 @@
                 $('#MainContent_lblAckMessageStatus').removeClass('clsMesageSaved hideProp');
                 $('#MainContent_lblAckMessageStatus').addClass('clsMesageSaved');
             }            
+        }
+
+        function InfoCustomerBuild() {
+            //debugger
+
+            var hdHasText = document.getElementById('<%=hdTextEditorInfoCustMessage.ClientID%>').value;
+
+            if (hdHasText == "") {
+                $('#MainContent_lblInfoCMessageStatus').addClass('hideProp')
+            }
+            else {
+                $('#MainContent_lblInfoCMessageStatus').removeClass('clsMesageSaved hideProp');
+                $('#MainContent_lblInfoCMessageStatus').addClass('clsMesageSaved');
+            }
         }
 
         function AcknowledgeEmailBuild1() {
@@ -2874,7 +3094,7 @@
         }
 
         function JSFunction() {
-            //debugger
+            debugger
 
             __doPostBack('<%= updatepnl.ClientID  %>', '');
         }
@@ -2976,11 +3196,13 @@
                 $('#<%=hdNavTabsContent.ClientID %>').val("1");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
+                $('#<%=hdInfoCustContent.ClientID %>').val("0");
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
+                $('#<%=hdInfoCustContent.ClientID %>').val("0");
 
             }
 
@@ -3239,6 +3461,42 @@
 
             }
 
+            var hdInfoCustVisualization = document.getElementById('<%=hdInfoCustContent.ClientID%>').value
+            if (hdInfoCustVisualization == "1") {
+
+                debugger
+
+                $('#MainContent_infoCustSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_infoCustSection").removeAttr("style");
+
+                //$('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+
+                debugger
+
+                //if (hdTabsVisualization == "1") {
+                //    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                //    $("#MainContent_navsSection").removeAttr("style");
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //}
+                //else {
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                //}
+
+                $('#MainContent_infoCustSection').closest('.container').removeClass('container hideProp')
+                $('#MainContent_infoCustSection').removeClass('container hideProp')
+
+                $('#MainContent_infoCustSection').closest('.container').addClass('container hideProp')
+                $('#MainContent_infoCustSection').addClass('container hideProp')
+
+            }
+
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
             if (hdForceLoad == "1") {                
                 JSFunction();
@@ -3369,7 +3627,7 @@
                 $('#partinfo').find('textarea').attr('disabled', true);
 
                 $('#MainContent_ddlDiagnoseData').attr('disabled', false);
-                $('#MainContent_chkQuarantine').attr('disabled', false);   
+                $('#MainContent_chkQuarantine').attr('disabled', false);                  
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
@@ -3479,10 +3737,96 @@
             $('#<%=hdSeeFilesContent.ClientID %>').val("0");
         }
 
+        function setQuarantine() {
+
+            if ($('#<%=chkQuarantine.ClientID %>').is(':checked')) {
+
+                $('#<%=txtQuarantine.ClientID %>').attr("disabled", false);
+                $('#<%=txtQuarantineDate.ClientID %>').attr("disabled", false);
+
+            }
+        }
+
         function setVisAckPop() {
-            //debugger
+            debugger
 
             $('#<%=hdAckPopContent.ClientID %>').val("0");
+
+            $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+            $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', false); 
+            $('#<%=chkAcknowledgeEmail.ClientID %>').prop('checked', false);
+
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled'); 
+            $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+
+            $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", false);
+            $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", false);
+
+
+            if (document.getElementById('<%=txtInitialReview.ClientID%>').value == "") {
+                $('#<%=chkInitialReview.ClientID %>').removeClass('disableCtr');
+                $('#<%=chkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=chkInitialReview.ClientID %>').attr('disabled', false);
+                $('#<%=chkInitialReview.ClientID %>').prop('checked', false);
+
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('disableCtr');
+
+                $('#<%=txtInitialReview.ClientID %>').attr("disabled", false);
+                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", false);
+            }
+            else {
+                var ppp = document.getElementById('<%=txtInitialReview.ClientID%>').value;
+                var ee = ""
+            }
+        }
+
+        function setVisInfoCust() {
+            debugger
+
+            $('#<%=hdInfoCustContent.ClientID %>').val("0");
+
+            $('#<%=chkInfoCust.ClientID %>').removeClass('disableCtr');
+            $('#<%=chkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=chkInfoCust.ClientID %>').attr('disabled', false);
+            $('#<%=chkInfoCust.ClientID %>').prop('checked', false);
+
+            $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+            $('#<%=lnkInfoCust.ClientID %>').removeClass('disableCtr');
+
+            $('#<%=txtInfoCust.ClientID %>').attr("disabled", false);
+            $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", false);
+
+
+            if (document.getElementById('<%=txtInitialReview.ClientID%>').value == "") {
+                $('#<%=chkInitialReview.ClientID %>').removeClass('disableCtr');
+                $('#<%=chkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=chkInitialReview.ClientID %>').attr('disabled', false);
+                $('#<%=chkInitialReview.ClientID %>').prop('checked', false);
+
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkInitialReview.ClientID %>').removeClass('disableCtr');
+
+                $('#<%=txtInitialReview.ClientID %>').attr("disabled", false);
+                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", false);
+            }
+            else if(document.getElementById('<%=txtAcknowledgeEmail.ClientID%>').value == "") {
+                $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=chkAcknowledgeEmail.ClientID %>').attr('disabled', false);
+                $('#<%=chkAcknowledgeEmail.ClientID %>').prop('checked', false);
+
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
+                $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('disableCtr');
+
+                $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", false);
+                $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", false);
+            }
+            else {
+                var ppp = document.getElementById('<%=txtInitialReview.ClientID%>').value;
+                var ee = ""
+            }
         }
 
         function setVisAckPop1() {
@@ -3617,7 +3961,7 @@
 
             afterRadioCheck(hd1, collapse1)
             afterRadioCheck(hd2, collapse2)
-        }
+        }        
 
         function canCloseFunctionality() {
             //debugger 
@@ -3800,6 +4144,27 @@
         $('body').on('change', "#<%=chkAcknowledgeEmail.ClientID %>", function () {
             debugger
             
+            if ($(this).is(':checked')) {
+                //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
+                $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> input').attr("disabled", false);
+                $('#<%= pnCloseClaim.ClientID %> a').attr("disabled", false);
+                $('#<%= btnCloseClaim.ClientID %>').attr("disabled", false);
+
+                //$('#MainContent_rwAckEmailMsg').closest('.form-row').removeClass('hideProp');
+                //$('#<%=hdShowAckMsgForm.ClientID %>').val('1');
+            }
+            else {
+                //$('#MainContent_rwAckEmailMsg').removeClass('form-row paddingVert');
+                //$('#MainContent_rwAckEmailMsg').addClass('form-row paddingVert hideProp');    
+
+                //$('#<%=hdShowAckMsgForm.ClientID %>').val('0');
+            }
+        });
+
+        $('body').on('change', "#<%=chkInfoCust.ClientID %>", function () {
+            debugger
+
             if ($(this).is(':checked')) {
                 //$('#<%= pnCloseClaim.ClientID %>').removeClass("aspNetDisabled");
                 $('#<%= pnCloseClaim.ClientID %>').attr("disabled", false);
@@ -4215,6 +4580,8 @@
             claimNoAutoComplete();
             PartNoAutoComplete();
             CustomerNoAutoComplete();
+
+            prm_EndRequest();
         });  
 
         function execDatePickers() {
@@ -4350,7 +4717,9 @@
         }
 
         function pageLoad(event, args) {
-            //debugger
+            debugger
+
+            setUpdPnVisibility(false);
           
             console.log("BeginPageLoad");
 
@@ -4395,6 +4764,8 @@
             if (args.get_isPartialLoad()) {  
 
                 debugger
+
+                setUpdPnVisibility(false);
 
                 //addZBox();
 
@@ -4511,7 +4882,11 @@
 
                 AcknowledgeEmailBuild();
 
+                InfoCustomerBuild();
+
                 canCloseFunctionality();
+
+                //setQuarantine();
 
                 //$(window).scrollTop(0);
 
@@ -4595,6 +4970,10 @@
             SetReopenBtn();
 
             AcknowledgeEmailBuild();
+
+            InfoCustomerBuild();
+
+            //setQuarantine();
 
             //$(window).scrollTop(0);
 
@@ -4764,21 +5143,28 @@
         }
 
         function fixesSmallBtnClass() {
+            debugger
 
             $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
 
 
             if ($('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
 
-                $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);                
+                var txtInitRev = document.getElementById('<%=txtInitialReview.ClientID%>').value;
+                var txtInitRevDate = document.getElementById('<%=txtInitialReviewDate.ClientID%>').value;
 
-                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                if (txtInitRev != "" && txtInitRevDate != "") {
 
-                $('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);
 
+                    $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
+
+                }
             }
 
             if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {
@@ -4813,67 +5199,116 @@
             }            
 
             if ($('#<%=chkInfoCust.ClientID %>').is(':checked')) { 
-               
-                $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                if (document.getElementById('<%=txtInfoCust.ClientID%>').value != "") {
+                    $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
 
-                $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
+                    $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                }
+                else {
+                    $('#<%=chkInfoCust.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkInfoCust.ClientID %>').attr('disabled', true); 
+
+                    $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")
+                }
             }
 
             if ($('#<%=chkPartRequested.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
-                $('#<%=chkPartRequested.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtPartReq = document.getElementById('<%=txtPartRequested.ClientID%>').value;
+                var txtPartReqDate = document.getElementById('<%=txtPartRequestedDate.ClientID%>').value;
 
-                $('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
+                if (txtPartReq != "" && txtPartReqDate != "") {
 
+                    $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkPartRequested.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkPartRequested.ClientID %>').prop('checked', false);
+                    $('#<%=chkPartRequested.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkPartReceived.ClientID %>').is(':checked')) {
-               
-                $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
-                $('#<%=chkPartReceived.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtPartRec = document.getElementById('<%=txtPartReceived.ClientID%>').value;
+                var txtPartRecDate = document.getElementById('<%=txtPartReceivedDate.ClientID%>').value;
 
-                $('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
+                if (txtPartRec != "" && txtPartRecDate != "") {
 
+                    $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkPartReceived.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkPartReceived.ClientID %>').prop('checked', false);
+                    $('#<%=chkPartReceived.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkTechReview.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkTechReview.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtTechRev = document.getElementById('<%=txtTechReview.ClientID%>').value;
+                var txtTechRevDate = document.getElementById('<%=txtTechReviewDate.ClientID%>').value;
 
-                $('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+                if (txtTechRev != "" && txtTechRevDate != "") {
 
+                    $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkTechReview.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkTechReview.ClientID %>').prop('checked', false);
+                    $('#<%=chkTechReview.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkWaitSupReview.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtWaitSup = document.getElementById('<%=txtWaitSupReview.ClientID%>').value;
+                var txtWaitSupDate = document.getElementById('<%=txtWaitSupReviewDate.ClientID%>').value;
 
-                $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+                if (txtWaitSup != "" && txtWaitSupDate != "") {
+
+                    $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkWaitSupReview.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkWaitSupReview.ClientID %>').prop('checked', false);
+                    $('#<%=chkWaitSupReview.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkApproved.ClientID %>').is(':checked')) {

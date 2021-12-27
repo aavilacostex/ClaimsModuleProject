@@ -14,7 +14,8 @@
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
             <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
-            <asp:PostBackTrigger ControlID="btnGetTemplate" />
+            <%--<asp:PostBackTrigger ControlID="btnGetTemplate" />--%>
+            <%--<asp:PostBackTrigger ControlID = "pepe" />--%>
         </Triggers>
 
         <ContentTemplate>            
@@ -57,12 +58,12 @@
                         <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-7">
-                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" runat="server">
+                                    <asp:LinkButton ID="btnGetTemplate" class="boxed-btn-layout btn-rounded" OnClick="btnGetTemplate_Click" OnClientClick="return test22();" runat="server">
                                                             <i class="fa fa-file-excel-o fa-1x"" aria-hidden="true"> </i> Excel File
                                     </asp:LinkButton>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:Button id="pepe" class="btn btn-primary btn-lg float-right btnFullSize hideProp" OnClick="pepe_click" Text="Click Here" runat="server"/>
+                                    <asp:Button id="pepe" class="btn btn-primary btn-lg float-right btnFullSize hideProp" OnClick="pepe_click" OnClientClick="return test22();" Text="Click Here" runat="server"/>
                                     <asp:LinkButton ID="btnImportExcel" class="boxed-btn-layout btn-rounded hideProp" Visible="false" runat="server">
                                                             <i class="fa fa-file-excel-o fa-1x" aria-hidden="true"> </i> IMPORT
                                     </asp:LinkButton>
@@ -1317,7 +1318,7 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <asp:Label ID="lblQuarantine" Text="Quarantine Required?" CssClass="control-label" runat="server"></asp:Label>
-                                                    <asp:CheckBox ID="chkQuarantine" runat="server" />
+                                                    <asp:CheckBox ID="chkQuarantine" onclick="setQuarantine();" AutoPostBack="true" runat="server" />
                                                     <asp:LinkButton ID="lnkQuarantine" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
@@ -1670,7 +1671,7 @@
                                         </asp:Panel>
                                     </div>
                                     <div class="col-md-3">                                        
-                                        <asp:Panel ID="pnExternalStatus" GroupingText="External Status" CssClass="hidecol" runat="server">
+                                        <asp:Panel ID="pnExternalStatus10" GroupingText="External Status" CssClass="hidecol" runat="server">
 
                                             <div class="form-row"> 
                                                 <div class="col-md-3"></div>
@@ -2242,7 +2243,7 @@
 
                                             <br />
 
-                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequential Damage disableCtr" runat="server">
+                                            <asp:Panel ID="pnConsequentalDamage" GroupingText="Consequential Damage" runat="server">
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
@@ -2750,6 +2751,34 @@
 
     </asp:UpdatePanel>
 
+    <div>
+        <asp:Panel ID="panelUpdateProgress" runat="server" CssClass="updateProgress">
+            <asp:UpdateProgress ID="UpdateProgress1" class="no-inline" runat="server" DisplayAfter="1">
+                <ProgressTemplate>
+                    <div class="no-inline" style="position: relative; text-align: center; background-color: #eeeeee; top: 0px;left: 0px; height:40px;">
+                            <img src="Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </asp:Panel>
+        <Atk:ModalPopupExtender ID="ventanaModal" runat="server" TargetControlID="panelUpdateProgress"  PopupControlID="panelUpdateProgress" Enabled ="True"></Atk:ModalPopupExtender>
+    </div>
+
+    <div>
+        <asp:Button ID ="btnCancelReq" CssClass="hideProp" runat="server" />
+    </div>
+
+    <%--<div>
+        <asp:Panel ID="panelUpdateProgress1" runat="server" CssClass="updateProgress">
+            <asp:UpdateProgress ID="UpdateProgress2" runat="server" DisplayAfter="1">
+                <ProgressTemplate>
+                    <div style="position: relative; text-align: center; background-color: #eeeeee; top: 0px;left: 0px; height:40px;">
+                            <img src="Images/wait1.gif" style="vertical-align: middle" alt="Procesando" />Processing...</div>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </asp:Panel>
+        <Atk:ModalPopupExtender ID="ventanaModal1" runat="server" TargetControlID="panelUpdateProgress1"  PopupControlID="panelUpdateProgress1" OkControlID="updatepnl" OnOkScript="pepe1();" Enabled ="True"></Atk:ModalPopupExtender>
+    </div>--%>
+
     <%--<script type="text/javascript" src="/Scripts/lightbox/prototype.js"></script>
     <script type="text/javascript" src="/Scripts/lightbox/lightbox.js"></script>--%>
     
@@ -2767,13 +2796,123 @@
 
     <script type="text/javascript">  
 
+        var ventanaModal = '<%= ventanaModal.ClientID %>'; 
+
+        //const myTT = setTimeout(testStop, 5000);
+        var myTT = 10;
+
+        function setUpdPnVisibility(flag) {
+
+            if (flag == true) {
+                $('#MainContent_panelUpdateProgress').removeClass('updateProgress');
+                $('#MainContent_panelUpdateProgress').addClass('updateProgress hideProp');
+
+                $('#MainContent_ventanaModal_backgroundElement').removeClass('no-inline');
+                $('#MainContent_ventanaModal_backgroundElement').addClass('hideProp');
+            }
+            else {
+                $('#MainContent_panelUpdateProgress').removeClass('updateProgress hideProp');
+                $('#MainContent_panelUpdateProgress').addClass('updateProgress');
+
+                $('#MainContent_ventanaModal_backgroundElement').removeClass('hideProp');               
+            }            
+        }
+
+        function test22() {
+            debugger 
+
+            var updateProgress = $find("<%= UpdateProgress1.ClientID %>");            
+            pepe1();
+            const myTT = setTimeout(testStop, 10000);
+            const myTT1 = setTimeout(JSFunction, 10000);
+            //testStop()
+        }
+
+        function testStop() {
+        /*const myTT = setTimeout(testStop, 5000);*/
+
+            setUpdPnVisibility(true);
+
+            clearTimeout(myTT);
+            //JSFunction(); 
+        }
+
+        //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+        //    alert('postback returned');
+        //});
+
+        var updateProgress = null;
+        function pepe() {
+            debugger
+
+            myTT = setTimeout(testStop, 7000);
+            <%--updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout("updateProgress.set_visible(true)", updateProgress.get_displayAfter());
+            return true;--%>
+                        
+        }
+
+        //$.ajax({
+
+        //    beforeSend: function () {
+        //        alert("before");
+        //    },
+
+        //    complete: function () {
+        //        alert("complete");
+        //    }
+
+        //});        
+
+        var updateProgress2 = null;
+        function pepe1() {
+            debugger
+
+            updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout(function () {
+                updateProgress.set_visible(true);
+            }, updateProgress.get_displayAfter());
+
+            $('<%=panelUpdateProgress.ClientID%>').removeClass('updateProgress');
+            $('<%=panelUpdateProgress.ClientID%>').addClass('updateProgress inline-cls');
+
+            $('<%=ventanaModal.ClientID%>').removeClass('no-inline');
+            $('<%=ventanaModal.ClientID%>').addClass('inline-cls');
+            
+            return true;
+        }
+
+        function prm_EndRequest() {
+            //debugger
+
+            <%--updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout(function () {
+                updateProgress.set_visible(false);
+            }, updateProgress.get_displayAfter());
+            return true;--%>
+
+            // get the divImage and hide it again
+            ////var panelProg1 = document.getElementById('<%=panelUpdateProgress.ClientID%>').value
+            ////var modal1 = document.getElementById('<%=ventanaModal.ClientID%>').value
+            //var panelProg = $get('panelUpdateProgress');
+            ////$('#<%=panelUpdateProgress.ClientID %>').addClass('updateProgress hideProp');
+            ////$('#<%=ventanaModal.ClientID %>').hide();
+            //addClass('popp hideProp');
+
+            //panelProg.style.display = 'none';
+
+            // Enable button that caused a postback
+            //$get(sender._postBackSettings.sourceElement.id).disabled = false;
+        }
+
         //from above   
 
         function pepepe() {
+            debugger
 
             $('#<%=hdConfirmationOption.ClientID %>').val('0');
             //alert("okokok");
-        }
+        }        
 
         $('#myModal .modal-footer > button').on('click', function (e) {
             debugger
@@ -2797,7 +2936,6 @@
             //var newWindow = window.open(uri);
 
             debugBase64(uri);
-
 
             //window.open("https://www.w3schools.com");
 
@@ -2956,7 +3094,7 @@
         }
 
         function JSFunction() {
-            //debugger
+            debugger
 
             __doPostBack('<%= updatepnl.ClientID  %>', '');
         }
@@ -3489,7 +3627,7 @@
                 $('#partinfo').find('textarea').attr('disabled', true);
 
                 $('#MainContent_ddlDiagnoseData').attr('disabled', false);
-                $('#MainContent_chkQuarantine').attr('disabled', false);   
+                $('#MainContent_chkQuarantine').attr('disabled', false);                  
 
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
@@ -3597,6 +3735,16 @@
             //debugger
 
             $('#<%=hdSeeFilesContent.ClientID %>').val("0");
+        }
+
+        function setQuarantine() {
+
+            if ($('#<%=chkQuarantine.ClientID %>').is(':checked')) {
+
+                $('#<%=txtQuarantine.ClientID %>').attr("disabled", false);
+                $('#<%=txtQuarantineDate.ClientID %>').attr("disabled", false);
+
+            }
         }
 
         function setVisAckPop() {
@@ -3813,7 +3961,7 @@
 
             afterRadioCheck(hd1, collapse1)
             afterRadioCheck(hd2, collapse2)
-        }
+        }        
 
         function canCloseFunctionality() {
             //debugger 
@@ -4432,6 +4580,8 @@
             claimNoAutoComplete();
             PartNoAutoComplete();
             CustomerNoAutoComplete();
+
+            prm_EndRequest();
         });  
 
         function execDatePickers() {
@@ -4567,7 +4717,9 @@
         }
 
         function pageLoad(event, args) {
-            //debugger
+            debugger
+
+            setUpdPnVisibility(false);
           
             console.log("BeginPageLoad");
 
@@ -4612,6 +4764,8 @@
             if (args.get_isPartialLoad()) {  
 
                 debugger
+
+                setUpdPnVisibility(false);
 
                 //addZBox();
 
@@ -4732,6 +4886,8 @@
 
                 canCloseFunctionality();
 
+                //setQuarantine();
+
                 //$(window).scrollTop(0);
 
             }
@@ -4816,6 +4972,8 @@
             AcknowledgeEmailBuild();
 
             InfoCustomerBuild();
+
+            //setQuarantine();
 
             //$(window).scrollTop(0);
 
@@ -4985,21 +5143,28 @@
         }
 
         function fixesSmallBtnClass() {
+            debugger
 
             $('#<%= txtActualStatus.ClientID %>').attr("disabled", "disabled");
 
 
             if ($('#<%=chkInitialReview.ClientID %>').is(':checked')) { 
 
-                $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);                
+                var txtInitRev = document.getElementById('<%=txtInitialReview.ClientID%>').value;
+                var txtInitRevDate = document.getElementById('<%=txtInitialReviewDate.ClientID%>').value;
 
-                $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                if (txtInitRev != "" && txtInitRevDate != "") {
 
-                $('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=chkInitialReview.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkInitialReview.ClientID %>').attr('disabled', true);
 
+                    $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtInitialReview.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtInitialReviewDate.ClientID %>').attr("disabled", "disabled")
+
+                }
             }
 
             if ($('#<%=chkAcknowledgeEmail.ClientID %>').is(':checked')) {
@@ -5055,54 +5220,95 @@
             }
 
             if ($('#<%=chkPartRequested.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
-                $('#<%=chkPartRequested.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtPartReq = document.getElementById('<%=txtPartRequested.ClientID%>').value;
+                var txtPartReqDate = document.getElementById('<%=txtPartRequestedDate.ClientID%>').value;
 
-                $('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
+                if (txtPartReq != "" && txtPartReqDate != "") {
 
+                    $('#<%=chkPartRequested.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkPartRequested.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkPartRequested.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkPartRequested.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtPartRequested.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtPartRequestedDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkPartRequested.ClientID %>').prop('checked', false);
+                    $('#<%=chkPartRequested.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkPartReceived.ClientID %>').is(':checked')) {
-               
-                $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
-                $('#<%=chkPartReceived.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtPartRec = document.getElementById('<%=txtPartReceived.ClientID%>').value;
+                var txtPartRecDate = document.getElementById('<%=txtPartReceivedDate.ClientID%>').value;
 
-                $('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
+                if (txtPartRec != "" && txtPartRecDate != "") {
 
+                    $('#<%=chkPartReceived.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkPartReceived.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkPartReceived.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkPartReceived.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtPartReceived.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtPartReceivedDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkPartReceived.ClientID %>').prop('checked', false);
+                    $('#<%=chkPartReceived.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkTechReview.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkTechReview.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtTechRev = document.getElementById('<%=txtTechReview.ClientID%>').value;
+                var txtTechRevDate = document.getElementById('<%=txtTechReviewDate.ClientID%>').value;
 
-                $('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+                if (txtTechRev != "" && txtTechRevDate != "") {
 
+                    $('#<%=chkTechReview.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkTechReview.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkTechReview.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkTechReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtTechReview.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtTechReviewDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkTechReview.ClientID %>').prop('checked', false);
+                    $('#<%=chkTechReview.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkWaitSupReview.ClientID %>').is(':checked')) {
-                
-                $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
-                $('#<%=chkWaitSupReview.ClientID %>').attr('disabled', true); 
 
-                $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
-                $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                var txtWaitSup = document.getElementById('<%=txtWaitSupReview.ClientID%>').value;
+                var txtWaitSupDate = document.getElementById('<%=txtWaitSupReviewDate.ClientID%>').value;
 
-                $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
-                $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+                if (txtWaitSup != "" && txtWaitSupDate != "") {
+
+                    $('#<%=chkWaitSupReview.ClientID %>').addClass('disableCtr');
+                    $('#<%=chkWaitSupReview.ClientID %>').attr('disabled', true);
+
+                    $('#<%=lnkWaitSupReview.ClientID %>').removeClass('aspNetDisabled');
+                    $('#<%=lnkWaitSupReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+
+                    $('#<%=txtWaitSupReview.ClientID %>').attr("disabled", "disabled")
+                    $('#<%=txtWaitSupReviewDate.ClientID %>').attr("disabled", "disabled")
+
+                }
+                else {
+                    $('#<%=chkWaitSupReview.ClientID %>').prop('checked', false);
+                    $('#<%=chkWaitSupReview.ClientID %>').attr('checked', false);
+                }
             }
 
             if ($('#<%=chkApproved.ClientID %>').is(':checked')) {

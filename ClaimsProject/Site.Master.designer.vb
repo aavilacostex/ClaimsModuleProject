@@ -41,33 +41,6 @@ Partial Public Class SiteMaster
     Protected WithEvents MainContent As Global.System.Web.UI.WebControls.ContentPlaceHolder
 
     '''<summary>
-    '''panelUpdateProgress control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents panelUpdateProgress As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''UpdateProgress1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents UpdateProgress1 As Global.System.Web.UI.UpdateProgress
-
-    '''<summary>
-    '''ventanaModal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ventanaModal As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
     '''hdShowMenu control.
     '''</summary>
     '''<remarks>

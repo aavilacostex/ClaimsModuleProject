@@ -10,4 +10,3 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Release\ClaimsProject.UTIL.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Release\ClaimsProject.UTIL.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Release\ClaimsProject.UTIL.pdb
-C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.UTIL\obj\Release\ClaimsProject.UTIL.vbprojAssemblyReference.cache

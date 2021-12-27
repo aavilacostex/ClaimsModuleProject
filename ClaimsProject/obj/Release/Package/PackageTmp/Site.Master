@@ -47,9 +47,9 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <div class="container-fluid">
+        <div class="container-fluid padding0" style="background-color: #fef6e6;">
 
-            <div class="support-bar-area row">
+            <div class="support-bar-area row hideProp">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-6">
                     <div class="left-content-area">
@@ -73,61 +73,70 @@
                 <div class="col-lg-1"></div>
             </div>
 
-            <nav class="navbar navbar-expand-md navbar-dark bg-white">
-                <div id="mainNav" class="row hideProp" style="min-width: 100% !important;">
-                    <div class="col-lg-5">
-                        <a class="navbar-brand logo" href="~/Default">
-                            <img src="~/Images/logo.png" runat="server" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#MainNavBar" aria-controls="MainNavBar" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
+            <nav class="navbar navbar-expand-md navbar-dark bg-black">
+                <div id="mainNav" class="row hideProp" style="min-width: 100% !important;">                    
                     <div class="col-lg-7">
                         <div class="collapse navbar-collapse" id="MainNavBar">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="http://svrwebapps.costex.com/BaseProject/default.aspx">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" aria-haspopup="true" role="button" aria-expanded="false" href="http://svrwebapps.costex.com/BaseProject/default.aspx">
+                                        <i class="fa fa-1x fa-home download" aria-hidden="true"> </i>  Home
+                                    </a>
                                 </li>                         
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="cust" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Accounting | Finance <span class="caret"></span></a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="cust" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                        <i class="fa fa-1x fa-landmark download" aria-hidden="true"> </i>  Accounting | Finance 
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
                                         <li><a class="dropdown-item" href="http://svrwebapps.costex.com/CustPaymentsSolution/">Customer Payments</a></li>                                       
                                     </ul>                                    
                                 </li> 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="purc" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Purchasing <span class="caret"></span></a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="purc" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                        <i class="fa fa-1x fa-industry download" aria-hidden="true"> </i>  Purchasing
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
                                         <li><a class="dropdown-item" href="http://svrwebapps.costex.com/PurchasingApp/">Lost Sale | Wish List</a></li>                                       
                                     </ul>                                    
                                 </li> 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="sals" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Sales <span class="caret"></span></a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="sals" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                        <i class="fa fa-1x fa-cash-register download" aria-hidden="true"> </i>  Sales
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
                                         <li><a class="dropdown-item" href="http://svrwebapps.costex.com/MassivePricingUpdate/">Massive Update for Price</a></li>                                       
                                     </ul>                                    
                                 </li> 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="qua" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Quality Control <span class="caret"></span></a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="qua" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"> 
+                                        <i class="fa fa-1x fa-user-shield download" aria-hidden="true"> </i>  Quality Control
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="purc">
                                         <li><a class="dropdown-item" href="Default">Customer Claims</a></li>                                       
                                     </ul>                                    
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="http://example.com" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> App Configuration </a>
+                                    <a class="nav-link dropdown-toggle" href="http://example.com" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       <i class="fa fa-1x fa-user-cog download" aria-hidden="true"> </i>  App Configuration </a>
                                     <div class="dropdown-menu" aria-labelledby="user">
                                         <a class="dropdown-item" href="#">
                                             <asp:Label ID="lblUsername" Text="" runat="server"></asp:Label>
                                         </a>                                        
-                                        <a class="dropdown-item" href="#">Configuration</a>
-                                        <a class="dropdown-item" href="#">
-                                            <asp:LinkButton ID="lnkLogout" CssClass="dropdown-item" Text="Logout" OnClick="lnkLogout_Click" runat="server"></asp:LinkButton> 
-                                        </a>
+                                        <a class="dropdown-item" href="#">Configuration</a>                                       
+                                        <asp:LinkButton ID="lnkLogout" CssClass="dropdown-item" Text="Logout" OnClick="lnkLogout_Click" runat="server"></asp:LinkButton>                                         
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    </div>                    
+                    </div>    
+                    <div class="col-lg-5">
+                        <a class="navbar-brand logo" href="http://svrwebapps.costex.com/BaseProject/default.aspx">
+                            <img src="~/Images/navbar-bakcground.png" runat="server" />
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#MainNavBar" aria-controls="MainNavBar" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
                 </div>
             </nav>
             <div>
@@ -139,7 +148,7 @@
 
             </asp:ContentPlaceHolder>
 
-            <div>
+            <%--<div>
                 <asp:Panel ID="panelUpdateProgress" runat="server" CssClass="updateProgress">
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="1">
                         <ProgressTemplate>
@@ -149,7 +158,7 @@
                     </asp:UpdateProgress>
                 </asp:Panel>
                 <act:ModalPopupExtender ID="ventanaModal" runat="server" TargetControlID="panelUpdateProgress" PopupControlID="panelUpdateProgress" Enabled ="True"></act:ModalPopupExtender>
-            </div>
+            </div>--%>
 
             <footer class="footer-area footer-bg">
                 <div class="footer-top">
@@ -230,7 +239,7 @@
 
     <script type="text/javascript">  
 
-        var ventanaModal = '<%= ventanaModal.ClientID %>';  
+        <%--var ventanaModal = '<%= ventanaModal.ClientID %>'; --%> 
 
         check();
 

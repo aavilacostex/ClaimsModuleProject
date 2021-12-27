@@ -1,21 +1,28 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="Login.aspx.vb" Inherits="ClaimsProject.Login" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container" runat="server">
-        <div class="row">
+    <div class="container" style="padding: 25px 0;" runat="server">
+        <div class="row" style="margin: 0 auto;padding: 25px 0;">
             <div class="col-md-3"></div>
             <div class="col-md-6">
+                <!-- Optinal message row -->
+                <div id="lgImgLogo" class="row" style="padding: 15px 0; margin: 0 auto;">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 centered">
+                        <img src="~/Images/logo.png" runat="server" />
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
                 <div id="pdDisplayLogin" class="shadow-to-box">
-
-                   <div>
+                   <div>                       
                         <!-- first row -->
-                        <div class="row" style="padding: 30px 0;">
+                        <div class="row chgbck" style="padding: 30px 0;">
                             <div class="col-md-2"></div>
-                            <div class="col-md-8 centered"><span id="spnLoadText">Welcome to CostexEA</span></div>
+                            <div class="col-md-8 centered"><span id="spnLoadText">Welcome to CostexEA</span> <br /> <span class="text-muted mb-0" >Sign in to continue.</span></div>
                             <div class="col-md-2"></div>
-                        </div>
-                        <!-- Optinal message row -->
-                        <div class="row" style="padding: 15px 0;">
+                        </div>                        
+                       <!-- Logo message row -->
+                        <div class="row chgbck" style="padding: 15px 0;">
                             <div class="col-md-3"></div>
                             <div class="col-md-6 centered">
                                 <span id="spnLoadTextShort">
@@ -25,7 +32,7 @@
                             <div class="col-md-3"></div>
                         </div>
                         <!-- Second row -->
-                        <div class="row" style="padding: 10px 0;">
+                        <div class="row chgbck" style="padding: 10px 0;">
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <div class="input-group-append">
@@ -39,7 +46,7 @@
                             <div class="col-md-3"></div>
                         </div>
 
-                        <div class="row" style="padding: 10px 0;">
+                        <div class="row chgbck" style="padding: 10px 0;">
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <div class="input-group-append">
@@ -53,7 +60,7 @@
                             <div class="col-md-3"></div>
                         </div>                        
                         <!-- Third row -->
-                        <div class="row" style="padding: 20px 0;">
+                        <div class="row chgbck" style="padding: 20px 0;">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
                                 <asp:Button ID="btnLoginUser" Text="   Login   " class="btn btn-primary btn-lg btnFullSize" OnClick="btnLogin_Click" runat="server" />

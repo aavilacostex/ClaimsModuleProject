@@ -9,6 +9,8 @@ Imports ClaimsProject.DTO
 Imports ClosedXML.Excel
 Imports System.Web
 Imports System.Net.Mail
+Imports System.Threading
+Imports System.Threading.Tasks
 Imports System.Net
 Imports System.DirectoryServices.AccountManagement
 Imports System.Management.Automation
@@ -175,6 +177,16 @@ Public Class CustomerClaims
                 Else
                     Session("isDDL") = False
                 End If
+
+                'Dim blDownloadExc = If(Session("RequestDownloadExcel") IsNot Nothing, DirectCast(Session("RequestDownloadExcel"), Boolean), False)
+                'If blDownloadExc Then
+                '    Dim blResult = callRec()
+                '    If blResult Then
+                '        SendMessage("The requested document has been placed in the downloads folder.", messageType.success)
+                '    End If
+                'End If
+
+
             End If
 
         Catch ex As Exception
@@ -1289,7 +1301,11 @@ Public Class CustomerClaims
                     End If
                 Else
                     Dim strMessage = "In order to update the Info Customer Status, the Initial Review and Acknowledge Email Statuses must have been selected each one."
-                    chkAcknowledgeEmail.Checked = False
+                    'chkAcknowledgeEmail.Checked = False
+                    chkInfoCust.Checked = False
+                    'chkInitialReview.Checked = False
+                    'cleanMe(txtInitialReview)
+                    'cleanMe(txtInitialReviewDate)
                     SendMessage(strMessage, messageType.info)
                     Exit Sub
                 End If
@@ -1701,7 +1717,9 @@ Public Class CustomerClaims
     Protected Sub pepe_Click(sender As Object, e As EventArgs) Handles pepe.Click
         Dim exMessage As String = Nothing
         Try
-            SendMessage("Test MEssage", messageType.info, True)
+            DownloadExcel()
+            'ClientScript.RegisterOnSubmitStatement(Me.GetType(), "Doit", "test22(); return false")
+            'SendMessage("Test MEssage", messageType.info, True)
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
@@ -1719,7 +1737,11 @@ Public Class CustomerClaims
             'SendMessage("TEst MEssage", messageType.info)
             'pepe_Click(Nothing, Nothing)
             DownloadExcel()
-
+            'SendMessage("the requested excel document is being prepared to be downloaded.", messageType.info)
+            'Session("RequestDownloadExcel") = True
+            'Dim ctx1 = HttpContext.Current
+            'foo()
+            'launchSecondaryThread()
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
@@ -1898,8 +1920,8 @@ Public Class CustomerClaims
     Protected Sub btnSaveMessageAck_click(sender As Object, e As EventArgs) Handles btnSaveMessageAck.Click
         Dim exMessage As String = " "
         Try
-            lblTextEditorAck.Text = txtEditorExtender1.Text
-            hdTextEditorAckMessage.Value = lblTextEditorAck.Text
+            'lblTextEditorAck.Text = txtEditorExtender1.Text
+            hdTextEditorAckMessage.Value = txtEditorExtender1.Text
 
             hdAckPopContent.Value = "0"
             hdGridViewContent.Value = "0"
@@ -1917,8 +1939,8 @@ Public Class CustomerClaims
     Protected Sub btnSaveMessageInfoC_click(sender As Object, e As EventArgs) Handles btnSaveMessageInfoC.Click
         Dim exMessage As String = " "
         Try
-            lblTextEditorInfoCust.Text = txtEditorExtender2.Text
-            hdTextEditorInfoCustMessage.Value = lblTextEditorInfoCust.Text
+            'lblTextEditorInfoCust.Text = txtEditorExtender2.Text
+            hdTextEditorInfoCustMessage.Value = txtEditorExtender2.Text
 
             hdAckPopContent.Value = "0"
             hdInfoCustContent.Value = "0"
@@ -4376,6 +4398,14 @@ Public Class CustomerClaims
                         UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, True)
                     End If
                 Else
+                    UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, True)
+                    chkPartRequested.Checked = False
+                    cleanMe(txtPartRequested)
+                    cleanMe(txtPartRequestedDate)
+                    'chkInitialReview.Checked = False
+                    'cleanMe(txtInitialReview)
+                    'cleanMe(txtInitialReviewDate)
+
                     Dim methodMessage = "Please make the prior status selection in order to proceed!"
                     SendMessage(methodMessage, messageType.info)
                 End If
@@ -4405,6 +4435,14 @@ Public Class CustomerClaims
                         UpdateInternalStatusGeneric(txtPartReceived, txtPartReceivedDate, chkPartReceived, lnkPartReceived, True)
                     End If
                 Else
+                    UpdateInternalStatusGeneric(txtPartReceived, txtPartReceivedDate, chkPartReceived, lnkPartReceived, True)
+                    chkPartReceived.Checked = False
+                    cleanMe(txtPartReceived)
+                    cleanMe(txtPartReceivedDate)
+                    'chkInitialReview.Checked = False
+                    'cleanMe(txtInitialReview)
+                    'cleanMe(txtInitialReviewDate)
+
                     Dim methodMessage = "Please make the prior status selection in order to proceed!"
                     SendMessage(methodMessage, messageType.info)
                 End If
@@ -4433,6 +4471,14 @@ Public Class CustomerClaims
                         UpdateInternalStatusGeneric(txtTechReview, txtTechReviewDate, chkTechReview, lnkTechReview, True)
                     End If
                 Else
+                    UpdateInternalStatusGeneric(txtTechReview, txtTechReviewDate, chkTechReview, lnkTechReview, True)
+                    chkTechReview.Checked = False
+                    cleanMe(txtTechReview)
+                    cleanMe(txtTechReviewDate)
+                    'chkInitialReview.Checked = False
+                    'cleanMe(txtInitialReview)
+                    'cleanMe(txtInitialReviewDate)
+
                     Dim methodMessage = "Please make the prior status selection in order to proceed!"
                     SendMessage(methodMessage, messageType.info)
                 End If
@@ -4461,6 +4507,14 @@ Public Class CustomerClaims
                         UpdateInternalStatusGeneric(txtWaitSupReview, txtWaitSupReviewDate, chkWaitSupReview, lnkWaitSupReview, True)
                     End If
                 Else
+                    UpdateInternalStatusGeneric(txtWaitSupReview, txtWaitSupReviewDate, chkWaitSupReview, lnkWaitSupReview, True)
+                    chkWaitSupReview.Checked = False
+                    cleanMe(txtWaitSupReview)
+                    cleanMe(txtWaitSupReviewDate)
+                    'chkInitialReview.Checked = False
+                    'cleanMe(txtInitialReview)
+                    'cleanMe(txtInitialReviewDate)
+
                     Dim methodMessage = "Please make the prior status selection in order to proceed!"
                     SendMessage(methodMessage, messageType.info)
                 End If
@@ -5507,7 +5561,7 @@ Public Class CustomerClaims
                                 Dim messageOut As String = Nothing
                                 If objEmail IsNot Nothing Then
                                     'email for acknowledge email
-                                    Dim emailMsg = If(String.IsNullOrEmpty(lblTextEditorAck.Text.Trim()), hdTextEditorAckMessage.Value.Trim(), lblTextEditorAck.Text.Trim())
+                                    Dim emailMsg = hdTextEditorAckMessage.Value.Trim()
                                     objEmail.MESSAGE = emailMsg
 
                                     Dim bresult = PrepareEmail(objEmail, "2", messageOut)
@@ -5602,7 +5656,7 @@ Public Class CustomerClaims
                                 Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
                                 Dim messageOut As String = Nothing
                                 If objEmail IsNot Nothing Then
-                                    Dim emailMsg = If(String.IsNullOrEmpty(lblTextEditorInfoCust.Text.Trim()), hdTextEditorInfoCustMessage.Value.Trim(), lblTextEditorInfoCust.Text.Trim())
+                                    Dim emailMsg = hdTextEditorInfoCustMessage.Value.Trim()
                                     objEmail.MESSAGE = emailMsg
 
                                     Dim bresult = PrepareEmail(objEmail, "4", messageOut)
@@ -8236,6 +8290,14 @@ Public Class CustomerClaims
 
 #Region "Utils"
 
+    Public Sub cleanMe(txt As TextBox)
+        Try
+            txt.Text = String.Empty
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Private Function GetDatasetDataValidation(ds As DataSet) As Boolean
         Dim bContinue As Boolean = False
         Try
@@ -8262,6 +8324,7 @@ Public Class CustomerClaims
         Dim fileName As String = ""
         Dim folderPath As String = ""
         Dim resultMethod As Boolean = False
+        Dim strFilters As String = Nothing
         Try
             'Dim pathToProcess = ConfigurationManager.AppSettings("urlWlTemplateToProcess")
             Dim pathToProcess = ""
@@ -8308,8 +8371,10 @@ Public Class CustomerClaims
                     Dim fullPath = folderPath + fileName
                     'Dim ds = DirectCast(Session("DataSource"), DataSet)
 
+                    strFilters = If(Session("buildSql") IsNot Nothing, DirectCast(Session("buildSql"), String), "")
+
                     Dim dsNew As DataSet = New DataSet()
-                    Dim rs1 = objBL.GetClaimDataToExcel("C", dsNew)
+                    Dim rs1 = objBL.GetClaimDataToExcel("C", dsNew, strFilters)
 
                     If rs1 > 0 Then
 
@@ -8396,20 +8461,20 @@ Public Class CustomerClaims
 
                             'send the document to the handler to process the download through the browser
                             If File.Exists(fullPath) Then
-
                                 Dim newLocalFile As FileInfo = New FileInfo(fullPath)
                                 If newLocalFile.Exists Then
                                     Try
                                         Session("filePathExcelOutput") = fullPath
                                         Response.Redirect("DownloadDoc.ashx", False)
-                                        'Process.Start("explorer.exe", localFilePath)
+
                                     Catch Win32Exception As Win32Exception
                                         Shell("explorer " & fullPath, AppWinStyle.NormalFocus)
                                     Catch ex As Exception
-                                        writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "Error Ocurred: " + ex.Message + " for user " + Session("userid").ToString(), "Occurs at time: " + DateTime.Now.ToString())
+                                        writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "Error Ocurred:  " + ex.Message + " for user " + Session("userid").ToString(), "Occurs at time: " + DateTime.Now.ToString())
                                     End Try
                                 End If
                             End If
+                            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Message1", "JSFunction();", True)
                         Else
                             Dim userSelected As String = Nothing
                             userSelected = If(String.IsNullOrEmpty(Session("selectedUser")), Session("userid").ToString(), Session("selectedUser").ToString())
@@ -8425,6 +8490,75 @@ Public Class CustomerClaims
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
+
+    Public Sub DownloadRequestedFile(Optional ByRef hasPass As Boolean = False)
+        Dim fullPath As String = Nothing
+        Dim exMessage As String = Nothing
+        Try
+            fullPath = If(Session("filePathExcelOutput") IsNot Nothing, DirectCast(Session("filePathExcelOutput"), String), "")
+            If Not String.IsNullOrEmpty(fullPath) Then
+                If File.Exists(fullPath) Then
+
+                    Dim newLocalFile As FileInfo = New FileInfo(fullPath)
+                    If newLocalFile.Exists Then
+                        Try
+                            Dim ctx1 = HttpContext.Current
+                            Response.Redirect("DownloadDoc.ashx", False)
+                            hasPass = True
+                        Catch Win32Exception As Win32Exception
+                            Shell("explorer " & fullPath, AppWinStyle.NormalFocus)
+                        Catch ex As Exception
+                            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "Error Ocurred:  " + ex.Message + " for user " + Session("userid").ToString(), "Occurs at time: " + DateTime.Now.ToString())
+                        End Try
+                    End If
+                End If
+            Else
+
+            End If
+        Catch ex As Exception
+            exMessage = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
+    Public Sub foo()
+        Try
+            Task.Delay(15000).ContinueWith(Function() callRec()).Wait()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Public Function callRec() As Boolean
+        Dim count As Integer = 1000000
+        Dim ct As Integer = 0
+        Dim exMessage As String = Nothing
+        Dim blResult As Boolean = False
+        Dim blRes As Boolean = False
+        Session("DownloadEnd") = False
+        Try
+            'Dim ctNew = If(Session("countValue") IsNot Nothing, DirectCast(Session("countValue"), Integer), 0)
+            'If ctNew >= 1000000 Then
+            '    Return True
+            'Else
+            '    ctNew += 1
+            '    Session("countValue") = ctNew
+            '    Thread.Sleep(2000)
+            Dim ctx1 = HttpContext.Current
+            DownloadRequestedFile(blRes)
+            '    If blRes Then
+            '        Thread.Sleep(2000)
+            '        Session("countValue") = count
+            '    End If
+            '    Return callRec()
+            'End If
+            Return blResult
+        Catch ex As Exception
+            exMessage = ex.Message
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Return blResult
+        End Try
+    End Function
 
     Protected Function FillDownloadExcObj(ds As DataSet) As List(Of DownloadExcelObj)
 
@@ -9391,7 +9525,7 @@ Public Class CustomerClaims
 
                 Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                    If claimType.Equals("C") Then ' warranty claims
+                    If myitem(0).Item("MHTDES").ToString().Trim().ToLower().Equals("quality") Then ' warranty claims
 
                         hdSeq.Value = Trim(myitem(0).Item("CWWRNO").ToString())
 
@@ -9554,12 +9688,13 @@ Public Class CustomerClaims
                                     chkQuarantine.Checked = False
                                     chkQuarantine.Enabled = True
                                     txtQuarantine.Text = ""
-                                    txtQuarantineDate.Text = Now.AddYears(-1000).ToShortDateString().Split(" ")(0).ToString()
+                                    'txtQuarantineDate.Text = Now.AddYears(-1000).ToShortDateString().Split(" ")(0).ToString()
+                                    txtQuarantineDate.Text = ""
 
                                     'GetDataOver500()
 
                                     GetQuarantineReq(intValue)
-                                    GetCostSuggested(intValue)
+                                    'GetCostSuggested(intValue)
                                     GetEngineInformation(intValue)
                                     'GetAuthForSalesOver500(intValue)
                                     GetClaimApproved(intValue)
@@ -10058,59 +10193,39 @@ Public Class CustomerClaims
                         End If
                         AcknowledgeEmailProcess(wrnNo, strMessageOut)
                     Case "2"
-                        If String.IsNullOrEmpty(txtInitialReview.Text) And chkInitialReview.Checked Then
-                            UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
-                            InitialStatusProcess(wrnNo, strMessageOut)
-                        ElseIf Not String.IsNullOrEmpty(txtInitialReview.Text) Then
-                        Else
-                            strMessage = "In order to update the Acknowledge Email Status, the Initial Review Status must have been selected."
+                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And Not chkAcknowledgeEmail.Checked Then
+                            strMessage = "In order to update the Info Cust Status, the Acknowledge Email must have been selected."
                             doStop = True
                             SendMessage(strMessage, messageType.info)
                             Exit Sub
-                        End If
-                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And chkAcknowledgeEmail.Checked Then
-                            UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
-                            AcknowledgeEmailProcess(wrnNo, strMessageOut)
                         End If
                         InfoRequestedProcess(wrnNo, strMessageOut)
                     Case "3"
-                        If String.IsNullOrEmpty(txtInitialReview.Text) And chkInitialReview.Checked Then
-                            UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
-                            InitialStatusProcess(wrnNo, strMessageOut)
-                        ElseIf Not String.IsNullOrEmpty(txtInitialReview.Text) Then
-                        Else
-                            strMessage = "In order to update the Acknowledge Email Status, the Initial Review Status must have been selected."
+                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And Not chkAcknowledgeEmail.Checked Then
+                            strMessage = "In order to update the Part Requested Status, the Acknowledge Email must have been sent."
                             doStop = True
                             SendMessage(strMessage, messageType.info)
                             Exit Sub
                         End If
-                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And chkAcknowledgeEmail.Checked Then
-                            UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
-                            AcknowledgeEmailProcess(wrnNo, strMessageOut)
-                        End If
-                        If String.IsNullOrEmpty(txtInfoCust.Text) And chkInfoCust.Checked Then
-                            UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, False)
-                            InfoRequestedProcess(wrnNo, strMessageOut)
+                        If String.IsNullOrEmpty(txtInfoCust.Text) And Not chkInfoCust.Checked Then
+                            strMessage = "In order to update the Part Requested Status, the Info Cust Email must have been sent."
+                            doStop = True
+                            SendMessage(strMessage, messageType.info)
+                            Exit Sub
                         End If
                         PartRequestedProcess(wrnNo, strMessageOut)
                     Case "4"
-                        If String.IsNullOrEmpty(txtInitialReview.Text) And chkInitialReview.Checked Then
-                            UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
-                            InitialStatusProcess(wrnNo, strMessageOut)
-                        ElseIf Not String.IsNullOrEmpty(txtInitialReview.Text) Then
-                        Else
-                            strMessage = "In order to update the Acknowledge Email Status, the Initial Review Status must have been selected."
+                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And Not chkAcknowledgeEmail.Checked Then
+                            strMessage = "In order to update the Part Received Status, the Acknowledge Email must have been sent."
                             doStop = True
                             SendMessage(strMessage, messageType.info)
                             Exit Sub
                         End If
-                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And chkAcknowledgeEmail.Checked Then
-                            UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
-                            AcknowledgeEmailProcess(wrnNo, strMessageOut)
-                        End If
-                        If String.IsNullOrEmpty(txtInfoCust.Text) And chkInfoCust.Checked Then
-                            UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, False)
-                            InfoRequestedProcess(wrnNo, strMessageOut)
+                        If String.IsNullOrEmpty(txtInfoCust.Text) And Not chkInfoCust.Checked Then
+                            strMessage = "In order to update the Part Received Status, the Info Cust Email must have been sent."
+                            doStop = True
+                            SendMessage(strMessage, messageType.info)
+                            Exit Sub
                         End If
                         If String.IsNullOrEmpty(txtPartRequested.Text) And chkPartRequested.Checked Then
                             UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, False)
@@ -10118,23 +10233,17 @@ Public Class CustomerClaims
                         End If
                         PartReceivedProcess(wrnNo, strMessageOut)
                     Case "5"
-                        If String.IsNullOrEmpty(txtInitialReview.Text) And chkInitialReview.Checked Then
-                            UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
-                            InitialStatusProcess(wrnNo, strMessageOut)
-                        ElseIf Not String.IsNullOrEmpty(txtInitialReview.Text) Then
-                        Else
-                            strMessage = "In order to update the Acknowledge Email Status, the Initial Review Status must have been selected."
+                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And Not chkAcknowledgeEmail.Checked Then
+                            strMessage = "In order to update the Technical Review Status, the Acknowledge Email must have been sent."
                             doStop = True
                             SendMessage(strMessage, messageType.info)
                             Exit Sub
                         End If
-                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And chkAcknowledgeEmail.Checked Then
-                            UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
-                            AcknowledgeEmailProcess(wrnNo, strMessageOut)
-                        End If
-                        If String.IsNullOrEmpty(txtInfoCust.Text) And chkInfoCust.Checked Then
-                            UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, False)
-                            InfoRequestedProcess(wrnNo, strMessageOut)
+                        If String.IsNullOrEmpty(txtInfoCust.Text) And Not chkInfoCust.Checked Then
+                            strMessage = "In order to update the Technical Review Status, the Info Cust Email must have been sent."
+                            doStop = True
+                            SendMessage(strMessage, messageType.info)
+                            Exit Sub
                         End If
                         If String.IsNullOrEmpty(txtPartRequested.Text) And chkPartRequested.Checked Then
                             UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, False)
@@ -10146,26 +10255,17 @@ Public Class CustomerClaims
                         End If
                         TechReviewProcess(wrnNo, strMessageOut)
                     Case "6"
-                        If String.IsNullOrEmpty(txtInitialReview.Text) And chkInitialReview.Checked Then
-                            UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
-                            InitialStatusProcess(wrnNo, strMessageOut)
-                        ElseIf Not String.IsNullOrEmpty(txtInitialReview.Text) Then
-                        Else
-                            strMessage = "In order to update the Acknowledge Email Status, the Initial Review Status must have been selected."
+                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And Not chkAcknowledgeEmail.Checked Then
+                            strMessage = "In order to update the Waiting for supplier Status, the Acknowledge Email must have been sent."
                             doStop = True
                             SendMessage(strMessage, messageType.info)
                             Exit Sub
                         End If
-                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And chkAcknowledgeEmail.Checked Then
-                            UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
-                            AcknowledgeEmailProcess(wrnNo, strMessageOut)
-                        Else
-                            strMessage = "In order to update the Acknowledge Email Status, the Initial Review Status must have been selected."
-                            'Exit Sub
-                        End If
-                        If String.IsNullOrEmpty(txtInfoCust.Text) And chkInfoCust.Checked Then
-                            UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, False)
-                            InfoRequestedProcess(wrnNo, strMessageOut)
+                        If String.IsNullOrEmpty(txtInfoCust.Text) And Not chkInfoCust.Checked Then
+                            strMessage = "In order to update the Waiting for supplier Status, the Info Cust Email must have been sent."
+                            doStop = True
+                            SendMessage(strMessage, messageType.info)
+                            Exit Sub
                         End If
                         If String.IsNullOrEmpty(txtPartRequested.Text) And chkPartRequested.Checked Then
                             UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, False)
@@ -10181,17 +10281,17 @@ Public Class CustomerClaims
                         End If
                         WaitingSupplierProcess(wrnNo, strMessageOut)
                     Case Else
-                        If String.IsNullOrEmpty(txtInitialReview.Text) And chkInitialReview.Checked Then
-                            UpdateInternalStatusGeneric(txtInitialReview, txtInitialReviewDate, chkInitialReview, lnkInitialReview, False)
-                            InitialStatusProcess(wrnNo, strMessageOut)
+                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And Not chkAcknowledgeEmail.Checked Then
+                            strMessage = "In order to update the selected Status, the Acknowledge Email must have been sent."
+                            doStop = True
+                            SendMessage(strMessage, messageType.info)
+                            Exit Sub
                         End If
-                        If String.IsNullOrEmpty(txtAcknowledgeEmail.Text) And chkAcknowledgeEmail.Checked Then
-                            UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkAcknowledgeEmail, False)
-                            AcknowledgeEmailProcess(wrnNo, strMessageOut)
-                        End If
-                        If String.IsNullOrEmpty(txtInfoCust.Text) And chkInfoCust.Checked Then
-                            UpdateInternalStatusGeneric(txtInfoCust, txtInfoCustDate, chkInfoCust, lnkInfoCust, False)
-                            InfoRequestedProcess(wrnNo, strMessageOut)
+                        If String.IsNullOrEmpty(txtInfoCust.Text) And Not chkInfoCust.Checked Then
+                            strMessage = "In order to update the selected Status, the Info Cust Email must have been sent."
+                            doStop = True
+                            SendMessage(strMessage, messageType.info)
+                            Exit Sub
                         End If
                         If String.IsNullOrEmpty(txtPartRequested.Text) And chkPartRequested.Checked Then
                             UpdateInternalStatusGeneric(txtPartRequested, txtPartRequestedDate, chkPartRequested, lnkPartRequested, False)
@@ -11252,6 +11352,9 @@ Public Class CustomerClaims
             Dim strDateFirst As String = firstDate.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)
             'Dim strDateReduc As String = firstDate.ToString("yyMM", System.Globalization.CultureInfo.InvariantCulture)
             Dim curDate = DateTime.Now.Date().ToString("MM/dd/yyyy")
+            Session("RequestDownloadExcel") = False
+
+            'Dim aa = callRec()
 
             'MassiveInternalUpdate("27240")
 
@@ -13449,6 +13552,53 @@ Public Class CustomerClaims
 
         End Try
     End Sub
+
+#End Region
+
+#Region "Thread methods"
+
+    Public Sub launchSecondaryThread()
+        Dim exMessage As String = ""
+        Try
+            Dim ctx As HttpContext = HttpContext.Current
+            Session("curContext") = ctx
+            Dim tt As Thread = New Thread(Sub() Me.worker_Thread(ctx))
+            tt.Name = "ExtClaim2"
+            'tt.IsBackground = True
+            tt.Start()
+            SendMessage("When the requested excel document has been generated you will be notified. Please wait a few seconds.", messageType.info)
+            'While Not tt.Join(0)
+            '    Dim pp = "1"
+            'End While
+
+            'Dim blResult = callRec()
+            'If blResult Then
+            '    SendMessage("The requested document has been placed in the downloads folder.", messageType.success)
+            'End If
+
+        Catch ex As Exception
+            exMessage = ex.Message
+        End Try
+    End Sub
+
+    Private Function worker_Thread(Optional ByVal ctx As HttpContext = Nothing)
+        Dim result As Integer = -1
+        Dim dsResult As DataSet = New DataSet()
+        Try
+            Threading.Thread.Sleep(1000)
+            'Dim vendorsOk = DirectCast(Session("VendorsAccepted"), String)
+            'Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+            DownloadExcel()
+            'btnGetTemplate_Click(Nothing, Nothing)
+            'getLSData(dsResult, CInt(timesQ), vndSel) 'prepare the session variables with default values
+
+            'End Using
+
+        Catch ex As Exception
+            Dim eee = ex.Message
+        End Try
+    End Function
 
 #End Region
 

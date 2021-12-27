@@ -2921,13 +2921,13 @@ Partial Public Class CustomerClaims
     Protected WithEvents txtClaimCompletedDate As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''pnExternalStatus control.
+    '''pnExternalStatus10 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnExternalStatus As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnExternalStatus10 As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
     '''lblClaimStatus control.
@@ -4440,4 +4440,40 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents popInfoCust As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''panelUpdateProgress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents panelUpdateProgress As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''UpdateProgress1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UpdateProgress1 As Global.System.Web.UI.UpdateProgress
+
+    '''<summary>
+    '''ventanaModal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ventanaModal As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''btnCancelReq control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelReq As Global.System.Web.UI.WebControls.Button
 End Class

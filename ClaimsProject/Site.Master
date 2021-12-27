@@ -148,7 +148,7 @@
 
             </asp:ContentPlaceHolder>
 
-            <div>
+            <%--<div>
                 <asp:Panel ID="panelUpdateProgress" runat="server" CssClass="updateProgress">
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="1">
                         <ProgressTemplate>
@@ -158,7 +158,7 @@
                     </asp:UpdateProgress>
                 </asp:Panel>
                 <act:ModalPopupExtender ID="ventanaModal" runat="server" TargetControlID="panelUpdateProgress" PopupControlID="panelUpdateProgress" Enabled ="True"></act:ModalPopupExtender>
-            </div>
+            </div>--%>
 
             <footer class="footer-area footer-bg">
                 <div class="footer-top">
@@ -239,7 +239,7 @@
 
     <script type="text/javascript">  
 
-        var ventanaModal = '<%= ventanaModal.ClientID %>';  
+        <%--var ventanaModal = '<%= ventanaModal.ClientID %>'; --%> 
 
         check();
 
