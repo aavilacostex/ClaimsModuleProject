@@ -5312,7 +5312,16 @@ Public Class CustomerClaims
                         Return result
                     End If
                 Else
-                    strMessage = "The Diagnose must a have a selected value."
+                    Dim optControl = DirectCast(Session("currentCtr"), String)
+                    If Not String.IsNullOrEmpty(optControl) Then
+                        If ((LCase(optControl)).Contains("btnsavetab")) Then
+                            strMessage = ""
+                            result = True
+                            Return result
+                        End If
+                    End If
+
+                    strMessage = "The Diagnose must have a selected value."
                     Return result
                 End If
             End Using
@@ -8121,12 +8130,13 @@ Public Class CustomerClaims
                 Dim claimNo = arrValues(5).ToString().Trim()
                 Dim partNo = If(arrValues.Length = 7, arrValues(6).ToString().Trim(), arrValues(7).ToString().Trim())
                 Dim loc = If(dc.Value.ToString().Trim().ToLower().Equals("ext"), "External", "")
+                Dim strSize = If(dc.Key.Length > 0, dc.Key.Length.ToString(), "")
 
                 Dim siteUrl = "http://svrwebapps.costex.com/IMAGEBANK/"
 
                 url = If(Not String.IsNullOrEmpty(loc), siteUrl + claimNo + "/" + loc + "/" + partNo, siteUrl + claimNo + "/" + partNo)
                 Dim extension = Path.GetExtension(fullUrl).ToLower()
-                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, fileDate, urlType)
+                Dim strUrl = PreparaUrlAndImage(extension, siteUrl, url, fileDate, urlType, strSize)
 
 #Region "No"
 
@@ -8237,7 +8247,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Function PreparaUrlAndImage(extension As String, siteUrl As String, url As String, Optional fileDate As String = Nothing, Optional urlType As Boolean = False) As String
+    Public Function PreparaUrlAndImage(extension As String, siteUrl As String, url As String, Optional fileDate As String = Nothing, Optional urlType As Boolean = False, Optional strSize As String = Nothing) As String
         'Dim url As String = Nothing
         Dim fullUrl As String = Nothing
         Dim selImg As String = Nothing
@@ -8273,10 +8283,12 @@ Public Class CustomerClaims
             End Select
 
             If urlType Then
+                'url += If(String.IsNullOrEmpty(strSize), "," + selImg, "," + selImg + "," + strSize)
                 url += "," + selImg
             End If
 
-            url += "," + fileDate
+            'url += "," + fileDate
+            url += If(String.IsNullOrEmpty(strSize), "," + fileDate, "," + fileDate + "," + strSize)
 
             Return url
 
@@ -11171,6 +11183,7 @@ Public Class CustomerClaims
         Dim selImg As String = Nothing
         Dim fileDate As String = Nothing
         Dim name As String = Nothing
+        Dim size As String = Nothing
         Dim listCount As Integer = 0
         Dim itemByRows As Integer = 4
         Dim method As String = "ctl00$MainContent$btnSeeFileMsg"
@@ -11200,13 +11213,15 @@ Public Class CustomerClaims
                         fileDate = item.Split(",")(2).ToString().Trim()
                         Dim ct = url.Split("/").Count()
                         name = url.Split("/")(ct - 1).ToString().Trim()
+                        size = item.Split(",")(3).ToString().Trim()
+
                     End If
 
                     'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
                     'OpenMsgFile(url)
                     'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                     'Else
-                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break: break-all;>{7}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate)
+                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{7}</p><p style=font-size:10px;word-break:break-all;margin:0 !important;>{8}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate, size + " Bytes")
                     'End If
                     i += 1
                 Else
@@ -11221,6 +11236,7 @@ Public Class CustomerClaims
                             fileDate = item.Split(",")(2).ToString().Trim()
                             Dim ct = url.Split("/").Count()
                             name = url.Split("/")(ct - 1).ToString().Trim()
+                            size = item.Split(",")(3).ToString().Trim()
                             'Else
                             '    url = item.ToString().Trim()
                             '    selImg = "~/Images/avatar-ctp.PNG"
@@ -11229,7 +11245,7 @@ Public Class CustomerClaims
                         'If url.Substring(url.Length - 4, 4).Trim().ToLower().Equals(".msg") Then
                         'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                         'Else
-                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break: break-all;>{7}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate)
+                        body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{7}</p><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{8}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate, size + " Bytes")
                         'End If
                         i += 1
                     End If
