@@ -1736,7 +1736,13 @@ Public Class CustomerClaims
             'Session("PMP84DATAFULL") = ds
             'SendMessage("TEst MEssage", messageType.info)
             'pepe_Click(Nothing, Nothing)
-            DownloadExcel()
+            If hdGridViewContent.Value.Equals("0") Then
+                methodMessage = "To download the excel file please go to the all claims view."
+                SendMessage(methodMessage, messageType.warning)
+            Else
+                DownloadExcel()
+            End If
+
             'SendMessage("the requested excel document is being prepared to be downloaded.", messageType.info)
             'Session("RequestDownloadExcel") = True
             'Dim ctx1 = HttpContext.Current
@@ -2927,11 +2933,18 @@ Public Class CustomerClaims
                                 GetUserEmailByUserId(FullPrivilegeUser.Split("@")(0), username)
                             End If
 
-                            If String.IsNullOrEmpty(txtClaimAuth.Text.Trim()) Then
-                                If Not objClaim.Over500Auth Then
-                                    endMessage = "The claim approval process is under pending authorization by " + username.ToUpper() + "."
+                            Dim optControl = DirectCast(Session("currentCtr"), String)
+                            Dim isFromExt As Boolean = If(Not String.IsNullOrEmpty(optControl) And (LCase(optControl)).Contains("btnsavetab"), True, False)
+
+                            If Not isFromExt Then
+                                If String.IsNullOrEmpty(txtClaimAuth.Text.Trim()) Then
+                                    If Not objClaim.Over500Auth Then
+                                        endMessage = "The claim approval process is under pending authorization by " + username.ToUpper() + "."
+                                    Else
+                                        endMessage = "The authorization has been made for the claim number " + claimNo + "."
+                                    End If
                                 Else
-                                    endMessage = "The authorization has been made for the claim number " + claimNo + "."
+                                    endMessage = "Record Updated"
                                 End If
                             Else
                                 endMessage = "Record Updated"
@@ -5564,6 +5577,7 @@ Public Class CustomerClaims
                         End If
 
                         If Not justExist Then
+                            chkinitial.Value = "I"
                             Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                             If rsLastUpd > 0 Then
                                 Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
@@ -5625,7 +5639,7 @@ Public Class CustomerClaims
                     'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                     'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow, justExist)
+                    Dim rsInsInitReview = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow, False, justExist)
                     If rsInsInitReview > 0 Then
                         txtInfoCust.Text = Session("userid").ToString().ToUpper()
                         txtInfoCustDate.Text = datenow
@@ -5660,6 +5674,7 @@ Public Class CustomerClaims
                         End If
 
                         If Not justExist Then
+                            chkinitial.Value = "I"
                             Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                             If rsLastUpd > 0 Then
                                 Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
@@ -5675,8 +5690,8 @@ Public Class CustomerClaims
                                     result = True
                                 End If
                             Else
-                                    'error log
-                                    strMessage = "There is an error updating the Warranty Header status for Warning Number: " + wrnNo + "."
+                                'error log
+                                strMessage = "There is an error updating the Warranty Header status for Warning Number: " + wrnNo + "."
                                 Return result
                             End If
                         End If
@@ -5749,6 +5764,7 @@ Public Class CustomerClaims
                             Return result
                         End If
 
+                        chkinitial.Value = "I"
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
                             'open outlook to send email to customer
@@ -5829,6 +5845,7 @@ Public Class CustomerClaims
                             Return result
                         End If
 
+                        chkinitial.Value = "I"
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
                             result = True
@@ -5907,6 +5924,7 @@ Public Class CustomerClaims
                             Return result
                         End If
 
+                        chkinitial.Value = "I"
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
                             result = True
@@ -5985,6 +6003,7 @@ Public Class CustomerClaims
                             Return result
                         End If
 
+                        chkinitial.Value = "I"
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
                             result = True
@@ -6063,6 +6082,7 @@ Public Class CustomerClaims
                             Return result
                         End If
 
+                        chkinitial.Value = "C"
                         Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                         If rsLastUpd > 0 Then
                             result = True
@@ -6743,22 +6763,21 @@ Public Class CustomerClaims
         Dim result As Boolean = False
         strMessage = Nothing
         Dim strMessageOut As String = Nothing
+        Dim selWay As Boolean = False
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim optControl = DirectCast(Session("currentCtr"), String)
-                If Not String.IsNullOrEmpty(optControl) Then
-                    If ((LCase(optControl)).Contains("btnsavetab")) Then
-                        AfterReopenProc()
-                    Else
-                        If chkApproved.Checked Then
+                Dim isFrom As Boolean = If(Not String.IsNullOrEmpty(optControl) And (LCase(optControl)).Contains("btnsavetab"), True, False)
 
-                            If chkAcknowledgeEmail.Checked Then
-
-                                If totalClaimValue <= totalLimit Then
-
-                                    If totalClaimValue <= 500 Then
-
+                If chkApproved.Checked Then
+                    If chkAcknowledgeEmail.Checked Then
+                        If totalClaimValue <= totalLimit Then
+                            If totalClaimValue <= 500 Then
+                                If Not String.IsNullOrEmpty(optControl) Then
+                                    If ((LCase(optControl)).Contains("btnsavetab")) Then
+                                        AfterReopenProc()
+                                    Else
                                         chkApproved.Enabled = False
                                         chkDeclined.Enabled = False
 
@@ -6784,6 +6803,7 @@ Public Class CustomerClaims
                                                         txtActualStatus.Text.ToUpper()
                                                         txtActualStatus.Enabled = False
 
+                                                        chkinitial.Value = "C"
                                                         Dim rsUpdWHeader1 = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
                                                         If rsUpdWHeader1 > 0 Then
 
@@ -6828,29 +6848,34 @@ Public Class CustomerClaims
                                                 Return result
                                             End If
                                         End If
-                                        'Else
-                                        '    strMessage = "In order to approve this Claim you must ask for authorization."
-                                        '    Return result
-
                                     End If
-
-                                    'Else
-                                    '    strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
-                                    '        ". Configured Limit: " + totalLimit.ToString() + "."
-                                    '    Return result
                                 End If
 
-                            Else
-                                strMessage = "The Acknowledgement Email has to be sent before to approve the claim."
-                                Return result
+                                'Else
+                                '    strMessage = "In order to approve this Claim you must ask for authorization."
+                                '    Return result
+
                             End If
-                        Else
-                            strMessage = "In order to close the Claim the Claim Approved checkbox must be checked!"
-                            Return result
+
+                            'Else
+                            '    strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
+                            '        ". Configured Limit: " + totalLimit.ToString() + "."
+                            '    Return result
                         End If
+
+                    Else
+                        strMessage = If(isFrom, "", "The Acknowledgement Email has to be sent before to approve the claim.")
+                        Return result
                     End If
                 Else
-                    strMessage = "Please refresh the page."
+                    'If Not String.IsNullOrEmpty(optControl) Then
+                    '    If ((LCase(optControl)).Contains("btnsavetab")) Then
+                    '        result = True
+                    '    Else
+
+                    '    End If
+                    'End If
+                    strMessage = If(isFrom, "", "In order to close the Claim the Claim Approved checkbox must be checked!")
                     Return result
                 End If
 
@@ -7206,24 +7231,20 @@ Public Class CustomerClaims
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim optControl = DirectCast(Session("currentCtr"), String)
-                If Not String.IsNullOrEmpty(optControl) Then
-                    If ((LCase(optControl)).Contains("btnsavetab")) Then
-                        'Return True
-                        ' ask from the message
-                        AfterReopenProc()
-                    Else
+                Dim isFrom As Boolean = If(Not String.IsNullOrEmpty(optControl) And (LCase(optControl)).Contains("btnsavetab"), True, False)
 
-                        'If totalClaimValue <= dbLimit Then
-
-                        Dim bresult = DirectCast(Session("GoClose"), Boolean) ' credit memo generated
-
-                        If bresult Then
-                            If totalClaimValue > 500 Then
-                                If chkApproved.Checked Then
-                                    If True Then
-                                        If chkAcknowledgeEmail.Checked Then
-                                            If chkClaimAuth.Checked Then
-
+                'If totalClaimValue <= dbLimit Then
+                Dim bresult = DirectCast(Session("GoClose"), Boolean) ' credit memo generated
+                If bresult Then
+                    If totalClaimValue > 500 Then
+                        If chkApproved.Checked Then
+                            If True Then
+                                If chkAcknowledgeEmail.Checked Then
+                                    If chkClaimAuth.Checked Then
+                                        If Not String.IsNullOrEmpty(optControl) Then
+                                            If ((LCase(optControl)).Contains("btnsavetab")) Then
+                                                AfterReopenProc()
+                                            Else
                                                 Dim claimNo = txtClaimNoData.Text.Trim()
                                                 Dim AuthUsers = strUsers.Split(",").ToList()
                                                 If AuthUsers.AsEnumerable().Any(Function(i) i.Trim().ToString().ToLower().Equals(Session("userid").ToString().Trim().ToLower())) Then
@@ -7248,7 +7269,7 @@ Public Class CustomerClaims
                                                             If dsGet IsNot Nothing Then
                                                                 If dsGet.Tables(0).Rows.Count > 0 Then
                                                                     txtActualStatus.Text = UCase(Left(dsGet.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1) +
-                                                                                                  LCase(Mid(dsGet.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 2)))
+                                                                                                        LCase(Mid(dsGet.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 2)))
                                                                     txtActualStatus.Text.ToUpper()
                                                                     txtActualStatus.Enabled = False
 
@@ -7282,134 +7303,127 @@ Public Class CustomerClaims
                                                     strMessage = "The current user does not have the Authorization to Close the Claim. "
                                                     Return result
                                                 End If
-
+                                            End If
+                                        End If
 #Region "Not in Use now"
 
-                                                'old way
-                                                'Dim claimNo = txtClaimNoData.Text.Trim()
-                                                'flag1 = CheckIfClaimIsApproved(claimNo)
-                                                'If flag1 Then
-                                                '    Dim customer As String = ""
-                                                '    Dim cm As Double = 0
-                                                '    Dim bResult = prepareDataCMValidation(customer, cm)
-                                                '    If bResult Then
-                                                '        flag2 = CheckIfCMGeneretad(claimNo, customer, cm)
-                                                '    End If
-                                                'Else
-                                                '    intResult += 1
-                                                '    strMessage = "The Claim can not be closed because the approval has not been made yet."
-                                                'End If
+                                        'old way
+                                        'Dim claimNo = txtClaimNoData.Text.Trim()
+                                        'flag1 = CheckIfClaimIsApproved(claimNo)
+                                        'If flag1 Then
+                                        '    Dim customer As String = ""
+                                        '    Dim cm As Double = 0
+                                        '    Dim bResult = prepareDataCMValidation(customer, cm)
+                                        '    If bResult Then
+                                        '        flag2 = CheckIfCMGeneretad(claimNo, customer, cm)
+                                        '    End If
+                                        'Else
+                                        '    intResult += 1
+                                        '    strMessage = "The Claim can not be closed because the approval has not been made yet."
+                                        'End If
 
-                                                'If flag2 And intResult.Equals(0) Then
-                                                '    Dim strUsers = ConfigurationManager.AppSettings("AuthUsersForPutCost")
-                                                '    Dim currentUser = UCase(Session("userid").ToString().Trim().ToUpper())
-                                                '    Dim lstUsers = If(Not String.IsNullOrEmpty(strUsers), strUsers.Split(","), Nothing)
-                                                '    Dim myitem = lstUsers.AsEnumerable().Where(Function(value) UCase(value.ToString().Trim()).Contains(currentUser))
-                                                '    If myitem.Count = 1 Then
-                                                '        chkinitial.Value = "K"
-                                                '        BuildDates()
-                                                '        'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
-                                                '        'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
-                                                '        Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                                                '    Else
-                                                '    End If
-                                                'Else
-                                                '    Dim curUser = LCase(Session("userid").ToString().Trim())
-                                                '    Dim lsMngusers = DirectCast(Session("LstObj500to1500"), List(Of ClaimObj500To1500User))
-                                                '    Dim exists = lsMngusers.AsEnumerable().Any(Function(o) LCase(o.CLMuser().Trim()).Equals(curUser))
-                                                '    If Not exists Then
-                                                '        intResult += 1
-                                                '        strMessage = "The Claim can not be closed because the authorization has not been made yet."
-                                                '    End If
-                                                '    'Return result
-                                                'End If
+                                        'If flag2 And intResult.Equals(0) Then
+                                        '    Dim strUsers = ConfigurationManager.AppSettings("AuthUsersForPutCost")
+                                        '    Dim currentUser = UCase(Session("userid").ToString().Trim().ToUpper())
+                                        '    Dim lstUsers = If(Not String.IsNullOrEmpty(strUsers), strUsers.Split(","), Nothing)
+                                        '    Dim myitem = lstUsers.AsEnumerable().Where(Function(value) UCase(value.ToString().Trim()).Contains(currentUser))
+                                        '    If myitem.Count = 1 Then
+                                        '        chkinitial.Value = "K"
+                                        '        BuildDates()
+                                        '        'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                                        '        'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                                        '        Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                                        '    Else
+                                        '    End If
+                                        'Else
+                                        '    Dim curUser = LCase(Session("userid").ToString().Trim())
+                                        '    Dim lsMngusers = DirectCast(Session("LstObj500to1500"), List(Of ClaimObj500To1500User))
+                                        '    Dim exists = lsMngusers.AsEnumerable().Any(Function(o) LCase(o.CLMuser().Trim()).Equals(curUser))
+                                        '    If Not exists Then
+                                        '        intResult += 1
+                                        '        strMessage = "The Claim can not be closed because the authorization has not been made yet."
+                                        '    End If
+                                        '    'Return result
+                                        'End If
 
 #End Region
-
-                                            Else
-                                                If IsFullUser.Value.Trim().Equals("1") Then
-                                                    strMessage = "The checkbox to request for the authorization approval for this Claim over $500 as Total Cost must be checked in order to proceed."
-                                                    Return result
-                                                Else
-                                                    intResult = 2
-                                                End If
-                                            End If
-                                        Else
-                                            strMessage = "Before to close the Claim you must send an Acknowloedge Email to the client. Please update this status in order to proceed."
-                                            Return result
-                                        End If
                                     Else
-                                        strMessage = "The checkbox to mark the Claim as completed must be checked in order to proceed."
-                                        Return result
+                                        If IsFullUser.Value.Trim().Equals("1") Then
+                                            strMessage = "The checkbox to request for the authorization approval for this Claim over $500 as Total Cost must be checked in order to proceed."
+                                            Return result
+                                        Else
+                                            intResult = 2
+                                        End If
                                     End If
                                 Else
-                                    strMessage = "The checkbox for the Claim approval must be checked in order to proceed."
+                                    strMessage = If(isFrom, "", "Before to close the Claim you must send an Acknowloedge Email to the client. Please update this status in order to proceed.")
                                     Return result
                                 End If
-                                'Else
-                                '    If chkClaimAuth.Checked Then
-                                '        strMessage = "The Total Claim value is less to $500. You do not need to request for authorization approval. Please uncheck the Request Approval Over $500."
-                                '    End If
-                                '    Return result
+                            Else
+                                strMessage = "The checkbox to mark the Claim as completed must be checked in order to proceed."
+                                Return result
                             End If
                         Else
-                            strMessage = "The Credit Memo is not approved yet."
+                            strMessage = If(isFrom, "", "The checkbox for the Claim approval must be checked in order to proceed.")
                             Return result
                         End If
                         'Else
-
-                        'End If
-                    End If
-
-                    Dim dbLimit As Double = 0
-                    Dim bLimit = If(Not String.IsNullOrEmpty(hdCLMLimit.Value), Double.TryParse(hdCLMLimit.Value, dbLimit), False)
-
-                    If intResult.Equals(2) Or totalClaimValue >= dbLimit Then
-                        Dim sumRs As Integer = 0
-
-                        'chkinitial.Value = "Y"
-
-                        'updating CLMWRN
-                        'not in use until select a status for this alternative
-                        'Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
-                        'If rsLastUpd <= 0 Then
-                        '    sumRs += 1
-                        'End If
-
-                        'updating CLMINTSTS
-                        'not in use until select a status for this alternative
-                        'BuildDates()
-                        'Dim dsInt As DataSet = New DataSet()
-                        'Dim isPresentStatus = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsInt)
-                        'If isPresentStatus = 0 Then
-                        '    Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                        '    If rsOkQuality <= 0 Then
-                        '        sumRs += 1
+                        '    If chkClaimAuth.Checked Then
+                        '        strMessage = "The Total Claim value is less to $500. You do not need to request for authorization approval. Please uncheck the Request Approval Over $500."
                         '    End If
-                        'End If
-
-                        'save comment
-                        'not in use until select a status for this alternative
-                        'Dim checkComm = saveComm("I : IN PROCESS")
-
-                        If sumRs >= 1 Then
-                            intResult += 1
-                        End If
-
-                    End If
-
-                    'If intResult.Equals(3) Then
-                    '    strMessage = "The Update Proccess for warranty claim status could not be completed. Otherwise you can continue with the proccess in order to close the claim."
-                    'End If
-
-                    If intValidation = 2 Then
-                        result = If(String.IsNullOrEmpty(strMessage), True, False)
-                        methodMessage = strMessage
-                        SendMessage(methodMessage, messageType.warning)
+                        '    Return result
                     End If
                 Else
-                    strMessage = "Please refresh the page."
+                    strMessage = If(isFrom, "", "The Credit Memo is not approved yet.")
                     Return result
+                End If
+                'Else
+
+                'End If
+
+                Dim dbLimit As Double = 0
+                Dim bLimit = If(Not String.IsNullOrEmpty(hdCLMLimit.Value), Double.TryParse(hdCLMLimit.Value, dbLimit), False)
+
+                If intResult.Equals(2) Or totalClaimValue >= dbLimit Then
+                    Dim sumRs As Integer = 0
+                    'chkinitial.Value = "Y"
+                    'updating CLMWRN
+                    'not in use until select a status for this alternative
+                    'Dim rsLastUpd = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                    'If rsLastUpd <= 0 Then
+                    '    sumRs += 1
+                    'End If
+
+                    'updating CLMINTSTS
+                    'not in use until select a status for this alternative
+                    'BuildDates()
+                    'Dim dsInt As DataSet = New DataSet()
+                    'Dim isPresentStatus = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsInt)
+                    'If isPresentStatus = 0 Then
+                    '    Dim rsOkQuality = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                    '    If rsOkQuality <= 0 Then
+                    '        sumRs += 1
+                    '    End If
+                    'End If
+
+                    'save comment
+                    'not in use until select a status for this alternative
+                    'Dim checkComm = saveComm("I : IN PROCESS")
+
+                    If sumRs >= 1 Then
+                        intResult += 1
+                    End If
+
+                End If
+
+                'If intResult.Equals(3) Then
+                '    strMessage = "The Update Proccess for warranty claim status could not be completed. Otherwise you can continue with the proccess in order to close the claim."
+                'End If
+
+                If intValidation = 2 Then
+                    result = If(String.IsNullOrEmpty(strMessage), True, False)
+                    methodMessage = strMessage
+                    SendMessage(methodMessage, messageType.warning)
                 End If
 
             End Using
@@ -7429,12 +7443,12 @@ Public Class CustomerClaims
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim optControl = DirectCast(Session("currentCtr"), String)
-                If Not String.IsNullOrEmpty(optControl) Then
-                    If ((LCase(optControl)).Contains("btnsavetab")) Then
-                        AfterReopenProc()
-                        intValidation = 2
-                    Else
-                        If chkDeclined.Checked And chkDeclined.Enabled = True Then
+                If chkDeclined.Checked And chkDeclined.Enabled = True Then
+                    If Not String.IsNullOrEmpty(optControl) Then
+                        If ((LCase(optControl)).Contains("btnsavetab")) Then
+                            AfterReopenProc()
+                            intValidation = 2
+                        Else
                             BuildDates()
                             'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
                             'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
@@ -7460,14 +7474,10 @@ Public Class CustomerClaims
                                 strMessage = "There is an error updating the W Header status for the warning number: " + code + "."
                                 Return result
                             End If
-
-                        Else
-                            'result = True
                         End If
                     End If
                 Else
-                    strMessage = "Please refresh the page."
-                    Return result
+                    intValidation = 1
                 End If
 
             End Using
