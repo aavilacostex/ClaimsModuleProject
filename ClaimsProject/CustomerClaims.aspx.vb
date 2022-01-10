@@ -8808,11 +8808,11 @@ Public Class CustomerClaims
 
             Dim msg As MailMessage = New MailMessage()
             msg.IsBodyHtml = True
-            'emailSender = "jdmira@costex.com" 'test purpose
+            emailSender = "jdmira@costex.com" 'test purpose
             msg.From = New MailAddress(emailSender)
             msg.To.Add(userEmail)
             msg.To.Add(TestNotUsers)
-            msg.To.Add("ansberto.avila85@gmail.com")
+            msg.To.Add("aavila.costex@gmail.com")
             Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
             msg.Subject = msgSubject
             Dim txt = Mailtext
@@ -8824,8 +8824,8 @@ Public Class CustomerClaims
             _smtp.Host = emailSenderHost
             _smtp.Port = emailSenderPort
 
-            Dim _newtwork As NetworkCredential = New NetworkCredential(emailSender, emailSenderPassword)
-            _smtp.Credentials = _newtwork
+            'Dim _newtwork As NetworkCredential = New NetworkCredential(emailSender, emailSenderPassword)
+            '_smtp.Credentials = _newtwork
 
             _smtp.Send(msg)
 

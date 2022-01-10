@@ -1750,13 +1750,13 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <asp:Label ID="lblAddWrnNo" CssClass="label-style" Text="Warning No." runat="server"></asp:Label>
-                                                                    <asp:TextBox ID="txtAddWrnNo" CssClass="form-control fullTextBox" runat="server" />
+                                                                    <asp:TextBox ID="txtAddWrnNo" CssClass="form-control fullTextBox disableCtr" runat="server" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <asp:Label ID="lblAddRetNo" CssClass="label-style" Text="Return No." runat="server"></asp:Label>
-                                                                    <asp:TextBox ID="txtAddRetNo" CssClass="form-control fullTextBox" runat="server" />
+                                                                    <asp:TextBox ID="txtAddRetNo" CssClass="form-control fullTextBox disableCtr" runat="server" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -3356,9 +3356,9 @@
                 }
                 else if (hdReopenFlag == "0") {
                     $('#MainContent_btnReopenClaim').addClass('hideProp');
-                    $('#MainContent_btnCloseClaim').addClass('hideProp');
-                    $('#MainContent_btnReverseReject').removeClass('hideProp');
-                    $('#MainContent_btnReverseReject').removeClass('disableCtr');
+                    $('#MainContent_btnReverseReject').addClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('hideProp');
+                    $('#MainContent_btnCloseClaim').removeClass('disableCtr');
 
                     $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
                     $('#MainContent_btnAddFiles').removeClass('disableCtr');
@@ -3594,14 +3594,19 @@
 
                 $('#rowGridViewSeeComm').find('a').removeClass('disableCtr');
                 $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
+                $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
+                $('#MainContent_pnClaimComm').find('input').attr('disabled', false);
+                $('#MainContent_pnClaimComm').find('textarea').attr('disabled', false);
+                //$('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
 
                 $('#MainContent_pnPartImage').find('a').removeClass('disableCtr');
                 $('#MainContent_pnPartOEM').find('a').removeClass('disableCtr');
 
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
+                $('#MainContent_btnAddFiles').removeClass('disableCtr');
                 $('#MainContent_lnkSentToComm').removeClass('disableCtr');
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
-                $('#MainContent_btnSaveTab').removeClass('disableCtr');
+                //$('#MainContent_btnSaveTab').removeClass('disableCtr');
 
                 $('#MainContent_lnkDiagnose').removeClass('disableCtr');
 
@@ -3632,6 +3637,8 @@
                 $('#MainContent_btnVoidClaim').removeClass('hideProp');
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
 
+                $('#MainContent_btnSaveTab').attr('disabled', false);   
+
                 $('#MainContent_lnkDiagnose').removeClass('disableCtr');
 
             }
@@ -3648,6 +3655,7 @@
                 $('#MainContent_rowPnActions').find('a').addClass('disableCtr');
 
                 $('#MainContent_btnSeeFiles').removeClass('disableCtr');
+                $('#MainContent_btnAddFiles').removeClass('disableCtr');
                 $('#MainContent_btnCloseTab').removeClass('disableCtr');
                 $('#MainContent_btnCloseClaim').addClass('hideProp');
                 $('#MainContent_btnVoidClaim').addClass('hideProp');
