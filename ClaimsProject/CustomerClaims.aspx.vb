@@ -25,6 +25,7 @@ Public Class CustomerClaims
     Dim hournow As String = Nothing
 
     Private Shared strLogCadenaCabecera As String = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString()
+
     Dim strLogCadena As String = Nothing
 
     Dim objLog = New Logs()
@@ -37,6 +38,8 @@ Public Class CustomerClaims
         Dim sel As Integer = -1
 
         Try
+
+            Session("LogCadena") = strLogCadenaCabecera
 
             If Session("userid") Is Nothing Then
                 url = String.Format("Login.aspx?data={0}", "Session Expired!")
@@ -190,7 +193,7 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: Page-Load - " + ex.Message + ". At Time: " + DateTime.Now.ToString())
         End Try
 
     End Sub
@@ -434,8 +437,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -486,8 +493,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -638,8 +649,12 @@ Public Class CustomerClaims
                 e.Row.Cells(0).Controls.AddAt(0, ndtt)
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -659,8 +674,12 @@ Public Class CustomerClaims
                 GetClaimsReport("", 1)
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -784,8 +803,12 @@ Public Class CustomerClaims
                 'mdClaimDetailsExp.Show()
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -829,8 +852,12 @@ Public Class CustomerClaims
             grvSeeVndComm.DataSource = ds
             grvSeeVndComm.DataBind()
         Catch ex As Exception
-            Dim msg = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -855,8 +882,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-            Dim msg = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -892,8 +923,12 @@ Public Class CustomerClaims
             grvSeeComm.DataSource = ds
             grvSeeComm.DataBind()
         Catch ex As Exception
-            Dim msg = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -919,8 +954,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-            Dim msg = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + msg + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1002,8 +1041,12 @@ Public Class CustomerClaims
             Session("Datasource") = ds
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1657,8 +1700,12 @@ Public Class CustomerClaims
             End If
             updatePagerSettings(grvClaimReport)
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
         End Try
     End Sub
@@ -1683,8 +1730,12 @@ Public Class CustomerClaims
             txtDiagnoseData.Text = ddlDiagnoseData.SelectedItem.Text
 
         Catch ex As Exception
-            Dim message = ex.Message
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
     End Sub
@@ -1721,8 +1772,12 @@ Public Class CustomerClaims
             'ClientScript.RegisterOnSubmitStatement(Me.GetType(), "Doit", "test22(); return false")
             'SendMessage("Test MEssage", messageType.info, True)
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1749,8 +1804,12 @@ Public Class CustomerClaims
             'foo()
             'launchSecondaryThread()
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1808,8 +1867,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1859,8 +1922,12 @@ Public Class CustomerClaims
             'End If
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1876,8 +1943,12 @@ Public Class CustomerClaims
 
             'ScriptManager.RegisterStartupScript(Me, Page.GetType, "CleanControl", "cleanDDLRows()", True)
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -1935,8 +2006,12 @@ Public Class CustomerClaims
 
             'lnkAcknowledgeEmail_Click(Nothing, Nothing)
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
         'closeAtkPopup()
@@ -1955,8 +2030,12 @@ Public Class CustomerClaims
 
             'lnkAcknowledgeEmail_Click(Nothing, Nothing)
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
         'closeAtkPopup()
@@ -2029,8 +2108,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2102,8 +2185,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2166,8 +2253,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2226,8 +2317,12 @@ Public Class CustomerClaims
 
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2404,7 +2499,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2447,8 +2547,12 @@ Public Class CustomerClaims
 
             'mdClaimDetailsExp.Hide()
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2465,7 +2569,12 @@ Public Class CustomerClaims
                 'error vendor is empty
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -2475,7 +2584,12 @@ Public Class CustomerClaims
                 GetVendorCustomValue(txtVendorNo.Text.Trim())
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3007,7 +3121,12 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             'get error in log
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3053,7 +3172,12 @@ Public Class CustomerClaims
             '    End If
             'Next
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3152,7 +3276,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -3501,7 +3630,12 @@ Public Class CustomerClaims
             End If
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -3617,7 +3751,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -3651,7 +3790,12 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return blResult
         End Try
 
@@ -3679,7 +3823,12 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return blResult
         End Try
     End Function
@@ -3706,7 +3855,12 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return blResult
         End Try
     End Function
@@ -3721,7 +3875,12 @@ Public Class CustomerClaims
             'closeAtkPopup()
             btnBackFile_click(Nothing, Nothing)
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3757,8 +3916,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-            Dim pp = ex.Message
-            Dim aa = pp
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3773,7 +3936,12 @@ Public Class CustomerClaims
 
             'SeeFiles1()
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3787,7 +3955,12 @@ Public Class CustomerClaims
             'SeeFiles()
             'AddFiles()
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3795,7 +3968,12 @@ Public Class CustomerClaims
         Try
             AddComments()
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3803,7 +3981,12 @@ Public Class CustomerClaims
         Try
             SeeCommentsMethod()
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3813,7 +3996,12 @@ Public Class CustomerClaims
             Session("LstMessages") = Nothing
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3825,7 +4013,12 @@ Public Class CustomerClaims
             Session("LstMessages") = Nothing
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3848,7 +4041,12 @@ Public Class CustomerClaims
             Next
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -3878,7 +4076,11 @@ Public Class CustomerClaims
             'lstComments.DataBind()
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
         End Try
     End Sub
 
@@ -3944,8 +4146,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4034,8 +4240,12 @@ Public Class CustomerClaims
 
 
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4058,8 +4268,12 @@ Public Class CustomerClaims
                 loadSessionClaims(dsResult)
             End Using
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4116,7 +4330,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4131,7 +4350,12 @@ Public Class CustomerClaims
             loadSessionClaims(ds)
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4209,6 +4433,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -4243,7 +4473,12 @@ Public Class CustomerClaims
         Try
             btnCloseTab_Click(Nothing, Nothing)
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4265,7 +4500,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4284,8 +4524,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-            strMessage = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4342,7 +4586,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4391,7 +4640,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4427,7 +4681,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4464,7 +4723,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4500,7 +4764,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4537,7 +4806,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4553,7 +4827,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4574,7 +4853,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4599,7 +4883,12 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             SendMessage(ex.Message, messageType.Error)
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4673,6 +4962,12 @@ Public Class CustomerClaims
             End If
         Catch ex As Exception
             methodMessage = "An error has occurred. If the problem persists please call the IT department."
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             SendMessage(methodMessage, messageType.warning)
         End Try
     End Sub
@@ -4735,7 +5030,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4794,7 +5094,12 @@ Public Class CustomerClaims
                 SendMessage(methodMessage, messageType.info)
             End If
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4943,7 +5248,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4979,6 +5289,12 @@ Public Class CustomerClaims
 
             Return blResult
         Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return blResult
         End Try
 
@@ -5028,6 +5344,12 @@ Public Class CustomerClaims
             End If
             Return blEndProc
         Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return blEndProc
         End Try
     End Function
@@ -5083,7 +5405,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5127,7 +5454,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5288,7 +5620,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5341,7 +5678,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5374,7 +5716,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5422,7 +5769,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5444,7 +5796,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -5522,7 +5879,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5620,7 +5982,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5714,7 +6081,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5793,7 +6165,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5872,7 +6249,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -5952,7 +6334,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6031,7 +6418,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6112,7 +6504,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6165,7 +6562,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6258,7 +6660,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6304,7 +6711,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6392,7 +6804,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6436,7 +6853,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
     End Sub
@@ -6555,7 +6977,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6653,7 +7080,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6754,7 +7186,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -6883,7 +7320,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7009,7 +7451,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7125,7 +7572,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7157,7 +7609,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7213,7 +7670,12 @@ Public Class CustomerClaims
             'End If
             'Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7430,7 +7892,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7488,7 +7955,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7522,7 +7994,12 @@ Public Class CustomerClaims
 
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -7578,7 +8055,12 @@ Public Class CustomerClaims
             strMessageOut = strMessage
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7618,7 +8100,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7654,7 +8141,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7689,7 +8181,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7740,7 +8237,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7766,7 +8268,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7792,7 +8299,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -7819,6 +8331,12 @@ Public Class CustomerClaims
             End If
             Return lstImg
         Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return Nothing
         End Try
     End Function
@@ -7838,7 +8356,12 @@ Public Class CustomerClaims
                 Return flag
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return flag
         End Try
     End Function
@@ -7858,7 +8381,12 @@ Public Class CustomerClaims
                 Return flag
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return flag
         End Try
     End Function
@@ -7878,7 +8406,12 @@ Public Class CustomerClaims
                 Return flag
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return flag
         End Try
     End Function
@@ -7921,7 +8454,12 @@ Public Class CustomerClaims
             Session("SeeFilesDct") = dctFi
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             dctFi = Nothing
         End Try
     End Sub
@@ -7961,7 +8499,12 @@ Public Class CustomerClaims
             dctImages = dctFiles
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             dctImages = Nothing
         End Try
     End Sub
@@ -8000,7 +8543,12 @@ Public Class CustomerClaims
             dctImages = dctFiles
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             dctImages = Nothing
         End Try
     End Sub
@@ -8040,7 +8588,12 @@ Public Class CustomerClaims
             dctImages = dctFiles
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             dctImages = Nothing
         End Try
     End Sub
@@ -8111,7 +8664,12 @@ Public Class CustomerClaims
                 lstStrImg.Add(strUrl)
             Next
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             lstStrImg = Nothing
         End Try
     End Sub
@@ -8184,7 +8742,12 @@ Public Class CustomerClaims
                 lstStrImg.Add(strUrl)
             Next
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             lstStrImg = Nothing
         End Try
     End Sub
@@ -8252,7 +8815,12 @@ Public Class CustomerClaims
                 lstStrImg.Add(strUrl)
             Next
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             lstStrImg = Nothing
         End Try
     End Sub
@@ -8303,7 +8871,12 @@ Public Class CustomerClaims
             Return url
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return url
         End Try
     End Function
@@ -8334,7 +8907,12 @@ Public Class CustomerClaims
             End If
             Return bContinue
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, ex.Message, ex.ToString)
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return bContinue
         End Try
 
@@ -8509,7 +9087,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -8538,8 +9121,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            exMessage = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -8576,8 +9163,12 @@ Public Class CustomerClaims
             'End If
             Return blResult
         Catch ex As Exception
-            exMessage = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return blResult
         End Try
     End Function
@@ -8616,7 +9207,12 @@ Public Class CustomerClaims
             Next
             Return lstDE
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return Nothing
         End Try
     End Function
@@ -8684,6 +9280,11 @@ Public Class CustomerClaims
 
             Return htmlTable
         Catch ex As Exception
+            'Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            'Dim message As String = ex.Message
+            'Dim ctMethodName = getMethodName(strCurrent, message)
+            'strLogCadenaCabecera += " " + ctMethodName
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
             Return Nothing
         End Try
     End Function
@@ -8706,7 +9307,12 @@ Public Class CustomerClaims
                 Return False
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return False
         End Try
     End Function
@@ -8808,7 +9414,7 @@ Public Class CustomerClaims
 
             Dim msg As MailMessage = New MailMessage()
             msg.IsBodyHtml = True
-            emailSender = "jdmira@costex.com" 'test purpose
+            'emailSender = "jdmira@costex.com" 'test purpose
             msg.From = New MailAddress(emailSender)
             msg.To.Add(userEmail)
             msg.To.Add(TestNotUsers)
@@ -8836,8 +9442,12 @@ Public Class CustomerClaims
             Return bResult
 
         Catch ex As Exception
-            exMessage = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Dim pp = exMessage
             strMessage = exMessage
             bResult = False
@@ -8925,7 +9535,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return flag
         End Try
     End Function
@@ -8960,7 +9575,7 @@ Public Class CustomerClaims
                 strBuild += " AND TRIM(MHMRNR) = '" + txtClaimNo.Text.Trim() + "'"
             End If
             If Not String.IsNullOrEmpty(txtPartNo.Text.Trim()) Then
-                strBuild += " AND TRIM(CWPTNO) = '" + txtPartNo.Text.Trim() + "'"
+                strBuild += " AND lcase(TRIM(CWPTNO)) = '" + txtPartNo.Text.Trim().ToLower() + "'"
             End If
             If Not String.IsNullOrEmpty(txtDateInit.Text.Trim()) And Not String.IsNullOrEmpty(txtDateTo.Text.Trim()) Then
                 Dim minDate = txtDateInit.Text.Trim().Split(" ")(0)
@@ -9020,16 +9635,16 @@ Public Class CustomerClaims
                 strBuild += " AND TRIM(MHCUNR) = '" + txtCustomer.Text.Trim() + "'"
             End If
             If ddlSearchUser.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(CWUSER) = '" + ddlSearchUser.SelectedItem.Text.Trim() + "'"  'ok
+                strBuild += " AND lcase(TRIM(CWUSER)) = '" + ddlSearchUser.SelectedItem.Text.Trim().ToLower() + "'"  'ok
             End If
             If ddlSearchReason.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(MHREASN) = '" + Trim(ddlSearchReason.SelectedItem.Text.Trim().Split("-")(0)) + "'"
+                strBuild += " AND lcase(TRIM(MHREASN)) = '" + Trim(ddlSearchReason.SelectedItem.Text.Trim().Split("-")(0).ToLower()) + "'"
             End If
             If ddlSearchDiagnose.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(MHDIAG) = '" + Trim(ddlSearchDiagnose.SelectedItem.Text.Trim().Split("-")(0)) + "'"
+                strBuild += " AND lcase(TRIM(MHDIAG)) = '" + Trim(ddlSearchDiagnose.SelectedItem.Text.Trim().Split("-")(0).ToLower()) + "'"
             End If
             If ddlVndNo.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(CWVENO) = '" + Trim(ddlVndNo.SelectedItem.Value.Trim()) + "'"
+                strBuild += " AND lcase(TRIM(CWVENO)) = '" + Trim(ddlVndNo.SelectedItem.Value.Trim().ToLower()) + "'"
             End If
             If ddlLocat.SelectedIndex > 0 Then
                 strBuild += " AND TRIM(CWLOCN) = '" + Trim(ddlLocat.SelectedItem.Value.Trim()) + "'"
@@ -9041,7 +9656,12 @@ Public Class CustomerClaims
                 strBuild += "and g.inuser = (select inuser from qs36f.clmintsts where inclno = a.cwwrno and trim(inuser) = '" + Trim(ddlTechRev.SelectedItem.Value.Trim()) + "' and trim(instat) = 'H')"
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
     End Sub
@@ -9078,8 +9698,12 @@ Public Class CustomerClaims
 
             Next
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9130,7 +9754,12 @@ Public Class CustomerClaims
 
             'e.Row.Cells(0).Controls.AddAt(0, ndtt)
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
         End Try
     End Sub
@@ -9172,8 +9801,12 @@ Public Class CustomerClaims
             Session("GridVndComm") = Nothing
 
         Catch ex As Exception
-            Dim msg = ex.Message
-            Dim pp = msg
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9236,8 +9869,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, exMessage, "Occurs at time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9266,7 +9903,12 @@ Public Class CustomerClaims
             End Using
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -9294,7 +9936,12 @@ Public Class CustomerClaims
             End Using
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -9332,7 +9979,12 @@ Public Class CustomerClaims
             End Using
             Return result
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -9380,10 +10032,39 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            'Dim ctMethodName = strCurrent.Split(" ")(1).Split("(")(0).ToString()
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return Nothing
         End Try
 
+    End Function
+
+    Private Function getMethodName(str As String, Optional ByRef message As String = Nothing) As String
+        Dim ctMethodName As String = Nothing
+        Dim fixMessage As String = Nothing
+        'message = Nothing
+        Try
+            'ctMethodName = str.Split(" ")(1).Split("(")(0).ToString()
+            Dim fix1 = If(str.Contains(" "), str.Split(" ")(1).ToString(), "NoName")
+            ctMethodName = If(fix1.Equals("NoName"), fix1, If(fix1.Contains("("), fix1.Split("(")(0).ToString(), "NoName"))
+
+            fixMessage = If(message.Contains("'"), message.Replace("'", ControlChars.Quote), message)
+            message = fixMessage
+            Return ctMethodName
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message1 As String = ex.Message
+            Dim ctMethodName1 = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName1
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message1 + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+            Return ctMethodName
+        End Try
     End Function
 
     Public Function getLimit(Optional ByRef dsResult As DataSet = Nothing) As String
@@ -9414,7 +10095,12 @@ Public Class CustomerClaims
             Return strResult
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return Nothing
         End Try
     End Function
@@ -9449,7 +10135,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9510,7 +10201,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9530,7 +10226,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9854,7 +10555,12 @@ Public Class CustomerClaims
                 'no data for current claimNo
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -9880,7 +10586,12 @@ Public Class CustomerClaims
             Return items
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return Nothing
         End Try
 
@@ -10034,7 +10745,12 @@ Public Class CustomerClaims
             Session("emailObj") = cEmailObj
             Session("fullObj") = cGeneral
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10079,7 +10795,12 @@ Public Class CustomerClaims
             End Using
             clearClaimsFields()
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10112,7 +10833,12 @@ Public Class CustomerClaims
             clearClaimsFields()
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10132,6 +10858,12 @@ Public Class CustomerClaims
             rs = If(String.IsNullOrEmpty(strResult.Trim()), 1, 0)
             Return rs
         Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return rs
         End Try
     End Function
@@ -10158,7 +10890,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10181,7 +10918,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10358,7 +11100,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10447,7 +11194,12 @@ Public Class CustomerClaims
             Return strTextStatus
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return strTextStatus
         End Try
     End Function
@@ -10466,7 +11218,12 @@ Public Class CustomerClaims
             End If
             Return strTextStatus
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return strTextStatus
         End Try
     End Function
@@ -10478,7 +11235,12 @@ Public Class CustomerClaims
                 dct.Add(item.Split(",")(0), item.Split(",")(1))
             Next
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10496,7 +11258,12 @@ Public Class CustomerClaims
             End Using
             Return userEmail
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return userEmail
         End Try
     End Function
@@ -10560,7 +11327,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10626,7 +11398,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -10674,8 +11451,12 @@ Public Class CustomerClaims
             fu.SaveAs(savePath)
 
         Catch ex As Exception
-            Dim msg = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
     End Sub
@@ -10694,7 +11475,12 @@ Public Class CustomerClaims
                 End If
             Next
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
         Return IsValid
@@ -10829,8 +11615,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            Dim msg = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11046,7 +11836,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11162,7 +11957,12 @@ Public Class CustomerClaims
                 'no file uploaded
             End If
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11181,7 +11981,12 @@ Public Class CustomerClaims
             item.Display(True)
 
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11299,7 +12104,12 @@ Public Class CustomerClaims
 
         Catch ex As Exception
             Dim ppp = HttpContext.Current.Request.LogonUserIdentity.Name
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + " . " + ex.ToString + " . " + ex.StackTrace + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11456,8 +12266,12 @@ Public Class CustomerClaims
             'GetAllFilesForView("27137")
 
         Catch ex As Exception
-            exMessage = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + exMessage + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11489,7 +12303,11 @@ Public Class CustomerClaims
             End Using
             Return blResult
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
             Return blResult
         End Try
     End Function
@@ -11518,7 +12336,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11552,7 +12375,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return strComment
         End Try
     End Function
@@ -11610,7 +12438,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11643,7 +12476,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11685,7 +12523,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11710,7 +12553,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11740,7 +12588,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11763,7 +12616,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11795,7 +12653,12 @@ Public Class CustomerClaims
 
             Return valueOver500
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return valueOver500
         End Try
 
@@ -11821,7 +12684,12 @@ Public Class CustomerClaims
 
             Return valueFreight
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return valueFreight
         End Try
 
@@ -11854,7 +12722,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11904,7 +12777,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11932,7 +12810,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11968,7 +12851,12 @@ Public Class CustomerClaims
                 hdmhwtyp.Value = ""
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -11993,7 +12881,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Session("VndnName") = Nothing
         End Try
     End Sub
@@ -12019,7 +12912,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Session("SlsName") = Nothing
         End Try
     End Sub
@@ -12076,7 +12974,12 @@ Public Class CustomerClaims
                 hdcwstde.Value = ""
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12115,7 +13018,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12154,7 +13062,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12192,7 +13105,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12236,7 +13154,12 @@ Public Class CustomerClaims
                 'txtDiagnoseData.Text = hdcwdiagd.Value
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12257,7 +13180,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12325,7 +13253,12 @@ Public Class CustomerClaims
             End Using
         Catch ex As Exception
             strMessage = ex.Message
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12363,7 +13296,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12511,7 +13449,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12530,7 +13473,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12556,7 +13504,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12584,7 +13537,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12608,7 +13566,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12681,7 +13644,12 @@ Public Class CustomerClaims
 
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12716,7 +13684,12 @@ Public Class CustomerClaims
             End Using
 
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12743,7 +13716,12 @@ Public Class CustomerClaims
                 txtTotalAmount.Enabled = False
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12773,7 +13751,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -12985,8 +13968,12 @@ Public Class CustomerClaims
 
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -13159,7 +14146,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -13187,7 +14179,12 @@ Public Class CustomerClaims
             End If
             Return result
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return result
         End Try
     End Function
@@ -13283,7 +14280,12 @@ Public Class CustomerClaims
 
             Return Items
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
             Return objLosSales
         End Try
     End Function
@@ -13451,8 +14453,12 @@ Public Class CustomerClaims
                 End If
             End Using
         Catch ex As Exception
-            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
     End Sub
@@ -13474,7 +14480,12 @@ Public Class CustomerClaims
             dwlControl.DataValueField = valueMember.Trim()
             dwlControl.DataBind()
         Catch ex As Exception
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + ex.Message + ". At Time: " + DateTime.Now.ToString())
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
 
     End Sub
@@ -13531,7 +14542,12 @@ Public Class CustomerClaims
                 End If
             End If
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -13575,7 +14591,12 @@ Public Class CustomerClaims
             End If
 
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -13819,7 +14840,8 @@ Public Class CustomerClaims
 #Region "Logs"
 
     Public Sub writeLog(strLogCadenaCabecera As String, strLevel As Logs.ErrorTypeEnum, strMessage As String, strDetails As String)
-        strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
+        'strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
+        strLogCadena = strLogCadenaCabecera
         Dim userid = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "N/A")
         objLog.WriteLog(strLevel, "ClaimsApp" & strLevel, strLogCadena, userid, strMessage, strDetails)
     End Sub

@@ -412,9 +412,10 @@ Public Class ClsRPGClientHelper
 
 #Region "SQL Store Procedures"
 
-    Public Function ExecuteNotQueryCommand(queryString As String, connectionString As String) As Integer
+    Public Function ExecuteNotQueryCommand(queryString As String, connectionString As String, Optional ByRef message As String = Nothing) As Integer
 
         Dim exMessage As String = " "
+        message = Nothing
         Dim rsResult As Integer = -1
         Try
             Using connection As New SqlConnection(connectionString)
@@ -427,6 +428,7 @@ Public Class ClsRPGClientHelper
             Return rsResult
         Catch ex As Exception
             exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            message = exMessage
             Return rsResult
         Finally
 

@@ -2419,6 +2419,11 @@ pnFilterStyles1 {
     }
 }
 
+#MainContent_filesPanel {
+    max-height: 400px;
+    overflow: auto;
+}
+
 /*#rowRadios {
     width: 100% !important;
 }
