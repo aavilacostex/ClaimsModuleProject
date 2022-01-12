@@ -724,17 +724,17 @@ Public Class ClaimsProject : Implements IDisposable
                             left join qs36f.cntrll f on trim(f.cnt03)=g.instat and f.cnt01='193' and f.cnt02='  '
                             where b.cnt01='185' and b.cnt02='  ' and d.cnt01='186' and d.cnt02='  ' and trim(a.MHRTTY) = 'C' "
 
-                Dim Sql = "SELECT distinct MHMRNR ClaimNumber,(SELECT CNTDE1 FROM qs36f.CNTRLL WHERE CNT01 = '193' AND TRIM(CNT02) = ' ' AND TRIM(CNT03) =  CWSTAT)  InternalStatus,  
-                            MHDATE ClaimDate,SUBSTR(b.CNTDE2,1,8) ClaimType,mhcunr CustomerNumber,mhtomr TotalCost, 
-                            case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end PartNumber,  
-                            d.CNTDE1 ClaimStatus,
+                Dim Sql = "SELECT distinct MHMRNR Claim#,(SELECT CNTDE1 FROM qs36f.CNTRLL WHERE CNT01 = '193' AND TRIM(CNT02) = ' ' AND TRIM(CNT03) =  CWSTAT)  InternalStatus,  
+                            MHDATE Date,SUBSTR(b.CNTDE2,1,8) Type,mhcunr Customer#,mhtomr Cost, 
+                            case mhpcnt when 1 then (select min(CWPTNO) from qs36f.clmwrn where CWDOCN = MHMRNR) when 0 then 'N/A' else 'See Details' end Part#,  
+                            d.CNTDE1 Status,
                             case coalesce(crclno,0) when 0 then coalesce((select char(max(cwchda)) from qs36f.clmwch where cwwrno=a.wrn and trim(cwchsu)<>''),'') 
                             else coalesce((select char(max(ccdate)) from qs36f.clmcmt where ccclno=crclno and trim(ccsubj)<>''),'') end LastUpdateDate,
-                            cunam CustomerName, (select usname from qs36f.csuser where trim(usslmn) = cuslm) SalesmanNumber,
+                            cunam Customer, (select usname from qs36f.csuser where trim(usslmn) = cuslm) SalesmanName,
                             (select cntde1 mhwrea from qs36f.cntrll where cnt01 = '188' and cnt02 = '' and trim(cnt03)= MHREASN) Reason,
                             (SELECT SUBSTR(CNTDE1,1,50) CWDIAGD FROM qs36f.CNTRLL WHERE CNT01 = '189' AND CNT02 = '  ' AND TRIM(CNT03) = MHDIAG) Diagnose,
-                            CWUSER User, CWVENO VendorNumber, (SELECT VMNAME FROM qs36f.VNMAS WHERE VMVNUM = CWVENO) VendorName,
-                            CWLOCN ClaimLocation
+                            CWUSER User, CWVENO Vendor#, (SELECT VMNAME FROM qs36f.VNMAS WHERE VMVNUM = CWVENO) VendorName,
+                            CWLOCN Location
                             from (SELECT MHMRNR, coalesce(CWWRNO,0) WRN, CWSTAT, CTPINV.CVTDCDTF(MHMRDT, 'MDY') MHDATE, MHRTTY, MHCUNR, MHTOMR,
                             (SELECT COUNT(DISTINCT CWPTNO) FROM qs36f.clmwrn WHERE CWDOCN = MHMRNR) MHPCNT, MHSTAT, CWWRNO,  MHREASN, MHDIAG, CWUSER, CWPTNO, CWVENO, CWLOCN FROM qs36f.CSMREH 
                             LEFT OUTER JOIN qs36f.CLMWRN ON MHMRNR = CWDOCN  " & strwhere & ") a " & strjoin & " {0} order by 1 desc"
