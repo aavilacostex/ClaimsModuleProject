@@ -233,7 +233,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\spinner.gif" />
     <Content Include="Content\zbox-buttons.png" />
-    <Content Include="CustomerAcknowledgment-old.html" />
     <Content Include="CustomerClaims.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Default2.aspx" />
