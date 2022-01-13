@@ -233,6 +233,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\spinner.gif" />
     <Content Include="Content\zbox-buttons.png" />
+    <Content Include="CustomerAcknowledgment-old.html" />
     <Content Include="CustomerClaims.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Default2.aspx" />
@@ -243,7 +244,14 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\close.png" />
-    <Content Include="Images\Excel.PNG" />
+    <Content Include="Images\FileTypes\avatar-ctp.PNG" />
+    <Content Include="Images\FileTypes\Excel.PNG" />
+    <Content Include="Images\FileTypes\Outlook.PNG" />
+    <Content Include="Images\FileTypes\Pdf.png" />
+    <Content Include="Images\FileTypes\Powerpoint.PNG" />
+    <Content Include="Images\FileTypes\video1.png" />
+    <Content Include="Images\FileTypes\video2.PNG" />
+    <Content Include="Images\FileTypes\Word.PNG" />
     <Content Include="Images\imgDesc.png" />
     <Content Include="Images\imgAscNo.png" />
     <Content Include="Images\avatar-ctp.PNG" />
@@ -262,10 +270,7 @@
     <Content Include="Images\navbar-bakcground.png" />
     <Content Include="Images\next.png" />
     <Content Include="Images\nextlabel.gif" />
-    <Content Include="Images\Outlook.PNG" />
-    <Content Include="Images\Pdf.png" />
     <Content Include="Images\plus.gif" />
-    <Content Include="Images\Powerpoint.PNG" />
     <Content Include="Images\prev.png" />
     <Content Include="Images\prevlabel.gif" />
     <Content Include="Images\spinner.gif" />
@@ -274,10 +279,7 @@
     <Content Include="Images\ToProcess\6K5746-3.jpeg" />
     <Content Include="Images\ToProcess\6K5746-4.jpeg" />
     <Content Include="Images\imgAsc.png" />
-    <Content Include="Images\video1.png" />
-    <Content Include="Images\video2.PNG" />
     <Content Include="Images\wait1.gif" />
-    <Content Include="Images\Word.PNG" />
     <Content Include="Images\zbox-buttons.png" />
     <Content Include="index.aspx" />
     <Content Include="Login.aspx" />

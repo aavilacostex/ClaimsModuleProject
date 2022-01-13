@@ -8692,7 +8692,7 @@ Public Class CustomerClaims
         Dim fileDate As String = Nothing
         Try
 
-            Dim filesindirectory() As String = Directory.GetFiles(Server.MapPath("~/Images"))
+            Dim filesindirectory() As String = Directory.GetFiles(Server.MapPath("~/Images/FileTypes"))
             Dim localImages As List(Of String) = New List(Of String)(filesindirectory.Length())
             For Each st As String In filesindirectory
                 localImages.Add(st)
@@ -9375,14 +9375,15 @@ Public Class CustomerClaims
                 GetUserEmailByUserId(FullPrivilegeUser.Split("@")(0), username)
             End If
 
-            Mailtext = Mailtext.Replace("[CUSTOMER]", userEmail) 'obj.EmailTo
-            Mailtext = Mailtext.Replace("[USERNAME]", username)
             Mailtext = Mailtext.Replace("[CLAIMNO]", obj.ClaimNo)
             Mailtext = Mailtext.Replace("[PARTNO]", obj.PartNo)
             Mailtext = Mailtext.Replace("[INVOICE]", obj.Invoice)
             Mailtext = Mailtext.Replace("[MESSAGE]", obj.MESSAGE)
 
             If Not flag.Equals("2") Then
+
+                Mailtext = Mailtext.Replace("[CUSTOMER]", userEmail) 'obj.EmailTo
+                Mailtext = Mailtext.Replace("[USERNAME]", username)
 
                 Mailtext = Mailtext.Replace("[DESC]", obj.Description)
                 Mailtext = Mailtext.Replace("[CTX]", obj.Customer)
@@ -9411,8 +9412,10 @@ Public Class CustomerClaims
                 GetUserEmailByUserId(Session("userid").ToString().Trim(), username1, userEmail1, ext)
                 emailSender = If(flagEmail.Equals("1"), userEmail1.Trim(), TestNotUsers.Trim())
 
-                Mailtext = Mailtext.Replace("[CUSTOMER]", If(flagEmail.Equals("1"), txtContactEmail.Text.Trim(), TestNotUsers.Trim())) 'obj.EmailTo
-                Mailtext = Mailtext.Replace("[USERNAME]", If(flagEmail.Equals("1"), txtContactName.Text.Trim(), TestNotUsers.Trim().Split("@")(0)))
+                Dim customerUpd = If(flagEmail.Equals("1"), txtContactEmail.Text.Trim(), TestNotUsers.Trim())
+                Dim custNameUpd = If(flagEmail.Equals("1"), txtContactName.Text.Trim(), TestNotUsers.Trim().Split("@")(0))
+                Mailtext = Mailtext.Replace("[CUSTOMER]", customerUpd) 'obj.EmailTo
+                Mailtext = Mailtext.Replace("[USERNAME]", custNameUpd)
                 Mailtext = Mailtext.Replace("[COORDINATOR]", username1)
                 Mailtext = Mailtext.Replace("[OWNNUMBER]", CostexPhoneNumber)
                 Mailtext = Mailtext.Replace("[OWNEXT]", ext)
@@ -12038,7 +12041,10 @@ Public Class CustomerClaims
                         fileDate = item.Split(",")(2).ToString().Trim()
                         Dim ct = url.Split("/").Count()
                         name = url.Split("/")(ct - 1).ToString().Trim()
-                        size = item.Split(",")(3).ToString().Trim()
+
+                        Dim itemlg = item.Split(",").Length()
+                        size = If(item.Split(",").Length() > 3, item.Split(",")(3).ToString().Trim(), "0")
+                        'size = item.Split(",")(3).ToString().Trim()
 
                     End If
 
