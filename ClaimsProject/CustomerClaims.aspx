@@ -1783,14 +1783,14 @@
                                                         <div class="form-row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <asp:Label ID="lblAddSubject" CssClass="label-style" Text="Subject" runat="server"></asp:Label>
+                                                                    <asp:Label ID="lblAddSubject" CssClass="label-style" Text="Subject ( Mandatory )" runat="server"></asp:Label>
                                                                     <asp:TextBox ID="txtAddSubject" CssClass="form-control fullTextBox" runat="server" />
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <!-- row for int and ext comm -->
-                                                        <div class="form-row" style="border-bottom: 2px groove whitesmoke;">
+                                                        <div class="form-row hideProp" style="border-bottom: 2px groove whitesmoke;">
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <asp:Label ID="lblAddIntComm" CssClass="label-style" Text="Internal Comment" runat="server"></asp:Label>
@@ -1809,7 +1809,7 @@
                                                         <div class="form-row last" style="padding-top: 10px !important;">
                                                             <div class="col-md-12"> 
                                                                 <div class="form-group">                                                                    
-                                                                    <asp:Label ID="lblMessage" CssClass="label-style" Text="Message" runat="server"></asp:Label>
+                                                                    <asp:Label ID="lblMessage" CssClass="label-style" Text="Message ( Optional )" runat="server"></asp:Label>
                                                                     <asp:TextBox ID="txtMessage" TextMode="MultiLine" CssClass="form-control fullTextBox" runat="server"></asp:TextBox>  
                                                                     
                                                                     <div style="float:right;padding-top: 10px;padding-bottom: 10px;">

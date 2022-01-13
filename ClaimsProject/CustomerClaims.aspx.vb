@@ -9331,6 +9331,7 @@ Public Class CustomerClaims
         Dim exMessage As String = Nothing
         Dim bResult As Boolean = False
         Dim mustChangeTemplate As Boolean = False
+        Dim claimCoordinator As String = Nothing
         Try
             Dim emailSender As String = ConfigurationManager.AppSettings("username").ToString()
             Dim emailSenderPassword As String = ConfigurationManager.AppSettings("password").ToString()
@@ -9402,8 +9403,8 @@ Public Class CustomerClaims
                 Dim ext As String = Nothing
                 GetUserEmailByUserId(Session("userid").ToString().Trim(), username1, userEmail1, ext)
                 emailSender = If(flagEmail.Equals("1"), userEmail1.Trim(), TestNotUsers.Trim())
-
                 Mailtext = Mailtext.Replace("[SENDER]", username1)
+                claimCoordinator = userEmail1.Trim()
 
             Else
                 Dim userEmail1 As String = Nothing
@@ -9411,6 +9412,7 @@ Public Class CustomerClaims
                 Dim ext As String = Nothing
                 GetUserEmailByUserId(Session("userid").ToString().Trim(), username1, userEmail1, ext)
                 emailSender = If(flagEmail.Equals("1"), userEmail1.Trim(), TestNotUsers.Trim())
+                claimCoordinator = userEmail1.Trim()
 
                 Dim customerUpd = If(flagEmail.Equals("1"), txtContactEmail.Text.Trim(), TestNotUsers.Trim())
                 Dim custNameUpd = If(flagEmail.Equals("1"), txtContactName.Text.Trim(), TestNotUsers.Trim().Split("@")(0))
@@ -9431,7 +9433,7 @@ Public Class CustomerClaims
             msg.From = New MailAddress(emailSender)
             msg.To.Add(userEmail)
             msg.To.Add(TestNotUsers)
-            msg.To.Add("aavila.costex@gmail.com")
+            msg.To.Add(claimCoordinator)
             Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
             msg.Subject = msgSubject
             Dim txt = Mailtext
@@ -10068,6 +10070,8 @@ Public Class CustomerClaims
 
             fixMessage = If(message.Contains("'"), message.Replace("'", ControlChars.Quote), message)
             message = fixMessage
+            Dim ctClaimNo = If(DirectCast(Session("currentclaim"), String) IsNot Nothing, Session("currentclaim").ToString(), "")
+            ctMethodName += "-" + ctClaimNo
             Return ctMethodName
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -10254,6 +10258,7 @@ Public Class CustomerClaims
         Dim dsData As DataSet = New DataSet()
         Dim cwstat As String = Nothing
         Dim mhstat As String = Nothing
+        Session("currentclaim") = claimNo
 
         Try
             Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
@@ -10803,6 +10808,9 @@ Public Class CustomerClaims
                             'Next
 
                         End If
+                    Else
+                        Dim strMessage = "In order to save the comment you must set a value for the subject."
+                        SendMessage(strMessage, messageType.warning)
                     End If
                 End If
             End Using
@@ -14855,11 +14863,52 @@ Public Class CustomerClaims
 
 #Region "Logs"
 
+    Public Sub sendLogEmail(claimno As String, message As String, user As String, Optional flag As Boolean = False)
+
+        Try
+            If flag Then
+
+                Dim emailSender As String = ConfigurationManager.AppSettings("username").ToString()
+                Dim emailSenderPassword As String = ConfigurationManager.AppSettings("password").ToString()
+                Dim emailSenderHost As String = ConfigurationManager.AppSettings("smtp").ToString()
+                Dim emailSenderPort As String = ConfigurationManager.AppSettings("portnumber").ToString()
+
+                Dim msg As MailMessage = New MailMessage()
+                msg.From = New MailAddress(emailSender)
+                msg.IsBodyHtml = True
+                'emailSender = "jdmira@costex.com" 'test purpose
+                msg.From = New MailAddress(emailSender)
+                msg.To.Add("aavila@costex.com")
+                Dim msgSubject = "An error ocurred in the claims applicaction. ClaimNo: " + claimno + "."
+                msg.Subject = msgSubject
+                Dim txt = "User: " + user + ". Error:" + message + "."
+                msg.Body = txt
+                'msg.BodyEncoding = System.Text.Encoding.ASCII
+                'msg.Body = msg.Body.Replace(Environment.NewLine, "<br/>")
+
+                Dim _smtp As SmtpClient = New SmtpClient()
+                _smtp.Host = emailSenderHost
+                _smtp.Port = emailSenderPort
+
+                _smtp.Send(msg)
+
+            End If
+
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " Email sent to:" + Session("userid").ToString() + ". The claim number is: " + claimno + ". At Time: " + DateTime.Now.ToString())
+
+        Catch ex As Exception
+            'writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), "Fail to send log email. At Time: " + DateTime.Now.ToString())
+        End Try
+    End Sub
+
     Public Sub writeLog(strLogCadenaCabecera As String, strLevel As Logs.ErrorTypeEnum, strMessage As String, strDetails As String)
         'strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
         strLogCadena = strLogCadenaCabecera
         Dim userid = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "N/A")
+        Dim ctClNo = If(DirectCast(Session("currentclaim"), String) IsNot Nothing, Session("currentclaim").ToString(), "")
+        Dim flag As Boolean = If(String.IsNullOrEmpty(ctClNo), False, True)
         objLog.WriteLog(strLevel, "ClaimsApp" & strLevel, strLogCadena, userid, strMessage, strDetails)
+        sendLogEmail(ctClNo, strDetails, userid, flag)
     End Sub
 
     Private Sub btnCloseTab_Command(sender As Object, e As CommandEventArgs) Handles btnCloseTab.Command
