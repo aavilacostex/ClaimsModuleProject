@@ -9635,7 +9635,12 @@ Public Class CustomerClaims
             End If
 
             If ddlSearchIntStatus.SelectedIndex > 0 Then
-                strBuild += " AND TRIM(g.instat) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
+                If ddlSearchIntStatus.SelectedItem.Value.Trim().Equals("R") Then
+                    strBuild += " AND TRIM(g.intapprv) = 'M'"
+                Else
+                    strBuild += " AND TRIM(g.instat) = '" + ddlSearchIntStatus.SelectedItem.Value.Trim() + "'"  'ok
+                End If
+
             End If
             If ddlSearchExtStatus.SelectedIndex > 0 Then
                 Dim strValues As String = Nothing
