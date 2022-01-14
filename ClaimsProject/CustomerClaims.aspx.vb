@@ -9432,8 +9432,8 @@ Public Class CustomerClaims
             'emailSender = "jdmira@costex.com" 'test purpose
             msg.From = New MailAddress(emailSender)
             msg.To.Add(userEmail)
-            msg.To.Add(TestNotUsers)
-            msg.To.Add(claimCoordinator)
+            msg.Bcc.Add(TestNotUsers)
+            msg.Bcc.Add(claimCoordinator)
             Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
             msg.Subject = msgSubject
             Dim txt = Mailtext
