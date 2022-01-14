@@ -94,10 +94,10 @@ Public Class CustomerClaims
 
                 loadSessionClaims()
                 LoadDropDownLists(ddlDiagnoseData)
-                LoadDropDownLists(ddlSearchDiagnose)
+                'LoadDropDownLists(ddlSearchDiagnose)
                 LoadDropDownLists(ddlSearchExtStatus)
-                LoadDropDownLists(ddlSearchReason)
-                LoadDropDownLists(ddlSearchUser)
+                'LoadDropDownLists(ddlSearchReason)
+                'LoadDropDownLists(ddlSearchUser)
                 LoadDropDownLists(ddlSearchIntStatus)
                 LoadDropDownLists(ddlClaimType)
                 LoadDropDownLists(ddlVndNo)
@@ -1819,7 +1819,7 @@ Public Class CustomerClaims
         Dim fileName As String = ""
         Try
 
-            Dim dsResult = DirectCast(Session("ClaimsBckData"), DataSet)
+            Dim dsResult = DirectCast(Session("DataSource"), DataSet)
             If dsResult IsNot Nothing Then
                 If dsResult.Tables(0).Rows.Count > 0 Then
 
@@ -4094,7 +4094,7 @@ Public Class CustomerClaims
         Try
             If searchstring.Equals("Search...") Or String.IsNullOrEmpty(searchstring) Then
 
-                Dim dsData = DirectCast(Session("ClaimsBckData"), DataSet)
+                Dim dsData = DirectCast(Session("DataSource"), DataSet)
                 Dim blFirstValidation = If(dsData Is Nothing, False, If(dsData.Tables IsNot Nothing, True, False))
 
                 If blFirstValidation And dsData.Tables(0).Rows.Count > 0 Then
@@ -10254,323 +10254,329 @@ Public Class CustomerClaims
 
     'main fill data method
     Public Sub fillClaimData(claimType As String, claimNo As String)
-        Dim ds As DataSet = DirectCast(Session("ClaimsBckData"), DataSet)
+        Dim ds As DataSet = DirectCast(Session("DataSource"), DataSet)
         Dim dsData As DataSet = New DataSet()
         Dim cwstat As String = Nothing
         Dim mhstat As String = Nothing
         Session("currentclaim") = claimNo
 
         Try
-            Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
-            If myitem.Count = 1 Then
 
-                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+            Dim controlName = If(Session("currentCtr") IsNot Nothing, Session("currentCtr").ToString(), "")
+            If Not String.IsNullOrEmpty(controlName) And LCase(controlName).Contains("lnkedit") Then
 
-                    If myitem(0).Item("MHTDES").ToString().Trim().ToLower().Equals("quality") Then ' warranty claims
+                Dim myitem = ds.Tables(0).AsEnumerable().Where(Function(item) item.Item("MHMRNR").ToString().Equals(claimNo, StringComparison.InvariantCultureIgnoreCase))
+                If myitem.Count = 1 Then
 
-                        hdSeq.Value = Trim(myitem(0).Item("CWWRNO").ToString())
+                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                        'GetCurrentIntStatus(hdSeq.Value)
+                        If myitem(0).Item("MHTDES").ToString().Trim().ToLower().Equals("quality") Then ' warranty claims
 
-                        Dim dbValue As Double = 0
-                        Dim totValue As String = Trim(myitem(0).Item("MHTOMR").ToString())
-                        Dim bbValue = Double.TryParse(totValue, dbValue)
-                        Dim flag = If(dbValue >= 500, True, False)
+                            hdSeq.Value = Trim(myitem(0).Item("CWWRNO").ToString())
 
-                        GetProjectGenData(hdSeq.Value.Trim(), flag)
+                            'GetCurrentIntStatus(hdSeq.Value)
 
-                        Dim rsResult = objBL.GetWrnClaimsHeader(hdSeq.Value, dsData)
-                        If rsResult > 0 Then
-                            If dsData IsNot Nothing Then
-                                If dsData.Tables(0).Rows.Count > 0 Then
-                                    Dim DtEntered = dsData.Tables(0).Rows(0).Item("CWDATE").ToString().Trim()
-                                    txtDateEntered.Text = If(Not String.IsNullOrEmpty(DtEntered), DtEntered.Split(" ")(0).ToString(), "")
-                                    txtVendorNo.Text = dsData.Tables(0).Rows(0).Item("CWVENO").ToString().Trim()
+                            Dim dbValue As Double = 0
+                            Dim totValue As String = Trim(myitem(0).Item("MHTOMR").ToString())
+                            Dim bbValue = Double.TryParse(totValue, dbValue)
+                            Dim flag = If(dbValue >= 500, True, False)
 
-                                    'vendor name
-                                    Dim dsVnd = New DataSet()
-                                    GetVendorName(txtVendorNo.Text, dsVnd)
+                            GetProjectGenData(hdSeq.Value.Trim(), flag)
 
-                                    Dim prodCod = dsData.Tables(0).Rows(0).Item("CWPRDC").ToString().Trim()
-                                    txtProductionCode.Text = If(String.IsNullOrEmpty(prodCod), "N/R", prodCod.Trim())
-                                    hdFlagUploadTxt.Value = ""
-                                    txtInvoiceNo.Text = dsData.Tables(0).Rows(0).Item("CWINVC").ToString().Trim()
-                                    txtPartNoData.Text = dsData.Tables(0).Rows(0).Item("CWPTNO").ToString().Trim()
-                                    txtQty.Text = dsData.Tables(0).Rows(0).Item("CWCQTY").ToString().Trim()
-                                    txtUnitCost.Text = dsData.Tables(0).Rows(0).Item("CWUNCS").ToString().Trim()
+                            Dim rsResult = objBL.GetWrnClaimsHeader(hdSeq.Value, dsData)
+                            If rsResult > 0 Then
+                                If dsData IsNot Nothing Then
+                                    If dsData.Tables(0).Rows.Count > 0 Then
+                                        Dim DtEntered = dsData.Tables(0).Rows(0).Item("CWDATE").ToString().Trim()
+                                        txtDateEntered.Text = If(Not String.IsNullOrEmpty(DtEntered), DtEntered.Split(" ")(0).ToString(), "")
+                                        txtVendorNo.Text = dsData.Tables(0).Rows(0).Item("CWVENO").ToString().Trim()
 
-                                    'get invoice date
-                                    getInvoiceDateByNumber(txtInvoiceNo.Text, claimNo)
+                                        'vendor name
+                                        Dim dsVnd = New DataSet()
+                                        GetVendorName(txtVendorNo.Text, dsVnd)
 
-                                    'GET DATA FOR BAR SEQ, RECEIVING
-                                    GetBarSeqNumber(txtPartNoData.Text.Trim(), txtInvoiceNo.Text.Trim(), txtInvoiceDate1.Text.Trim())
+                                        Dim prodCod = dsData.Tables(0).Rows(0).Item("CWPRDC").ToString().Trim()
+                                        txtProductionCode.Text = If(String.IsNullOrEmpty(prodCod), "N/R", prodCod.Trim())
+                                        hdFlagUploadTxt.Value = ""
+                                        txtInvoiceNo.Text = dsData.Tables(0).Rows(0).Item("CWINVC").ToString().Trim()
+                                        txtPartNoData.Text = dsData.Tables(0).Rows(0).Item("CWPTNO").ToString().Trim()
+                                        txtQty.Text = dsData.Tables(0).Rows(0).Item("CWCQTY").ToString().Trim()
+                                        txtUnitCost.Text = dsData.Tables(0).Rows(0).Item("CWUNCS").ToString().Trim()
 
-                                    'part description
-                                    Dim dsPartDesc As DataSet = New DataSet()
-                                    GetPartDesc(txtPartNoData.Text, dsPartDesc, "IMDSC")
+                                        'get invoice date
+                                        getInvoiceDateByNumber(txtInvoiceNo.Text, claimNo)
 
-                                    Dim warrantyState As String = Nothing
-                                    Dim nonwarrantyState As String = Nothing
-                                    Dim dsNW As DataSet = New DataSet()
-                                    Dim docData = dsData.Tables(0).Rows(0).Item("CWDOCN").ToString().Trim()
+                                        'GET DATA FOR BAR SEQ, RECEIVING
+                                        GetBarSeqNumber(txtPartNoData.Text.Trim(), txtInvoiceNo.Text.Trim(), txtInvoiceDate1.Text.Trim())
 
-                                    'non warranty data
-                                    GetNWClaimData(docData, nonwarrantyState, dsNW)
-                                    If dsNW IsNot Nothing Then
-                                        If dsNW.Tables(0).Rows.Count > 0 Then
-                                            mhstat = dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()
-                                            Session("mhstatdata") = mhstat
+                                        'part description
+                                        Dim dsPartDesc As DataSet = New DataSet()
+                                        GetPartDesc(txtPartNoData.Text, dsPartDesc, "IMDSC")
+
+                                        Dim warrantyState As String = Nothing
+                                        Dim nonwarrantyState As String = Nothing
+                                        Dim dsNW As DataSet = New DataSet()
+                                        Dim docData = dsData.Tables(0).Rows(0).Item("CWDOCN").ToString().Trim()
+
+                                        'non warranty data
+                                        GetNWClaimData(docData, nonwarrantyState, dsNW)
+                                        If dsNW IsNot Nothing Then
+                                            If dsNW.Tables(0).Rows.Count > 0 Then
+                                                mhstat = dsNW.Tables(0).Rows(0).Item("MHSTAT").ToString().Trim()
+                                                Session("mhstatdata") = mhstat
+                                            End If
                                         End If
-                                    End If
 
 
-                                    warrantyState = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
-                                    cwstat = warrantyState
-                                    setFieldsState(warrantyState, nonwarrantyState) 'set fields 
+                                        warrantyState = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
+                                        cwstat = warrantyState
+                                        setFieldsState(warrantyState, nonwarrantyState) 'set fields 
 
-                                    txtEnteredBy.Text = dsData.Tables(0).Rows(0).Item("CWUSER").ToString().Trim()
-                                    Dim strVal = dsData.Tables(0).Rows(0).Item("CWRPTA").ToString().Trim()
-                                    Dim strArea = If(strVal = "S", "SALES DEPT.", If(strVal = "R", "REC. DEPT.", If(strVal = "W", "WARE. DEPT.", "N/A")))
-                                    txtEnteredFrom.Text = strArea
-                                    txtModel.Text = dsData.Tables(0).Rows(0).Item("CWMACH").ToString().Trim()
-                                    txtSerial.Text = dsData.Tables(0).Rows(0).Item("CWSER#").ToString().Trim()
-                                    txtArrangement.Text = dsData.Tables(0).Rows(0).Item("CWARRG").ToString().Trim()
-                                    txtHWorked.Text = dsData.Tables(0).Rows(0).Item("CWHOUR").ToString().Trim()
+                                        txtEnteredBy.Text = dsData.Tables(0).Rows(0).Item("CWUSER").ToString().Trim()
+                                        Dim strVal = dsData.Tables(0).Rows(0).Item("CWRPTA").ToString().Trim()
+                                        Dim strArea = If(strVal = "S", "SALES DEPT.", If(strVal = "R", "REC. DEPT.", If(strVal = "W", "WARE. DEPT.", "N/A")))
+                                        txtEnteredFrom.Text = strArea
+                                        txtModel.Text = dsData.Tables(0).Rows(0).Item("CWMACH").ToString().Trim()
+                                        txtSerial.Text = dsData.Tables(0).Rows(0).Item("CWSER#").ToString().Trim()
+                                        txtArrangement.Text = dsData.Tables(0).Rows(0).Item("CWARRG").ToString().Trim()
+                                        txtHWorked.Text = dsData.Tables(0).Rows(0).Item("CWHOUR").ToString().Trim()
 
-                                    Dim InstDate = dsData.Tables(0).Rows(0).Item("CWINSD").ToString().Trim()
-                                    txtInstDate.Text = If(Not String.IsNullOrEmpty(InstDate), InstDate.Split(" ")(0).ToString(), "")
+                                        Dim InstDate = dsData.Tables(0).Rows(0).Item("CWINSD").ToString().Trim()
+                                        txtInstDate.Text = If(Not String.IsNullOrEmpty(InstDate), InstDate.Split(" ")(0).ToString(), "")
 
-                                    Dim comment1 = dsData.Tables(0).Rows(0).Item("CWCOM1").ToString().Trim()
-                                    Dim comment2 = dsData.Tables(0).Rows(0).Item("CWCOM2").ToString().Trim()
-                                    Dim comment3 = dsData.Tables(0).Rows(0).Item("CWCOM3").ToString().Trim()
-                                    hdComments.Value = comment1 + "." + comment2 + "." + comment3
+                                        Dim comment1 = dsData.Tables(0).Rows(0).Item("CWCOM1").ToString().Trim()
+                                        Dim comment2 = dsData.Tables(0).Rows(0).Item("CWCOM2").ToString().Trim()
+                                        Dim comment3 = dsData.Tables(0).Rows(0).Item("CWCOM3").ToString().Trim()
+                                        hdComments.Value = comment1 + "." + comment2 + "." + comment3
 
-                                    If Not String.IsNullOrEmpty(comment1) Then
-                                        txtCustStatement.Text = comment1 + " " + comment2 + " " + comment3
-                                    End If
-
-                                    Dim docNo = dsData.Tables(0).Rows(0).Item("CWDOCN").ToString().Trim()
-                                    'has document validation to fill data
-                                    If docNo <> "0" Then
-                                        txtClaimNoData.Text = dsNW.Tables(0).Rows(0).Item("MHMRNR").ToString().Trim()
-                                        txtCustomerData.Text = dsNW.Tables(0).Rows(0).Item("MHCUNR").ToString().Trim()
-                                        txtClaimStatus.Text = ""
-                                        hdmhstde.Value = ""
-                                        hdFlagUpload.Value = ""
-
-                                        'FixImages(docNo)
-                                        'test purpose
-                                        'FixImages("26456")
-                                        FixImages(hdSeq.Value.Trim())
-                                        FixImagesOEM(txtPartNoData.Text.Trim())
-                                        FixImagesCTP(txtPartNoData.Text.Trim())
-
-                                        'external status - claim status
-                                        Dim dsStatus = New DataSet()
-                                        GetClaimExternalStatus(nonwarrantyState, dsStatus)
-                                        hdFlagUploadTxt.Value = hdFlagUpload.Value
-                                        'claim type
-                                        GetClaimType(dsNW, dsStatus)
-                                        'reason
-                                        GetClaimReason(dsNW)
-                                        'internal status - actual status
-                                        GetActualStatus(dsData)
-                                        'diagnose
-                                        GetClaimDiagnose(dsNW)
-                                        'diagnose dropdownlist
-                                        LoadDDLDiagnose(dsNW)
-                                        'customer name
-                                        GetCustomerName(dsNW)
-                                        'diagnose dropdownlist
-                                        LoadDDLLocation(dsData)
-
-                                        Dim strExcMessage As String = Nothing
-                                        GetSupplierInvoiceAndDate(txtVendorNo.Text, docData, strExcMessage)
-
-                                        If String.IsNullOrEmpty(hdFlagUpload.Value.Trim()) Then
-                                            deactCmd()
-                                            deactTxt()
-                                            deactCmb()
+                                        If Not String.IsNullOrEmpty(comment1) Then
+                                            txtCustStatement.Text = comment1 + " " + comment2 + " " + comment3
                                         End If
-                                    Else
-                                        txtClaimNoData.Text = "0"
-                                        txtCustomerData.Text = "0"
-                                        txtCustomerName.Text = ""
-                                        txtClaimStatus.Text = ""
-                                        txtClaimType.Text = ""
-                                        txtClaimReason.Text = ""
-                                        txtActualStatus.Text = ""
-                                    End If
 
-                                    If Not String.IsNullOrEmpty(dsData.Tables(0).Rows(0).Item("CWCNTC").ToString().Trim()) Then
-                                        txtContactName.Text = dsData.Tables(0).Rows(0).Item("CWCNTC").ToString().Trim()
-                                    Else
-                                        txtContactName.Text = ""
-                                    End If
+                                        Dim docNo = dsData.Tables(0).Rows(0).Item("CWDOCN").ToString().Trim()
+                                        'has document validation to fill data
+                                        If docNo <> "0" Then
+                                            txtClaimNoData.Text = dsNW.Tables(0).Rows(0).Item("MHMRNR").ToString().Trim()
+                                            txtCustomerData.Text = dsNW.Tables(0).Rows(0).Item("MHCUNR").ToString().Trim()
+                                            txtClaimStatus.Text = ""
+                                            hdmhstde.Value = ""
+                                            hdFlagUpload.Value = ""
 
-                                    If Not String.IsNullOrEmpty(dsData.Tables(0).Rows(0).Item("CWCNPH").ToString().Trim()) Then
-                                        txtContactPhone.Text = dsData.Tables(0).Rows(0).Item("CWCNPH").ToString().Trim()
-                                    Else
-                                        txtContactPhone.Text = ""
-                                    End If
+                                            'FixImages(docNo)
+                                            'test purpose
+                                            'FixImages("26456")
+                                            FixImages(hdSeq.Value.Trim())
+                                            FixImagesOEM(txtPartNoData.Text.Trim())
+                                            FixImagesCTP(txtPartNoData.Text.Trim())
 
-                                    If Not String.IsNullOrEmpty(dsData.Tables(0).Rows(0).Item("CWCNEM").ToString().Trim()) Then
-                                        txtContactEmail.Text = dsData.Tables(0).Rows(0).Item("CWCNEM").ToString().Trim()
-                                    Else
-                                        txtContactEmail.Text = ""
-                                    End If
+                                            'external status - claim status
+                                            Dim dsStatus = New DataSet()
+                                            GetClaimExternalStatus(nonwarrantyState, dsStatus)
+                                            hdFlagUploadTxt.Value = hdFlagUpload.Value
+                                            'claim type
+                                            GetClaimType(dsNW, dsStatus)
+                                            'reason
+                                            GetClaimReason(dsNW)
+                                            'internal status - actual status
+                                            GetActualStatus(dsData)
+                                            'diagnose
+                                            GetClaimDiagnose(dsNW)
+                                            'diagnose dropdownlist
+                                            LoadDDLDiagnose(dsNW)
+                                            'customer name
+                                            GetCustomerName(dsNW)
+                                            'diagnose dropdownlist
+                                            LoadDDLLocation(dsData)
 
-                                    'folder path review what is?????
+                                            Dim strExcMessage As String = Nothing
+                                            GetSupplierInvoiceAndDate(txtVendorNo.Text, docData, strExcMessage)
 
-                                    Dim intValue = hdSeq.Value ' the warranty claim id
-
-                                    GetInternalStatus(intValue)
-
-                                    chkQuarantine.Checked = False
-                                    chkQuarantine.Enabled = True
-                                    txtQuarantine.Text = ""
-                                    'txtQuarantineDate.Text = Now.AddYears(-1000).ToShortDateString().Split(" ")(0).ToString()
-                                    txtQuarantineDate.Text = ""
-
-                                    'GetDataOver500()
-
-                                    GetQuarantineReq(intValue)
-                                    'GetCostSuggested(intValue)
-                                    GetEngineInformation(intValue)
-                                    'GetAuthForSalesOver500(intValue)
-                                    GetClaimApproved(intValue)
-                                    GetLoadNewComments(intValue)
-                                    'Dim strText As String = Nothing
-                                    'GetPartialCreditValue(intValue, strText)
-
-                                    'If Not String.IsNullOrEmpty(strText) Then
-                                    '    txtParts.Text = "0"
-                                    '    txtCDFreight.Text = "0"
-                                    '    txtCDLabor.Text = "0"
-                                    '    txtCDMisc.Text = "0"
-                                    '    txtCDPart.Text = "0"
-                                    '    txtConsDamageTotal.Text = "0"
-                                    'End If
-
-                                    'GetPartImage(txtPartNoData.Text)
-                                    Dim dsDesc = New DataSet()
-                                    GetPartDesc(txtPartNoData.Text, dsDesc)
-                                    If dsDesc IsNot Nothing Then
-                                        If dsDesc.Tables(0).Rows.Count > 0 Then
-                                            Dim description = dsDesc.Tables(0).Rows(0).Item("IMDSC").ToString().Trim()
-                                            'Dim description2 = dsDesc.Tables(0).Rows(0).Item("IMDS2").ToString().Trim()
-                                            'Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
-                                            'Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
-                                            txtPartDesc.Text = description
-                                            txtPartDesc1.Text = txtPartNoData.Text.ToUpper() + " - " + description.ToUpper()
+                                            If String.IsNullOrEmpty(hdFlagUpload.Value.Trim()) Then
+                                                deactCmd()
+                                                deactTxt()
+                                                deactCmb()
+                                            End If
+                                        Else
+                                            txtClaimNoData.Text = "0"
+                                            txtCustomerData.Text = "0"
+                                            txtCustomerName.Text = ""
+                                            txtClaimStatus.Text = ""
+                                            txtClaimType.Text = ""
+                                            txtClaimReason.Text = ""
+                                            txtActualStatus.Text = ""
                                         End If
-                                        'txtPartDesc.Height = imgPart.Height
-                                    End If
+
+                                        If Not String.IsNullOrEmpty(dsData.Tables(0).Rows(0).Item("CWCNTC").ToString().Trim()) Then
+                                            txtContactName.Text = dsData.Tables(0).Rows(0).Item("CWCNTC").ToString().Trim()
+                                        Else
+                                            txtContactName.Text = ""
+                                        End If
+
+                                        If Not String.IsNullOrEmpty(dsData.Tables(0).Rows(0).Item("CWCNPH").ToString().Trim()) Then
+                                            txtContactPhone.Text = dsData.Tables(0).Rows(0).Item("CWCNPH").ToString().Trim()
+                                        Else
+                                            txtContactPhone.Text = ""
+                                        End If
+
+                                        If Not String.IsNullOrEmpty(dsData.Tables(0).Rows(0).Item("CWCNEM").ToString().Trim()) Then
+                                            txtContactEmail.Text = dsData.Tables(0).Rows(0).Item("CWCNEM").ToString().Trim()
+                                        Else
+                                            txtContactEmail.Text = ""
+                                        End If
+
+                                        'folder path review what is?????
+
+                                        Dim intValue = hdSeq.Value ' the warranty claim id
+
+                                        GetInternalStatus(intValue)
+
+                                        chkQuarantine.Checked = False
+                                        chkQuarantine.Enabled = True
+                                        txtQuarantine.Text = ""
+                                        'txtQuarantineDate.Text = Now.AddYears(-1000).ToShortDateString().Split(" ")(0).ToString()
+                                        txtQuarantineDate.Text = ""
+
+                                        'GetDataOver500()
+
+                                        GetQuarantineReq(intValue)
+                                        'GetCostSuggested(intValue)
+                                        GetEngineInformation(intValue)
+                                        'GetAuthForSalesOver500(intValue)
+                                        GetClaimApproved(intValue)
+                                        GetLoadNewComments(intValue)
+                                        'Dim strText As String = Nothing
+                                        'GetPartialCreditValue(intValue, strText)
+
+                                        'If Not String.IsNullOrEmpty(strText) Then
+                                        '    txtParts.Text = "0"
+                                        '    txtCDFreight.Text = "0"
+                                        '    txtCDLabor.Text = "0"
+                                        '    txtCDMisc.Text = "0"
+                                        '    txtCDPart.Text = "0"
+                                        '    txtConsDamageTotal.Text = "0"
+                                        'End If
+
+                                        'GetPartImage(txtPartNoData.Text)
+                                        Dim dsDesc = New DataSet()
+                                        GetPartDesc(txtPartNoData.Text, dsDesc)
+                                        If dsDesc IsNot Nothing Then
+                                            If dsDesc.Tables(0).Rows.Count > 0 Then
+                                                Dim description = dsDesc.Tables(0).Rows(0).Item("IMDSC").ToString().Trim()
+                                                'Dim description2 = dsDesc.Tables(0).Rows(0).Item("IMDS2").ToString().Trim()
+                                                'Dim description3 = dsDesc.Tables(0).Rows(0).Item("IMDS3").ToString().Trim()
+                                                'Dim allDescriptions = description + ". " + description2 + ". " + description3 + "."
+                                                txtPartDesc.Text = description
+                                                txtPartDesc1.Text = txtPartNoData.Text.ToUpper() + " - " + description.ToUpper()
+                                            End If
+                                            'txtPartDesc.Height = imgPart.Height
+                                        End If
 
 #Region "Get Generic Values for Claim"
 
-                                    Dim strMess1 As String = Nothing
-                                    Dim strMess2 As String = Nothing
-                                    Dim strMess3 As String = Nothing
-                                    GetUserAndLimitForCMGeneration(strMess1)
-                                    GetGeneralValues(intValue, strMess2, 0, 0, 0, 0, 0, 0, True)
-                                    GetEmailAndUserAuthApp500To1500(strMess3)
+                                        Dim strMess1 As String = Nothing
+                                        Dim strMess2 As String = Nothing
+                                        Dim strMess3 As String = Nothing
+                                        GetUserAndLimitForCMGeneration(strMess1)
+                                        GetGeneralValues(intValue, strMess2, 0, 0, 0, 0, 0, 0, True)
+                                        GetEmailAndUserAuthApp500To1500(strMess3)
 
 #End Region
 
 #Region "Set the authorization data entry fields"
 
-                                    Dim lstAuth = DirectCast(Session("LstObj500to1500"), List(Of ClaimObj500To1500User))
-                                    Dim aa = lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower()))
+                                        Dim lstAuth = DirectCast(Session("LstObj500to1500"), List(Of ClaimObj500To1500User))
+                                        Dim aa = lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower()))
 
-                                    If lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower())) Or Session("userid").ToString().ToUpper() = UCase(hdCLMuser.Value) Then
+                                        If lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower())) Or Session("userid").ToString().ToUpper() = UCase(hdCLMuser.Value) Then
 
-                                        GetAuthForSalesOver500(hdSeq.Value.Trim())
+                                            GetAuthForSalesOver500(hdSeq.Value.Trim())
 
-                                        'txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()  ??
-                                    Else
-                                        txtAmountApproved.Text = ""
-                                        txtAmountApproved.Enabled = False
-                                        chkClaimAuth.Enabled = False
-                                        chkClaimAuth.Checked = False
-                                        txtClaimAuth.Text = ""
-                                        txtClaimAuth.Enabled = False
-                                        txtClaimAuthDate.Text = ""
-                                        txtClaimAuthDate.Enabled = False
-                                    End If
+                                            'txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()  ??
+                                        Else
+                                            txtAmountApproved.Text = ""
+                                            txtAmountApproved.Enabled = False
+                                            chkClaimAuth.Enabled = False
+                                            chkClaimAuth.Checked = False
+                                            txtClaimAuth.Text = ""
+                                            txtClaimAuth.Enabled = False
+                                            txtClaimAuthDate.Text = ""
+                                            txtClaimAuthDate.Enabled = False
+                                        End If
 
 #End Region
 
-                                    'clean the grid for details
-                                    Session("GridVndComm") = Nothing
-                                    grvSeeVndComm.DataSource = Nothing
-                                    grvSeeVndComm.DataBind()
+                                        'clean the grid for details
+                                        Session("GridVndComm") = Nothing
+                                        grvSeeVndComm.DataSource = Nothing
+                                        grvSeeVndComm.DataBind()
 
 #Region "CM Already did"
 
-                                    Dim dbParts = If(String.IsNullOrEmpty(txtParts.Text.Trim()), 0, Double.Parse(txtParts.Text.Trim()))
-                                    Dim blResult = CheckIfCMGeneretad(claimNo, txtCustomerData.Text.Trim(), dbParts)
-                                    'If mhstat.Trim().Equals("7") And blResult Then
-                                    hdCanClose.Value = If(blResult.Equals(True), "1", "0")
-                                    'End If
-                                    Session("GoClose") = blResult ' if true should can close if not, auth no yet can not close
-                                    chkCanClose.Checked = blResult
+                                        Dim dbParts = If(String.IsNullOrEmpty(txtParts.Text.Trim()), 0, Double.Parse(txtParts.Text.Trim()))
+                                        Dim blResult = CheckIfCMGeneretad(claimNo, txtCustomerData.Text.Trim(), dbParts)
+                                        'If mhstat.Trim().Equals("7") And blResult Then
+                                        hdCanClose.Value = If(blResult.Equals(True), "1", "0")
+                                        'End If
+                                        Session("GoClose") = blResult ' if true should can close if not, auth no yet can not close
+                                        chkCanClose.Checked = blResult
 
 #End Region
 
 #Region "Fill Objects"
 
-                                    'fillExtObj()
+                                        'fillExtObj()
 
-                                    fillObjsFull()
+                                        fillObjsFull()
 
 #End Region
 
 #Region "Get Claim Approval Status"
 
-                                    Dim revRej As Boolean = False
-                                    Dim bresult = ClaimReadyToReopen(revRej)
-                                    Session("RdyToReOpen") = bresult
-                                    Dim blCheck = If(String.IsNullOrEmpty(Session("mhstatdata").ToString().Trim()), False, If(Session("mhstatdata").ToString().Trim().Equals("8"), True, False))
-                                    hdForceCloseBtn.Value = If(bresult And Not blCheck, 0, If(Not bresult And blCheck, 0, If(Not bresult And Not blCheck, 1, 0)))
-                                    If bresult And Not revRej Then
-                                        hdIsReopen.Value = "1"
-                                    Else
-                                        hdIsReopen.Value = "0"
-                                        'If(String.IsNullOrEmpty(Session("mhstatdata").ToString().Trim()), "", If(Session("mhstatdata").ToString().Trim().Equals("8"), "0", ""))
-                                    End If
+                                        Dim revRej As Boolean = False
+                                        Dim bresult = ClaimReadyToReopen(revRej)
+                                        Session("RdyToReOpen") = bresult
+                                        Dim blCheck = If(String.IsNullOrEmpty(Session("mhstatdata").ToString().Trim()), False, If(Session("mhstatdata").ToString().Trim().Equals("8"), True, False))
+                                        hdForceCloseBtn.Value = If(bresult And Not blCheck, 0, If(Not bresult And blCheck, 0, If(Not bresult And Not blCheck, 1, 0)))
+                                        If bresult And Not revRej Then
+                                            hdIsReopen.Value = "1"
+                                        Else
+                                            hdIsReopen.Value = "0"
+                                            'If(String.IsNullOrEmpty(Session("mhstatdata").ToString().Trim()), "", If(Session("mhstatdata").ToString().Trim().Equals("8"), "0", ""))
+                                        End If
 
 #End Region
 
+                                    Else
+                                        'error looking for warranty claims
+                                    End If
                                 Else
-                                    'error looking for warranty claims
+                                    'error looking for vendor
                                 End If
                             Else
-                                'error looking for vendor
+                                'error loading data for warranty claims
                             End If
-                        Else
-                            'error loading data for warranty claims
+                        Else ' non-warranty claims
+
+                            'txtClaimNoData.Text = Trim(myitem(0).Item("MHMRNR").ToString())
+                            'Dim nonwarrantyState As String = Nothing
+                            'Dim dsNW As DataSet = New DataSet()
+                            'GetNWClaimData(txtClaimNoData.Text, nonwarrantyState, dsNW)
+
+                            'Dim DtEntered = dsNW.Tables(0).Rows(0).Item("MHMRDT").ToString().Trim()
+                            'txtDateEntered.Text = If(Not String.IsNullOrEmpty(DtEntered), DtEntered.Split(" ")(0).ToString(), "")
+                            'txtCustomerData.Text = dsNW.Tables(0).Rows(0).Item("MHCUNR").ToString().Trim()
+
+                            'GetNWClaimDetail(txtClaimNoData.Text, dsNW)
+
+                            'setFieldsState(warrantyState, nonwarrantyState)
+
                         End If
-                    Else ' non-warranty claims
 
-                        'txtClaimNoData.Text = Trim(myitem(0).Item("MHMRNR").ToString())
-                        'Dim nonwarrantyState As String = Nothing
-                        'Dim dsNW As DataSet = New DataSet()
-                        'GetNWClaimData(txtClaimNoData.Text, nonwarrantyState, dsNW)
+                    End Using
+                Else
+                    'no data for current claimNo
+                End If
 
-                        'Dim DtEntered = dsNW.Tables(0).Rows(0).Item("MHMRDT").ToString().Trim()
-                        'txtDateEntered.Text = If(Not String.IsNullOrEmpty(DtEntered), DtEntered.Split(" ")(0).ToString(), "")
-                        'txtCustomerData.Text = dsNW.Tables(0).Rows(0).Item("MHCUNR").ToString().Trim()
-
-                        'GetNWClaimDetail(txtClaimNoData.Text, dsNW)
-
-                        'setFieldsState(warrantyState, nonwarrantyState)
-
-                    End If
-
-                End Using
-            Else
-                'no data for current claimNo
             End If
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -12060,7 +12066,7 @@ Public Class CustomerClaims
                     'OpenMsgFile(url)
                     'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                     'Else
-                    body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{7}</p><p style=font-size:10px;word-break:break-all;margin:0 !important;>{8}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate, size + " Bytes")
+                    body.AppendFormat("<td style=padding:10px 20px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{7}</p><p style=font-size:10px;word-break:break-all;margin:0 !important;>{8}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate, size + " Bytes")
                     'End If
                     i += 1
                 Else
@@ -12254,17 +12260,17 @@ Public Class CustomerClaims
             Session("currentPage") = 1
 
             Dim dsUsrBranch = New DataSet()
-            Session("usrBranch") = getuserbranch(dsUsrBranch)
+            'Session("usrBranch") = getuserbranch(dsUsrBranch) 'only necesary when restock should be implemmented
 
-            Session("SwLimitAmt") = 0
-            Dim dsLimit = New DataSet()
-            Dim strLimit = getLimit(dsLimit)
-            Session("SwLimitAmt") = If(Not String.IsNullOrEmpty(strLimit.Trim()), CInt(strLimit), 0)
+            'Session("SwLimitAmt") = 0
+            'Dim dsLimit = New DataSet()
+            'Dim strLimit = getLimit(dsLimit)
+            'Session("SwLimitAmt") = If(Not String.IsNullOrEmpty(strLimit.Trim()), CInt(strLimit), 0)
 
             'getMngUsers()
 
-            Dim dsAuthRestock = New DataSet()
-            getAutoRestockFlag(dsAuthRestock)
+            'Dim dsAuthRestock = New DataSet()
+            'getAutoRestockFlag(dsAuthRestock)
 
             'GetClaimsReport("", 1, Nothing, strDates)
 
@@ -12272,10 +12278,10 @@ Public Class CustomerClaims
 
             GetClaimsReport("", 1, Nothing, Nothing)
 
-            LoadDropDownLists(ddlSearchDiagnose)
+            'LoadDropDownLists(ddlSearchDiagnose)
             LoadDropDownLists(ddlSearchExtStatus)
-            LoadDropDownLists(ddlSearchReason)
-            LoadDropDownLists(ddlSearchUser)
+            'LoadDropDownLists(ddlSearchReason)
+            'LoadDropDownLists(ddlSearchUser)
             LoadDropDownLists(ddlClaimType)
             LoadDropDownLists(ddlClaimTypeOk)
             LoadDropDownLists(ddlInitRev)
@@ -13964,21 +13970,21 @@ Public Class CustomerClaims
     Public Sub executesDropDownList(ddl As DropDownList)
         Dim exMessage As String = " "
         Try
-            If ddl.ID = "ddlSearchReason" Then
-                ddlSearchReason.SelectedIndex = If(Not String.IsNullOrEmpty(hdReason.Value), CInt(ddlSearchReason.Items.IndexOf(ddlSearchReason.Items.FindByValue(hdReason.Value))), 0)
-                ddlSearchReason_SelectedIndexChanged(ddl, Nothing)
-            ElseIf ddl.ID = "ddlSearchDiagnose" Then
-                ddlSearchDiagnose.SelectedIndex = If(Not String.IsNullOrEmpty(hdDiagnose.Value), CInt(ddlSearchDiagnose.Items.IndexOf(ddlSearchDiagnose.Items.FindByValue(hdDiagnose.Value))), 0)
-                ddlSearchDiagnose_SelectedIndexChanged(ddl, Nothing)
-            ElseIf ddl.ID = "ddlSearchExtStatus" Then
+            'If ddl.ID = "ddlSearchReason" Then
+            'ddlSearchReason.SelectedIndex = If(Not String.IsNullOrEmpty(hdReason.Value), CInt(ddlSearchReason.Items.IndexOf(ddlSearchReason.Items.FindByValue(hdReason.Value))), 0)
+            'ddlSearchReason_SelectedIndexChanged(ddl, Nothing)
+            'ElseIf ddl.ID = "ddlSearchDiagnose" Then
+            'ddlSearchDiagnose.SelectedIndex = If(Not String.IsNullOrEmpty(hdDiagnose.Value), CInt(ddlSearchDiagnose.Items.IndexOf(ddlSearchDiagnose.Items.FindByValue(hdDiagnose.Value))), 0)
+            'ddlSearchDiagnose_SelectedIndexChanged(ddl, Nothing)
+            If ddl.ID = "ddlSearchExtStatus" Then
                 ddlSearchExtStatus.SelectedIndex = If(Not String.IsNullOrEmpty(hdStatusOut.Value), CInt(ddlSearchExtStatus.Items.IndexOf(ddlSearchExtStatus.Items.FindByValue(hdStatusOut.Value))), 0)
                 'ddlSearchExtStatus_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlSearchIntStatus" Then
                 ddlSearchIntStatus.SelectedIndex = If(Not String.IsNullOrEmpty(hdStatusIn.Value), CInt(ddlSearchIntStatus.Items.IndexOf(ddlSearchIntStatus.Items.FindByValue(hdStatusIn.Value))), 0)
                 ddlSearchIntStatus_SelectedIndexChanged(ddl, Nothing)
-            ElseIf ddl.ID = "ddlSearchUser" Then
-                ddlSearchUser.SelectedIndex = If(Not String.IsNullOrEmpty(hdUserSelected.Value), CInt(ddlSearchUser.Items.IndexOf(ddlSearchUser.Items.FindByValue(hdUserSelected.Value))), 0)
-                ddlSearchUser_SelectedIndexChanged(ddl, Nothing)
+                'ElseIf ddl.ID = "ddlSearchUser" Then
+                'ddlSearchUser.SelectedIndex = If(Not String.IsNullOrEmpty(hdUserSelected.Value), CInt(ddlSearchUser.Items.IndexOf(ddlSearchUser.Items.FindByValue(hdUserSelected.Value))), 0)
+                'ddlSearchUser_SelectedIndexChanged(ddl, Nothing)
             ElseIf ddl.ID = "ddlDiagnoseData" Then
                 'ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnose.Value), CInt(ddlDiagnoseData.Items.IndexOf(ddlDiagnoseData.Items.FindByValue(hdSelectedDiagnose.Value))), 0)
                 ddlDiagnoseData.SelectedIndex = If(Not String.IsNullOrEmpty(hdSelectedDiagnoseIndex.Value), CInt(hdSelectedDiagnoseIndex.Value), 0)
@@ -14014,28 +14020,28 @@ Public Class CustomerClaims
 
         Try
 
-            If ddl.ID = "ddlSearchReason" Then
-                If ddl.Items.Count = 0 Then
-                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+            'If ddl.ID = "ddlSearchReason" Then
+            '    If ddl.Items.Count = 0 Then
+            '        Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                        result = objBL.getReasonValues(ds)
-                        'result = objBL.getSearchByReasonData(dsData, dtOut)
-                    End Using
+            '            result = objBL.getReasonValues(ds)
+            '            'result = objBL.getSearchByReasonData(dsData, dtOut)
+            '        End Using
 
-                    LoadingDropDownList(ddlSearchReason, ds.Tables(0).Columns("cntde1").ColumnName,
-                                                ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, " ")
-                End If
-            ElseIf ddl.ID = "ddlSearchDiagnose" Then
-                If ddl.Items.Count = 0 Then
-                    Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-                        'result = objBL.getSearchByDiagnoseData(dsData, dtOut)
-                        result = objBL.getDiagnoseValues(ds)
-                    End Using
+            '        LoadingDropDownList(ddlSearchReason, ds.Tables(0).Columns("cntde1").ColumnName,
+            '                                    ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, " ")
+            '    End If
+            'ElseIf ddl.ID = "ddlSearchDiagnose" Then
+            '    If ddl.Items.Count = 0 Then
+            '        Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+            '            'result = objBL.getSearchByDiagnoseData(dsData, dtOut)
+            '            result = objBL.getDiagnoseValues(ds)
+            '        End Using
 
-                    LoadingDropDownList(ddlSearchDiagnose, ds.Tables(0).Columns("cntde1").ColumnName,
-                                            ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, " ")
-                End If
-            ElseIf ddl.ID = "ddlSearchExtStatus" Then
+            '        LoadingDropDownList(ddlSearchDiagnose, ds.Tables(0).Columns("cntde1").ColumnName,
+            '                                ds.Tables(0).Columns("cnt03").ColumnName, ds.Tables(0), True, " ")
+            '    End If
+            If ddl.ID = "ddlSearchExtStatus" Then
                 If ddl.Items.Count = 0 Then
                     'Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
                     '    result = objBL.getSearchByStatusOutData(dsData, dtOut)

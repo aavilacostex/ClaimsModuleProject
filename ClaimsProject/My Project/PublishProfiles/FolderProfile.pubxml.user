@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\wwwroot\ClaimsProjectApp</_PublishTargetUrl>
-    <History>True|2022-01-13T14:44:19.7477450Z;True|2022-01-12T17:42:33.6852446-05:00;True|2022-01-12T10:18:33.2845114-05:00;True|2022-01-12T10:07:25.5230769-05:00;True|2022-01-11T16:35:54.0437433-05:00;True|2022-01-11T09:14:57.7373612-05:00;True|2022-01-10T12:00:58.7466068-05:00;True|2022-01-06T14:22:09.9715650-05:00;True|2022-01-06T14:21:34.0379763-05:00;True|2021-12-27T15:59:05.9257916-05:00;True|2021-12-27T10:09:29.7670356-05:00;True|2021-12-21T12:42:01.6600429-05:00;True|2021-12-15T14:09:37.5474584-05:00;True|2021-12-06T11:15:35.2808428-05:00;True|2021-12-03T17:10:45.6701464-05:00;True|2021-11-26T09:43:54.5065330-05:00;True|2021-11-24T16:16:40.6513275-05:00;True|2021-11-24T15:50:34.7829420-05:00;True|2021-11-24T15:30:43.3629346-05:00;True|2021-11-18T13:56:09.3291755-05:00;True|2021-11-12T10:06:31.7233610-05:00;True|2021-10-29T12:05:18.6959192-04:00;True|2021-10-28T13:26:24.6595606-04:00;True|2021-10-28T11:45:26.8546212-04:00;True|2021-10-25T09:42:59.9319953-04:00;True|2021-10-19T16:21:34.1286673-04:00;True|2021-10-14T17:20:11.9350303-04:00;True|2021-10-13T11:47:37.6037600-04:00;True|2021-10-12T11:50:48.6917531-04:00;True|2021-10-12T11:47:31.7034662-04:00;True|2021-10-12T11:45:39.5959138-04:00;True|2021-10-12T11:41:50.2033012-04:00;True|2021-10-12T11:33:34.7538263-04:00;True|2021-10-12T11:23:48.6728917-04:00;True|2021-10-12T11:13:10.4899872-04:00;True|2021-10-12T11:07:25.3030350-04:00;True|2021-10-12T10:43:01.3710657-04:00;True|2021-10-11T17:04:54.7570142-04:00;True|2021-10-01T12:15:05.3202780-04:00;True|2021-09-29T13:45:32.1798034-04:00;True|2021-09-29T13:45:13.7769050-04:00;True|2021-09-29T11:54:22.3977299-04:00;True|2021-09-28T16:55:42.6435381-04:00;True|2021-09-28T16:25:21.5876012-04:00;True|2021-09-28T13:29:46.2703568-04:00;True|2021-09-28T09:19:34.6276653-04:00;True|2021-08-09T17:18:08.6032432-04:00;True|2021-08-09T16:12:00.4350077-04:00;True|2021-08-09T15:39:09.8703842-04:00;True|2021-08-09T13:30:50.9084230-04:00;True|2021-08-09T13:26:23.6783623-04:00;True|2021-08-09T12:57:24.8295275-04:00;True|2021-08-09T12:56:30.4620256-04:00;True|2021-08-05T12:47:16.0346627-04:00;True|2021-08-05T11:39:32.5761152-04:00;True|2021-08-05T11:22:38.3417018-04:00;True|2021-08-05T10:09:12.4770283-04:00;True|2021-08-03T16:01:32.2261430-04:00;True|2021-07-27T14:03:49.5355241-04:00;True|2021-07-27T13:49:02.7228218-04:00;True|2021-07-27T13:23:10.9456658-04:00;</History>
+    <History>True|2022-01-14T04:44:34.5487977Z;True|2022-01-13T17:46:22.3412446-05:00;True|2022-01-13T09:44:19.7477450-05:00;True|2022-01-12T17:42:33.6852446-05:00;True|2022-01-12T10:18:33.2845114-05:00;True|2022-01-12T10:07:25.5230769-05:00;True|2022-01-11T16:35:54.0437433-05:00;True|2022-01-11T09:14:57.7373612-05:00;True|2022-01-10T12:00:58.7466068-05:00;True|2022-01-06T14:22:09.9715650-05:00;True|2022-01-06T14:21:34.0379763-05:00;True|2021-12-27T15:59:05.9257916-05:00;True|2021-12-27T10:09:29.7670356-05:00;True|2021-12-21T12:42:01.6600429-05:00;True|2021-12-15T14:09:37.5474584-05:00;True|2021-12-06T11:15:35.2808428-05:00;True|2021-12-03T17:10:45.6701464-05:00;True|2021-11-26T09:43:54.5065330-05:00;True|2021-11-24T16:16:40.6513275-05:00;True|2021-11-24T15:50:34.7829420-05:00;True|2021-11-24T15:30:43.3629346-05:00;True|2021-11-18T13:56:09.3291755-05:00;True|2021-11-12T10:06:31.7233610-05:00;True|2021-10-29T12:05:18.6959192-04:00;True|2021-10-28T13:26:24.6595606-04:00;True|2021-10-28T11:45:26.8546212-04:00;True|2021-10-25T09:42:59.9319953-04:00;True|2021-10-19T16:21:34.1286673-04:00;True|2021-10-14T17:20:11.9350303-04:00;True|2021-10-13T11:47:37.6037600-04:00;True|2021-10-12T11:50:48.6917531-04:00;True|2021-10-12T11:47:31.7034662-04:00;True|2021-10-12T11:45:39.5959138-04:00;True|2021-10-12T11:41:50.2033012-04:00;True|2021-10-12T11:33:34.7538263-04:00;True|2021-10-12T11:23:48.6728917-04:00;True|2021-10-12T11:13:10.4899872-04:00;True|2021-10-12T11:07:25.3030350-04:00;True|2021-10-12T10:43:01.3710657-04:00;True|2021-10-11T17:04:54.7570142-04:00;True|2021-10-01T12:15:05.3202780-04:00;True|2021-09-29T13:45:32.1798034-04:00;True|2021-09-29T13:45:13.7769050-04:00;True|2021-09-29T11:54:22.3977299-04:00;True|2021-09-28T16:55:42.6435381-04:00;True|2021-09-28T16:25:21.5876012-04:00;True|2021-09-28T13:29:46.2703568-04:00;True|2021-09-28T09:19:34.6276653-04:00;True|2021-08-09T17:18:08.6032432-04:00;True|2021-08-09T16:12:00.4350077-04:00;True|2021-08-09T15:39:09.8703842-04:00;True|2021-08-09T13:30:50.9084230-04:00;True|2021-08-09T13:26:23.6783623-04:00;True|2021-08-09T12:57:24.8295275-04:00;True|2021-08-09T12:56:30.4620256-04:00;True|2021-08-05T12:47:16.0346627-04:00;True|2021-08-05T11:39:32.5761152-04:00;True|2021-08-05T11:22:38.3417018-04:00;True|2021-08-05T10:09:12.4770283-04:00;True|2021-08-03T16:01:32.2261430-04:00;True|2021-07-27T14:03:49.5355241-04:00;True|2021-07-27T13:49:02.7228218-04:00;True|2021-07-27T13:23:10.9456658-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="About.aspx">
@@ -30,34 +30,34 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/26/2021 09:21:40</publishTime>
     </File>
     <File Include="bin/ClaimsProject.BL.dll">
-      <publishTime>01/13/2022 09:43:48</publishTime>
+      <publishTime>01/13/2022 23:43:43</publishTime>
     </File>
     <File Include="bin/ClaimsProject.BL.pdb">
-      <publishTime>01/13/2022 09:43:48</publishTime>
+      <publishTime>01/13/2022 23:43:43</publishTime>
     </File>
     <File Include="bin/ClaimsProject.DAL.dll">
-      <publishTime>01/13/2022 09:43:48</publishTime>
+      <publishTime>01/13/2022 23:43:43</publishTime>
     </File>
     <File Include="bin/ClaimsProject.DAL.pdb">
-      <publishTime>01/13/2022 09:43:48</publishTime>
+      <publishTime>01/13/2022 23:43:43</publishTime>
     </File>
     <File Include="bin/ClaimsProject.dll">
-      <publishTime>01/13/2022 09:43:52</publishTime>
+      <publishTime>01/13/2022 23:43:47</publishTime>
     </File>
     <File Include="bin/ClaimsProject.DTO.dll">
-      <publishTime>01/13/2022 09:43:48</publishTime>
+      <publishTime>01/13/2022 23:43:42</publishTime>
     </File>
     <File Include="bin/ClaimsProject.DTO.pdb">
-      <publishTime>01/13/2022 09:43:48</publishTime>
+      <publishTime>01/13/2022 23:43:42</publishTime>
     </File>
     <File Include="bin/ClaimsProject.pdb">
-      <publishTime>01/13/2022 09:43:52</publishTime>
+      <publishTime>01/13/2022 23:43:47</publishTime>
     </File>
     <File Include="bin/ClaimsProject.UTIL.dll">
-      <publishTime>01/13/2022 09:43:47</publishTime>
+      <publishTime>01/13/2022 23:43:42</publishTime>
     </File>
     <File Include="bin/ClaimsProject.UTIL.pdb">
-      <publishTime>01/13/2022 09:43:47</publishTime>
+      <publishTime>01/13/2022 23:43:42</publishTime>
     </File>
     <File Include="bin/ClosedXML.dll">
       <publishTime>12/16/2020 09:59:08</publishTime>
@@ -270,7 +270,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/11/2014 15:26:04</publishTime>
     </File>
     <File Include="bin/WebForms_Basic.xml">
-      <publishTime>01/13/2022 09:43:52</publishTime>
+      <publishTime>01/13/2022 23:43:47</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -345,7 +345,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/05/2016 01:16:20</publishTime>
     </File>
     <File Include="CustomerClaims.aspx">
-      <publishTime>01/05/2022 17:28:23</publishTime>
+      <publishTime>01/13/2022 23:03:22</publishTime>
     </File>
     <File Include="Default.aspx">
       <publishTime>12/02/2021 10:03:12</publishTime>
@@ -360,13 +360,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/18/2021 09:30:37</publishTime>
     </File>
     <File Include="EmailTemplates/AskForAuthOver500.html">
-      <publishTime>01/11/2022 16:53:16</publishTime>
+      <publishTime>01/13/2022 14:28:37</publishTime>
     </File>
     <File Include="EmailTemplates/AuthOver500Approved.html">
-      <publishTime>01/11/2022 16:53:30</publishTime>
+      <publishTime>01/13/2022 14:27:55</publishTime>
     </File>
     <File Include="EmailTemplates/CustomerAcknowledgment.html">
-      <publishTime>01/12/2022 10:11:13</publishTime>
+      <publishTime>01/13/2022 14:27:26</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>03/31/2021 11:58:57</publishTime>
@@ -397,6 +397,30 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Images/Excel.PNG">
       <publishTime>10/18/2021 09:55:53</publishTime>
+    </File>
+    <File Include="Images/FileTypes/avatar-ctp.PNG">
+      <publishTime>02/26/2020 14:03:19</publishTime>
+    </File>
+    <File Include="Images/FileTypes/Excel.PNG">
+      <publishTime>10/18/2021 09:55:53</publishTime>
+    </File>
+    <File Include="Images/FileTypes/Outlook.PNG">
+      <publishTime>10/18/2021 09:55:39</publishTime>
+    </File>
+    <File Include="Images/FileTypes/Pdf.png">
+      <publishTime>10/18/2021 09:57:55</publishTime>
+    </File>
+    <File Include="Images/FileTypes/Powerpoint.PNG">
+      <publishTime>10/18/2021 09:56:07</publishTime>
+    </File>
+    <File Include="Images/FileTypes/video1.png">
+      <publishTime>11/17/2021 10:32:27</publishTime>
+    </File>
+    <File Include="Images/FileTypes/video2.PNG">
+      <publishTime>11/17/2021 10:32:59</publishTime>
+    </File>
+    <File Include="Images/FileTypes/Word.PNG">
+      <publishTime>10/18/2021 09:54:11</publishTime>
     </File>
     <File Include="Images/footer-bg.jpg">
       <publishTime>09/04/2020 10:34:41</publishTime>
@@ -924,7 +948,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/31/2021 11:58:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/13/2022 09:44:12</publishTime>
+      <publishTime>01/13/2022 23:44:27</publishTime>
     </File>
   </ItemGroup>
 </Project>

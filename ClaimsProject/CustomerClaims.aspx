@@ -436,7 +436,7 @@
                                                         <div id="rowUser">                                                            
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchUser_SelectedIndexChanged" title="Search by User." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchUser" name="sel-vndassigned" placeholder="User Id" AutoPostBack="true" class="form-control"  title="Search by User." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-user-cog center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             
@@ -502,7 +502,7 @@
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <asp:Label ID="lblSearchReason" CssClass="control-label" Text="Reason" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned"  AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchReason_SelectedIndexChanged" title="Search by Claim Reason." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchReason" name="sel-vndassigned"  AutoPostBack="true" class="form-control"  title="Search by Claim Reason." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-sliders-h center-vert font-awesome-custom"></i></span>
                                                                 </div>                                                            
                                                             </div>
@@ -525,7 +525,7 @@
                                                             <div class="col-md-12" style="margin: 0 auto;">
                                                                 <asp:Label ID="lblSearchDiagnose" CssClass="control-label" Text="Diagnose" runat="server"></asp:Label>
                                                                 <div class="input-group-append">
-                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" AutoPostBack="true" class="form-control" OnSelectedIndexChanged="ddlSearchDiagnose_SelectedIndexChanged" title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlSearchDiagnose" name="sel-vndassigned" AutoPostBack="true" class="form-control" B title="Search by Claim Diagnose." EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                                                     <span class="input-group-addon"><i class="fa fa-briefcase center-vert font-awesome-custom"></i></span>
                                                                 </div>
                                                             </div>

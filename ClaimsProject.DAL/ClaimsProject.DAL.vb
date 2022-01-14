@@ -767,11 +767,18 @@ Public Class ClaimsProject : Implements IDisposable
 
             If claimType.Equals("C") Then ' warranty types
 
-                Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "730")
+                Dim TermDays As String = If(Not String.IsNullOrEmpty(ConfigurationManager.AppSettings("DateTerm")), ConfigurationManager.AppSettings("DateTerm"), "365")
                 Dim todayDate = DateTime.Now
                 Dim fromDate = todayDate.AddDays(-(CInt(TermDays)))
                 'strwhere = " where MHMRDT between '" + fromDate.ToString("MMddyy") + "' and '" + todayDate.ToString("MMddyy") + "'"
-                strwhere = "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')"
+                Dim flagFilter = If(strFilters IsNot Nothing, True, False)
+                strwhere = If(Not flagFilter,
+                    "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')",
+                    If(Not UCase(strFilters).Contains("MHDATE"),
+                    "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')",
+                    ""))
+
+                'strwhere = "WHERE CTPINV.CVTDCDTF(MHMRDT, 'MDY') >= DATE('" & fromDate.ToShortDateString() & "') AND CTPINV.CVTDCDTF(MHMRDT, 'MDY') <= DATE('" & todayDate.ToShortDateString() & "')"
                 strjoin = " left join qs36f.clmintsts g on a.cwwrno = g.inclno
                             join qs36f.cntrll b on trim(b.cnt03)=trim(mhrtty) join qs36f.cscumst c on cunum = mhcunr join qs36f.cntrll d on trim(d.cnt03)=trim(mhstat) 
                             left join qs36f.clwrrel e on a.wrn=e.crwrno 
