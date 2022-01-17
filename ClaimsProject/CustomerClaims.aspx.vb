@@ -3114,7 +3114,6 @@ Public Class CustomerClaims
 
                 End If
 
-
 #End Region
 
 #End Region
@@ -3207,7 +3206,7 @@ Public Class CustomerClaims
                                         Return result
                                     Else
                                         'message (Are you sure, you want to close this claim?.)
-                                        If True Then
+                                        If Not String.IsNullOrEmpty(txtDiagnoseData.Text.Trim()) Then
                                             If Not String.IsNullOrEmpty(txtDiagnoseData.Text) Then
                                                 Dim checkComm = saveComm("7 : CLAIM CLOSED", strMessage)
 
@@ -3246,7 +3245,8 @@ Public Class CustomerClaims
                                                 Return result
                                             End If
                                         Else
-
+                                            strMessage = "Claim can not be closed without a Diagnose selected."
+                                            Return result
                                         End If
 
                                     End If
@@ -7210,10 +7210,11 @@ Public Class CustomerClaims
                 Dim optControl = DirectCast(Session("currentCtr"), String)
                 Dim isFrom As Boolean = If(Not String.IsNullOrEmpty(optControl) And (LCase(optControl)).Contains("btnsavetab"), False, False)
 
-                If chkApproved.Checked Then
-                    If chkAcknowledgeEmail.Checked Then
-                        If totalClaimValue <= totalLimit Then
-                            If totalClaimValue <= 500 Then
+                If totalClaimValue <= 500 Then
+                    If chkApproved.Checked And chkApproved.Enabled Then
+                        If chkAcknowledgeEmail.Checked Then
+                            If totalClaimValue <= totalLimit Then
+
                                 'If Not String.IsNullOrEmpty(optControl) Then
                                 'If ((LCase(optControl)).Contains("btnsavetab")) Then
                                 'AfterReopenProc()
@@ -7295,29 +7296,33 @@ Public Class CustomerClaims
                                 '    strMessage = "In order to approve this Claim you must ask for authorization."
                                 '    Return result
 
+
+
+                                'Else
+                                '    strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
+                                '        ". Configured Limit: " + totalLimit.ToString() + "."
+                                '    Return result
                             End If
 
-                            'Else
-                            '    strMessage = "The Claim Amount must be less or the same to the configured limit for the current user. Total Amount: " + totalClaimValue.ToString() +
-                            '        ". Configured Limit: " + totalLimit.ToString() + "."
-                            '    Return result
+                        Else
+                            strMessage = ""
+                            'strMessage = If(isFrom, "", "The Acknowledgement Email has to be sent before to approve the claim.")
+                            Return result
                         End If
-
                     Else
-                        strMessage = If(isFrom, "", "The Acknowledgement Email has to be sent before to approve the claim.")
+                        'If Not String.IsNullOrEmpty(optControl) Then
+                        '    If ((LCase(optControl)).Contains("btnsavetab")) Then
+                        '        result = True
+                        '    Else
+
+                        '    End If
+                        'End If
+                        strMessage = ""
+                        'strMessage = If(isFrom, "", "In order to close the Claim the Claim Approved checkbox must be checked!")
                         Return result
                     End If
-                Else
-                    'If Not String.IsNullOrEmpty(optControl) Then
-                    '    If ((LCase(optControl)).Contains("btnsavetab")) Then
-                    '        result = True
-                    '    Else
-
-                    '    End If
-                    'End If
-                    strMessage = If(isFrom, "", "In order to close the Claim the Claim Approved checkbox must be checked!")
-                    Return result
                 End If
+
 
             End Using
 
@@ -7343,7 +7348,7 @@ Public Class CustomerClaims
                 Dim refLimit As Double = 0
                 dbLimit = If(Double.TryParse(hdCLMLimit.Value, refLimit), refLimit, 0) ' limit for manager
                 If dbLimit > 0 Or DirectCast(Session("UpToLimit"), Boolean) Then
-                    If chkApproved.Checked Then
+                    If chkApproved.Checked And chkApproved.Enabled Then
                         If chkAcknowledgeEmail.Checked Then
 
                             If totalClaimValue > totalLimit Or hdUsrLimitAmt.Value.ToUpper().Equals(hdCLMuser.Value.Trim().ToUpper()) Then   ' el valor del claim es mayor que el limite del usuario logueado
@@ -7709,7 +7714,7 @@ Public Class CustomerClaims
                 Dim bresult = DirectCast(Session("GoClose"), Boolean) ' credit memo generated
                 If bresult Then
                     If totalClaimValue > 500 Then
-                        If chkApproved.Checked Then
+                        If chkApproved.Checked And chkApproved.Enabled Then
                             If True Then
                                 If chkAcknowledgeEmail.Checked Then
                                     If chkClaimAuth.Checked Then
@@ -7836,7 +7841,8 @@ Public Class CustomerClaims
                                 Return result
                             End If
                         Else
-                            strMessage = If(isFrom, "", "The checkbox for the Claim approval must be checked in order to proceed.")
+                            strMessage = ""
+                            'strMessage = If(isFrom, "", "The checkbox for the Claim approval must be checked in order to proceed.")
                             Return result
                         End If
                         'Else
@@ -11283,9 +11289,9 @@ Public Class CustomerClaims
             Using pc As PrincipalContext = New PrincipalContext(ContextType.Domain, strLdap)
                 Dim yourUser As UserPrincipal = UserPrincipal.FindByIdentity(pc, userid)
                 If yourUser IsNot Nothing Then
-                    userEmail = yourUser.EmailAddress.Trim().ToLower()
-                    username = yourUser.Name.ToString()
-                    ext = yourUser.VoiceTelephoneNumber.ToString()
+                    userEmail = If((yourUser.EmailAddress IsNot Nothing And Not String.IsNullOrEmpty(yourUser.EmailAddress)), yourUser.EmailAddress.Trim().ToLower(), "NoEmailInAD")
+                    username = If((yourUser.Name IsNot Nothing And Not String.IsNullOrEmpty(yourUser.Name)), yourUser.Name.ToString(), "NoUsernameInAd")
+                    'ext = If((yourUser.VoiceTelephoneNumber IsNot Nothing And Not String.IsNullOrEmpty(yourUser.VoiceTelephoneNumber)), yourUser.VoiceTelephoneNumber.ToString(), "") 
                 End If
             End Using
             Return userEmail
@@ -11294,7 +11300,7 @@ Public Class CustomerClaims
             Dim message As String = ex.Message
             Dim ctMethodName = getMethodName(strCurrent, message)
             strLogCadenaCabecera += " " + ctMethodName
-            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Parameters: " + userid + ". Exception: " + message + ". At Time: " + DateTime.Now.ToString())
             strLogCadenaCabecera = Session("LogCadena").ToString()
             Return userEmail
         End Try
@@ -12238,6 +12244,8 @@ Public Class CustomerClaims
             BuildDates()
 
             Dim strTechReviewUsr = ConfigurationManager.AppSettings("AuthTechReview")
+            Dim EnvironmentNow = ConfigurationManager.AppSettings("flagEnvironment")
+            Session("EnvironmentApp") = EnvironmentNow
             Dim baseMess = ConfigurationManager.AppSettings("BaseMessage")
             Session("BaseMessage") = baseMess
             Session("techReviewUsr") = strTechReviewUsr
@@ -14915,10 +14923,11 @@ Public Class CustomerClaims
     Public Sub writeLog(strLogCadenaCabecera As String, strLevel As Logs.ErrorTypeEnum, strMessage As String, strDetails As String)
         'strLogCadena = strLogCadenaCabecera + " " + System.Reflection.MethodBase.GetCurrentMethod().ToString()
         strLogCadena = strLogCadenaCabecera
+        Dim envApp = If(DirectCast(Session("EnvironmentApp"), String) IsNot Nothing, DirectCast(Session("EnvironmentApp"), String), "EnvError")
         Dim userid = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "N/A")
         Dim ctClNo = If(DirectCast(Session("currentclaim"), String) IsNot Nothing, Session("currentclaim").ToString(), "")
         Dim flag As Boolean = If(String.IsNullOrEmpty(ctClNo), False, True)
-        objLog.WriteLog(strLevel, "ClaimsApp" & strLevel, strLogCadena, userid, strMessage, strDetails)
+        objLog.WriteLog(strLevel, "ClaimsApp" & "-" & envApp & "-" & strLevel, strLogCadena, userid, strMessage, strDetails)
         sendLogEmail(ctClNo, strDetails, userid, flag)
     End Sub
 
