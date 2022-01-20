@@ -56,7 +56,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT * FROM QS36F.RETINPF WHERE RTUSER ='" & userid & "'"
+            Sql = "SELECT * FROM QS36F.RETINPF WHERE RTWKST = 'frmclaimse' and RTUSER ='" & userid & "'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -105,7 +105,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT INTAPPRV FROM qs36f.CLMINTSTS WHERE INSTAT = '" + status + "' AND INCLNO = " & Trim(value)
+            Sql = "SELECT INCLNO FROM qs36f.CLMINTSTS WHERE INSTAT = '" + status + "' AND INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1683,7 +1683,7 @@ Public Class ClaimsProject : Implements IDisposable
         Dim affectedRows As Integer = -1
         Try
             Dim objDatos = New ClsRPGClientHelper()
-            Sql = "UPDATE qs36f.CLMINTSTS SET INCOSTSUG$ = " & amount & ", COSTDMGPTN = " & partAm & ", COSTDMGLBR = " & laborAm & ", COSTDMGFRE = " & freightAm & ", COSTDMGMIS = " & miscAm & " WHERE INSTAT = '" + status + "' And INCLNO = " & code
+            Sql = "UPDATE qs36f.CLMINTSTS SET INCOSTSUG$ = " & amount & " WHERE INSTAT = '" + status + "' And INCLNO = " & code
             objDatos.UpdateDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
@@ -2155,6 +2155,26 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             Sql = "SELECT COUNT(*) COUNTREC FROM QS36F.CNTRLL WHERE CNT01 = '922' AND LEFT(CNTDE1,10) = '" & userid & " '"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function GetRestockAmtByClaimPartCust(claimno As String, partno As String, custno As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+
+            Sql = "SELECT COALESCE(SUM(B.MDQTRT),0) TotPartRet FROM qs36f.CSMREH A,qs36f.CSMRED B 
+                    WHERE A.MHMRNR  = B.MDMRNR and A.MHCUNR  = " + custno.Trim() + " AND A.MHSTAT NOT IN ('8','9') 
+                    and A.MHRTTY  = 'G' and A.MHREASN = 'G5' AND DEC(TRIM(A.MHCCNR), 6, 0) = " + claimno.Trim() + "
+                    and B.MDPTNR  = '" + partno.Trim() + "'"
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

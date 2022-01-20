@@ -905,6 +905,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdTextEditorInfoCustMessage As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdRestockFlag control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdRestockFlag As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdComments control.
     '''</summary>
     '''<remarks>
@@ -4316,6 +4325,168 @@ Partial Public Class CustomerClaims
     Protected WithEvents LinkButton1 As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''dummylabel4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dummylabel4 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''pnRestockSection control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnRestockSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''rstkPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rstkPanel As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''pnRestockPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnRestockPanel As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''pn4Div control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pn4Div As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''lblAvRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAvRstk As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtAvRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAvRstk As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblClRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClRstk As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtClRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtClRstk As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblRstk As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtRstk As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblCurLoc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCurLoc As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtCurLoc control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCurLoc As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblLocRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblLocRstk As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''ddlLocRstk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlLocRstk As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''BtnSaveRestock control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents BtnSaveRestock As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''BtnBackRestock control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents BtnBackRestock As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''LinkButton2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LinkButton2 As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''dummylabel control.
     '''</summary>
     '''<remarks>
@@ -4440,6 +4611,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents popInfoCust As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''popRestock control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents popRestock As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
     '''panelUpdateProgress control.

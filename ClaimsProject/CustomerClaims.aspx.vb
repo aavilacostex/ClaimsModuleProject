@@ -1362,6 +1362,17 @@ Public Class CustomerClaims
 
 #Region "DropDownList"
 
+    Protected Sub ddlLocRstk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlLocRstk.SelectedIndexChanged
+        Try
+            Dim a = ddlLocation.SelectedValue
+            Dim b = ddlLocation.SelectedItem.Text
+            Dim c = ddlLocation.SelectedItem.Value
+            txtCurLoc.Text = ddlLocRstk.SelectedValue
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Protected Sub ddlInitRev_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlSearchReason.SelectedIndexChanged
         Dim exMessage As String = " "
         Dim sentence As String = Nothing
@@ -1994,6 +2005,17 @@ Public Class CustomerClaims
         'closeAtkPopup()
     End Sub
 
+    Protected Sub BtnBackRestock_click(sender As Object, e As EventArgs) Handles BtnBackRestock.Click
+
+        popRestock.Hide()
+
+        hdInfoCustContent.Value = "0"
+        hdAckPopContent.Value = "0"
+        hdGridViewContent.Value = "0"
+        hdNavTabsContent.Value = "1"
+        'closeAtkPopup()
+    End Sub
+
     Protected Sub btnSaveMessageAck_click(sender As Object, e As EventArgs) Handles btnSaveMessageAck.Click
         Dim exMessage As String = " "
         Try
@@ -2018,6 +2040,30 @@ Public Class CustomerClaims
     End Sub
 
     Protected Sub btnSaveMessageInfoC_click(sender As Object, e As EventArgs) Handles btnSaveMessageInfoC.Click
+        Dim exMessage As String = " "
+        Try
+            'lblTextEditorInfoCust.Text = txtEditorExtender2.Text
+            hdTextEditorInfoCustMessage.Value = txtEditorExtender2.Text
+
+            hdAckPopContent.Value = "0"
+            hdInfoCustContent.Value = "0"
+            hdGridViewContent.Value = "0"
+            hdNavTabsContent.Value = "1"
+
+            'lnkAcknowledgeEmail_Click(Nothing, Nothing)
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+        End Try
+
+        'closeAtkPopup()
+    End Sub
+
+    Protected Sub BtnSaveRestock_click(sender As Object, e As EventArgs) Handles BtnSaveRestock.Click
         Dim exMessage As String = " "
         Try
             'lblTextEditorInfoCust.Text = txtEditorExtender2.Text
@@ -4377,31 +4423,151 @@ Public Class CustomerClaims
     Protected Sub btnRestock_Click(sender As Object, e As EventArgs) Handles btnRestock.Click
         Dim userid = Session("userid").ToString().Trim().ToUpper()
         Dim dsResult As DataSet = New DataSet()
+        Dim dsResult1 As DataSet = New DataSet()
         Dim methodMessage As String = Nothing
+        Dim bvalidation As Boolean = True
         Try
 
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim rsResult = objBL.GetIfOperationInProcess(userid, dsResult)
-                If rsResult <= 0 Then
-                    methodMessage = "This user already has an operation in process, please try again later or call to IT Department."
+                If rsResult > 0 Then
+                    methodMessage = "This user already has an operation in process. Please try again later or call to IT Department."
                     SendMessage(methodMessage, messageType.warning)
+                    Exit Sub
+                ElseIf rsResult < 0 Then
+                    methodMessage = "There is an error in the restock process. Please try again later or call to IT Department."
+                    SendMessage(methodMessage, messageType.warning)
+                    Exit Sub
                 Else
-                    'restock process
+#Region "Values to make restock validation"
+
+                    Dim claimNo As String = If(String.IsNullOrEmpty(txtClaimNoData.Text.Trim()), "", txtClaimNoData.Text.Trim())
+                    Dim partNo As String = If(String.IsNullOrEmpty(txtPartNoData.Text.Trim()), "", txtPartNoData.Text.Trim())
+                    Dim invoiceNo As String = If(String.IsNullOrEmpty(txtInvoiceNo.Text.Trim()), "", txtInvoiceNo.Text.Trim())
+                    Dim fullMessage As String = Nothing
+                    Dim internalMessage As String = Nothing
+
+                    Dim b1 = checkValueForRestock(txtClaimNoData, internalMessage)
+                    fullMessage += internalMessage + ". "
+                    Dim b2 = checkValueForRestock(txtPartNoData, internalMessage)
+                    fullMessage += internalMessage + ". "
+                    Dim b3 = checkValueForRestock(txtInvoiceNo, internalMessage)
+                    fullMessage += internalMessage + ". "
+
+                    If Not b1 Or Not b2 Or Not b3 Then
+                        methodMessage = fullMessage
+                        SendMessage(methodMessage, messageType.Error)
+                        Exit Sub
+                    End If
+
+#End Region
+
+                    Dim rResult = objBL.GetRestockAmtByClaimPartCust(txtClaimNoData.Text.Trim(), txtPartNoData.Text.Trim(), txtCustomerData.Text.Trim(), dsResult1)
+                    Dim bValid = GetDatasetDataValidation(dsResult1)
+                    If bValid Then
+
+#Region "Part Validation"
+
+                        Dim totalCurClaimAmt = If(String.IsNullOrEmpty(txtQty.Text.Trim()), 0, CInt(txtQty.Text.Trim()))
+                        totalCurClaimAmt += 1 'dev must removed
+                        Dim totalAmt = dsResult1.Tables(0).Rows.Count 'totalAmt = WQtyRet1
+                        Dim updAmt As Integer = 0 'updAmt = WQtyRet2
+
+#End Region
+
+#Region "Location Validation"
+
+                        Dim userBranch = If(DirectCast(Session("usrBranch"), String) IsNot Nothing, DirectCast(Session("usrBranch"), String), "")
+                        Try
+
+
+                        Catch ex As Exception
+                            Dim aa = ex.Message
+                            Dim bb = aa
+                        End Try
+
+
+#End Region
+
+
+                        If totalAmt < totalCurClaimAmt Then
+                            updAmt = totalCurClaimAmt - totalAmt
+                            txtAvRstk.Text = totalAmt.ToString()
+                            txtClRstk.Text = totalCurClaimAmt.ToString()
+
+                            popRestock.Show()
+
+                            hdGridViewContent.Value = "0"
+                            hdNavTabsContent.Value = "1"
+                            hdAckPopContent.Value = "0"
+                            hdInfoCustContent.Value = "0"
+                            hdRestockFlag.Value = "1"
+
+                        Else
+                            methodMessage = "This Claim already has reached the max quantity to reStock."
+                            SendMessage(methodMessage, messageType.warning)
+                        End If
+                    Else
+                        methodMessage = "There is an error getting data from database. Please try again later or call to IT Department."
+                        SendMessage(methodMessage, messageType.warning)
+                    End If
+
+
                 End If
 
             End Using
 
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
+
+    Public Function checkValueForRestock(txt As TextBox, ByRef messageOut As String) As Boolean
+        Dim claimNo As String = Nothing
+        Dim partNo As String = Nothing
+        Dim invoiceNo As String = Nothing
+        Dim bres As Boolean = False
+        Try
+            Dim txtName = txt.ID
+            If LCase(txtName).Contains("claim") Then
+                claimNo = If(String.IsNullOrEmpty(txtClaimNoData.Text.Trim()), "", txtClaimNoData.Text.Trim())
+                messageOut = If(String.IsNullOrEmpty(claimNo), "Claim Number missing. Please check the input data.", "")
+            ElseIf LCase(txtName).Contains("part") Then
+                partNo = If(String.IsNullOrEmpty(txtPartNoData.Text.Trim()), "", txtPartNoData.Text.Trim())
+                messageOut = If(String.IsNullOrEmpty(partNo), "Part Number missing. Please check the input data.", "")
+            Else
+                invoiceNo = If(String.IsNullOrEmpty(txtInvoiceNo.Text.Trim()), "", txtInvoiceNo.Text.Trim())
+                messageOut = If(String.IsNullOrEmpty(invoiceNo), "Invoice Number missing. Please check the input data.", "")
+            End If
+            bres = If(String.IsNullOrEmpty(messageOut), True, False)
+            Return bres
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+            Return bres
+        End Try
+    End Function
 
     Protected Sub btnUndoRestock_Click(sender As Object, e As EventArgs) Handles btnUndoRestock.Click
         Try
 
         Catch ex As Exception
-
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
         End Try
     End Sub
 
@@ -4564,6 +4730,7 @@ Public Class CustomerClaims
                         lblTextEditorInfoCust.Text = ""
                         hdAckPopContent.Value = "0"
                         hdInfoCustContent.Value = "0"
+                        hdRestockFlag.Value = "0"
                     End If
                 Else
                     txtEditorExtender1.Text = ""
@@ -4572,6 +4739,7 @@ Public Class CustomerClaims
                     lblTextEditorInfoCust.Text = ""
                     hdAckPopContent.Value = "0"
                     hdInfoCustContent.Value = "0"
+                    hdRestockFlag.Value = "0"
                 End If
                 'AcknowledgeEmailProcess(wrnNo, strMessage)
 
@@ -5049,7 +5217,7 @@ Public Class CustomerClaims
             If chkConsDamage.Checked Then
 
                 If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) Then
-                    If Not String.IsNullOrEmpty(txtCDFreight.Text.Trim()) Or Not String.IsNullOrEmpty(txtCDLabor.Text.Trim()) Or Not String.IsNullOrEmpty(txtCDMisc.Text.Trim()) Or Not String.IsNullOrEmpty(txtCDPart.Text.Trim()) Then
+                    If Not String.IsNullOrEmpty(txtCDFreight.Text.Trim()) Or Not String.IsNullOrEmpty(txtCDLabor.Text.Trim()) Or Not String.IsNullOrEmpty(txtCDMisc.Text.Trim()) Or Not String.IsNullOrEmpty(txtCDPart.Text.Trim()) Or True Then
 
                         Dim blResult = AuthToPutCostsProcess(claimNo, wrnNo, strMessage)
                         If Not blResult Then
@@ -6733,67 +6901,74 @@ Public Class CustomerClaims
                 Dim lstUsers = If(Not String.IsNullOrEmpty(strUsers), strUsers.Split(","), Nothing)
                 Dim myitem = lstUsers.AsEnumerable().Where(Function(value) UCase(value.ToString().Trim()).Contains(currentUser))
 
-                'If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) And txtConsDamageTotal.Text <> "0" Then
-                '    If myitem.Count = 1 Then
-                '        Dim dsClaimData = New DataSet()
-                '        Dim condAccess = "B"
-                '        'revisar si tiene que ser con status especifico????
-                '        Dim rsClaimData = objBL.getClaimData(wrnNo, condAccess, dsClaimData)
-                '        If rsClaimData > 0 Then ' Or (rsClaimData = 0 And condAccess = "C") Then
-                '            If dsClaimData IsNot Nothing Then ' Or (rsClaimData = 0 And condAccess = "C") Then
-                '                If dsClaimData.Tables(0).Rows.Count > 0 Then 'Or (rsClaimData = 0 And condAccess = "C") Then
-                '                    Dim rsUpd = objBL.UpdateWConsDamage(wrnNo, condAccess, txtConsDamageTotal.Text.Trim(), txtCDPart.Text.Trim(), txtCDLabor.Text.Trim(), txtCDFreight.Text.Trim(), txtCDMisc.Text.Trim())
-                '                    If rsUpd > 0 Then
-                '                        intValidation += 1
-                '                    Else
-                '                        'error log
-                '                        strMessage = "There is an error updating the Warranty Claim Consequental Damage value for Warning Number: " + claimNo + "."
-                '                        Return result
-                '                    End If
-                '                Else
-                '                    strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
-                '                    Return result
-                '                End If
-                '            Else
-                '                strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
-                '                Return result
-                '            End If
-                '        Else
-                '            strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
-                '            Return result
-                '        End If
-                '    Else
-                '        strMessage = "The current user does not have the Authorization to put costs. "
-                '        Return result
-                '    End If
-                'End If
+                If chkConsDamage.Checked Then
 
-                If Not String.IsNullOrEmpty(txtFreight.Text) And txtFreight.Text <> "0" Then
-                    If myitem.Count = 1 Then
-                        Dim valueResult As Double = 0
-                        If Double.TryParse(txtFreight.Text, valueResult) Then
-                            If valueResult <> 0 Then
-                                Dim rsUpd = objBL.UpdateWFreightType(claimNo, "P", txtFreight.Text)
-                                If rsUpd > 0 Then
-                                    intValidation += 1
+                    If Not String.IsNullOrEmpty(txtConsDamageTotal.Text.Trim()) And txtConsDamageTotal.Text <> "0" Then
+                        If myitem.Count = 1 Then
+                            Dim dsClaimData = New DataSet()
+                            Dim condAccess = "B"
+                            'revisar si tiene que ser con status especifico????
+                            Dim rsClaimData = objBL.getClaimData(wrnNo, condAccess, dsClaimData)
+                            If rsClaimData > 0 Then ' Or (rsClaimData = 0 And condAccess = "C") Then
+                                If dsClaimData IsNot Nothing Then ' Or (rsClaimData = 0 And condAccess = "C") Then
+                                    If dsClaimData.Tables(0).Rows.Count > 0 Then 'Or (rsClaimData = 0 And condAccess = "C") Then
+                                        Dim rsUpd = objBL.UpdateWConsDamage(wrnNo, condAccess, txtConsDamageTotal.Text.Trim(), txtCDPart.Text.Trim(), txtCDLabor.Text.Trim(), txtCDFreight.Text.Trim(), txtCDMisc.Text.Trim())
+                                        If rsUpd > 0 Then
+                                            intValidation += 1
+                                        Else
+                                            'error log
+                                            strMessage = "There is an error updating the Warranty Claim Consequental Damage value for Warning Number: " + claimNo + "."
+                                            Return result
+                                        End If
+                                    Else
+                                        strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
+                                        Return result
+                                    End If
                                 Else
-                                    'error log
-                                    strMessage = "There is an error updating the Warranty Claim Freight value for type P and Claim Number: " + claimNo + "."
+                                    strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
                                     Return result
                                 End If
                             Else
-                                intValidation += 1
+                                strMessage = "There is not data in Warranty Claims for B reason and Warning Number: " + claimNo + "."
+                                Return result
                             End If
                         Else
-                            strMessage = "The freight value is not valid. "
+                            strMessage = "The current user does not have the Authorization to put costs. "
+                            Return result
+                        End If
+                    End If
+
+                    If Not String.IsNullOrEmpty(txtFreight.Text) And txtFreight.Text <> "0" Then
+                        If myitem.Count = 1 Then
+                            Dim valueResult As Double = 0
+                            If Double.TryParse(txtFreight.Text, valueResult) Then
+                                If valueResult <> 0 Then
+                                    Dim rsUpd = objBL.UpdateWFreightType(claimNo, "P", txtFreight.Text)
+                                    If rsUpd > 0 Then
+                                        intValidation += 1
+                                    Else
+                                        'error log
+                                        strMessage = "There is an error updating the Warranty Claim Freight value for type P and Claim Number: " + claimNo + "."
+                                        Return result
+                                    End If
+                                Else
+                                    intValidation += 1
+                                End If
+                            Else
+                                strMessage = "The freight value is not valid. "
+                                Return result
+                            End If
+                        Else
+                            strMessage = "The current user does not have the Authorization to put costs. "
                             Return result
                         End If
                     Else
-                        strMessage = "The current user does not have the Authorization to put costs. "
-                        Return result
+                        intValidation += 1
                     End If
+
                 Else
-                    intValidation += 1
+                    strMessage = "Please clic in the checkbox related to the Consequential Damages in order to proceed."
+                    Return result
                 End If
 
             End Using
@@ -7057,8 +7232,8 @@ Public Class CustomerClaims
                                 txtTotValue.Text = totalClaimValue.ToString()
                                 txtTotValue.Enabled = False
 
-                                chkApproved.Enabled = False
-                                chkDeclined.Enabled = False
+                                'chkApproved.Enabled = False
+                                'chkDeclined.Enabled = False
                                 'Else
                                 '    strMessage = "The Consequental Damage value is different to 0."
                                 '    Return result
@@ -7219,9 +7394,6 @@ Public Class CustomerClaims
                                 'If ((LCase(optControl)).Contains("btnsavetab")) Then
                                 'AfterReopenProc()
                                 'Else
-                                chkApproved.Enabled = False
-                                chkDeclined.Enabled = False
-
                                 chkinitial.Value = "K"
                                 BuildDates()
                                 'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
@@ -9440,8 +9612,13 @@ Public Class CustomerClaims
             msg.To.Add(userEmail)
             msg.Bcc.Add(TestNotUsers)
             msg.Bcc.Add(claimCoordinator)
+
+            'Dim subjClData = " ClaimNo " + obj.ClaimNo + " - PartNo " + obj.PartNo + " - InvoiceNo " + obj.Invoice + " ."
+            Dim subjClData = "CTP Claim Number: " + obj.ClaimNo
+            niceText = subjClData
             Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
-            msg.Subject = msgSubject
+
+            msg.Subject = msgSubject + subjClData
             Dim txt = Mailtext
             msg.Body = Mailtext
             'msg.BodyEncoding = System.Text.Encoding.ASCII
@@ -10338,7 +10515,6 @@ Public Class CustomerClaims
                                             End If
                                         End If
 
-
                                         warrantyState = dsData.Tables(0).Rows(0).Item("CWSTAT").ToString().Trim()
                                         cwstat = warrantyState
                                         setFieldsState(warrantyState, nonwarrantyState) 'set fields 
@@ -10450,7 +10626,7 @@ Public Class CustomerClaims
                                         'GetDataOver500()
 
                                         GetQuarantineReq(intValue)
-                                        'GetCostSuggested(intValue)
+                                        GetCostSuggested(intValue)
                                         GetEngineInformation(intValue)
                                         'GetAuthForSalesOver500(intValue)
                                         GetClaimApproved(intValue)
@@ -12052,7 +12228,7 @@ Public Class CustomerClaims
             Dim flag As Boolean = False
 
             Dim body As StringBuilder = New StringBuilder()
-            body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Files for the Claim: {0}</H1></td></tr>", wrnNo)
+            body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Files for the Claim: {0}</H1></td></tr>", claimNo)
 
             body.Append("<tr>")
             Dim i = 0
@@ -12273,7 +12449,7 @@ Public Class CustomerClaims
             Session("currentPage") = 1
 
             Dim dsUsrBranch = New DataSet()
-            'Session("usrBranch") = getuserbranch(dsUsrBranch) 'only necesary when restock should be implemmented
+            Session("usrBranch") = getuserbranch(dsUsrBranch) 'only necesary when restock should be implemmented
 
             'Session("SwLimitAmt") = 0
             'Dim dsLimit = New DataSet()
@@ -12302,6 +12478,7 @@ Public Class CustomerClaims
             LoadDropDownLists(ddlVndNo)
             LoadDropDownLists(ddlLocat)
             LoadDropDownLists(ddlLocation)
+            LoadDropDownLists(ddlLocRstk)
 
             btnSearchFilter.Focus()
 
@@ -13565,18 +13742,20 @@ Public Class CustomerClaims
                     If ds IsNot Nothing Then
                         If ds.Tables(0).Rows.Count > 0 Then
                             txtConsDamageTotal.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("INCOSTSUG$").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("INCOSTSUG$").ToString().Trim())
-                            txtCDLabor.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGLBR").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGLBR").ToString().Trim())
-                            txtCDPart.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGPTN").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGPTN").ToString().Trim())
-                            txtCDFreight.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGFRE").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGFRE").ToString().Trim())
-                            txtCDMisc.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGMIS").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGMIS").ToString().Trim())
+                            chkConsDamage.Checked = True
+                            'txtCDLabor.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGLBR").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGLBR").ToString().Trim())
+                            'txtCDPart.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGPTN").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGPTN").ToString().Trim())
+                            'txtCDFreight.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGFRE").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGFRE").ToString().Trim())
+                            'txtCDMisc.Text = If(String.IsNullOrEmpty(ds.Tables(0).Rows(0).Item("COSTDMGMIS").ToString().Trim()), "0", ds.Tables(0).Rows(0).Item("COSTDMGMIS").ToString().Trim())
                         End If
                     End If
                 Else
                     txtConsDamageTotal.Text = "0"
-                    txtCDLabor.Text = "0"
-                    txtCDPart.Text = "0"
-                    txtCDFreight.Text = "0"
-                    txtCDMisc.Text = "0"
+                    chkConsDamage.Checked = False
+                    'txtCDLabor.Text = "0"
+                    'txtCDPart.Text = "0"
+                    'txtCDFreight.Text = "0"
+                    'txtCDMisc.Text = "0"
                 End If
             End Using
         Catch ex As Exception
@@ -14186,6 +14365,13 @@ Public Class CustomerClaims
                             End If
                         End If
                     End Using
+                End If
+            ElseIf ddl.ID = "ddlLocRstk" Then
+                If ddl.Items.Count = 0 Then
+                    Dim ListItem As ListItem = New ListItem()
+                    ddl.Items.Add(New WebControls.ListItem(" ", "-1"))
+                    ddl.Items.Add(New WebControls.ListItem("01", "0"))
+                    ddl.Items.Add(New WebControls.ListItem("04", "1"))
                 End If
             End If
         Catch ex As Exception

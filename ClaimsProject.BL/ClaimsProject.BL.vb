@@ -1973,6 +1973,20 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function GetRestockAmtByClaimPartCust(claimno As String, partno As String, custno As String, ByRef dsResult As DataSet) As Integer
+        Dim dsResult1 = New DataSet()
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Dim exMessage As String = " "
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.GetRestockAmtByClaimPartCust(claimno, partno, custno, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function getDiagnoseValues(ByRef dsResult As DataSet) As Integer
         Dim dsResult1 = New DataSet()
         dsResult = New DataSet()
