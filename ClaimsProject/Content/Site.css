@@ -531,6 +531,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 3px;
 }
 
+.custom-rstk-css-input {
+    margin: 0 auto !important;
+    width: 50% !important;
+    border-radius: 5px !important;
+}
+
 #tabc fieldset > legend, #MainContent_pnActions fieldset > legend, #MainContent_pnRestockPanel fieldset > legend {
     color: white !important;
     font-weight: bold;
@@ -1575,7 +1581,7 @@ input[type="color"]:focus,
 }
 
 .form-control {
-    border-radius: 5px 0 0 5px !important;
+    border-radius: 5px 0 0 5px;
     height: calc(1.7em + .75rem + 2px) !important;
     font-size: 12px !important;
 }

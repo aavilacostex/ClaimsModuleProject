@@ -450,6 +450,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 #MainContent_txtCustStatement {
     /*min-width: 100% !important;*/
     height: 30px !important;
+    max-width: 100% !important;
 }
 
 .btnAdjustSize {
@@ -530,7 +531,13 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 3px;
 }
 
-#tabc fieldset > legend, #MainContent_pnActions fieldset > legend {
+.custom-rstk-css-input {
+    margin: 0 auto !important;
+    width: 50% !important;
+    border-radius: 5px !important;
+}
+
+#tabc fieldset > legend, #MainContent_pnActions fieldset > legend, #MainContent_pnRestockPanel fieldset > legend {
     color: white !important;
     font-weight: bold;
     text-align: center;
@@ -567,7 +574,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     padding: 0 !important;
 }
 
-#MainContent_pnInformation, #MainContent_pnContact, #MainContent_pnISDet, #MainContent_pnVndClaimComm, #MainContent_pnClaimComm, #MainContent_pnRestock {
+#MainContent_pnInformation, #MainContent_pnContact, #MainContent_pnISDet, #MainContent_pnVndClaimComm, #MainContent_pnClaimComm, #MainContent_pnRestock, #MainContent_pnRestockPanel {
     width: 100%;
     /*border: 1px solid #fbba42;*/
     padding: 0 8px;
@@ -1574,7 +1581,7 @@ input[type="color"]:focus,
 }
 
 .form-control {
-    border-radius: 5px 0 0 5px !important;
+    border-radius: 5px 0 0 5px;
     height: calc(1.7em + .75rem + 2px) !important;
     font-size: 12px !important;
 }

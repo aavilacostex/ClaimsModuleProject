@@ -105,7 +105,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
-            Sql = "SELECT INCLNO FROM qs36f.CLMINTSTS WHERE INSTAT = '" + status + "' AND INCLNO = " & Trim(value)
+            Sql = "SELECT * FROM qs36f.CLMINTSTS WHERE INSTAT = '" + status + "' AND INCLNO = " & Trim(value)
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

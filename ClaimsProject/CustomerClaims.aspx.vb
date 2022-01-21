@@ -4473,6 +4473,7 @@ Public Class CustomerClaims
                         totalCurClaimAmt += 1 'dev must removed
                         Dim totalAmt = dsResult1.Tables(0).Rows.Count 'totalAmt = WQtyRet1
                         Dim updAmt As Integer = 0 'updAmt = WQtyRet2
+                        LoadDropDownLists(ddlLocRstk)
 
 #End Region
 
@@ -4480,13 +4481,16 @@ Public Class CustomerClaims
 
                         Dim userBranch = If(DirectCast(Session("usrBranch"), String) IsNot Nothing, DirectCast(Session("usrBranch"), String), "")
                         Try
-
-
+                            Dim curLoc = hdLocationSelected.Value
+                            txtCurLoc.Text = If(userBranch.Equals(curLoc.Split("-")(0).Trim()), userBranch, "")
+                            Dim bLocat = If(String.IsNullOrEmpty(txtCurLoc.Text.Trim()), True, False)
+                            Dim v2 = ddlLocation.Items.IndexOf(ddlLocation.Items.FindByText(curLoc.Trim()))
+                            ddlLocRstk.SelectedIndex = If(v2 < 1, -1, If(v2.Equals(4), 2, 1))
+                            ddlLocRstk.Enabled = bLocat
                         Catch ex As Exception
                             Dim aa = ex.Message
                             Dim bb = aa
                         End Try
-
 
 #End Region
 
@@ -4495,6 +4499,7 @@ Public Class CustomerClaims
                             updAmt = totalCurClaimAmt - totalAmt
                             txtAvRstk.Text = totalAmt.ToString()
                             txtClRstk.Text = totalCurClaimAmt.ToString()
+                            'txtCurLoc.Text = ddlLocation.SelectedValue
 
                             popRestock.Show()
 
@@ -4560,7 +4565,8 @@ Public Class CustomerClaims
 
     Protected Sub btnUndoRestock_Click(sender As Object, e As EventArgs) Handles btnUndoRestock.Click
         Try
-
+            Dim methodMessage As String = "This functionality is under review."
+            SendMessage(methodMessage, messageType.info)
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
             Dim message As String = ex.Message
@@ -5258,8 +5264,11 @@ Public Class CustomerClaims
                 'UpdateInternalStatusGeneric(txtAcknowledgeEmail, txtAcknowledgeEmailDate, chkAcknowledgeEmail, lnkConsDamage, True)
                 'End If
             Else
-                methodMessage = "If you want to update the consequental damage values please click on the checkbox besides this button!"
-                SendMessage(methodMessage, messageType.info)
+
+                If Not txtConsDamageTotal.Text.Trim().Equals("0") And Not txtConsDamageTotal.Text.Trim().Equals("") Then
+                    methodMessage = "If you want to update the consequental damage values please click on the checkbox besides this button!"
+                    SendMessage(methodMessage, messageType.info)
+                End If
             End If
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -5294,63 +5303,59 @@ Public Class CustomerClaims
 
                     If (chkApproved.Enabled = True Or String.IsNullOrEmpty(txtClaimCompleted.Text.Trim())) And qy And dbConf > dbTotal Then
 
-                        If ddlDiagnoseData.SelectedIndex <> -1 And Not String.IsNullOrEmpty(txtDiagnoseData.Text.Trim()) Then
+                        'If ddlDiagnoseData.SelectedIndex <> -1 And Not String.IsNullOrEmpty(txtDiagnoseData.Text.Trim()) Then
 
-                            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+                        Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                                BuildDates()
-                                'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
-                                'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
-                                'chkinitial.Value = "K"
-                                'Dim dsCheck As DataSet = New DataSet()
-                                'Dim check = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsCheck)
-                                If True Then
-                                    'Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                                    'SendMessageResponse("TEst MEssage", messageType.info)
-                                    If True Then
-                                        chkApproved.Enabled = False
-                                        chkDeclined.Enabled = False
-                                        chkClaimCompleted.Enabled = False
-                                        txtClaimCompletedDate.Text = datenow
-                                        txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
-                                        txtClaimCompleted.Enabled = False
-                                        txtClaimCompletedDate.Enabled = False
+                            BuildDates()
+                            'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                            'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                            'chkinitial.Value = "K"
+                            'Dim dsCheck As DataSet = New DataSet()
+                            'Dim check = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsCheck)
+                            If True Then
+                                chkApproved.Enabled = False
+                                chkDeclined.Enabled = False
+                                chkClaimCompleted.Enabled = False
+                                txtClaimCompletedDate.Text = datenow
+                                txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+                                txtClaimCompleted.Enabled = False
+                                txtClaimCompletedDate.Enabled = False
 
-                                        chkinitial.Value = "L"
-                                        Dim rss = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
+                                chkinitial.Value = "L"
+                                Dim rss = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
 
-                                        txtTotValue.Text = txtParts.Text.ToString()
-                                        txtTotValue.Enabled = False
+                                txtTotValue.Text = txtParts.Text.ToString()
+                                txtTotValue.Enabled = False
 
-                                        chkApproved.Enabled = False
-                                        chkDeclined.Enabled = False
+                                chkApproved.Enabled = False
+                                chkDeclined.Enabled = False
 
-                                        validation = True
+                                validation = True
 
-                                    End If
-                                Else
-                                    'Dim appFlg = dsCheck.Tables(0).Rows(0).Item("INTAPPRV").ToString().Trim().ToUpper()
-                                    'If String.IsNullOrEmpty(appFlg) Then
-                                    '    chkinitial.Value = "L"
-                                    '    Dim rss = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
+                            Else
+                                'Dim appFlg = dsCheck.Tables(0).Rows(0).Item("INTAPPRV").ToString().Trim().ToUpper()
+                                'If String.IsNullOrEmpty(appFlg) Then
+                                '    chkinitial.Value = "L"
+                                '    Dim rss = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
 
-                                    '    txtTotValue.Text = txtParts.Text.ToString()
-                                    '    txtTotValue.Enabled = False
+                                '    txtTotValue.Text = txtParts.Text.ToString()
+                                '    txtTotValue.Enabled = False
 
-                                    '    chkApproved.Enabled = False
-                                    '    chkDeclined.Enabled = False
+                                '    chkApproved.Enabled = False
+                                '    chkDeclined.Enabled = False
 
-                                    '    validation = True
-                                    'End If
-                                End If
+                                '    validation = True
+                                'End If
+                            End If
 
-                            End Using
+                        End Using
 
-                        Else
-                            strMessage = "The Diagnose must a have a selected value."
-                            SendMessage(strMessage, messageType.warning)
-                            Exit Sub
-                        End If
+                        'Else
+                        '    strMessage = "The Diagnose must a have a selected value."
+                        '    SendMessage(strMessage, messageType.warning)
+                        '    Exit Sub
+                        'End If
 
                     Else
 
@@ -6967,8 +6972,10 @@ Public Class CustomerClaims
                     End If
 
                 Else
-                    strMessage = "Please clic in the checkbox related to the Consequential Damages in order to proceed."
-                    Return result
+                    If Not txtConsDamageTotal.Text.Trim().Equals("0") And Not txtConsDamageTotal.Text.Trim().Equals("") Then
+                        strMessage = "Please clic in the checkbox related to the Consequential Damages in order to proceed."
+                        Return result
+                    End If
                 End If
 
             End Using
@@ -7279,6 +7286,7 @@ Public Class CustomerClaims
                 'Get User and Limit to generate credit memo
                 Dim dsUserCM = New DataSet()
                 Dim user = Session("userid").ToString().ToUpper()
+                'user = If(UCase(user.Trim()).Equals("CTPDEVADM"), "BBELLO", user)
                 Dim rsUserCM = objBL.GetUserToGenCM(user, dsUserCM)
                 If rsUserCM > 0 Then
                     If dsUserCM IsNot Nothing Then
@@ -9524,6 +9532,8 @@ Public Class CustomerClaims
             Dim FullPrivilegeUser = ConfigurationManager.AppSettings("claimFullPrivilegesApprove").ToString()
             Dim EmailPrsCMGen = ConfigurationManager.AppSettings("EmailPersonApplyCM").ToString()
             Dim CostexPhoneNumber = ConfigurationManager.AppSettings("CostexPhone").ToString()
+            Dim ExternalEmailTest = ConfigurationManager.AppSettings("externalEmailTest").ToString()
+            Dim coordinators = ConfigurationManager.AppSettings("claimCoordinators").ToString()
 
             If flag.Equals("4") Then
                 mustChangeTemplate = True
@@ -9545,6 +9555,7 @@ Public Class CustomerClaims
                 If applyCM Then
                     userEmail = If(flagEmail.Equals("1"), EmailPrsCMGen.Trim(), TestNotUsers.Trim())
                     GetUserEmailByUserId(EmailPrsCMGen.Split("@")(0).ToString().Trim(), username)
+                    username = If(String.IsNullOrEmpty(username.Trim()), "Doris", username)
                 Else
                     userEmail = If(flagEmail.Equals("1"), hdCLMemail.Value.Trim(), TestNotUsers.Trim())
                     GetUserEmailByUserId(hdCLMuser.Value.Trim(), username)
@@ -9608,17 +9619,44 @@ Public Class CustomerClaims
             Dim msg As MailMessage = New MailMessage()
             msg.IsBodyHtml = True
             'emailSender = "jdmira@costex.com" 'test purpose
-            msg.From = New MailAddress(emailSender)
+            If emailSender.Equals("NoEmailInAD") Then
+                'development code
+                emailSender = ProdNotUsers500
+                writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " There is an error due a missing email address for the user: " + emailSender + ". The email for this user do not send. At Time: " + DateTime.Now.ToString())
+            Else
+                msg.From = New MailAddress(emailSender)
+            End If
             msg.To.Add(userEmail)
             msg.Bcc.Add(TestNotUsers)
-            msg.Bcc.Add(claimCoordinator)
+
+            If claimCoordinator.Equals("NoEmailInAD") Then
+                writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " There is an error due a missing email address for the user: " + claimCoordinator + ". The email for this user do not send. At Time: " + DateTime.Now.ToString())
+            Else
+                msg.Bcc.Add(claimCoordinator)
+            End If
+            msg.Bcc.Add(ExternalEmailTest)
 
             'Dim subjClData = " ClaimNo " + obj.ClaimNo + " - PartNo " + obj.PartNo + " - InvoiceNo " + obj.Invoice + " ."
-            Dim subjClData = "CTP Claim Number: " + obj.ClaimNo
+            Dim subjClData = "CTP Claim_ " + obj.ClaimNo + " - Part_" + obj.PartNo + " - Invoice_ " + obj.Invoice + " ."
             niceText = subjClData
-            Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Request Authorization for Claim Over 500.", "Authorization Approved for Claim over 500."))
+            Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Credit Request for Claim_ " + obj.ClaimNo + ".", "Credit Authorization for Claim_ " + obj.ClaimNo + "."))
 
-            msg.Subject = msgSubject + subjClData
+            If Not flag.Equals("2") And Not flag.Equals("3") Then
+                If Not LCase(userEmail.Trim()).Equals(LCase(ProdNotUsers1000.Trim())) Then
+                    msg.Bcc.Add(ProdNotUsers1000)
+                End If
+                If Not LCase(userEmail.Trim()).Equals(LCase(ProdNotUsers500.Trim())) Then
+                    msg.Bcc.Add(ProdNotUsers500)
+                End If
+                If Not LCase(claimCoordinator.Trim()).Equals(LCase(coordinators.Split(",")(0).Trim())) Then
+                    msg.Bcc.Add(coordinators.Split(",")(0).Trim())
+                End If
+                If Not LCase(claimCoordinator.Trim()).Equals(LCase(coordinators.Split(",")(1).Trim())) Then
+                    msg.Bcc.Add(coordinators.Split(",")(1).Trim())
+                End If
+            End If
+
+            msg.Subject = msgSubject
             Dim txt = Mailtext
             msg.Body = Mailtext
             'msg.BodyEncoding = System.Text.Encoding.ASCII
@@ -10574,6 +10612,8 @@ Public Class CustomerClaims
                                             GetCustomerName(dsNW)
                                             'diagnose dropdownlist
                                             LoadDDLLocation(dsData)
+                                            'restock locations
+                                            LoadDropDownLists(ddlLocRstk)
 
                                             Dim strExcMessage As String = Nothing
                                             GetSupplierInvoiceAndDate(txtVendorNo.Text, docData, strExcMessage)
@@ -12228,7 +12268,7 @@ Public Class CustomerClaims
             Dim flag As Boolean = False
 
             Dim body As StringBuilder = New StringBuilder()
-            body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Files for the Claim: {0}</H1></td></tr>", claimNo)
+            body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Claim : {0}</H1></td></tr>", claimNo)
 
             body.Append("<tr>")
             Dim i = 0
@@ -13846,9 +13886,13 @@ Public Class CustomerClaims
 
                     Dim bTotal = Double.TryParse(txtTotValue.Text.Trim(), dbTotal)
                     Dim bConf = Double.TryParse(hdSwLimitAmt.Value.Trim(), dbConf)
+                    Dim curUser = DirectCast(Session("userid"), String)
 
                     If bTotal And bConf Then
                         If dbConf >= dbTotal Then
+                            If curUser Then
+
+                            End If
                             txtClaimAuth.Enabled = True
                             txtClaimAuthDate.Enabled = True
                             txtAmountApproved.Enabled = True
@@ -14370,8 +14414,8 @@ Public Class CustomerClaims
                 If ddl.Items.Count = 0 Then
                     Dim ListItem As ListItem = New ListItem()
                     ddl.Items.Add(New WebControls.ListItem(" ", "-1"))
-                    ddl.Items.Add(New WebControls.ListItem("01", "0"))
-                    ddl.Items.Add(New WebControls.ListItem("04", "1"))
+                    ddl.Items.Add(New WebControls.ListItem("01-Miami", "01"))
+                    ddl.Items.Add(New WebControls.ListItem("04-Dallas", "04"))
                 End If
             End If
         Catch ex As Exception

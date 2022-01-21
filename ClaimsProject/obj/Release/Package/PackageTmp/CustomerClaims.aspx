@@ -771,6 +771,7 @@
                     <asp:HiddenField ID="hdInfoCustContent" Value="0"  runat="server" />
                     <asp:HiddenField ID="hdTextEditorAckMessage" Value=""  runat="server" />
                     <asp:HiddenField ID="hdTextEditorInfoCustMessage" Value=""  runat="server" />
+                    <asp:HiddenField ID="hdRestockFlag" Value="0"  runat="server" />
 
                     <asp:HiddenField ID="hdComments" Value="" runat="server" />
                     <asp:HiddenField ID="hdFlagUpload" Value="" runat="server" />
@@ -2247,8 +2248,8 @@
                                                 <div class="form-row paddingtop8">
                                                     <div class="col-md-12">
                                                         <asp:Label ID="lblConsDamage" Text="Consequential damage, if any." CssClass="control-label" runat="server"></asp:Label>
-                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" Enabled="false" runat="server" />
-                                                        <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" runat="server">
+                                                        <asp:CheckBox ID="chkConsDamage" OnCheckedChanged="chkConsDamage_CheckedChanged" AutoPostBack="true" runat="server" />
+                                                        <asp:LinkButton ID="lnkConsDamage" class="btn btn-primary btnSmallSize" OnClick="lnkConsDamage_Click" runat="server">
 			                                                <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                         </asp:LinkButton>
                                                         <%--<asp:TextBox ID="txtConsDamage" CssClass="form-control" runat="server"></asp:TextBox>--%>
@@ -2634,6 +2635,89 @@
                 </div>
             </div>
 
+            <asp:Label runat="server" ID="dummylabel4"></asp:Label>
+            <div id="pnRestockSection" class="container hideProp" runat="server">     
+                <div id="rstkPanel" runat="server">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <asp:Panel ID="pnRestockPanel" GroupingText="Re-Stock Process" CssClass="pnFilterStyles1" style="width:70% !important;" runat="server">
+                                <div id="pn4Div" class="row" style="padding: 10px 0;" runat="server">
+                                    <div class="col-md-6 pt-3" style="border-right: 2px dotted #fbba42;">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <h3 style="color:#fbba42;text-shadow: 1px 1px #404040;">Quantities</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <asp:Panel ID="pnRstkQty" runat="server">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <asp:Label ID="lblAvRstk" Text="Available" CssClass="control-label" runat="server"></asp:Label>
+                                                            <asp:TextBox ID="txtAvRstk" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <asp:Label ID="lblClRstk" Text="In Claim" CssClass="control-label" runat="server"></asp:Label>
+                                                            <asp:TextBox ID="txtClRstk" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+                                                </asp:Panel>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-3">                                            
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblRstk" Text="Qty to Restock" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtRstk" CssClass="form-control custom-rstk-css-input" runat="server"></asp:TextBox>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pt-3">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <h3 style="color:#fbba42;text-shadow: 1px 1px #404040;">Locations</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-3">                                            
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblCurLoc" Text="Current" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtCurLoc" CssClass="form-control custom-rstk-css-input"  Enabled="false" runat="server"></asp:TextBox>
+                                            </div>                                            
+                                        </div>
+                                        <div class="row pt-3">                                            
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblLocRstk" Text="To Restock" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:DropDownList ID="ddlLocRstk" OnSelectedIndexChanged="ddlLocRstk_SelectedIndexChanged" AutoPostBack="false" CssClass="form-control custom-rstk-css-input" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="padding: 15px 0;text-align:center !important;">
+                                    <div style="width: 98%;border-top: 1px solid #fbba42;margin-left: 1%;padding: 15px 0 5px 0;">                                        
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6" style="text-align:right !important;">
+                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " class="btn btn-primary btn-md btnMidSize" Enabled="false" OnClick="BtnSaveRestock_click" runat="server" />
+                                                </div>
+                                                <div class="col-md-6" style="text-align:left !important;">
+                                                    <asp:Button ID="BtnBackRestock" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackRestock_click" runat="server" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </asp:Panel>
+                        </div>
+                    </div>                    
+                    
+                    <div class="row hideProp">
+                        <asp:LinkButton ID="LinkButton2" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                    </div>
+                </div>
+            </div>            
+
             <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
                 <asp:Panel ID="panInnerLogin" runat="server">
@@ -2744,6 +2828,10 @@
 
             <Atk:ModalPopupExtender ID="popInfoCust" runat="server" TargetControlID="dummylabel3" BehaviorID="popupCopyCtrl"
                 PopupControlID="infoCustP" CancelControlID="BtnBackSeeFiles2"  >
+            </Atk:ModalPopupExtender>
+
+            <Atk:ModalPopupExtender ID="popRestock" runat="server" TargetControlID="dummylabel4" BehaviorID="popupCopyCtrl"
+                PopupControlID="rstkPanel" CancelControlID="BtnBackRestock"  >
             </Atk:ModalPopupExtender>
 
             <br />
@@ -3197,12 +3285,14 @@
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
                 $('#<%=hdInfoCustContent.ClientID %>').val("0");
+                $('#<%=hdRestockFlag.ClientID %>').val("0");
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
                 $('#<%=hdInfoCustContent.ClientID %>').val("0");
+                $('#<%=hdRestockFlag.ClientID %>').val("0");
 
             }
 
@@ -3497,6 +3587,42 @@
 
             }
 
+            var hdRestockFlagVisualization = document.getElementById('<%=hdRestockFlag.ClientID%>').value
+            if (hdRestockFlagVisualization == "1") {
+
+                debugger
+
+                $('#MainContent_pnRestockSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_pnRestockSection").removeAttr("style");
+
+                //$('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+
+                debugger
+
+                //if (hdTabsVisualization == "1") {
+                //    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                //    $("#MainContent_navsSection").removeAttr("style");
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //}
+                //else {
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                //}
+
+                $('#MainContent_pnRestockSection').closest('.container').removeClass('container hideProp')
+                $('#MainContent_pnRestockSection').removeClass('container hideProp')
+
+                $('#MainContent_pnRestockSection').closest('.container').addClass('container hideProp')
+                $('#MainContent_pnRestockSection').addClass('container hideProp')
+
+            }
+
             var hdForceLoad = document.getElementById('<%=hdLoadAllData.ClientID%>').value
             if (hdForceLoad == "1") {                
                 JSFunction();
@@ -3596,7 +3722,7 @@
                 $('#rowGridViewSeeVndComm').find('a').removeClass('disableCtr');
                 $('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
                 $('#MainContent_pnClaimComm').find('input').attr('disabled', false);
-                $('#MainContent_pnClaimComm').find('textarea').attr('disabled', false);
+                $('#MainContent_pnClaimComm').find('textarea').attr('disabled', false);                
                 //$('#MainContent_pnSubActionComment').find('input').attr('disabled', false);
 
                 $('#MainContent_pnPartImage').find('a').removeClass('disableCtr');
@@ -3631,6 +3757,9 @@
                 $('#partinfo').find('select').attr('disabled', true);
                 $('#partinfo').find('textarea').attr('disabled', true);
 
+                $('#MainContent_pnRestock').find('input').removeClass('aspNetDisabled');
+                $('#MainContent_pnRestock').find('input').attr('disabled', false);
+
                 $('#MainContent_ddlDiagnoseData').attr('disabled', false);
                 $('#MainContent_chkQuarantine').attr('disabled', false);                  
 
@@ -3638,8 +3767,7 @@
                 $('#MainContent_btnVoidClaim').removeClass('disableCtr');
 
                 $('#MainContent_btnSaveTab').attr('disabled', false);   
-
-                $('#MainContent_lnkDiagnose').removeClass('disableCtr');
+                $('#MainContent_lnkDiagnose').removeClass('disableCtr');  
 
             }
 
@@ -3676,6 +3804,9 @@
                 $('#partinfo').find('select').attr('disabled', true);
                 $('#partinfo').find('textarea').attr('disabled', true);
 
+                $('#MainContent_pnRestock').find('input').removeClass('aspNetDisabled');
+                $('#MainContent_pnRestock').find('input').attr('disabled', false);
+
                 $('#MainContent_ddlDiagnoseData').attr('disabled', false);
                 $('#MainContent_chkQuarantine').attr('disabled', false);
 
@@ -3685,7 +3816,18 @@
             }
 
             $('.cData').attr('disabled', false);
-            $('#MainContent_pnInformation').find('input').attr('disabled', false);            
+            $('#MainContent_pnInformation').find('input').attr('disabled', false);   
+
+            $('#MainContent_txtConsDamageTotal').attr('disabled', false);  
+            $('#MainContent_txtConsDamageTotal').removeClass('aspNetDisabled');
+
+            $('#MainContent_txtCDMisc').attr('disabled', 'disabled');  
+            $('#MainContent_txtCDFreight').attr('disabled', 'disabled');  
+            $('#MainContent_txtCDPart').attr('disabled', 'disabled');  
+            $('#MainContent_txtCDLabor').attr('disabled', 'disabled');            
+
+            $('#MainContent_btnGetTotalCDValue').attr('disabled', 'disabled');  
+            
 
            // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
             //$('#<%=lnkInitialReview.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');

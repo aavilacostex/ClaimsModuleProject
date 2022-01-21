@@ -2641,48 +2641,64 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <asp:Panel ID="pnRestockPanel" GroupingText="Re-Stock Process" CssClass="pnFilterStyles1" runat="server">
+                            <asp:Panel ID="pnRestockPanel" GroupingText="Re-Stock Process" CssClass="pnFilterStyles1" style="width:70% !important;" runat="server">
                                 <div id="pn4Div" class="row" style="padding: 10px 0;" runat="server">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 pt-3" style="border-right: 2px dotted #fbba42;">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <asp:Label ID="lblAvRstk" Text="Available Restock" CssClass="control-label" runat="server"></asp:Label>
-                                                <asp:TextBox ID="txtAvRstk" CssClass="form-control" runat="server"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <asp:Label ID="lblClRstk" Text="In Claim Qty" CssClass="control-label" runat="server"></asp:Label>
-                                                <asp:TextBox ID="txtClRstk" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <div class="col-md-12 text-center">
+                                                <h3 style="color:#fbba42;text-shadow: 1px 1px #404040;">Quantities</h3>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4"></div>
-                                            <div class="col-md-4">
-                                                <asp:Label ID="lblRstk" Text="Qty to Restock" CssClass="control-label" runat="server"></asp:Label>
-                                                <asp:TextBox ID="txtRstk" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <div class="row pt-3">
+                                            <div class="col-md-12">
+                                                <asp:Panel ID="pnRstkQty" runat="server">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <asp:Label ID="lblAvRstk" Text="Available" CssClass="control-label" runat="server"></asp:Label>
+                                                            <asp:TextBox ID="txtAvRstk" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <asp:Label ID="lblClRstk" Text="In Claim" CssClass="control-label" runat="server"></asp:Label>
+                                                            <asp:TextBox ID="txtClRstk" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+                                                </asp:Panel>
                                             </div>
-                                            <div class="col-md-4"></div>
+                                        </div>
+                                        <div class="row pt-3">                                            
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblRstk" Text="Qty to Restock" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtRstk" CssClass="form-control custom-rstk-css-input" runat="server"></asp:TextBox>
+                                            </div>                                            
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 pt-3">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <asp:Label ID="lblCurLoc" Text="Current Location" CssClass="control-label" runat="server"></asp:Label>
-                                                <asp:TextBox ID="txtCurLoc" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <div class="col-md-12 text-center">
+                                                <h3 style="color:#fbba42;text-shadow: 1px 1px #404040;">Locations</h3>
                                             </div>
-                                            <div class="col-md-6">
-                                                <asp:Label ID="lblLocRstk" Text="Location to Restock" CssClass="control-label" runat="server"></asp:Label>
-                                                <asp:DropDownList ID="ddlLocRstk" OnSelectedIndexChanged="ddlLocRstk_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
-                                            </div>
+                                        </div>
+                                        <div class="row pt-3">                                            
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblCurLoc" Text="Current" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtCurLoc" CssClass="form-control custom-rstk-css-input"  Enabled="false" runat="server"></asp:TextBox>
+                                            </div>                                            
+                                        </div>
+                                        <div class="row pt-3">                                            
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblLocRstk" Text="To Restock" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:DropDownList ID="ddlLocRstk" OnSelectedIndexChanged="ddlLocRstk_SelectedIndexChanged" AutoPostBack="false" CssClass="form-control custom-rstk-css-input" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row" style="padding: 15px 0;text-align:center !important;">
-                                    <div style="width: 98%;border-top: 1px solid red;margin-left: 1%;padding: 15px 0 5px 0;">                                        
+                                    <div style="width: 98%;border-top: 1px solid #fbba42;margin-left: 1%;padding: 15px 0 5px 0;">                                        
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-6" style="text-align:right !important;">
-                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnSaveRestock_click" runat="server" />
+                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " class="btn btn-primary btn-md btnMidSize" Enabled="false" OnClick="BtnSaveRestock_click" runat="server" />
                                                 </div>
                                                 <div class="col-md-6" style="text-align:left !important;">
                                                     <asp:Button ID="BtnBackRestock" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackRestock_click" runat="server" />
@@ -3843,7 +3859,7 @@
             //console.log(a3);
             //console.log(a4);
 
-            tCustStat.style.minHeight = a1 > 0 ? (tCustStat.scrollHeight) + "px" : ((tCustStat.scrollHeight) + 10) + "px";
+            tCustStat.style.minHeight = a1 > 0 ? ((tCustStat.scrollHeight) + 20) + "px" : ((tCustStat.scrollHeight) + 30) + "px";
             tPartDesc.style.minHeight = a2 > 0 ? (tPartDesc.scrollHeight) + "px" : ((tPartDesc.scrollHeight) + 10) + "px";
             tMess.style.minHeight = a3 > 0 ? ((tMess.scrollHeight) + 50) + "px" : ((tMess.scrollHeight) + 60) + "px";
             tMessVnd.style.minHeight = a4 > 0 ? (tMessVnd.scrollHeight) + "px" : ((tMessVnd.scrollHeight) + 10) + "px";
