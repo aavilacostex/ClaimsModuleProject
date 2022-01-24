@@ -3859,7 +3859,7 @@
             //console.log(a3);
             //console.log(a4);
 
-            tCustStat.style.minHeight = a1 > 0 ? (tCustStat.scrollHeight) + "px" : ((tCustStat.scrollHeight) + 10) + "px";
+            tCustStat.style.minHeight = a1 > 0 ? ((tCustStat.scrollHeight) + 20) + "px" : ((tCustStat.scrollHeight) + 30) + "px";
             tPartDesc.style.minHeight = a2 > 0 ? (tPartDesc.scrollHeight) + "px" : ((tPartDesc.scrollHeight) + 10) + "px";
             tMess.style.minHeight = a3 > 0 ? ((tMess.scrollHeight) + 50) + "px" : ((tMess.scrollHeight) + 60) + "px";
             tMessVnd.style.minHeight = a4 > 0 ? (tMessVnd.scrollHeight) + "px" : ((tMessVnd.scrollHeight) + 10) + "px";

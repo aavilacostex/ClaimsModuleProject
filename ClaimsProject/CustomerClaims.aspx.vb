@@ -5406,6 +5406,7 @@ Public Class CustomerClaims
                             'Exit Sub
                         Else
                             chkClaimAuth.Checked = False
+                            strMessage = "There is an error updating the Approval Request fir Authorization process."
                             Dim methodMessage = strMessage
                             SendMessage(methodMessage, messageType.warning)
                         End If
@@ -7751,6 +7752,10 @@ Public Class CustomerClaims
                     Return result
                 End If
 
+                If intValidation = 2 Then
+                    result = True
+                End If
+
                 If intValidation = 3 Then
                     Dim claimNo = txtClaimNoData.Text.Trim()
                     chkinitial.Value = "I"
@@ -9555,7 +9560,7 @@ Public Class CustomerClaims
                 If applyCM Then
                     userEmail = If(flagEmail.Equals("1"), EmailPrsCMGen.Trim(), TestNotUsers.Trim())
                     GetUserEmailByUserId(EmailPrsCMGen.Split("@")(0).ToString().Trim(), username)
-                    username = If(String.IsNullOrEmpty(username.Trim()), "Doris", username)
+                    username = If(String.IsNullOrEmpty(username) Or username Is Nothing, "Doris", username)
                 Else
                     userEmail = If(flagEmail.Equals("1"), hdCLMemail.Value.Trim(), TestNotUsers.Trim())
                     GetUserEmailByUserId(hdCLMuser.Value.Trim(), username)
@@ -9641,18 +9646,20 @@ Public Class CustomerClaims
             niceText = subjClData
             Dim msgSubject = If(flag.Equals("2"), niceText, If(flag.Equals("0"), "Credit Request for Claim_ " + obj.ClaimNo + ".", "Credit Authorization for Claim_ " + obj.ClaimNo + "."))
 
-            If Not flag.Equals("2") And Not flag.Equals("3") Then
-                If Not LCase(userEmail.Trim()).Equals(LCase(ProdNotUsers1000.Trim())) Then
-                    msg.Bcc.Add(ProdNotUsers1000)
-                End If
-                If Not LCase(userEmail.Trim()).Equals(LCase(ProdNotUsers500.Trim())) Then
-                    msg.Bcc.Add(ProdNotUsers500)
-                End If
-                If Not LCase(claimCoordinator.Trim()).Equals(LCase(coordinators.Split(",")(0).Trim())) Then
-                    msg.Bcc.Add(coordinators.Split(",")(0).Trim())
-                End If
-                If Not LCase(claimCoordinator.Trim()).Equals(LCase(coordinators.Split(",")(1).Trim())) Then
-                    msg.Bcc.Add(coordinators.Split(",")(1).Trim())
+            If flagEmail.Equals("1") Then
+                If Not flag.Equals("2") And Not flag.Equals("3") Then
+                    If Not LCase(userEmail.Trim()).Equals(LCase(ProdNotUsers1000.Trim())) Then
+                        msg.Bcc.Add(ProdNotUsers1000)
+                    End If
+                    If Not LCase(userEmail.Trim()).Equals(LCase(ProdNotUsers500.Trim())) Then
+                        msg.Bcc.Add(ProdNotUsers500)
+                    End If
+                    If Not LCase(claimCoordinator.Trim()).Equals(LCase(coordinators.Split(",")(0).Trim())) Then
+                        msg.Bcc.Add(coordinators.Split(",")(0).Trim())
+                    End If
+                    If Not LCase(claimCoordinator.Trim()).Equals(LCase(coordinators.Split(",")(1).Trim())) Then
+                        msg.Bcc.Add(coordinators.Split(",")(1).Trim())
+                    End If
                 End If
             End If
 
@@ -13886,13 +13893,13 @@ Public Class CustomerClaims
 
                     Dim bTotal = Double.TryParse(txtTotValue.Text.Trim(), dbTotal)
                     Dim bConf = Double.TryParse(hdSwLimitAmt.Value.Trim(), dbConf)
-                    Dim curUser = DirectCast(Session("userid"), String)
+                    'Dim curUser = DirectCast(Session("userid"), String)
 
                     If bTotal And bConf Then
                         If dbConf >= dbTotal Then
-                            If curUser Then
+                            'If curUser Then
 
-                            End If
+                            'End If
                             txtClaimAuth.Enabled = True
                             txtClaimAuthDate.Enabled = True
                             txtAmountApproved.Enabled = True

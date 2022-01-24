@@ -18,9 +18,12 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.DTO.pdb
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.DTO.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.UTIL.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\System.Management.Automation.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\IBM.Data.DB2.iSeries.dll
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\Microsoft.Management.Infrastructure.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.UTIL.pdb
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\ClaimsProject.UTIL.xml
+C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\System.Management.Automation.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\IBM.Data.DB2.iSeries.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.vbprojAssemblyReference.cache
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.Resources.resources
@@ -30,6 +33,3 @@ C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.dll
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.xml
 C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\obj\Debug\ClaimsProject.DTO.pdb
-C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\System.Management.Automation.dll
-C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\Microsoft.Management.Infrastructure.dll
-C:\GitServer\ProductionProjects\ClaimsProject\ClaimsModuleProject\ClaimsProject.DTO\bin\Debug\System.Management.Automation.xml
