@@ -4487,100 +4487,106 @@ Public Class CustomerClaims
         Dim bvalidation As Boolean = True
         Try
 
-            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+            If True Then
+                Exit Sub
+            Else
 
-                Dim rsResult = objBL.GetIfOperationInProcess(userid, dsResult)
-                If rsResult > 0 Then
-                    methodMessage = "This user already has an operation in process. Please try again later or call to IT Department."
-                    SendMessage(methodMessage, messageType.warning)
-                    Exit Sub
-                ElseIf rsResult < 0 Then
-                    methodMessage = "There is an error in the restock process. Please try again later or call to IT Department."
-                    SendMessage(methodMessage, messageType.warning)
-                    Exit Sub
-                Else
+                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                    Dim rsResult = objBL.GetIfOperationInProcess(userid, dsResult)
+                    If rsResult > 0 Then
+                        methodMessage = "This user already has an operation in process. Please try again later or call to IT Department."
+                        SendMessage(methodMessage, messageType.warning)
+                        Exit Sub
+                    ElseIf rsResult < 0 Then
+                        methodMessage = "There is an error in the restock process. Please try again later or call to IT Department."
+                        SendMessage(methodMessage, messageType.warning)
+                        Exit Sub
+                    Else
 #Region "Values to make restock validation"
 
-                    Dim claimNo As String = If(String.IsNullOrEmpty(txtClaimNoData.Text.Trim()), "", txtClaimNoData.Text.Trim())
-                    Dim partNo As String = If(String.IsNullOrEmpty(txtPartNoData.Text.Trim()), "", txtPartNoData.Text.Trim())
-                    Dim invoiceNo As String = If(String.IsNullOrEmpty(txtInvoiceNo.Text.Trim()), "", txtInvoiceNo.Text.Trim())
-                    Dim fullMessage As String = Nothing
-                    Dim internalMessage As String = Nothing
+                        Dim claimNo As String = If(String.IsNullOrEmpty(txtClaimNoData.Text.Trim()), "", txtClaimNoData.Text.Trim())
+                        Dim partNo As String = If(String.IsNullOrEmpty(txtPartNoData.Text.Trim()), "", txtPartNoData.Text.Trim())
+                        Dim invoiceNo As String = If(String.IsNullOrEmpty(txtInvoiceNo.Text.Trim()), "", txtInvoiceNo.Text.Trim())
+                        Dim fullMessage As String = Nothing
+                        Dim internalMessage As String = Nothing
 
-                    Dim b1 = checkValueForRestock(txtClaimNoData, internalMessage)
-                    fullMessage += internalMessage + ". "
-                    Dim b2 = checkValueForRestock(txtPartNoData, internalMessage)
-                    fullMessage += internalMessage + ". "
-                    Dim b3 = checkValueForRestock(txtInvoiceNo, internalMessage)
-                    fullMessage += internalMessage + ". "
+                        Dim b1 = checkValueForRestock(txtClaimNoData, internalMessage)
+                        fullMessage += internalMessage + ". "
+                        Dim b2 = checkValueForRestock(txtPartNoData, internalMessage)
+                        fullMessage += internalMessage + ". "
+                        Dim b3 = checkValueForRestock(txtInvoiceNo, internalMessage)
+                        fullMessage += internalMessage + ". "
 
-                    If Not b1 Or Not b2 Or Not b3 Then
-                        methodMessage = fullMessage
-                        SendMessage(methodMessage, messageType.Error)
-                        Exit Sub
-                    End If
+                        If Not b1 Or Not b2 Or Not b3 Then
+                            methodMessage = fullMessage
+                            SendMessage(methodMessage, messageType.Error)
+                            Exit Sub
+                        End If
 
 #End Region
 
-                    Dim rResult = objBL.GetRestockAmtByClaimPartCust(txtClaimNoData.Text.Trim(), txtPartNoData.Text.Trim(), txtCustomerData.Text.Trim(), dsResult1)
-                    Dim bValid = GetDatasetDataValidation(dsResult1)
-                    If bValid Then
+                        Dim rResult = objBL.GetRestockAmtByClaimPartCust(txtClaimNoData.Text.Trim(), txtPartNoData.Text.Trim(), txtCustomerData.Text.Trim(), dsResult1)
+                        Dim bValid = GetDatasetDataValidation(dsResult1)
+                        If bValid Then
 
 #Region "Part Validation"
 
-                        Dim totalCurClaimAmt = If(String.IsNullOrEmpty(txtQty.Text.Trim()), 0, CInt(txtQty.Text.Trim()))
-                        totalCurClaimAmt += 1 'dev must removed
-                        Dim totalAmt = dsResult1.Tables(0).Rows.Count 'totalAmt = WQtyRet1
-                        Dim updAmt As Integer = 0 'updAmt = WQtyRet2
-                        LoadDropDownLists(ddlLocRstk)
+                            Dim totalCurClaimAmt = If(String.IsNullOrEmpty(txtQty.Text.Trim()), 0, CInt(txtQty.Text.Trim()))
+                            totalCurClaimAmt += 1 'dev must removed
+                            Dim totalAmt = dsResult1.Tables(0).Rows.Count 'totalAmt = WQtyRet1
+                            Dim updAmt As Integer = 0 'updAmt = WQtyRet2
+                            LoadDropDownLists(ddlLocRstk)
 
 #End Region
 
 #Region "Location Validation"
 
-                        Dim userBranch = If(DirectCast(Session("usrBranch"), String) IsNot Nothing, DirectCast(Session("usrBranch"), String), "")
-                        Try
-                            Dim curLoc = hdLocationSelected.Value
-                            txtCurLoc.Text = If(userBranch.Equals(curLoc.Split("-")(0).Trim()), userBranch, "")
-                            Dim bLocat = If(String.IsNullOrEmpty(txtCurLoc.Text.Trim()), True, False)
-                            Dim v2 = ddlLocation.Items.IndexOf(ddlLocation.Items.FindByText(curLoc.Trim()))
-                            ddlLocRstk.SelectedIndex = If(v2 < 1, -1, If(v2.Equals(4), 2, 1))
-                            ddlLocRstk.Enabled = bLocat
-                        Catch ex As Exception
-                            Dim aa = ex.Message
-                            Dim bb = aa
-                        End Try
+                            Dim userBranch = If(DirectCast(Session("usrBranch"), String) IsNot Nothing, DirectCast(Session("usrBranch"), String), "")
+                            Try
+                                Dim curLoc = hdLocationSelected.Value
+                                txtCurLoc.Text = If(userBranch.Equals(curLoc.Split("-")(0).Trim()), userBranch, "")
+                                Dim bLocat = If(String.IsNullOrEmpty(txtCurLoc.Text.Trim()), True, False)
+                                Dim v2 = ddlLocation.Items.IndexOf(ddlLocation.Items.FindByText(curLoc.Trim()))
+                                ddlLocRstk.SelectedIndex = If(v2 < 1, -1, If(v2.Equals(4), 2, 1))
+                                ddlLocRstk.Enabled = bLocat
+                            Catch ex As Exception
+                                Dim aa = ex.Message
+                                Dim bb = aa
+                            End Try
 
 #End Region
 
 
-                        If totalAmt < totalCurClaimAmt Then
-                            updAmt = totalCurClaimAmt - totalAmt
-                            txtAvRstk.Text = totalAmt.ToString()
-                            txtClRstk.Text = totalCurClaimAmt.ToString()
-                            'txtCurLoc.Text = ddlLocation.SelectedValue
+                            If totalAmt < totalCurClaimAmt Then
+                                updAmt = totalCurClaimAmt - totalAmt
+                                txtAvRstk.Text = totalAmt.ToString()
+                                txtClRstk.Text = totalCurClaimAmt.ToString()
+                                'txtCurLoc.Text = ddlLocation.SelectedValue
 
-                            popRestock.Show()
+                                popRestock.Show()
 
-                            hdGridViewContent.Value = "0"
-                            hdNavTabsContent.Value = "1"
-                            hdAckPopContent.Value = "0"
-                            hdInfoCustContent.Value = "0"
-                            hdRestockFlag.Value = "1"
+                                hdGridViewContent.Value = "0"
+                                hdNavTabsContent.Value = "1"
+                                hdAckPopContent.Value = "0"
+                                hdInfoCustContent.Value = "0"
+                                hdRestockFlag.Value = "1"
 
+                            Else
+                                methodMessage = "This Claim already has reached the max quantity to reStock."
+                                SendMessage(methodMessage, messageType.warning)
+                            End If
                         Else
-                            methodMessage = "This Claim already has reached the max quantity to reStock."
+                            methodMessage = "There is an error getting data from database. Please try again later or call to IT Department."
                             SendMessage(methodMessage, messageType.warning)
                         End If
-                    Else
-                        methodMessage = "There is an error getting data from database. Please try again later or call to IT Department."
-                        SendMessage(methodMessage, messageType.warning)
+
+
                     End If
 
+                End Using
 
-                End If
-
-            End Using
+            End If
 
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
