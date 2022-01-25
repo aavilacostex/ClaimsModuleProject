@@ -1116,6 +1116,20 @@ Public Class CustomerClaims
 
 #Region "Radios and checkboxes"
 
+    Public Sub chkApproved_CheckedChange(sender As Object, e As EventArgs) Handles chkApproved.CheckedChanged
+        Try
+            Dim cc = chkApproved.InputAttributes.CssStyle
+            Dim pp = cc
+
+            Dim ff = lblApproved.Attributes("class")
+            Dim oo = ff
+        Catch ex As Exception
+            Dim a = ex.Message
+            Dim b = a
+        End Try
+    End Sub
+
+
     Public Sub chkPCred_CheckedChanged(sender As Object, e As EventArgs)
         Try
             If chkPCred.Checked Then
@@ -7461,6 +7475,12 @@ Public Class CustomerClaims
 
                 If totalClaimValue <= 500 Then
                     If chkApproved.Checked And chkApproved.Enabled Then
+
+                        Dim bValidation = If(Session("onlyUpdate") IsNot Nothing, CBool(Session("onlyUpdate")), False)
+                        If bValidation Then
+                            Exit Function
+                        End If
+
                         If chkAcknowledgeEmail.Checked Then
                             If totalClaimValue <= totalLimit Then
 
@@ -7593,76 +7613,83 @@ Public Class CustomerClaims
 
                 Dim refLimit As Double = 0
                 dbLimit = If(Double.TryParse(hdCLMLimit.Value, refLimit), refLimit, 0) ' limit for manager
-                If dbLimit > 0 Or DirectCast(Session("UpToLimit"), Boolean) Then
-                    If chkApproved.Checked And chkApproved.Enabled Then
-                        If chkAcknowledgeEmail.Checked Then
 
-                            If totalClaimValue > totalLimit Or hdUsrLimitAmt.Value.ToUpper().Equals(hdCLMuser.Value.Trim().ToUpper()) Then   ' el valor del claim es mayor que el limite del usuario logueado
-                                'If totalClaimValue <= dbLimit Then
-                                BuildDates()
-                                'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
-                                'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
-                                chkinitial.Value = "K"
+                If totalClaimValue > 500 Then
 
-                                'Dim dsCheck As DataSet = New DataSet()
-                                'Dim check = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsCheck)
-                                'If check = 0 Then
-                                Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
-                                If rsIns > 0 Then
-                                    chkApproved.Enabled = False
-                                    chkDeclined.Enabled = False
-                                    chkClaimCompleted.Enabled = False
-                                    txtClaimCompletedDate.Text = datenow
-                                    txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
-                                    txtClaimCompleted.Enabled = False
-                                    txtClaimCompletedDate.Enabled = False
+                    If dbLimit > 0 Or DirectCast(Session("UpToLimit"), Boolean) Then
+                        If chkApproved.Checked And chkApproved.Enabled Then
+                            If chkAcknowledgeEmail.Checked Then
 
-                                    chkinitial.Value = "L"
+                                If totalClaimValue > totalLimit Or hdUsrLimitAmt.Value.ToUpper().Equals(hdCLMuser.Value.Trim().ToUpper()) Then   ' el valor del claim es mayor que el limite del usuario logueado
+                                    'If totalClaimValue <= dbLimit Then
                                     BuildDates()
-                                    'datenow = Now().Date().ToString() 'force  yyyy-mm-dd
-                                    'hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                                    'Dim datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                                    'Dim hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
+                                    chkinitial.Value = "K"
 
-                                    Dim rsFinalUpd = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
-                                    If rsFinalUpd > 0 Then
+                                    'Dim dsCheck As DataSet = New DataSet()
+                                    'Dim check = objBL.GetIfIntStatusExist(wrnNo, chkinitial.Value, dsCheck)
+                                    'If check = 0 Then
+                                    Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                                    If rsIns > 0 Then
+                                        chkApproved.Enabled = False
+                                        chkDeclined.Enabled = False
+                                        chkClaimCompleted.Enabled = False
+                                        txtClaimCompletedDate.Text = datenow
+                                        txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+                                        txtClaimCompleted.Enabled = False
+                                        txtClaimCompletedDate.Enabled = False
 
-                                        Dim dsOverEmail = New DataSet()
-                                        Dim rsOverEmail = objBL.getOverEmailMsg(wrnNo, "B", dsOverEmail)
-                                        If rsOverEmail > 0 Then
-                                            If dsOverEmail IsNot Nothing Then
-                                                If dsOverEmail.Tables(0).Rows.Count > 0 Then
-                                                    Dim flagOverEmail = dsOverEmail.Tables(0).Rows(0).Item("INOVREMLST").ToString().Trim()
-                                                    If String.IsNullOrEmpty(flagOverEmail) Then
+                                        chkinitial.Value = "L"
+                                        BuildDates()
+                                        'datenow = Now().Date().ToString() 'force  yyyy-mm-dd
+                                        'hournow = Now().TimeOfDay().ToString() ' force to hh:nn:ss
 
-                                                        Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
-                                                        Dim messageOut As String = Nothing
-                                                        If objEmail IsNot Nothing Then
-                                                            'email for ask for auth over 500
-                                                            Dim bresult As Boolean = False
-                                                            If totalClaimValue <= dbLimit Then
-                                                                bresult = PrepareEmail(objEmail, "0", messageOut)
+                                        Dim rsFinalUpd = objBL.UpdateWIntFinalStat(wrnNo, "I", chkinitial.Value)
+                                        If rsFinalUpd > 0 Then
+
+                                            Dim dsOverEmail = New DataSet()
+                                            Dim rsOverEmail = objBL.getOverEmailMsg(wrnNo, "B", dsOverEmail)
+                                            If rsOverEmail > 0 Then
+                                                If dsOverEmail IsNot Nothing Then
+                                                    If dsOverEmail.Tables(0).Rows.Count > 0 Then
+                                                        Dim flagOverEmail = dsOverEmail.Tables(0).Rows(0).Item("INOVREMLST").ToString().Trim()
+                                                        If String.IsNullOrEmpty(flagOverEmail) Then
+
+                                                            Dim objEmail = DirectCast(Session("emailObj"), ClaimEmailObj)
+                                                            Dim messageOut As String = Nothing
+                                                            If objEmail IsNot Nothing Then
+                                                                'email for ask for auth over 500
+                                                                Dim bresult As Boolean = False
+                                                                If totalClaimValue <= dbLimit Then
+                                                                    bresult = PrepareEmail(objEmail, "0", messageOut)
+                                                                Else
+                                                                    bresult = PrepareEmail(objEmail, "3", messageOut)
+                                                                End If
+
+                                                                If Not bresult Then
+                                                                    strMessage += messageOut
+                                                                End If
+                                                            End If
+                                                            'send email
+
+                                                            chkApproved.Enabled = False
+                                                            chkDeclined.Enabled = False
+
+                                                            Dim rsUpdOverEmail = objBL.UpdateWOverEmailStat(wrnNo, "B", "Y")
+                                                            If rsUpdOverEmail > 0 Then
+                                                                result = True
                                                             Else
-                                                                bresult = PrepareEmail(objEmail, "3", messageOut)
+                                                                'error log
+                                                                strMessage = "There is an error updating the Warranty Claim Flag for email status for Warning Number: " + wrnNo + "."
+                                                                Return result
                                                             End If
-
-                                                            If Not bresult Then
-                                                                strMessage += messageOut
-                                                            End If
-                                                        End If
-                                                        'send email
-
-                                                        chkApproved.Enabled = False
-                                                        chkDeclined.Enabled = False
-
-                                                        Dim rsUpdOverEmail = objBL.UpdateWOverEmailStat(wrnNo, "B", "Y")
-                                                        If rsUpdOverEmail > 0 Then
-                                                            result = True
                                                         Else
-                                                            'error log
-                                                            strMessage = "There is an error updating the Warranty Claim Flag for email status for Warning Number: " + wrnNo + "."
-                                                            Return result
+                                                            result = True
                                                         End If
                                                     Else
-                                                        result = True
+                                                        strMessage = "There is an error getting the flag for email message for the Warning Number: " + wrnNo + "."
+                                                        Return result
                                                     End If
                                                 Else
                                                     strMessage = "There is an error getting the flag for email message for the Warning Number: " + wrnNo + "."
@@ -7673,39 +7700,37 @@ Public Class CustomerClaims
                                                 Return result
                                             End If
                                         Else
-                                            strMessage = "There is an error getting the flag for email message for the Warning Number: " + wrnNo + "."
+                                            'error log
+                                            strMessage = "There is an error updating the Warranty Claim Internal Status for Warning Number: " + wrnNo + "."
                                             Return result
                                         End If
                                     Else
                                         'error log
-                                        strMessage = "There is an error updating the Warranty Claim Internal Status for Warning Number: " + wrnNo + "."
-                                        Return result
+                                        If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                                            strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
+                                            Return result
+                                        End If
                                     End If
-                                Else
-                                    'error log
-                                    If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
-                                        strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
-                                        Return result
-                                    End If
-                                End If
-                                'End If
+                                    'End If
 
-                                'End If
+                                    'End If
+                                Else
+                                    strMessage = "The Claim Amount must be more than the configured limit for the current user in order to send an email. Total Amount: " + totalClaimValue.ToString() +
+                                    ". Configured Limit: " + totalLimit.ToString() + ". The email to request authorization to approve the credit has been sent."
+                                    result = True
+                                    Return result
+                                End If
+
                             Else
-                                strMessage = "The Claim Amount must be more than the configured limit for the current user in order to send an email. Total Amount: " + totalClaimValue.ToString() +
-                                ". Configured Limit: " + totalLimit.ToString() + ". The email to request authorization to approve the credit has been sent."
-                                result = True
+                                strMessage = "The Acknowledgement Email has to be sent before to approve the claim."
                                 Return result
                             End If
-
-                        Else
-                            strMessage = "The Acknowledgement Email has to be sent before to approve the claim."
-                            Return result
                         End If
+                    Else
+                        strMessage = "The limit value for MG is not valid. "
+                        Return result
                     End If
-                Else
-                    strMessage = "The limit value for MG is not valid. "
-                    Return result
+
                 End If
 
             End Using
@@ -8176,6 +8201,9 @@ Public Class CustomerClaims
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
                 Dim optControl = DirectCast(Session("currentCtr"), String)
+
+                'add validation
+
                 If chkDeclined.Checked And chkDeclined.Enabled = True Then
                     If Not String.IsNullOrEmpty(optControl) Then
                         If ((LCase(optControl)).Contains("btnsavetab")) Then
@@ -13774,6 +13802,9 @@ Public Class CustomerClaims
                             Next
                         End If
                     End If
+
+                    Dim bState = dsInternal.Tables(0).AsEnumerable().Any(Function(oo) UCase(oo.Item("INSTAT").ToString()).Trim().Equals("C") Or UCase(oo.Item("INSTAT").ToString()).Trim().Equals("K"))
+                    Session("onlyUpdate") = bState
                 End If
             End Using
         Catch ex As Exception

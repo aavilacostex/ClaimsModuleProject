@@ -2327,7 +2327,7 @@
                                                                 <asp:Label ID="lblApproved" CssClass="control-label" Text="Approved" runat="server" />
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <asp:CheckBox ID="chkApproved" AutoPostBack="true" runat="server" />
+                                                                <asp:CheckBox ID="chkApproved" AutoPostBack="true" CssClass="form-control"  OnCheckedChanged="chkApproved_CheckedChange" runat="server" />
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <asp:Label ID="lblDeclined" CssClass="control-label" Text="Declined" runat="server" />

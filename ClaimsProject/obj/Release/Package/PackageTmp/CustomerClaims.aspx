@@ -1410,7 +1410,7 @@
 
                                             <div class="form-row last">
                                                 <div class="col-md-6">
-                                                    <asp:Button ID="btnRestock" Text="Re-Stock Part" OnClick="btnRestock_Click" CssClass="btn btn-primary" runat="server" />
+                                                    <asp:Button ID="btnRestock" Text="Re-Stock Part" Enabled="False" OnClick="btnRestock_Click" CssClass="btn btn-primary" runat="server" />
                                                 </div>
                                                 <div class="col-md-6">
                                                     <asp:Button ID="btnUndoRestock" Text="Undo Re-Stock" OnClick="btnUndoRestock_Click" CssClass="btn btn-primary" runat="server" />
@@ -2698,7 +2698,7 @@
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-6" style="text-align:right !important;">
-                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " class="btn btn-primary btn-md btnMidSize" Enabled="false" OnClick="BtnSaveRestock_click" runat="server" />
+                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnSaveRestock_click" runat="server" />
                                                 </div>
                                                 <div class="col-md-6" style="text-align:left !important;">
                                                     <asp:Button ID="BtnBackRestock" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackRestock_click" runat="server" />
@@ -3827,6 +3827,7 @@
             $('#MainContent_txtCDLabor').attr('disabled', 'disabled');            
 
             $('#MainContent_btnGetTotalCDValue').attr('disabled', 'disabled');  
+            $('#MainContent_btnSaveTab').removeClass('disableCtr');
             
 
            // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
