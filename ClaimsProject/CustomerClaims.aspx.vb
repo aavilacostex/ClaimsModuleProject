@@ -2065,9 +2065,68 @@ Public Class CustomerClaims
 
     Protected Sub BtnSaveRestock_click(sender As Object, e As EventArgs) Handles BtnSaveRestock.Click
         Dim exMessage As String = " "
+        Dim codComment As Integer = 0
+        Dim codDetComment As Integer = 1
         Try
             'lblTextEditorInfoCust.Text = txtEditorExtender2.Text
-            hdTextEditorInfoCustMessage.Value = txtEditorExtender2.Text
+            'hdTextEditorInfoCustMessage.Value = txtEditorExtender2.Text
+
+            Dim useridRstk = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "NA")
+            Dim rstkDate As String = Now().Date().ToString("yyyy-MM-dd")
+            Dim rstkTime As String = Now().TimeOfDay().ToString().Split(".")(0)
+
+            If Not useridRstk.Equals("NA") Then
+
+                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                    'fill the current restock table
+                    Dim rsInsert1 = objBL.InsertRestock(txtPartNoData.Text.Trim().ToUpper(), txtCurLoc.Text.Trim(), txtInvoiceNo.Text.Trim(),
+                                                        txtCustomerData.Text.Trim(), "10", useridRstk, txtClaimNoData.Text.Trim())
+                    If rsInsert1 > 0 Then
+
+                        'send to print
+                        Dim rsCallRpg = objBL.CallRestockRPG(useridRstk)
+                        If rsCallRpg > 0 Then
+
+                            'delete the current restock for current user
+                            Dim rsDelRestock = objBL.DeleteRestockTempData(useridRstk)
+                            If rsDelRestock > 0 Then
+
+                                'comments insertion
+                                codComment = objBL.getmax("QS36F.CLMCOMH", "CNWHCO") + 1
+                                Dim rsComHead = objBL.InsertRgaClaimCommHeader(hdSeq.Value, codComment, rstkDate, rstkTime,
+                                                                                "WARRANTY RESTOCK APPROVED", useridRstk)
+                                If rsComHead > 0 Then
+
+                                    Dim rsComDet = objBL.InsertRgaClaimCommDetails(hdSeq.Value, codComment, codDetComment, "WARRANTY RESTOCK WAS APPROVED BY USER", rstkDate,
+                                                                                   rstkTime, useridRstk, txtPartNoData.Text.Trim())
+                                    If rsComDet > 0 Then
+                                        'todo ok completo
+                                        Dim a = rsComDet
+                                    Else
+
+                                    End If
+
+                                End If
+
+
+                            Else
+
+                            End If
+
+                        Else
+
+                        End If
+
+                    Else
+
+                    End If
+
+                End Using
+
+            Else
+
+            End If
 
             hdAckPopContent.Value = "0"
             hdInfoCustContent.Value = "0"
@@ -6694,7 +6753,7 @@ Public Class CustomerClaims
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                If Not String.IsNullOrEmpty(txtModel1.Text.Trim()) And Not String.IsNullOrEmpty(txtSerial1.Text.Trim()) And Not String.IsNullOrEmpty(txtArrangement1.Text.Trim()) Then
+                If Not String.IsNullOrEmpty(txtModel1.Text.Trim()) Or Not String.IsNullOrEmpty(txtSerial1.Text.Trim()) Or String.IsNullOrEmpty(txtArrangement1.Text.Trim()) Then
                     Dim dsEngineInfo = New DataSet()
                     Dim rsEngineInfo = objBL.getEngineInfo(wrnNo, dsEngineInfo)
                     If rsEngineInfo > 0 Then
@@ -10720,20 +10779,16 @@ Public Class CustomerClaims
 
                                         Dim lstAuth = DirectCast(Session("LstObj500to1500"), List(Of ClaimObj500To1500User))
                                         Dim aa = lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower()))
-
                                         If lstAuth.AsEnumerable().Any(Function(a) Trim(a.CLMuser.ToLower()).Equals(Session("userid").ToString().ToLower())) Or Session("userid").ToString().ToUpper() = UCase(hdCLMuser.Value) Then
 
                                             GetAuthForSalesOver500(hdSeq.Value.Trim())
-
                                             'txtClaimAuthDate.Text = Now.AddDays(-1021).ToShortDateString()  ??
                                         Else
+                                            GetAuthForSalesOver500(hdSeq.Value.Trim(), False)
                                             txtAmountApproved.Text = ""
                                             txtAmountApproved.Enabled = False
                                             chkClaimAuth.Enabled = False
-                                            chkClaimAuth.Checked = False
-                                            txtClaimAuth.Text = ""
                                             txtClaimAuth.Enabled = False
-                                            txtClaimAuthDate.Text = ""
                                             txtClaimAuthDate.Enabled = False
                                         End If
 
@@ -13844,7 +13899,7 @@ Public Class CustomerClaims
         End Try
     End Sub
 
-    Public Sub GetAuthForSalesOver500(value As String)
+    Public Sub GetAuthForSalesOver500(value As String, Optional flagOk As Boolean = True)
         Dim ds = New DataSet()
         Dim bContinue As Boolean = False
         Try
@@ -13886,7 +13941,7 @@ Public Class CustomerClaims
                     bContinue = True
                 End If
 
-                If bContinue Then
+                If bContinue And flagOk Then
 
                     Dim dbTotal As Double = 0
                     Dim dbConf As Double = 0

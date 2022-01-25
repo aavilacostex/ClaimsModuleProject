@@ -353,7 +353,6 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-
     Public Function getReasonDescByCode(code As String, ByRef dsResult As DataSet) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1
@@ -1518,6 +1517,39 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+#Region "RGA Comments"
+
+    Public Function InsertRgaClaimCommHeader(code As String, cod_comment As String, commDate As String, commTime As String, commSubject As String, commUser As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "insert into qs36f.CLMCOMH(CNWRNO,CNWHCO,CNWHDA,CNWHTI,CNWHSU,USUSER,CNWHFL) values(" &
+                                    code & ", " & cod_comment & ", '" & commDate & "', '" & commTime & "', '" &
+                                    commSubject & "', '" & commUser & "', 'I')"
+            'objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+    Public Function InsertRgaClaimCommDetails(code As String, cod_comment As String, cod_detcomment As String, commSubject As String, commPartNo As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "insert into qs36f.CLMCOMD(CNWRNO,CNWCCO,CNWCDCO,CNWCDTX,CNWPTNO) values(" & code & ", " & cod_comment & ", '" &
+                    commSubject & "', '" & commPartNo & "')"
+            'objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
+#End Region
+
 
 #End Region
 
@@ -1932,6 +1964,18 @@ Public Class ClaimsProject : Implements IDisposable
 
 #Region "Deletes"
 
+    Public Function DeleteRestockTempData(user As String) As Integer
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim Sql = "DELETE FROM qs36f.RETINPF WHERE RTWKST = 'frmclaimse' And RTUSER ='" & user & "'"
+            'objDatos.DeleteRecordFromDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
+
     Public Function DeleteFromIntStatus(wrno As String, sts As String) As Integer
         Dim affectedRows As Integer = -1
         Try
@@ -1948,6 +1992,24 @@ Public Class ClaimsProject : Implements IDisposable
 #End Region
 
 #Region "Imported Method"
+
+    Public Function CallRestockRPGProcess(user As String) As Integer
+        Dim Sql As String
+        Dim ds As New DataSet()
+        ds.Locale = CultureInfo.InvariantCulture
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            Dim dsOut = New DataSet()
+            Sql = "CALL CTPINV.CRTRTKWC ('" & user & "','frmclaimse')"
+            'affectedRows = objDatos.GetDataFromDatabase(Sql, dsOut, dt)
+            'result = objDatos.GetOdBcDataFromDatabase(Sql, ds)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
+        End Try
+    End Function
 
     Public Function MoveRGAToHistoric2(param2 As String, custName As String, custNo As String, code As String) As Data.DataSet
         Dim Sql As String
@@ -2179,6 +2241,21 @@ Public Class ClaimsProject : Implements IDisposable
             Return result
         Catch ex As Exception
             Return result
+        End Try
+    End Function
+
+    Public Function InsertRestock(partNo As String, loc As String, invNo As String, custNo As String, wqtyRet2 As String, user As String, claimNo As String) As Integer
+        Dim Sql As String
+        Dim affectedRows As Integer = -1
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Sql = "INSERT INTO qs36f.RETINPF (RTSHNO, RTSHPC, RTCKNO, RTCKPC, RTPTNO, RTLOCN, RTINOR, RTCUNO, RTPRC  ,RTQTY, RTTSL, RTSEQ#, RTDATE, RTTIME, RTUSER, RTWKST, RTNORD, RTNOSQ, RTCLM#) VALUES" &
+                "(0,0,0,0,'" + partNo + "', " + loc + ",'" + invNo + "', " + custNo + ", 0.00, " + wqtyRet2 + ",0,0,'" + Now().Date.ToString("yyyy-MM-dd") + "','" + Now().TimeOfDay().ToString("hh:mm:ss") + "' &_
+                ,'" + user + "','" + "frmclaimse" + "',0,0," + claimNo + ")"
+            'objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Return affectedRows
+        Catch ex As Exception
+            Return affectedRows
         End Try
     End Function
 

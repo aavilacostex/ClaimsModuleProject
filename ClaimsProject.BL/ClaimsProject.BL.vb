@@ -635,6 +635,35 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+
+#Region "RGA Comments"
+
+    Public Function InsertRgaClaimCommHeader(code As String, cod_comment As String, commDate As String, commTime As String, commSubject As String, commUser As String)
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.InsertRgaClaimCommHeader(code, cod_comment, commDate, commTime, commSubject, commUser)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function InsertRgaClaimCommDetails(code As String, cod_comment As String, cod_detcomment As String, commSubject As String, commDate As String, commTime As String, commUser As String, commPartNo As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            Dim str = ": " + commUser + " ON " + commDate + " AT " + commTime + "."
+            commSubject += str
+            result = objDal.InsertRgaClaimCommDetails(code, cod_comment, cod_detcomment, commSubject, commPartNo)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+#End Region
+
 #End Region
 
 #Region "Inserts"
@@ -949,6 +978,22 @@ Public Class ClaimsProject : Implements IDisposable
 #End Region
 
 #Region "DELETES"
+
+    Public Function DeleteRestockTempData(user As String) As Integer
+        Dim exMessage As String = Nothing
+        Dim result As Integer = -1
+        Dim sql As String = " "
+        'Dim maxItem As Integer
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.DeleteRestockTempData(user)
+            Return result
+
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
 
     Public Function DeleteFromIntStatus(wrno As String, sts As String) As Integer
         Dim exMessage As String = Nothing
@@ -1981,6 +2026,32 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDal = New DAL.ClaimsProject()
             result = objDal.GetRestockAmtByClaimPartCust(claimno, partno, custno, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
+    Public Function InsertRestock(partNo As String, loc As String, invNo As String, custNo As String, wqtyRet2 As String, user As String, claimNo As String) As Integer
+        Dim exMessage As String = Nothing
+        Dim result As Integer = -1
+        Dim sql As String = " "
+        'Dim maxItem As Integer
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.InsertRestock(partNo, loc, invNo, custNo, wqtyRet2, user, claimNo)
+            Return result
+        Catch ex As Exception
+            exMessage = ex.ToString + ". " + ex.Message + ". " + ex.ToString
+            Return result
+        End Try
+    End Function
+
+    Public Function CallRestockRPG(user As String) As Integer
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.CallRestockRPGProcess(user)
             Return result
         Catch ex As Exception
             Return result

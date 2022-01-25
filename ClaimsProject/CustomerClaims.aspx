@@ -2698,7 +2698,7 @@
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-6" style="text-align:right !important;">
-                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " class="btn btn-primary btn-md btnMidSize" Enabled="false" OnClick="BtnSaveRestock_click" runat="server" />
+                                                    <asp:Button ID="BtnSaveRestock" Text="   Save   " enabled="false" class="btn btn-primary btn-md btnMidSize" OnClick="BtnSaveRestock_click" runat="server" />
                                                 </div>
                                                 <div class="col-md-6" style="text-align:left !important;">
                                                     <asp:Button ID="BtnBackRestock" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackRestock_click" runat="server" />
@@ -3827,6 +3827,7 @@
             $('#MainContent_txtCDLabor').attr('disabled', 'disabled');            
 
             $('#MainContent_btnGetTotalCDValue').attr('disabled', 'disabled');  
+            $('#MainContent_btnSaveTab').removeClass('disableCtr');
             
 
            // $('#<%=lnkInitialReview.ClientID %>').removeClass('aspNetDisabled');
