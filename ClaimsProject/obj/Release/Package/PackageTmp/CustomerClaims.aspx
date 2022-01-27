@@ -10,7 +10,8 @@
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchReason" />
             <asp:AsyncPostBackTrigger ControlID ="ddlSearchDiagnose" />
             <asp:AsyncPostBackTrigger ControlID ="ddlDiagnoseData"  />
-            <asp:AsyncPostBackTrigger ControlID ="ddlLocation"  />            
+            <asp:AsyncPostBackTrigger ControlID ="ddlLocation"  />  
+            <asp:AsyncPostBackTrigger ControlID ="ddlLocRstk"  />
             <asp:AsyncPostBackTrigger ControlID = "chkConsDamage" />
             <asp:AsyncPostBackTrigger ControlID = "chkPCred" />
             <asp:PostBackTrigger ControlID="btnSaveFile" />
@@ -802,6 +803,7 @@
                     <asp:HiddenField ID="hdSelectedDiagnose" Value="0" runat="server" />
                     <asp:HiddenField ID="hdSelectedDiagnoseIndex" Value="0" runat="server" />
                     <asp:HiddenField ID="hdLocationSelected" Value="0" runat="server" />
+                    <asp:HiddenField ID="hdLocationRstkSelected" Value="0" runat="server" />
 
                     <asp:HiddenField ID="hdVendorClaimNo" Value="" runat="server" />
                     <asp:HiddenField ID="hdDisplaySeeVndClaim" Value="0" runat="server" /> <!-- To execute the grid events after postback see panels --> 
@@ -819,6 +821,7 @@
                     <asp:HiddenField id="hdVendorNo" Value="" runat="server" />
                     <asp:HiddenField id="hdLocatNo" Value="" runat="server" />
                     <asp:HiddenField id="hdLocatIndex" Value="" runat="server" />
+                    <asp:HiddenField id="hdLocatRstkIndex" Value="" runat="server" />
                     <asp:HiddenField id="hdClaimNumber" Value="" runat="server" />
                     <asp:HiddenField id="hdPartialCredits" Value="" runat="server" />
 
@@ -2519,33 +2522,91 @@
             </div>
 
             <asp:Label runat="server" ID="dummylabel1"></asp:Label>
-            <div id="seeFilesSection" class="container hideProp" runat="server">                               
+            <div id="seeFilesSection" class="container hideProp" runat="server">   
+                
+                <asp:Panel ID="pnOut" runat="server">
 
-                <div id="filesPanel" runat="server">
-                    <div id="pnDiv" class="row" runat="server">
-                        <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles1" runat="server">
-                        </asp:Panel>
-                    </div>
-
-                    <div class="row" style="background-color: #F7F7FD;padding: 15px 0;">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
+                    <div class="table">
+                        <div class="d-md-table-row">
                             <div class="row">
-                                <div class="col-md-6" style="float: right; text-align: right !important;">
-                                    <asp:Button ID="Button2" Text="Upload" class="btn btn-primary btn-lg btnFullSize" Visible="false" runat="server" />
+                                <div class="col-md-12">
+                                    <span id="seeFilesHeader" runat="server">
+                                        <p style="color: white; background-color: black; margin: 0;text-align:center;">
+                                            <asp:Label ID="lblClaimNoInfo" Text="" runat="server"></asp:Label>
+                                        </p>
+                                    </span>
                                 </div>
-                                <div class="col-md-6" style="float: left;">
-                                    <asp:Button ID="BtnBackSeeFiles" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles_click" OnClientClick="setVisSeeFile(); return false" runat="server" />
+                            </div>                            
+                        </div>
+                        <div class="d-md-table-row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="filesPanel" style="border: 10px solid #feedcd;" runat="server">
+                                        <div id="pnDiv" class="row" style="margin: 0 auto;" runat="server">
+                                            <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles1" runat="server">
+                                            </asp:Panel>
+                                        </div>
+
+                                        <div class="row hideProp">
+                                            <asp:LinkButton ID="btnSeeFileMsg" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="d-md-table-row">
+                            <div class="row" style="margin: 0 auto;">
+                                <div class="col-md-12 text-center lr0">
+                                    <asp:Button ID="BtnBackSeeFiles" Text="   Close   " class="boxed-btn-layout btn-sm btn-rounded" OnClick="BtnBackSeeFiles_click" OnClientClick="setVisSeeFile(); return false" runat="server" />
+                                    <%--<div class="row">
+                                        <div class="col-md-6" style="float: right; text-align: right !important;">
+                                            <asp:Button ID="Button2" Text="Upload" class="btn btn-primary btn-lg btnFullSize" Visible="false" runat="server" />
+                                        </div>
+                                        <div class="col-md-12" style="float: left;">                                            
+                                        </div>
+                                    </div>--%>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
-                    </div> 
-                    
-                    <div class="row hideProp">
-                        <asp:LinkButton ID="btnSeeFileMsg" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
                     </div>
-                </div>
+
+                    <%--<div class="row col-md-12">
+                        <span id="spnFilesPanel" runat="server">claimNo : 1588263
+                        </span>
+                    </div>--%>
+                      <%--<div class="row col-md-12">
+                        <div id="filesPanel" runat="server">
+                            <div id="pnDiv" class="row" runat="server">
+                                <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles1" runat="server">
+                                </asp:Panel>
+                            </div>
+
+                            <div class="row" style="background-color: #F7F7FD; padding: 15px 0;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-6" style="float: right; text-align: right !important;">
+                                            <asp:Button ID="Button2" Text="Upload" class="btn btn-primary btn-lg btnFullSize" Visible="false" runat="server" />
+                                        </div>
+                                        <div class="col-md-6" style="float: left;">
+                                            <asp:Button ID="BtnBackSeeFiles" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles_click" OnClientClick="setVisSeeFile(); return false" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+
+                            <div class="row hideProp">
+                                <asp:LinkButton ID="btnSeeFileMsg" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                            </div>
+                        </div>
+                    </div>--%>
+                    <%--<div class="row col-md-12">
+                        <asp:Button ID="btnCloseSeeFilesPanel" CssClass="btn btn-primary" runat="server" />
+                    </div>--%>
+
+                </asp:Panel>   
+                
             </div>
 
             <asp:Label runat="server" ID="dummylabel2"></asp:Label>
@@ -2563,7 +2624,38 @@
                                 <div class="row">
                                     <div class="col-md-12 padding0">
                                         <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
-                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="false" runat="server"></Atk:HtmlEditorExtender>
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="false" runat="server"
+                                            OnImageUploadComplete="MyHtmlEditorExtender_ImageUploadComplete" >
+                                            <Toolbar>
+                                                <ajaxToolkit:Bold />
+                                                <ajaxToolkit:Italic />
+                                                <ajaxToolkit:Underline />
+                                                <ajaxToolkit:StrikeThrough />
+                                                <ajaxToolkit:Subscript />
+                                                <ajaxToolkit:Superscript />
+                                                <ajaxToolkit:JustifyLeft />
+                                                <ajaxToolkit:JustifyCenter />
+                                                <ajaxToolkit:JustifyRight />
+                                                <ajaxToolkit:JustifyFull />
+                                                <ajaxToolkit:InsertOrderedList />
+                                                <ajaxToolkit:InsertUnorderedList />
+                                                <ajaxToolkit:CreateLink />
+                                                <ajaxToolkit:UnLink />
+                                                <ajaxToolkit:RemoveFormat />
+                                                <ajaxToolkit:Cut />
+                                                <ajaxToolkit:Copy />
+                                                <ajaxToolkit:Paste />
+                                                <ajaxToolkit:BackgroundColorSelector />
+                                                <ajaxToolkit:ForeColorSelector />
+                                                <ajaxToolkit:FontNameSelector />
+                                                <ajaxToolkit:FontSizeSelector />
+                                                <ajaxToolkit:Indent />
+                                                <ajaxToolkit:Outdent />
+                                                <ajaxToolkit:InsertHorizontalRule />
+                                                <ajaxToolkit:HorizontalSeparator />
+                                                <ajaxToolkit:InsertImage />
+                                            </Toolbar>
+                                        </Atk:HtmlEditorExtender>
                                     </div>
                                 </div>
                             </div>                           
@@ -2641,7 +2733,7 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <asp:Panel ID="pnRestockPanel" GroupingText="Re-Stock Process" CssClass="pnFilterStyles1" style="width:70% !important;" runat="server">
+                            <asp:Panel ID="pnRestockPanel" GroupingText="Re-Stock Process" CssClass="pnFilterStyles1" style="width:90% !important;" runat="server">
                                 <div id="pn4Div" class="row" style="padding: 10px 0;" runat="server">
                                     <div class="col-md-6 pt-3" style="border-right: 2px dotted #fbba42;">
                                         <div class="row">
@@ -2650,8 +2742,10 @@
                                             </div>
                                         </div>
                                         <div class="row pt-3">
-                                            <div class="col-md-12">
-                                                <asp:Panel ID="pnRstkQty" runat="server">
+                                            <div class="col-md-12 text-center">
+                                                <asp:Label ID="lblClRstk" Text="In Claim" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtClRstk" CssClass="form-control custom-rstk-css-input" Enabled="false" runat="server"></asp:TextBox>
+                                                <%--<asp:Panel ID="pnRstkQty" runat="server">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <asp:Label ID="lblAvRstk" Text="Available" CssClass="control-label" runat="server"></asp:Label>
@@ -2662,7 +2756,7 @@
                                                             <asp:TextBox ID="txtClRstk" CssClass="form-control" Enabled="false" runat="server"></asp:TextBox>
                                                         </div>
                                                     </div>
-                                                </asp:Panel>
+                                                </asp:Panel>--%>
                                             </div>
                                         </div>
                                         <div class="row pt-3">                                            
@@ -2687,7 +2781,7 @@
                                         <div class="row pt-3">                                            
                                             <div class="col-md-12 text-center">
                                                 <asp:Label ID="lblLocRstk" Text="To Restock" CssClass="control-label" runat="server"></asp:Label>
-                                                <asp:DropDownList ID="ddlLocRstk" OnSelectedIndexChanged="ddlLocRstk_SelectedIndexChanged" AutoPostBack="false" CssClass="form-control custom-rstk-css-input" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlLocRstk" OnSelectedIndexChanged="ddlLocRstk_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control custom-rstk-css-input" EnableViewState="true" ViewStateMode="Enabled" runat="server"></asp:DropDownList>
                                             </div>                                            
                                         </div>
                                     </div>
@@ -2815,23 +2909,23 @@
             </asp:Panel>
 
             <Atk:ModalPopupExtender ID="popAjUpLog" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
-                PopupControlID="panLogin" CancelControlID="btnBackFile">
+                PopupControlID="panLogin" CancelControlID="btnBackFile" BackgroundCssClass="modalBackground">
             </Atk:ModalPopupExtender>
 
             <Atk:ModalPopupExtender ID="popSeeFiles" runat="server" TargetControlID="dummylabel1" BehaviorID="popupCopyCtrl"
-                PopupControlID="filesPanel" CancelControlID="BtnBackSeeFiles"  >
+                PopupControlID="pnOut" CancelControlID="BtnBackSeeFiles" BackgroundCssClass="modalBackground" >
             </Atk:ModalPopupExtender>
 
             <Atk:ModalPopupExtender ID="popAckEmail" runat="server" TargetControlID="dummylabel2" BehaviorID="popupCopyCtrl"
-                PopupControlID="ackEmailP" CancelControlID="BtnBackSeeFiles1"  >
+                PopupControlID="ackEmailP" CancelControlID="BtnBackSeeFiles1" BackgroundCssClass="modalBackground" >
             </Atk:ModalPopupExtender>
 
             <Atk:ModalPopupExtender ID="popInfoCust" runat="server" TargetControlID="dummylabel3" BehaviorID="popupCopyCtrl"
-                PopupControlID="infoCustP" CancelControlID="BtnBackSeeFiles2"  >
+                PopupControlID="infoCustP" CancelControlID="BtnBackSeeFiles2" BackgroundCssClass="modalBackground" >
             </Atk:ModalPopupExtender>
 
             <Atk:ModalPopupExtender ID="popRestock" runat="server" TargetControlID="dummylabel4" BehaviorID="popupCopyCtrl"
-                PopupControlID="rstkPanel" CancelControlID="BtnBackRestock"  >
+                PopupControlID="rstkPanel" CancelControlID="BtnBackRestock" BackgroundCssClass="modalBackground" >
             </Atk:ModalPopupExtender>
 
             <br />
@@ -4424,7 +4518,21 @@
             var value1 = document.getElementById("<%=ddlSearchReason.ClientID %>").id;
             $('#<%=selectedFilter.ClientID %>').val(value1);             
             
-         });        
+        }); 
+
+        $('body').on('change', "#<%=ddlLocRstk.ClientID %>", function () {
+            //debugger
+
+            var value = document.getElementById("<%=ddlLocRstk.ClientID %>");
+            var gettext = value.options[value.selectedIndex].text;
+            var getindex = value.options[value.selectedIndex].value;
+            $('#<%=hdLocatRstkIndex.ClientID %>').val(getindex);  
+            $('#<%=hdLocationRstkSelected.ClientID %>').val(gettext);
+
+            <%--var value1 = document.getElementById("<%=ddlSearchReason.ClientID %>").id;
+            $('#<%=selectedFilter.ClientID %>').val(value1);--%>
+
+        });    
 
         function checkHdImportExcel(control) {
             var hdFile = document.getElementById('<%=hdFileImportFlag.ClientID%>').value

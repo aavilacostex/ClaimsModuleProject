@@ -1139,6 +1139,15 @@ Partial Public Class CustomerClaims
     Protected WithEvents hdLocationSelected As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hdLocationRstkSelected control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdLocationRstkSelected As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''hdVendorClaimNo control.
     '''</summary>
     '''<remarks>
@@ -1254,6 +1263,15 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdLocatIndex As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hdLocatRstkIndex control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdLocatRstkIndex As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
     '''hdClaimNumber control.
@@ -4073,6 +4091,33 @@ Partial Public Class CustomerClaims
     Protected WithEvents seeFilesSection As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''pnOut control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnOut As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''seeFilesHeader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents seeFilesHeader As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''lblClaimNoInfo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblClaimNoInfo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''filesPanel control.
     '''</summary>
     '''<remarks>
@@ -4100,13 +4145,13 @@ Partial Public Class CustomerClaims
     Protected WithEvents pnFilesPanel As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Button2 control.
+    '''btnSeeFileMsg control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnSeeFileMsg As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''BtnBackSeeFiles control.
@@ -4116,15 +4161,6 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents BtnBackSeeFiles As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''btnSeeFileMsg control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSeeFileMsg As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''dummylabel2 control.
@@ -4197,6 +4233,24 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents htmlEditorExtender1 As Global.AjaxControlToolkit.HtmlEditorExtender
+
+    '''<summary>
+    '''lnkAttachFile control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkAttachFile As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''lblAttachedFiles control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAttachedFiles As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''btnSaveMessageAck control.
@@ -4368,33 +4422,6 @@ Partial Public Class CustomerClaims
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents pn4Div As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''pnRstkQty control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pnRstkQty As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''lblAvRstk control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblAvRstk As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtAvRstk control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtAvRstk As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''lblClRstk control.

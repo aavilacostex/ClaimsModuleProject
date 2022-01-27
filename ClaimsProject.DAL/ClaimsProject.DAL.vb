@@ -1527,7 +1527,7 @@ Public Class ClaimsProject : Implements IDisposable
             Sql = "insert into qs36f.CLMCOMH(CNWRNO,CNWHCO,CNWHDA,CNWHTI,CNWHSU,USUSER,CNWHFL) values(" &
                                     code & ", " & cod_comment & ", '" & commDate & "', '" & commTime & "', '" &
                                     commSubject & "', '" & commUser & "', 'I')"
-            'objDatos.InsertDataInDatabase(Sql, affectedRows)
+            objDatos.InsertDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
             Return affectedRows
@@ -1539,9 +1539,9 @@ Public Class ClaimsProject : Implements IDisposable
         Dim affectedRows As Integer = -1
         Try
             Dim objDatos = New ClsRPGClientHelper()
-            Sql = "insert into qs36f.CLMCOMD(CNWRNO,CNWCCO,CNWCDCO,CNWCDTX,CNWPTNO) values(" & code & ", " & cod_comment & ", '" &
+            Sql = "insert into qs36f.CLMCOMD(CNWRNO,CNWCCO,CNWCDCO,CNWCDTX,CNWPTNO) values(" & code & ", " & cod_comment & ", " & cod_detcomment & ", '" &
                     commSubject & "', '" & commPartNo & "')"
-            'objDatos.InsertDataInDatabase(Sql, affectedRows)
+            objDatos.InsertDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
             Return affectedRows
@@ -1969,7 +1969,7 @@ Public Class ClaimsProject : Implements IDisposable
         Try
             Dim objDatos = New ClsRPGClientHelper()
             Dim Sql = "DELETE FROM qs36f.RETINPF WHERE RTWKST = 'frmclaimse' And RTUSER ='" & user & "'"
-            'objDatos.DeleteRecordFromDatabase(Sql, affectedRows)
+            objDatos.DeleteRecordFromDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
             Return affectedRows
@@ -2003,7 +2003,7 @@ Public Class ClaimsProject : Implements IDisposable
             Dim dt As DataTable = New DataTable()
             Dim dsOut = New DataSet()
             Sql = "CALL CTPINV.CRTRTKWC ('" & user & "','frmclaimse')"
-            'affectedRows = objDatos.GetDataFromDatabase(Sql, dsOut, dt)
+            affectedRows = objDatos.GetDataFromDatabase(Sql, dsOut, dt)
             'result = objDatos.GetOdBcDataFromDatabase(Sql, ds)
             Return affectedRows
         Catch ex As Exception
@@ -2249,10 +2249,10 @@ Public Class ClaimsProject : Implements IDisposable
         Dim affectedRows As Integer = -1
         Try
             Dim objDatos = New ClsRPGClientHelper()
-            Sql = "INSERT INTO qs36f.RETINPF (RTSHNO, RTSHPC, RTCKNO, RTCKPC, RTPTNO, RTLOCN, RTINOR, RTCUNO, RTPRC  ,RTQTY, RTTSL, RTSEQ#, RTDATE, RTTIME, RTUSER, RTWKST, RTNORD, RTNOSQ, RTCLM#) VALUES" &
-                "(0,0,0,0,'" + partNo + "', " + loc + ",'" + invNo + "', " + custNo + ", 0.00, " + wqtyRet2 + ",0,0,'" + Now().Date.ToString("yyyy-MM-dd") + "','" + Now().TimeOfDay().ToString("hh:mm:ss") + "' &_
-                ,'" + user + "','" + "frmclaimse" + "',0,0," + claimNo + ")"
-            'objDatos.InsertDataInDatabase(Sql, affectedRows)
+            Sql = "INSERT INTO qs36f.RETINPF (RTSHNO, RTSHPC, RTCKNO, RTCKPC, RTPTNO, RTLOCN, RTINOR, RTCUNO, RTPRC  ,RTQTY, RTTSL, RTSEQ#, RTDATE, RTTIME, RTUSER, RTWKST, RTNORD, RTNOSQ, RTCLM#) 
+                   VALUES (0,0,0,0,'" + partNo + "', " + loc + ",'" + invNo + "', " + custNo + ", 0.00, " + wqtyRet2 + ",0,0,'" + Now().Date.ToString("yyyy-MM-dd") + "','" + Now().TimeOfDay().ToString().Split(".")(0) + "'
+                    ,'" + user + "','" + "frmclaimse" + "',0,0," + claimNo + ")"
+            objDatos.InsertDataInDatabase(Sql, affectedRows)
             Return affectedRows
         Catch ex As Exception
             Return affectedRows

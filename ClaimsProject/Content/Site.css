@@ -533,7 +533,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 .custom-rstk-css-input {
     margin: 0 auto !important;
-    width: 50% !important;
+    width: 60% !important;
     border-radius: 5px !important;
 }
 
@@ -1129,6 +1129,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     min-width: 50% !important;
 }
 
+#MainContent_lnkAttachFile {
+    height: auto !important;
+}
+
+#MainContent_lblAttachedFiles {
+    font-size: 10px;
+    font-weight: 700;    
+}
+
 .btnSmallSize {
     font-size: 11px !important;
     padding: 0 4px !important;
@@ -1598,9 +1607,48 @@ input[type="color"]:focus,
     font-weight: bold;
 }
 
+.modalBackground {
+    background-color: black;
+    opacity: 0.4;
+}
+
 .font-awesome-custom {
     color: white !important;
     font-size: 14px !important;
+}
+
+.lr0 {
+
+}
+
+#MainContent_seeFilesHeader > p, .d-md-table-row .lr0 {
+    color: white !important;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #fce4b6 !important;
+    border-bottom-color: transparent;
+    text-shadow: 1px 1px #404040;
+    background-image: linear-gradient( 180deg, #fcc969, #feedcd);
+    margin: 0;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 0 0 0;
+}
+
+.d-md-table-row .lr0 {
+    color: white !important;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #fce4b6 !important;
+    border-bottom-color: transparent;
+    text-shadow: 1px 1px #404040;
+    background-image: linear-gradient( 180deg, #feedcd, #fcc969);
+    margin: 0;
+    text-align: center;
+    border-radius: 0 0 8px 8px;
+    padding-bottom: 3px;
 }
 
 .btn {

@@ -17,6 +17,7 @@ Imports System.Management.Automation
 Imports ClaimsProject.DTO.ExtremeMirror
 Imports Outlook = Microsoft.Office.Interop.Outlook
 Imports System.Runtime.InteropServices
+Imports System.Net.Mime
 
 Public Class CustomerClaims
     Inherits System.Web.UI.Page
@@ -103,6 +104,7 @@ Public Class CustomerClaims
                 LoadDropDownLists(ddlVndNo)
                 LoadDropDownLists(ddlLocat)
                 LoadDropDownLists(ddlLocation)
+                LoadDropDownLists(ddlLocRstk)
 
                 If hdLoadAllData.Value.Equals("1") Then
                     fillClaimData("C", hdClNo.Value.Trim())
@@ -1116,18 +1118,18 @@ Public Class CustomerClaims
 
 #Region "Radios and checkboxes"
 
-    Public Sub chkApproved_CheckedChange(sender As Object, e As EventArgs) Handles chkApproved.CheckedChanged
-        Try
-            Dim cc = chkApproved.InputAttributes.CssStyle
-            Dim pp = cc
+    'Public Sub chkApproved_CheckedChange(sender As Object, e As EventArgs) Handles chkApproved.CheckedChanged
+    '    Try
+    '        Dim cc = chkApproved.InputAttributes.CssStyle
+    '        Dim pp = cc
 
-            Dim ff = lblApproved.Attributes("class")
-            Dim oo = ff
-        Catch ex As Exception
-            Dim a = ex.Message
-            Dim b = a
-        End Try
-    End Sub
+    '        Dim ff = lblApproved.Attributes("class")
+    '        Dim oo = ff
+    '    Catch ex As Exception
+    '        Dim a = ex.Message
+    '        Dim b = a
+    '    End Try
+    'End Sub
 
 
     Public Sub chkPCred_CheckedChanged(sender As Object, e As EventArgs)
@@ -1381,7 +1383,9 @@ Public Class CustomerClaims
             Dim a = ddlLocation.SelectedValue
             Dim b = ddlLocation.SelectedItem.Text
             Dim c = ddlLocation.SelectedItem.Value
+            Dim aa = hdLocatRstkIndex.Value
             txtCurLoc.Text = ddlLocRstk.SelectedValue
+            popRestock.Show()
         Catch ex As Exception
 
         End Try
@@ -2040,6 +2044,9 @@ Public Class CustomerClaims
             hdGridViewContent.Value = "0"
             hdNavTabsContent.Value = "1"
 
+            Dim srtDesc = If(Session("TotalFilesAttached") IsNot Nothing, DirectCast(Session("TotalFilesAttached"), Integer).ToString(), "")
+            lblAttachedFiles.Text = If(String.IsNullOrEmpty(srtDesc), "No attachments uploaded yet.", srtDesc + " files have been uploaded successfully.")
+
             'lnkAcknowledgeEmail_Click(Nothing, Nothing)
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -2081,15 +2088,30 @@ Public Class CustomerClaims
         Dim exMessage As String = " "
         Dim codComment As Integer = 0
         Dim codDetComment As Integer = 1
+        Dim strMessage As String = Nothing
         Try
             'lblTextEditorInfoCust.Text = txtEditorExtender2.Text
             'hdTextEditorInfoCustMessage.Value = txtEditorExtender2.Text
 
             Dim useridRstk = If(DirectCast(Session("userid"), String) IsNot Nothing, DirectCast(Session("userid"), String), "NA")
+            useridRstk = If(useridRstk.Length < 10, useridRstk.PadRight(10), useridRstk)
             Dim rstkDate As String = Now().Date().ToString("yyyy-MM-dd")
             Dim rstkTime As String = Now().TimeOfDay().ToString().Split(".")(0)
 
             If Not useridRstk.Equals("NA") Then
+
+                Dim qtyRstk = txtRstk.Text.Trim()
+                If Regex.IsMatch(qtyRstk, "^[0-9]") And qtyRstk <> 0 Then
+                    If String.IsNullOrEmpty(txtCurLoc.Text.Trim()) Then
+                        Dim msg As String = "Please select the location to proceed with the restock."
+                        SendMessage(msg, messageType.warning)
+                        Exit Sub
+                    End If
+                Else
+                    Dim msg As String = "The amount to restock must be a number greather than 0."
+                    SendMessage(msg, messageType.warning)
+                    Exit Sub
+                End If
 
                 Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
@@ -2097,49 +2119,53 @@ Public Class CustomerClaims
                     Dim rsInsert1 = objBL.InsertRestock(txtPartNoData.Text.Trim().ToUpper(), txtCurLoc.Text.Trim(), txtInvoiceNo.Text.Trim(),
                                                         txtCustomerData.Text.Trim(), "10", useridRstk, txtClaimNoData.Text.Trim())
                     If rsInsert1 > 0 Then
-
                         'send to print
                         Dim rsCallRpg = objBL.CallRestockRPG(useridRstk)
-                        If rsCallRpg > 0 Then
-
+                        If rsCallRpg.Equals(0) Then
                             'delete the current restock for current user
                             Dim rsDelRestock = objBL.DeleteRestockTempData(useridRstk)
                             If rsDelRestock > 0 Then
-
                                 'comments insertion
                                 codComment = objBL.getmax("QS36F.CLMCOMH", "CNWHCO") + 1
                                 Dim rsComHead = objBL.InsertRgaClaimCommHeader(hdSeq.Value, codComment, rstkDate, rstkTime,
                                                                                 "WARRANTY RESTOCK APPROVED", useridRstk)
                                 If rsComHead > 0 Then
-
                                     Dim rsComDet = objBL.InsertRgaClaimCommDetails(hdSeq.Value, codComment, codDetComment, "WARRANTY RESTOCK WAS APPROVED BY USER", rstkDate,
                                                                                    rstkTime, useridRstk, txtPartNoData.Text.Trim())
                                     If rsComDet > 0 Then
-                                        'todo ok completo
+                                        strMessage = "The Restock process has finished successfully."
+                                        SendMessage(strMessage, messageType.success)
                                         Dim a = rsComDet
                                     Else
-
+                                        strMessage = "An error occurs in the Comment Details Insert process."
+                                        SendMessage(strMessage, messageType.Error)
                                     End If
-
+                                Else
+                                    strMessage = "An error occurs in the Comment Header Insert process."
+                                    SendMessage(strMessage, messageType.Error)
                                 End If
-
-
                             Else
-
+                                strMessage = "An error occurs in the Restock Delete process. "
+                                SendMessage(strMessage, messageType.Error)
+                                Exit Sub
                             End If
-
                         Else
-
+                            strMessage = "An error occurs in the Call to Procedure process."
+                            SendMessage(strMessage, messageType.Error)
+                            Exit Sub
                         End If
-
                     Else
-
+                        strMessage = "An error occurs in the Restock Insert process."
+                        SendMessage(strMessage, messageType.Error)
+                        Exit Sub
                     End If
 
                 End Using
 
             Else
-
+                strMessage = "Please Sign Out and try it again."
+                SendMessage(strMessage, messageType.Error)
+                Exit Sub
             End If
 
             hdAckPopContent.Value = "0"
@@ -4010,6 +4036,7 @@ Public Class CustomerClaims
         Dim folderpathvendor As String = Nothing
         Dim uploadedFiles As HttpFileCollection = Nothing
         Dim userPostedFile As HttpPostedFile = Nothing
+        Dim lstFileNames As List(Of String) = New List(Of String)()
         Try
 
             Dim dct As Dictionary(Of String, String) = DirectCast(Session("MainValues"), Dictionary(Of String, String))
@@ -4033,6 +4060,18 @@ Public Class CustomerClaims
                         'error creating path
                     End If
                 End If
+
+                If Session("FileName") Is Nothing Then
+                    lstFileNames.Add(name)
+                    Session("FileName") = lstFileNames
+                Else
+                    lstFileNames = DirectCast(Session("FileName"), List(Of String))
+                    lstFileNames.Add(name)
+                    Session("FileName") = lstFileNames
+                End If
+
+                Session("TotalFilesAttached") = lstFileNames.Count()
+
             End If
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -4501,106 +4540,105 @@ Public Class CustomerClaims
         Dim bvalidation As Boolean = True
         Try
 
-            If True Then
-                Exit Sub
-            Else
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
 
-                Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
-
-                    Dim rsResult = objBL.GetIfOperationInProcess(userid, dsResult)
-                    If rsResult > 0 Then
-                        methodMessage = "This user already has an operation in process. Please try again later or call to IT Department."
-                        SendMessage(methodMessage, messageType.warning)
-                        Exit Sub
-                    ElseIf rsResult < 0 Then
-                        methodMessage = "There is an error in the restock process. Please try again later or call to IT Department."
-                        SendMessage(methodMessage, messageType.warning)
-                        Exit Sub
-                    Else
+                Dim rsResult = objBL.GetIfOperationInProcess(userid, dsResult)
+                If rsResult > 0 Then
+                    methodMessage = "This user already has an operation in process. Please try again later or call to IT Department."
+                    SendMessage(methodMessage, messageType.warning)
+                    Exit Sub
+                ElseIf rsResult < 0 Then
+                    methodMessage = "There is an error in the restock process. Please try again later or call to IT Department."
+                    SendMessage(methodMessage, messageType.warning)
+                    Exit Sub
+                Else
 #Region "Values to make restock validation"
 
-                        Dim claimNo As String = If(String.IsNullOrEmpty(txtClaimNoData.Text.Trim()), "", txtClaimNoData.Text.Trim())
-                        Dim partNo As String = If(String.IsNullOrEmpty(txtPartNoData.Text.Trim()), "", txtPartNoData.Text.Trim())
-                        Dim invoiceNo As String = If(String.IsNullOrEmpty(txtInvoiceNo.Text.Trim()), "", txtInvoiceNo.Text.Trim())
-                        Dim fullMessage As String = Nothing
-                        Dim internalMessage As String = Nothing
+                    Dim claimNo As String = If(String.IsNullOrEmpty(txtClaimNoData.Text.Trim()), "", txtClaimNoData.Text.Trim())
+                    Dim partNo As String = If(String.IsNullOrEmpty(txtPartNoData.Text.Trim()), "", txtPartNoData.Text.Trim())
+                    Dim invoiceNo As String = If(String.IsNullOrEmpty(txtInvoiceNo.Text.Trim()), "", txtInvoiceNo.Text.Trim())
+                    Dim fullMessage As String = Nothing
+                    Dim internalMessage As String = Nothing
 
-                        Dim b1 = checkValueForRestock(txtClaimNoData, internalMessage)
-                        fullMessage += internalMessage + ". "
-                        Dim b2 = checkValueForRestock(txtPartNoData, internalMessage)
-                        fullMessage += internalMessage + ". "
-                        Dim b3 = checkValueForRestock(txtInvoiceNo, internalMessage)
-                        fullMessage += internalMessage + ". "
+                    Dim b1 = checkValueForRestock(txtClaimNoData, internalMessage)
+                    fullMessage += internalMessage + ". "
+                    Dim b2 = checkValueForRestock(txtPartNoData, internalMessage)
+                    fullMessage += internalMessage + ". "
+                    Dim b3 = checkValueForRestock(txtInvoiceNo, internalMessage)
+                    fullMessage += internalMessage + ". "
 
-                        If Not b1 Or Not b2 Or Not b3 Then
-                            methodMessage = fullMessage
-                            SendMessage(methodMessage, messageType.Error)
-                            Exit Sub
-                        End If
+                    If Not b1 Or Not b2 Or Not b3 Then
+                        methodMessage = fullMessage
+                        SendMessage(methodMessage, messageType.Error)
+                        Exit Sub
+                    End If
 
 #End Region
 
-                        Dim rResult = objBL.GetRestockAmtByClaimPartCust(txtClaimNoData.Text.Trim(), txtPartNoData.Text.Trim(), txtCustomerData.Text.Trim(), dsResult1)
-                        Dim bValid = GetDatasetDataValidation(dsResult1)
-                        If bValid Then
+                    Dim rResult = objBL.GetRestockAmtByClaimPartCust(txtClaimNoData.Text.Trim(), txtPartNoData.Text.Trim(), txtCustomerData.Text.Trim(), dsResult1)
+                    Dim bValid = GetDatasetDataValidation(dsResult1)
+                    If bValid Then
 
 #Region "Part Validation"
 
-                            Dim totalCurClaimAmt = If(String.IsNullOrEmpty(txtQty.Text.Trim()), 0, CInt(txtQty.Text.Trim()))
-                            totalCurClaimAmt += 1 'dev must removed
-                            Dim totalAmt = dsResult1.Tables(0).Rows.Count 'totalAmt = WQtyRet1
-                            Dim updAmt As Integer = 0 'updAmt = WQtyRet2
-                            LoadDropDownLists(ddlLocRstk)
+                        Dim totalCurClaimAmt = If(String.IsNullOrEmpty(txtQty.Text.Trim()), 0, CInt(txtQty.Text.Trim()))
+                        'totalCurClaimAmt += 1 'dev must removed
+                        Dim totalAmt = If(String.IsNullOrEmpty(dsResult1.Tables(0).Rows(0).ItemArray(0).ToString().Trim()), 0, CInt(dsResult1.Tables(0).Rows(0).ItemArray(0).ToString().Trim()))  'totalAmt = WQtyRet1
+                        Dim updAmt As Integer = 0 'updAmt = WQtyRet2
+                        LoadDropDownLists(ddlLocRstk)
 
 #End Region
+
 
 #Region "Location Validation"
 
-                            Dim userBranch = If(DirectCast(Session("usrBranch"), String) IsNot Nothing, DirectCast(Session("usrBranch"), String), "")
-                            Try
-                                Dim curLoc = hdLocationSelected.Value
-                                txtCurLoc.Text = If(userBranch.Equals(curLoc.Split("-")(0).Trim()), userBranch, "")
-                                Dim bLocat = If(String.IsNullOrEmpty(txtCurLoc.Text.Trim()), True, False)
-                                Dim v2 = ddlLocation.Items.IndexOf(ddlLocation.Items.FindByText(curLoc.Trim()))
-                                ddlLocRstk.SelectedIndex = If(v2 < 1, -1, If(v2.Equals(4), 2, 1))
-                                ddlLocRstk.Enabled = bLocat
-                            Catch ex As Exception
-                                Dim aa = ex.Message
-                                Dim bb = aa
-                            End Try
+                        Dim userBranch = If(DirectCast(Session("usrBranch"), String) IsNot Nothing, DirectCast(Session("usrBranch"), String), "")
+                        Try
+                            Dim curLoc = hdLocationSelected.Value
+                            txtCurLoc.Text = If(userBranch.Trim().Equals(curLoc.Split("-")(0).Trim()), userBranch, "")
+                            Dim bLocat = If(String.IsNullOrEmpty(txtCurLoc.Text.Trim()), True, False)
+                            Dim v2 = ddlLocation.Items.IndexOf(ddlLocation.Items.FindByText(curLoc.Trim()))
+                            ddlLocRstk.SelectedIndex = If(v2 < 1, -1, If(v2.Equals(4), 2, 1))
+                            ddlLocRstk.Enabled = bLocat
+                            txtCurLoc.Text = If(String.IsNullOrEmpty(txtCurLoc.Text.Trim()), ddlLocRstk.SelectedItem.Text, txtCurLoc.Text.Trim())
+                        Catch ex As Exception
+                            Dim aa = ex.Message
+                            Dim bb = aa
+                        End Try
 
 #End Region
 
+                        If totalAmt < totalCurClaimAmt Then
+                            updAmt = totalCurClaimAmt - totalAmt
 
-                            If totalAmt < totalCurClaimAmt Then
-                                updAmt = totalCurClaimAmt - totalAmt
-                                txtAvRstk.Text = totalAmt.ToString()
-                                txtClRstk.Text = totalCurClaimAmt.ToString()
-                                'txtCurLoc.Text = ddlLocation.SelectedValue
+                            'txtAvRstk.Text = totalAmt.ToString()
+                            txtClRstk.Text = totalCurClaimAmt.ToString()
+                            txtRstk.Text = txtClRstk.Text
+                            'txtCurLoc.Text = ddlLocation.SelectedValue
 
-                                popRestock.Show()
+                            popRestock.Show()
 
-                                hdGridViewContent.Value = "0"
-                                hdNavTabsContent.Value = "1"
-                                hdAckPopContent.Value = "0"
-                                hdInfoCustContent.Value = "0"
-                                hdRestockFlag.Value = "1"
+                            hdGridViewContent.Value = "0"
+                            hdNavTabsContent.Value = "1"
+                            hdAckPopContent.Value = "0"
+                            hdInfoCustContent.Value = "0"
+                            hdRestockFlag.Value = "1"
 
-                            Else
-                                methodMessage = "This Claim already has reached the max quantity to reStock."
-                                SendMessage(methodMessage, messageType.warning)
-                            End If
                         Else
-                            methodMessage = "There is an error getting data from database. Please try again later or call to IT Department."
+                            methodMessage = "This Claim already has reached the max quantity to reStock."
                             SendMessage(methodMessage, messageType.warning)
                         End If
-
-
+                    Else
+                        methodMessage = "There is an error getting data from database. Please try again later or call to IT Department."
+                        SendMessage(methodMessage, messageType.warning)
                     End If
 
-                End Using
 
-            End If
+                End If
+
+            End Using
+
+
 
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -5281,6 +5319,26 @@ Public Class CustomerClaims
                     'update cons damage to 0
                 End If
             End If
+
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+        End Try
+    End Sub
+
+    Protected Sub lnkAttachFile_Click(sender As Object, e As EventArgs) Handles lnkAttachFile.Click
+        Dim strMessage As String = Nothing
+        Try
+            popAckEmail.Show()
+            popAjUpLog.Show()
+            hdNavTabsContent.Value = "1"
+            'hdClaimNumber.Value = ""
+            hdGridViewContent.Value = "0"
+            hdSeeFilesContent.Value = "0"
 
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -8710,9 +8768,59 @@ Public Class CustomerClaims
         End Try
     End Function
 
+    Public Function GetFilesToAttach(claimNo As String, lstFileNames As List(Of String)) As List(Of FileInfo)
+        Dim lstFiles As List(Of FileInfo) = New List(Of FileInfo)()
+        Dim PathConf As String = ConfigurationManager.AppSettings("vdWarningImgPath").ToString()
+        Dim flag As Boolean = False
+        Dim filePath As String = Nothing
+        Try
+
+            Dim path = PathConf + claimNo + "\"
+            Dim di = New IO.DirectoryInfo(path)
+            If di.Exists Then
+                flag = True
+                filePath = path
+            End If
+
+            If flag Then
+                If Not String.IsNullOrEmpty(filePath) Then
+
+                    Dim diImgOuter = New IO.DirectoryInfo(filePath)
+                    Dim bOk As Boolean = False
+                    If diImgOuter.Exists Then
+                        'no external folder. Check for images
+                        For Each fio As FileInfo In diImgOuter.GetFiles()
+                            Dim name = fio.Name
+                            bOk = lstFileNames.AsEnumerable().Any(Function(e) LCase(e.Trim()).Equals(LCase(name.Trim())))
+                            If bOk Then
+                                Dim extension = fio.Extension
+                                If Not extension.Trim().ToLower().Equals(".db") And Not Regex.IsMatch(name, "[#%*,?':<>]") Then
+                                    lstFiles.Add(fio)
+                                End If
+                            End If
+                        Next
+                    End If
+
+                End If
+            End If
+
+            Return lstFiles
+
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+            Return Nothing
+        End Try
+    End Function
+
     Public Sub GetFilesFromPath(filePath As String, ByRef dctFi As Dictionary(Of FileInfo, String))
         Dim lstFiles As List(Of FileInfo) = New List(Of FileInfo)()
         Dim dctFiles As Dictionary(Of FileInfo, String) = New Dictionary(Of FileInfo, String)()
+        Dim ccount As Integer = 0
         Try
 
             Dim newPath = filePath + "External\"
@@ -8724,8 +8832,10 @@ Public Class CustomerClaims
                 For Each fiii As FileInfo In diImgInner.GetFiles()
                     Dim name = fiii.Name
                     Dim extension = fiii.Extension
-                    If Not extension.Trim().ToLower().Equals(".db") Then
+                    If Not extension.Trim().ToLower().Equals(".db") And Not Regex.IsMatch(name, "[#%*,?':<>]") Then
                         dctFiles.Add(fiii, "Ext")
+                    Else
+                        ccount += 1
                     End If
                 Next
 
@@ -8737,13 +8847,15 @@ Public Class CustomerClaims
                     Dim name = fio.Name
                     'Dim fileDate = fio.LastAccessTime.ToString()
                     Dim extension = fio.Extension
-                    If Not extension.Trim().ToLower().Equals(".db") Then
+                    If Not extension.Trim().ToLower().Equals(".db") And Not Regex.IsMatch(name, "[#%*,?':<>]") Then
                         dctFiles.Add(fio, "Out")
+                    Else
+                        ccount += 1
                     End If
                 Next
 
             End If
-
+            Session("wrongfiles") = ccount
             dctFi = dctFiles
             Session("SeeFilesDct") = dctFi
 
@@ -9759,6 +9871,35 @@ Public Class CustomerClaims
             msg.Subject = msgSubject
             Dim txt = Mailtext
             msg.Body = Mailtext
+
+            Try
+                writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " Prepare attachments for claim No : " + obj.ClaimNo + " at Time: " + DateTime.Now.ToString())
+
+                Dim lstFileNames As List(Of String) = If(DirectCast(Session("FileName"), List(Of String)) IsNot Nothing, DirectCast(Session("FileName"), List(Of String)), Nothing)
+                If lstFileNames IsNot Nothing Then
+                    Dim lstFiles As List(Of FileInfo) = GetFilesToAttach(hdSeq.Value.Trim(), lstFileNames)
+
+                    For Each fi As FileInfo In lstFiles
+                        Dim dataAtt As Attachment = New Attachment(fi.FullName, MediaTypeNames.Application.Octet)
+                        Dim dispos As ContentDisposition = dataAtt.ContentDisposition
+                        dispos.CreationDate = fi.CreationTime
+                        dispos.ModificationDate = fi.LastWriteTime
+                        dispos.ReadDate = fi.LastAccessTime
+                        dispos.DispositionType = DispositionTypeNames.Attachment
+                        msg.Attachments.Add(dataAtt)
+                    Next
+
+                End If
+
+            Catch ex As Exception
+                Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+                Dim message As String = ex.Message
+                Dim ctMethodName = getMethodName(strCurrent, message)
+                strLogCadenaCabecera += " " + ctMethodName
+                writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+                strLogCadenaCabecera = Session("LogCadena").ToString()
+            End Try
+
             'msg.BodyEncoding = System.Text.Encoding.ASCII
             'msg.Body = msg.Body.Replace(Environment.NewLine, "<br/>")
 
@@ -9772,6 +9913,8 @@ Public Class CustomerClaims
             _smtp.Send(msg)
 
             bResult = True
+
+            Session("FileName") = Nothing
 
             writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Information, "User: " + Session("userid").ToString(), " Email sent to:" + userEmail + ". The claim number is: " + obj.ClaimNo + ". The total cost is:" + obj.TotalApproved + ". At Time: " + DateTime.Now.ToString())
 
@@ -10585,7 +10728,8 @@ Public Class CustomerClaims
         Dim cwstat As String = Nothing
         Dim mhstat As String = Nothing
         Session("currentclaim") = claimNo
-
+        Session("TotalFilesAttached") = Nothing
+        Session("FileName") = Nothing
         Try
 
             Dim controlName = If(Session("currentCtr") IsNot Nothing, Session("currentCtr").ToString(), "")
@@ -10713,7 +10857,7 @@ Public Class CustomerClaims
                                             'diagnose dropdownlist
                                             LoadDDLLocation(dsData)
                                             'restock locations
-                                            LoadDropDownLists(ddlLocRstk)
+                                            LoadDDLLocationRstk()
 
                                             Dim strExcMessage As String = Nothing
                                             GetSupplierInvoiceAndDate(txtVendorNo.Text, docData, strExcMessage)
@@ -11280,7 +11424,6 @@ Public Class CustomerClaims
 #End Region
 
 #Region "Auxiliar Methods"
-
 
     Public Sub MassiveInternalUpdate(wrnNo As String, value As String, ByRef strMessage As String, Optional ByRef doStop As Boolean = False)
         Dim dsResult As DataSet = New DataSet()
@@ -12226,6 +12369,22 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub MyHtmlEditorExtender_ImageUploadComplete(sender As Object, e As AjaxControlToolkit.AjaxFileUploadEventArgs)
+        Try
+
+            popAjUpLog.Show()
+
+            Dim FolderPath = ConfigurationManager.AppSettings("urlPathGeneral") + ConfigurationManager.AppSettings("PathClaimFiles")
+            Dim fileName = e.FileName
+            e.PostedUrl = FolderPath
+            Dim fileUrl = e.PostedUrl
+
+        Catch ex As Exception
+            Dim a = ""
+            Dim w = a
+        End Try
+    End Sub
+
     Public Sub AddFiles()
         Dim wrnNo As String = hdSeq.Value.Trim()
         Dim claimNo As String = txtClaimNoData.Text.Trim()
@@ -12250,13 +12409,13 @@ Public Class CustomerClaims
 
                             folderpathvendor = FolderPath + claimNo + "\"
                             If Directory.Exists(folderpathvendor) Then
-                                SaveFile(fuAddClaimFile, folderpathvendor)
+                                'SaveFile(fuAddClaimFile, folderpathvendor)
                                 'hdChangePageLoad.Value = "1"
                             Else
                                 'create a folder
                                 Directory.CreateDirectory(folderpathvendor)
                                 If Directory.Exists(folderpathvendor) Then
-                                    SaveFile(fuAddClaimFile, folderpathvendor)
+                                    'SaveFile(fuAddClaimFile, folderpathvendor)
                                     'hdChangePageLoad.Value = "1"
                                 Else
                                     'error creating directory
@@ -12282,13 +12441,13 @@ Public Class CustomerClaims
 
                             folderpathvendor = FolderPath + wrnNo + "\"
                             If Directory.Exists(folderpathvendor) Then
-                                SaveFile(fuAddClaimFile, folderpathvendor)
+                                'SaveFile(fuAddClaimFile, folderpathvendor)
                                 'hdChangePageLoad.Value = "1"
                             Else
                                 'create a folder
                                 Directory.CreateDirectory(folderpathvendor)
                                 If Directory.Exists(folderpathvendor) Then
-                                    SaveFile(fuAddClaimFile, folderpathvendor)
+                                    'SaveFile(fuAddClaimFile, folderpathvendor)
                                     'hdChangePageLoad.Value = "1"
                                 Else
                                     'error creating directory
@@ -12340,6 +12499,66 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Function FixDatesForSeeFiles(lst As List(Of String)) As Dictionary(Of DateTime, String)
+        Dim culture As IFormatProvider = New CultureInfo("en-US", True)
+        Dim cultureInf As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
+        Dim dtfi As DateTimeFormatInfo = cultureInf.DateTimeFormat
+        dtfi.DateSeparator = "-"
+        Dim dctFilesOrd As Dictionary(Of DateTime, String) = New Dictionary(Of DateTime, String)()
+        Dim dtOut As DateTime = New DateTime()
+        Dim strDateOk As String = Nothing
+
+        Try
+
+            For Each item As String In lst
+
+                Try
+
+                    Dim pdate = item.Split(",")(2).ToString().Trim() 'full date value
+                    Dim pdateOnly = pdate.Split(" ")(0).ToString().Trim()
+                    Dim ptimeOnly = pdate.Split(" ")(1).ToString().Trim() + " " + pdate.Split(" ")(2).ToString().Trim()
+
+                    Dim fixDate = pdateOnly.Split("/")
+                    Dim strFixDateRs As String = Nothing
+                    For Each item1 As String In fixDate
+                        If item1.Length < 2 Then
+                            strFixDateRs += "0" + item1 + "-"
+                        Else
+                            strFixDateRs += item1 + "-"
+                        End If
+                    Next
+
+                    strFixDateRs = strFixDateRs.Remove(strFixDateRs.Length - 1, 1)
+
+                    Dim ccdate = DateTime.TryParseExact(strFixDateRs, "MM-dd-yyyy", culture, Nothing, dtOut)
+                    If ccdate Then
+                        Dim strDt1 = dtOut.ToString("yyyy-MM-dd", dtfi)
+                        strDateOk = strDt1 + " " + ptimeOnly
+                    End If
+
+                    Dim dtValue As DateTime = System.Convert.ToDateTime(strDateOk)
+                    dctFilesOrd.Add(dtValue, item)
+
+                Catch ex As Exception
+
+                End Try
+
+            Next
+
+            Return dctFilesOrd
+
+        Catch ex As Exception
+            Dim ppp = HttpContext.Current.Request.LogonUserIdentity.Name
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+            Return Nothing
+        End Try
+    End Function
+
     Public Sub SeeFiles()
         Dim wrnNo As String = hdSeq.Value.Trim()
         Dim claimNo As String = txtClaimNoData.Text.Trim()
@@ -12352,10 +12571,31 @@ Public Class CustomerClaims
         Dim listCount As Integer = 0
         Dim itemByRows As Integer = 4
         Dim method As String = "ctl00$MainContent$btnSeeFileMsg"
+        Dim dctFilesOrd As Dictionary(Of DateTime, String) = New Dictionary(Of DateTime, String)()
+        Dim newListData As List(Of String) = New List(Of String)()
+        Dim descMessage As String = Nothing
         Try
 
             lst = GetAllFilesForView(wrnNo)
-            listCount = lst.Count()
+
+
+            dctFilesOrd = FixDatesForSeeFiles(lst)
+            If dctFilesOrd IsNot Nothing Then
+
+                Dim dctExtraFiles = dctFilesOrd.AsEnumerable().OrderByDescending(Function(e) e.Key.Date)
+                For Each dctItem In dctExtraFiles
+                    newListData.Add(dctItem.Value)
+                Next
+
+                listCount = newListData.Count()
+                descMessage = "Files was ordered by Last Modified Date. "
+                descMessage += If(Session("wrongfiles") Is Nothing, "", If(DirectCast(Session("wrongfiles"), Integer).Equals(0), "", "Some files not appears in the panel because have special characters in their name."))
+            Else
+                listCount = lst.Count()
+                descMessage = "Files can not ordered by Last Modified Date."
+                descMessage += If(Session("wrongfiles") Is Nothing, "", If(DirectCast(Session("wrongfiles"), Integer).Equals(0), "", "Some files not appears in the panel because have special characters in their name."))
+            End If
+
             Dim rwAmt = listCount Mod 2
             rwAmt = If(rwAmt.Equals(0), (listCount / itemByRows), (rwAmt / itemByRows) + 1)
             Dim val = 0
@@ -12364,11 +12604,11 @@ Public Class CustomerClaims
             Dim flag As Boolean = False
 
             Dim body As StringBuilder = New StringBuilder()
-            body.AppendFormat("<div style=text-align:center;><table id=table1 border=0 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;><H1 style=color:white;background-color:black;>Claim : {0}</H1></td></tr>", claimNo)
+            body.AppendFormat("<div style=text-align:center;><table id=table1 border=2 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;>{0}</td></tr>", descMessage)
 
             body.Append("<tr>")
             Dim i = 0
-            For Each item As String In lst
+            For Each item As String In newListData
 
                 If i.Equals(0) Or Not (i Mod 4).Equals(0) Then
                     flag = If(item.Trim().Contains(","), True, False)
@@ -12389,7 +12629,7 @@ Public Class CustomerClaims
                     'OpenMsgFile(url)
                     'body.AppendFormat("<td style=padding:10px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href=javascript:__doPostBack('{7}','') title='{4}' target=_blank id=table1_alink_{1}> <img id=table1_img_{2} src={3} alt={5} runat=server style=width:100px;height:100px;max-width:100px;min-width:100px;border-radius:10px; /> </a> <br> <span style=font-size:12px;>{6}</span></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), method)
                     'Else
-                    body.AppendFormat("<td style=padding:10px 20px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{7}</p><p style=font-size:10px;word-break:break-all;margin:0 !important;>{8}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate, size + " Bytes")
+                    body.AppendFormat("<td style=padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;border-bottom:2px;border-color:#fbba42;border-bottom-style:dotted;><a href='{0}' title='{4}' target=_blank style=cursor:pointer id=table1_alink_{1} runat=server> <img id=table1_img_{2} src='{3}' alt={5} runat=server style=width:60px;height:52px;max-width:100px;min-width:60px;border-radius:10px; /> </a> <br> <span style=font-size:10px;>{6}</span><p style=font-size:10px;word-break:break-all;margin: 0 !important;>{7}</p><p style=font-size:10px;word-break:break-all;margin:0 !important;>{8}</p></td>", url, i, i, selImg, name, name, If(name.Length > 30, name.Substring(0, 8) + " .. " + name.Substring(name.Length - 14, 14), name), fileDate, size + " Bytes")
                     'End If
                     i += 1
                 Else
@@ -12421,9 +12661,12 @@ Public Class CustomerClaims
             Next
             body.Append("</table></div>")
 
+            lblClaimNoInfo.Text = "Claim : " + claimNo
+
             Dim pp = body.ToString()
             Dim ppRep = pp.Replace("'", """")
             pnFilesPanel.Controls.Add(New LiteralControl(ppRep))
+            lblClaimNoInfo.Text = "Claim : " + claimNo
 
 #Region "No"
 
@@ -13427,6 +13670,39 @@ Public Class CustomerClaims
         End Try
     End Sub
 
+    Public Sub LoadDDLLocationRstk()
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                LoadDropDownLists(ddlLocRstk)
+
+                Dim selLoc = hdLocationSelected.Value
+                Dim cc = hdLocatRstkIndex.Value
+                Dim vv = hdLocationRstkSelected.Value
+
+                ddlLocRstk.SelectedIndex = ddlLocRstk.Items.IndexOf(ddlLocRstk.Items.FindByValue(selLoc))
+                If ddlLocRstk.SelectedIndex > 0 Then
+                    hdLocatRstkIndex.Value = ddlLocRstk.SelectedIndex.ToString()
+                    hdLocationRstkSelected.Value = ddlLocRstk.SelectedItem.Text
+                    'hdSelectedDiagnose.Value = hdcwdiagd.Value
+                    'txtloc.Text = hdcwdiagd.Value
+                Else
+                    ddlLocRstk.SelectedIndex = 0
+                    hdLocationRstkSelected.Value = "0"
+                    hdLocatRstkIndex.Value = "-1"
+                End If
+
+            End Using
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+        End Try
+    End Sub
+
     Public Sub LoadDDLDiagnose(dsNW As DataSet)
         Try
             Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
@@ -14331,6 +14607,9 @@ Public Class CustomerClaims
 
             ElseIf ddl.ID = "ddlTechRev" Then
 
+            ElseIf ddl.ID = "ddlLocRstk" Then
+                ddlLocRstk.SelectedIndex = If(Not String.IsNullOrEmpty(hdLocatRstkIndex.Value), If(hdLocatRstkIndex.Value.Equals("04"), 2, CInt(hdLocatRstkIndex.Value)), 0)
+                ddlLocRstk_SelectedIndexChanged(ddl, Nothing)
             End If
         Catch ex As Exception
             Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
@@ -14513,8 +14792,8 @@ Public Class CustomerClaims
                 If ddl.Items.Count = 0 Then
                     Dim ListItem As ListItem = New ListItem()
                     ddl.Items.Add(New WebControls.ListItem(" ", "-1"))
-                    ddl.Items.Add(New WebControls.ListItem("01-Miami", "01"))
-                    ddl.Items.Add(New WebControls.ListItem("04-Dallas", "04"))
+                    ddl.Items.Add(New WebControls.ListItem("01", "01"))
+                    ddl.Items.Add(New WebControls.ListItem("04", "04"))
                 End If
             End If
         Catch ex As Exception
