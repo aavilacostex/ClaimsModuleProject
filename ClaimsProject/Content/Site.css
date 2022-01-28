@@ -1124,6 +1124,16 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 .btnFullSize {
     min-width: 100% !important;
 }
+/*
+#MainContent_seeFilesSection .ctu-width {
+    width: 800px !important;
+    margin: 0 auto !important; 
+}
+
+#MainContent_seeFilesSection .ctu-width > .table {    
+    margin: 0 auto !important;
+}
+    */
 
 .btnMidSize {
     min-width: 50% !important;
@@ -2065,14 +2075,25 @@ input[type=file]::-ms-value {
     height: 180px;
 }
 
-pnFilterStyles1 {
+.pnFilterStyles1 {
     padding: 6px 15px 26px 15px;
     background-color: #F7F7FD;
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
     border-left: 4px solid #fbba42;
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 10%);    
+}
+
+.pnFilterStyles2 {
+    /*padding: 6px 15px 26px 15px;*/
+    background-color: #F7F7FD;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    border-left: 4px solid #fbba42;
     box-shadow: 0px 2px 4px rgb(31 30 47 / 10%);
+    width: 100%;
 }
 
 .pnFilterStyles {

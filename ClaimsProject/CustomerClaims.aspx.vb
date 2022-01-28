@@ -2428,7 +2428,7 @@ Public Class CustomerClaims
         Dim strMessage As String = Nothing
         Try
 
-            If chkApproved.Checked Or chkDeclined.Checked Then
+            If (chkApproved.Checked Or chkDeclined.Checked) Or (txtDiagnoseData.Text.Trim().Contains("C10")) Then
 
                 hdGridViewContent.Value = "1"
                 hdNavTabsContent.Value = "0"
@@ -2456,7 +2456,7 @@ Public Class CustomerClaims
                     btnSaveTab_Click(Nothing, Nothing)
                 End If
             Else
-                methodMessage = "The Claim must be approved and then ti will be ready to close.."
+                methodMessage = "The Claim must be approved and then it will be ready to close.."
                 SendMessage(methodMessage, messageType.warning)
             End If
 
@@ -2479,93 +2479,72 @@ Public Class CustomerClaims
         Dim lstMessages As List(Of String) = New List(Of String)()
         Try
 
-            If Not String.IsNullOrEmpty(hdSeq.Value.Trim()) Then
-                wrnNo = hdSeq.Value.Trim()
-                claimNo = txtClaimNoData.Text.Trim()
+            If txtDiagnoseData.Text.Trim().Contains("C10") Then
+                btnSaveTab_Click(Nothing, Nothing)
+            Else
+                If Not String.IsNullOrEmpty(hdSeq.Value.Trim()) Then
+                    wrnNo = hdSeq.Value.Trim()
+                    claimNo = txtClaimNoData.Text.Trim()
 
 #Region "Update Diagnose"
 
-                resultProc = UpdateDiagnoseValue(claimNo, strMessageOut)
-                Dim blResultProcDiag As Boolean = False
-                blResultProcDiag = resultProc
-                If Not resultProc Then
-                    If Not String.IsNullOrEmpty(strMessageOut) Then
-                        lstMessages.Add(strMessageOut)
+                    resultProc = UpdateDiagnoseValue(claimNo, strMessageOut)
+                    Dim blResultProcDiag As Boolean = False
+                    blResultProcDiag = resultProc
+                    If Not resultProc Then
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
+                        'method to prepare the message
+                        'Exit Sub
                     End If
-                    'method to prepare the message
-                    'Exit Sub
-                End If
 
 #End Region
 
 #Region "Update Warranty Header Data"
 
-                resultProc = UpdateWHeaderValues(wrnNo, strMessageOut)
-                If Not resultProc Then
-                    If Not String.IsNullOrEmpty(strMessageOut) Then
-                        lstMessages.Add(strMessageOut)
+                    resultProc = UpdateWHeaderValues(wrnNo, strMessageOut)
+                    If Not resultProc Then
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
+                        'method to prepare the message
+                        'Exit Sub
                     End If
-                    'method to prepare the message
-                    'Exit Sub
-                End If
 
 #End Region
 
 #Region "Get Data to process the full method"
 
-                resultProc = PrepareDataTofullProcess(claimNo, strMessageOut)
-                If Not resultProc Then
-                    If Not String.IsNullOrEmpty(strMessageOut) Then
-                        lstMessages.Add(strMessageOut)
+                    resultProc = PrepareDataTofullProcess(claimNo, strMessageOut)
+                    If Not resultProc Then
+                        If Not String.IsNullOrEmpty(strMessageOut) Then
+                            lstMessages.Add(strMessageOut)
+                        End If
+                        'method to prepare the message
+                        'Exit Sub
                     End If
-                    'method to prepare the message
-                    'Exit Sub
-                End If
 
 #End Region
 
-                If blResultProcDiag Then
-                    If resultProc Then
+                    If blResultProcDiag Then
+                        If resultProc Then
 
 #Region "Update Inicial to NW Header"
 
-                        'resultProc = UpdateNWHeaderStatus(claimNo, strMessageOut)
-                        'If Not resultProc Then
-                        '    If Not String.IsNullOrEmpty(strMessageOut) Then
-                        '        lstMessages.Add(strMessageOut)
-                        '    End If
-                        '    'method to prepare the message
-                        '    'Exit Sub
-                        'End If
+                            'resultProc = UpdateNWHeaderStatus(claimNo, strMessageOut)
+                            'If Not resultProc Then
+                            '    If Not String.IsNullOrEmpty(strMessageOut) Then
+                            '        lstMessages.Add(strMessageOut)
+                            '    End If
+                            '    'method to prepare the message
+                            '    'Exit Sub
+                            'End If
 
 #End Region
 
 #Region "Save Engine Info"
-                        resultProc = SaveEngineInfo(wrnNo, strMessageOut)
-                        If Not resultProc Then
-                            If Not String.IsNullOrEmpty(strMessageOut) Then
-                                lstMessages.Add(strMessageOut)
-                            End If
-                            'method to prepare the message
-                            'Exit Sub
-                        End If
-#End Region
-
-#Region "Save New Claim Desc"
-                        resultProc = SaveNewClaimDescProcess(wrnNo, strMessageOut)
-                        If Not resultProc Then
-                            If Not String.IsNullOrEmpty(strMessageOut) Then
-                                lstMessages.Add(strMessageOut)
-                            End If
-                            'method to prepare the message
-                            'Exit Sub
-                        End If
-#End Region
-
-#Region "Update Claim Reference"
-
-                        If endProc Then
-                            resultProc = endReopenProc(wrnNo, claimNo, strMessageOut)
+                            resultProc = SaveEngineInfo(wrnNo, strMessageOut)
                             If Not resultProc Then
                                 If Not String.IsNullOrEmpty(strMessageOut) Then
                                     lstMessages.Add(strMessageOut)
@@ -2573,74 +2552,99 @@ Public Class CustomerClaims
                                 'method to prepare the message
                                 'Exit Sub
                             End If
-                        End If
+#End Region
+
+#Region "Save New Claim Desc"
+                            resultProc = SaveNewClaimDescProcess(wrnNo, strMessageOut)
+                            If Not resultProc Then
+                                If Not String.IsNullOrEmpty(strMessageOut) Then
+                                    lstMessages.Add(strMessageOut)
+                                End If
+                                'method to prepare the message
+                                'Exit Sub
+                            End If
+#End Region
+
+#Region "Update Claim Reference"
+
+                            If endProc Then
+                                resultProc = endReopenProc(wrnNo, claimNo, strMessageOut)
+                                If Not resultProc Then
+                                    If Not String.IsNullOrEmpty(strMessageOut) Then
+                                        lstMessages.Add(strMessageOut)
+                                    End If
+                                    'method to prepare the message
+                                    'Exit Sub
+                                End If
+                            End If
 
 #End Region
 
-                        If lstMessages.Count = 0 Then
+                            If lstMessages.Count = 0 Then
 
-                            Dim objClaim = DirectCast(Session("finalObject"), FinalClaimObj)
-                            clearAllDataFields()
+                                Dim objClaim = DirectCast(Session("finalObject"), FinalClaimObj)
+                                clearAllDataFields()
 
-                            btnSearchFilter_Click(Nothing, Nothing)
+                                btnSearchFilter_Click(Nothing, Nothing)
 
-                            hdNavTabsContent.Value = "0"
-                            hdClaimNumber.Value = ""
-                            hdGridViewContent.Value = "1"
+                                hdNavTabsContent.Value = "0"
+                                hdClaimNumber.Value = ""
+                                hdGridViewContent.Value = "1"
 
-                            hdIsReopen.Value = "1"
+                                hdIsReopen.Value = "1"
 
-                            Dim endMessage As String = Nothing
-                            Dim username As String = Nothing
-                            Dim FullPrivilegeUser = ConfigurationManager.AppSettings("claimFullPrivilegesApprove").ToString()
+                                Dim endMessage As String = Nothing
+                                Dim username As String = Nothing
+                                Dim FullPrivilegeUser = ConfigurationManager.AppSettings("claimFullPrivilegesApprove").ToString()
 
-                            If Not String.IsNullOrEmpty(hdCLMuser.Value.Trim()) Then
-                                GetUserEmailByUserId(hdCLMuser.Value.Trim(), username)
+                                If Not String.IsNullOrEmpty(hdCLMuser.Value.Trim()) Then
+                                    GetUserEmailByUserId(hdCLMuser.Value.Trim(), username)
+                                Else
+                                    GetUserEmailByUserId(FullPrivilegeUser.Split("@")(0), username)
+                                End If
+
+                                endMessage = "Record Updated"
+                                SendMessage(endMessage, messageType.success)
+
                             Else
-                                GetUserEmailByUserId(FullPrivilegeUser.Split("@")(0), username)
+
+                                hdNavTabsContent.Value = "1"
+                                Dim strMess = Session("currentClaim").ToString()
+
+                                Dim dss = DirectCast(Session("Datasource"), DataSet)
+                                Dim bIs = dss.Tables(0).AsEnumerable().Any(Function(oo) oo.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim()))
+                                Dim qq = If(bIs, dss.Tables(0).AsEnumerable().Where(Function(aa) aa.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim())).First(), Nothing)
+
+                                Dim names = GetCurrentIntStatus(hdSeq.Value.Trim())
+                                'Dim names = If(qq IsNot Nothing, qq.Item("cwstde").ToString().Trim().ToUpper(), Nothing)
+
+                                hdClaimNumber.Value = String.Format(Session("BaseMessage").ToString(), txtClaimNoData.Text.Trim(), names)
+                                lblClaimQuickOverview.Text = hdClaimNumber.Value
+                                hdGridViewContent.Value = "0"
+
+                                Dim lstCol As List(Of String) = New List(Of String)()
+                                lstCol.Add("Description")
+
+                                Dim cols As ParamArrayAttribute = New ParamArrayAttribute()
+                                'cols
+
+                                Dim htmlTable = GetDatatableFromStringList(lstMessages, "Description")
+
+
+                                'Dim htmlTable = "<table><tr><td>Pedro es bueno</td></tr></table>"
+
+                                'SendMessage("There is warnings in the proccess. Please check the typed data.", messageType.warning)
+                                SendMessage(htmlTable, messageType.warning)
+
                             End If
 
-                            endMessage = "Record Updated"
-                            SendMessage(endMessage, messageType.success)
-
                         Else
-
-                            hdNavTabsContent.Value = "1"
-                            Dim strMess = Session("currentClaim").ToString()
-
-                            Dim dss = DirectCast(Session("Datasource"), DataSet)
-                            Dim bIs = dss.Tables(0).AsEnumerable().Any(Function(oo) oo.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim()))
-                            Dim qq = If(bIs, dss.Tables(0).AsEnumerable().Where(Function(aa) aa.Item("mhmrnr").ToString().Trim().Equals(txtClaimNoData.Text.Trim())).First(), Nothing)
-
-                            Dim names = GetCurrentIntStatus(hdSeq.Value.Trim())
-                            'Dim names = If(qq IsNot Nothing, qq.Item("cwstde").ToString().Trim().ToUpper(), Nothing)
-
-                            hdClaimNumber.Value = String.Format(Session("BaseMessage").ToString(), txtClaimNoData.Text.Trim(), names)
-                            lblClaimQuickOverview.Text = hdClaimNumber.Value
-                            hdGridViewContent.Value = "0"
-
-                            Dim lstCol As List(Of String) = New List(Of String)()
-                            lstCol.Add("Description")
-
-                            Dim cols As ParamArrayAttribute = New ParamArrayAttribute()
-                            'cols
-
-                            Dim htmlTable = GetDatatableFromStringList(lstMessages, "Description")
-
-
-                            'Dim htmlTable = "<table><tr><td>Pedro es bueno</td></tr></table>"
-
-                            'SendMessage("There is warnings in the proccess. Please check the typed data.", messageType.warning)
-                            SendMessage(htmlTable, messageType.warning)
-
+                            strMessageOut = "There is an error getting data for the Claim Number: " + claimNo + "."
+                            SendMessage(strMessageOut, messageType.Error)
                         End If
-
-                    Else
-                        strMessageOut = "There is an error getting data for the Claim Number: " + claimNo + "."
-                        SendMessage(strMessageOut, messageType.Error)
                     End If
-                End If
 
+                End If
             End If
 
         Catch ex As Exception
@@ -3068,6 +3072,37 @@ Public Class CustomerClaims
                         End If
 
 #End Region
+
+#Region "C10 Diagnose"
+
+                        If txtDiagnoseData.Text.Trim().Contains("C10") Then
+
+                            resultProc = CustomC10CloseClaims(wrnNo, strMessageOut)
+                            If Not resultProc Then
+                                If Not String.IsNullOrEmpty(strMessageOut) Then
+                                    lstMessages.Add(strMessageOut)
+                                End If
+                            Else
+                                Dim objClaim = DirectCast(Session("finalObject"), FinalClaimObj)
+                                'GetClaimsReport("", 1, Nothing, Nothing)
+
+                                btnSearchFilter_Click(Nothing, Nothing)
+
+                                hdNavTabsContent.Value = "0"
+                                hdClaimNumber.Value = ""
+                                hdGridViewContent.Value = "1"
+
+                                hdIsReopen.Value = "1"
+
+                                strMessageOut = "The Claim Number: " + claimNo + " has closed successfully."
+                                SendMessage(strMessageOut, messageType.success)
+
+                                Exit Sub
+                            End If
+                        End If
+
+#End Region
+
 #Region "Claim Approved and Completed < $500"
                         resultProc = ClaimApprovedCompletedUnder500(wrnNo, totalClaimValue, totalLimit, totalConsDamage, strMessageOut)
                         If Not resultProc Then
@@ -7520,6 +7555,88 @@ Public Class CustomerClaims
         End Try
     End Function
 
+    Public Function CustomC10CloseClaims(wrnNo As String, ByRef strMessage As String) As Boolean
+        Dim result As Boolean = False
+        Dim strMessageOut As String = Nothing
+        strMessage = Nothing
+        Try
+            Using objBL As ClaimsProject.BL.ClaimsProject = New ClaimsProject.BL.ClaimsProject()
+
+                If chkAcknowledgeEmail.Checked Then
+
+                    chkinitial.Value = "K"
+                    BuildDates()
+                    Dim rsIns = objBL.InsertInternalStatus(wrnNo, chkinitial.Value, Session("userid").ToString().ToUpper(), datenow, hournow)
+                    If rsIns > 0 Then
+                        chkClaimCompleted.Enabled = False
+                        txtClaimCompleted.Enabled = False
+                        txtClaimCompletedDate.Enabled = False
+                        txtDateEntered.Text = datenow
+                        txtClaimCompleted.Text = Session("userid").ToString().ToUpper()
+
+                        Dim dsUpdStat = New DataSet()
+                        Dim rsUpdStat = objBL.getDataByInternalStsLet(chkinitial.Value, dsUpdStat)
+                        If rsUpdStat > 0 Then
+                            If dsUpdStat IsNot Nothing Then
+                                If dsUpdStat.Tables(0).Rows.Count > 0 Then
+                                    txtActualStatus.Text = UCase(Left(dsUpdStat.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 1)) +
+                                                            LCase(Mid(dsUpdStat.Tables(0).Rows(0).Item("CNTDE1").ToString().Trim(), 2))
+                                    txtActualStatus.Text.ToUpper()
+                                    txtActualStatus.Enabled = False
+
+                                    chkinitial.Value = "C"
+                                    Dim rsUpdWHeader1 = objBL.UpdateWHeaderStatSingle(wrnNo, chkinitial.Value)
+                                    If rsUpdWHeader1 > 0 Then
+                                        Dim dec = cmdCloseClaim(strMessageOut)
+                                        If dec Then
+                                            chkApproved.Enabled = False
+                                            chkDeclined.Enabled = False
+
+                                            result = True
+                                        Else
+                                            strMessage = "There is an error in the Close Claim process for the Claim Number:" + wrnNo + "." + strMessageOut
+                                            Return result
+                                        End If
+                                    Else
+                                        strMessage = "There is an error updating the Warranty Claim Status for Warning Number: " + wrnNo + "."
+                                        Return result
+                                    End If
+                                Else
+                                    strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
+                                    Return result
+                                End If
+                            Else
+                                strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
+                                Return result
+                            End If
+                        Else
+                            strMessage = "There is an error getting the Internal Status for the Warning Number: " + wrnNo + "."
+                            Return result
+                        End If
+                    Else
+                        If String.IsNullOrEmpty(txtClaimCompleted.Text.Trim()) Then
+                            strMessage = "There is an error inserting the internal status for the warning no:" + wrnNo + "."
+                            Return result
+                        End If
+                    End If
+                    'Exit Sub
+                End If
+
+            End Using
+
+            Return result
+
+        Catch ex As Exception
+            Dim strCurrent = System.Reflection.MethodBase.GetCurrentMethod().ToString()
+            Dim message As String = ex.Message
+            Dim ctMethodName = getMethodName(strCurrent, message)
+            strLogCadenaCabecera += " " + ctMethodName
+            writeLog(strLogCadenaCabecera, Logs.ErrorTypeEnum.Exception, "User: " + Session("userid").ToString(), " Exception: " + message + ". At Time: " + DateTime.Now.ToString())
+            strLogCadenaCabecera = Session("LogCadena").ToString()
+            Return result
+        End Try
+    End Function
+
     Public Function ClaimApprovedCompletedUnder500(wrnNo As String, totalClaimValue As Double, totalLimit As Double, totalConsDamage As Double, ByRef strMessage As String) As Boolean
         Dim result As Boolean = False
         strMessage = Nothing
@@ -8933,7 +9050,7 @@ Public Class CustomerClaims
                         End If
                     Else
                         Dim lastPos As Integer = name.LastIndexOf("\")
-                        Dim NoFilePath = name.Substring(0, lastPos - 1)
+                        Dim NoFilePath = If(name.Contains("\"), name.Substring(0, lastPos - 1), name)
                         Dim noImg As String = "pic_not_av.jpg"
 
                         Dim di = New IO.DirectoryInfo(NoFilePath)
@@ -12604,7 +12721,7 @@ Public Class CustomerClaims
             Dim flag As Boolean = False
 
             Dim body As StringBuilder = New StringBuilder()
-            body.AppendFormat("<div style=text-align:center;><table id=table1 border=2 style=background-color:#F7F7FD;><tr><td colspan=4 style=text-align:center;>{0}</td></tr>", descMessage)
+            body.AppendFormat("<div style=text-align:center;><table id=table1 border=2 style=background-color:#F7F7FD;width:100%;><tr><td colspan=4 style=text-align:center;>{0}</td></tr>", descMessage)
 
             body.Append("<tr>")
             Dim i = 0
@@ -13016,7 +13133,7 @@ Public Class CustomerClaims
 
                 rsChkResult = objBL.GetCheckingNumber(partNo, invoiceno, invoiceDate, strCheckingNo)
                 If rsChkResult = 1 Then
-                    rsBReqResult = objBL.GetBarSeqNumber(strCheckingNo, strBReqNo)
+                    rsBReqResult = objBL.GetBarSeqNumber(strCheckingNo, partNo, strBReqNo)
                     If rsBReqResult = 1 Then
                         txtBarSeq.Text = strBReqNo.Trim()
                         rsRecResult = objBL.GetReceivingNumber(strBReqNo, strRecNo)

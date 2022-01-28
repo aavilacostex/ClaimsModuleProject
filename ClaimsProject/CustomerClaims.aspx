@@ -2524,7 +2524,7 @@
             <asp:Label runat="server" ID="dummylabel1"></asp:Label>
             <div id="seeFilesSection" class="container hideProp" runat="server">   
                 
-                <asp:Panel ID="pnOut" runat="server">
+                <asp:Panel ID="pnOut" CssClass="ctu-width" runat="server">
 
                     <div class="table">
                         <div class="d-md-table-row">
@@ -2541,9 +2541,9 @@
                         <div class="d-md-table-row">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div id="filesPanel" style="border: 10px solid #feedcd;" runat="server">
+                                    <div id="filesPanel" style="border: 10px solid #feedcd;width: 1000px;" runat="server">
                                         <div id="pnDiv" class="row" style="margin: 0 auto;" runat="server">
-                                            <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles1" runat="server">
+                                            <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles2" runat="server">
                                             </asp:Panel>
                                         </div>
 

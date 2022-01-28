@@ -507,14 +507,14 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function GetBarSeqNumber(checkingNo As String, ByRef barSeqValue As String) As Integer
+    Public Function GetBarSeqNumber(checkingNo As String, partNo As String, ByRef barSeqValue As String) As Integer
         Dim exMessage As String = " "
         Dim result As Integer = -1
         Dim Sql As String = String.Empty
         barSeqValue = Nothing
         Try
             Dim objDatos = New ClsRPGClientHelper()
-            Sql = "SELECT CSBARS FROM QS36F.CHKORDS WHERE CSCKNO = '" + checkingNo + "' "
+            Sql = "SELECT CSBARS FROM QS36F.CHKORDS WHERE CSCKNO = '" + checkingNo + "' and CSPTNO = '" + partNo + "' "
             'adjust date to the sql
             barSeqValue = objDatos.GetSingleDataScalar(Sql)
             If Not String.IsNullOrEmpty(barSeqValue) Then

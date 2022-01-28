@@ -1777,12 +1777,12 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
-    Public Function GetBarSeqNumber(checkingNo As String, ByRef barSeqValue As String) As Integer
+    Public Function GetBarSeqNumber(checkingNo As String, partNo As String, ByRef barSeqValue As String) As Integer
         Dim strResult As String = Nothing
         Dim result As Integer = -1
         Try
             Dim objDal = New DAL.ClaimsProject()
-            result = objDal.GetBarSeqNumber(checkingNo, barSeqValue)
+            result = objDal.GetBarSeqNumber(checkingNo, partNo, barSeqValue)
             'If result > 0 Then
             '    Return strResult
             'Else

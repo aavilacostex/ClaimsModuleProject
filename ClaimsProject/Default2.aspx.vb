@@ -6774,7 +6774,7 @@ Public Class _Default2
 
                 rsChkResult = objBL.GetCheckingNumber(partNo, invoiceno, invoiceDate, strCheckingNo)
                 If rsChkResult = 1 Then
-                    rsBReqResult = objBL.GetBarSeqNumber(strCheckingNo, strBReqNo)
+                    rsBReqResult = objBL.GetBarSeqNumber(strCheckingNo, partNo, strBReqNo)
                     If rsBReqResult = 1 Then
                         txtBarSeq.Text = strBReqNo.Trim()
                         rsRecResult = objBL.GetReceivingNumber(strBReqNo, strRecNo)
