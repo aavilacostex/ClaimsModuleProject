@@ -1537,7 +1537,10 @@
                                                     <asp:LinkButton ID="lnkAcknowledgeEmail" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <asp:Label ID="lblAckMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
+                                                    <asp:LinkButton ID="lnkAttachFileEmailAck" class="btn btn-primary btnSmallSize" ToolTip="Attach file!" runat="server">
+                                                        <i class="fa fa-1x fa-paperclip download" aria-hidden="true"> </i>
+                                                    </asp:LinkButton>
+                                                    <asp:Label ID="lblAckMessageStatus" CssClass="clsMesageSaved hideProp" Text="Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtAcknowledgeEmail" CssClass="form-control" runat="server" />                                                            
@@ -1563,7 +1566,10 @@
                                                     <asp:LinkButton ID="lnkInfoCust" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <asp:Label ID="lblInfoCMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
+                                                    <asp:LinkButton ID="lnkAttachFileInfoCust" class="btn btn-primary btnSmallSize" ToolTip="Attach file!" runat="server">
+                                                        <i class="fa fa-1x fa-paperclip download" aria-hidden="true"> </i>
+                                                    </asp:LinkButton>
+                                                    <asp:Label ID="lblInfoCMessageStatus" CssClass="clsMesageSaved hideProp" Text="Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInfoCust" CssClass="form-control" runat="server" />                                                            
@@ -2524,7 +2530,7 @@
             <asp:Label runat="server" ID="dummylabel1"></asp:Label>
             <div id="seeFilesSection" class="container hideProp" runat="server">   
                 
-                <asp:Panel ID="pnOut" runat="server">
+                <asp:Panel ID="pnOut" CssClass="ctu-width" runat="server">
 
                     <div class="table">
                         <div class="d-md-table-row">
@@ -2541,9 +2547,9 @@
                         <div class="d-md-table-row">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div id="filesPanel" style="border: 10px solid #feedcd;" runat="server">
+                                    <div id="filesPanel" style="border: 10px solid #feedcd;width: 1000px;" runat="server">
                                         <div id="pnDiv" class="row" style="margin: 0 auto;" runat="server">
-                                            <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles1" runat="server">
+                                            <asp:Panel ID="pnFilesPanel" CssClass="pnFilterStyles2" runat="server">
                                             </asp:Panel>
                                         </div>
 
@@ -2610,11 +2616,10 @@
             </div>
 
             <asp:Label runat="server" ID="dummylabel2"></asp:Label>
-            <div id="acknowledgeEmailSection" class="container hideProp" runat="server">                               
-
+            <div id="acknowledgeEmailSection" class="container hideProp" runat="server">  
                 <div id="ackEmailP" runat="server">
                     <div id="pn1Div" class="row" runat="server">
-                        <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles1" runat="server">
+                        <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles3" runat="server">
                             <div id="rwContainerChanged" class="container padding0">
                                 <div class="row">                                    
                                     <div class="col-md-12 padding0">
@@ -2624,45 +2629,23 @@
                                 <div class="row">
                                     <div class="col-md-12 padding0">
                                         <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
-                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" EnableSanitization="false" DisplaySourceTab ="false" runat="server"
-                                            OnImageUploadComplete="MyHtmlEditorExtender_ImageUploadComplete" >
-                                            <Toolbar>
-                                                <ajaxToolkit:Bold />
-                                                <ajaxToolkit:Italic />
-                                                <ajaxToolkit:Underline />
-                                                <ajaxToolkit:StrikeThrough />
-                                                <ajaxToolkit:Subscript />
-                                                <ajaxToolkit:Superscript />
-                                                <ajaxToolkit:JustifyLeft />
-                                                <ajaxToolkit:JustifyCenter />
-                                                <ajaxToolkit:JustifyRight />
-                                                <ajaxToolkit:JustifyFull />
-                                                <ajaxToolkit:InsertOrderedList />
-                                                <ajaxToolkit:InsertUnorderedList />
-                                                <ajaxToolkit:CreateLink />
-                                                <ajaxToolkit:UnLink />
-                                                <ajaxToolkit:RemoveFormat />
-                                                <ajaxToolkit:Cut />
-                                                <ajaxToolkit:Copy />
-                                                <ajaxToolkit:Paste />
-                                                <ajaxToolkit:BackgroundColorSelector />
-                                                <ajaxToolkit:ForeColorSelector />
-                                                <ajaxToolkit:FontNameSelector />
-                                                <ajaxToolkit:FontSizeSelector />
-                                                <ajaxToolkit:Indent />
-                                                <ajaxToolkit:Outdent />
-                                                <ajaxToolkit:InsertHorizontalRule />
-                                                <ajaxToolkit:HorizontalSeparator />
-                                                <ajaxToolkit:InsertImage />
-                                            </Toolbar>
+                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" DisplaySourceTab="false" EnableSanitization="false" runat="server">                                            
                                         </Atk:HtmlEditorExtender>
                                     </div>
                                 </div>
-                            </div>                           
-
+                            </div>  
                         </asp:Panel>
                     </div>
-
+                    <div class="row text-uppercase" style="background-color: #feedcd;margin: 0 auto;border: 2px groove whitesmoke;">
+                        <div class="col-md-6 text-left pb-1">
+                            <asp:LinkButton ID="lnkAttachFile" class="boxed-btn-layout btn-sm btn-rounded btnSmallSize" OnClick="lnkAttachFile_Click" runat="server">
+                                <i class="fa fa-1x fa-file-alt" aria-hidden="true"></i>  Attach File  
+                            </asp:LinkButton>                           
+                        </div>
+                        <div class="col-md-6 text-center pb-1">
+                            <asp:Label ID="lblAttachedFiles" Text="No attachments uploaded yet." runat="server"></asp:Label>
+                        </div>
+                    </div>
                     <div id="rwBottomBar" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
                         <div class="col-md-1 padding0"></div>
                         <div class="col-md-10 padding0">
@@ -2677,7 +2660,6 @@
                         </div>
                         <div class="col-md-1 padding0"></div>
                     </div> 
-                    
                     <div class="row hideProp">
                         <asp:LinkButton ID="btnSeeFileMsg1" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
                     </div>
@@ -2688,7 +2670,7 @@
             <div id="infoCustSection" class="container hideProp" runat="server"> 
                 <div id="infoCustP" runat="server">
                     <div id="pn2Div" class="row" runat="server">
-                        <asp:Panel ID="pnInfoCust" CssClass="pnFilterStyles1" runat="server">
+                        <asp:Panel ID="pnInfoCust" CssClass="pnFilterStyles3" runat="server">
                             <div id="rwContainerChanged1" class="container padding0">
                                 <div class="row">                                    
                                     <div class="col-md-12 padding0">
@@ -2704,6 +2686,17 @@
                             </div>                           
 
                         </asp:Panel>
+                    </div>
+
+                    <div class="row text-uppercase" style="background-color: #feedcd;margin: 0 auto;border: 2px groove whitesmoke;">
+                        <div class="col-md-6 text-left pb-1">
+                            <asp:LinkButton ID="LnkAttachFileInf" class="boxed-btn-layout btn-sm btn-rounded btnSmallSize" OnClick="LnkAttachFileInf_Click" runat="server">
+                                <i class="fa fa-1x fa-file-alt" aria-hidden="true"></i>  Attach File  
+                            </asp:LinkButton>                           
+                        </div>
+                        <div class="col-md-6 text-center pb-1">
+                            <asp:Label ID="lblAttachFileInf" Text="No attachments uploaded yet." runat="server"></asp:Label>
+                        </div>
                     </div>
 
                     <div id="rwBottomBar1" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
@@ -2861,7 +2854,7 @@
 
 
             <asp:Label runat="server" ID="dummylabel"></asp:Label>
-            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
+            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" Style="display: none;">
                 <asp:Panel ID="panInnerLogin" runat="server">
                     <div id="AddFilesSection" class="container hideProp" runat="server">
                         <div class="row">
@@ -2886,7 +2879,7 @@
                                     <div class="col-md-2"></div>
                                     <div class="col-md-8 hideProp"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
                                     <div class="col-md-2"></div>
-                                </div>
+                                </div>                                
 
                                 <div class="row">
                                     <div class="col-md-1"></div>
@@ -4239,6 +4232,22 @@
             $('#MainContent_btnImportExcel').removeClass('hideProp')
         });
 
+        $('body').on('click', '#MainContent_LnkAttachFileInf', function (e) {
+            //debugger
+
+            var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
+            if (hdFile == "0") { $('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            else { $('#<%=hdAddClaimFile.ClientID %>').val("0"); }
+        });
+
+        $('body').on('click', '#MainContent_lnkAttachFile', function (e) {
+            //debugger
+
+            var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
+            if (hdFile == "0") { $('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            else { $('#<%=hdAddClaimFile.ClientID %>').val("0"); }
+        });
+
         // show import excel panel
         $('body').on('click', '#MainContent_btnAddFiles', function (e) {
             //debugger
@@ -5435,6 +5444,7 @@
 
                     $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
                     $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                    $('#<%=lnkAttachFileEmailAck.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                     $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
                     $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
@@ -5465,6 +5475,7 @@
 
                     $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
                     $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                    $('#<%=lnkAttachFileInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                     $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
                     $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")

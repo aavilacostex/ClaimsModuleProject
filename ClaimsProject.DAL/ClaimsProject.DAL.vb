@@ -44,7 +44,7 @@ Public Class ClaimsProject : Implements IDisposable
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
-
+            Return result
         End Try
     End Function
 
@@ -60,7 +60,23 @@ Public Class ClaimsProject : Implements IDisposable
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
+            Return result
+        End Try
+    End Function
 
+    Public Function VoidRestock(userid As String, ByRef dsResult As DataSet) As Integer
+        Dim exMessage As String = " "
+        Dim result As Integer = -1
+        Dim Sql As String = String.Empty
+        dsResult = New DataSet()
+        Try
+            Dim objDatos = New ClsRPGClientHelper()
+            Dim dt As DataTable = New DataTable()
+            'Sql = "SELECT * FROM QS36F.RETINPF WHERE RTWKST = 'frmclaimse' and RTUSER ='" & userid & "'"
+            result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
+            Return result
+        Catch ex As Exception
+            Return result
         End Try
     End Function
 
@@ -77,7 +93,7 @@ Public Class ClaimsProject : Implements IDisposable
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
-
+            Return result
         End Try
     End Function
 
@@ -1017,7 +1033,7 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             'and abs(ohsl$) = " & cm & "
-            Dim Sql = "select OHOR# from qs36f.Ordhd22 where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
+            Dim Sql = "select * from qs36f.Ordhd22 where ohcdp = '" & value & "' and ohcu# = " & customer & " "
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception
@@ -1033,7 +1049,7 @@ Public Class ClaimsProject : Implements IDisposable
             Dim objDatos = New ClsRPGClientHelper()
             Dim dt As DataTable = New DataTable()
             'and abs(ohsl$) = " & cm & "
-            Dim Sql = "select OHOR# from qs36f.hordhd where ohcdp = '" & value & "' and ohcu# = '" & customer & "' "
+            Dim Sql = "select * from qs36f.hordhd where ohcdp = '" & value & "' and ohcu# = " & customer & " "
             result = objDatos.GetDataFromDatabase(Sql, dsResult, dt)
             Return result
         Catch ex As Exception

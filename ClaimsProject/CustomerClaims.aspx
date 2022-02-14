@@ -773,6 +773,7 @@
                     <asp:HiddenField ID="hdTextEditorAckMessage" Value=""  runat="server" />
                     <asp:HiddenField ID="hdTextEditorInfoCustMessage" Value=""  runat="server" />
                     <asp:HiddenField ID="hdRestockFlag" Value="0"  runat="server" />
+                    <asp:HiddenField ID="hdVoidRestock" Value="0"  runat="server" />
 
                     <asp:HiddenField ID="hdComments" Value="" runat="server" />
                     <asp:HiddenField ID="hdFlagUpload" Value="" runat="server" />
@@ -1412,11 +1413,14 @@
                                         <asp:Panel ID="pnRestock" GroupingText="Re-Stock Actions" runat="server">
 
                                             <div class="form-row last">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <asp:Button ID="btnRestock" Text="Re-Stock Part" Enabled="False" OnClick="btnRestock_Click" CssClass="btn btn-primary" runat="server" />
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <asp:Button ID="btnUndoRestock" Text="Undo Re-Stock" OnClick="btnUndoRestock_Click" CssClass="btn btn-primary" runat="server" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <asp:Button ID="btnVoidRestock" Text="Void Re-Stock" OnClick="btnVoidRestock_Click" CssClass="btn btn-primary" runat="server" />
                                                 </div>
                                             </div>
 
@@ -1537,7 +1541,10 @@
                                                     <asp:LinkButton ID="lnkAcknowledgeEmail" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <asp:Label ID="lblAckMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
+                                                    <asp:LinkButton ID="lnkAttachFileEmailAck" class="btn btn-primary btnSmallSize" ToolTip="Attach file!" runat="server">
+                                                        <i class="fa fa-1x fa-paperclip download" aria-hidden="true"> </i>
+                                                    </asp:LinkButton>
+                                                    <asp:Label ID="lblAckMessageStatus" CssClass="clsMesageSaved hideProp" Text="Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtAcknowledgeEmail" CssClass="form-control" runat="server" />                                                            
@@ -1563,7 +1570,10 @@
                                                     <asp:LinkButton ID="lnkInfoCust" class="btn btn-primary btnSmallSize" runat="server">
                                                         <i class="fa fa-1x fa-gear download" aria-hidden="true"> </i> Update
                                                     </asp:LinkButton>
-                                                    <asp:Label ID="lblInfoCMessageStatus" CssClass="clsMesageSaved hideProp" Text="Message Saved!! Please click the update button." runat="server"></asp:Label>
+                                                    <asp:LinkButton ID="lnkAttachFileInfoCust" class="btn btn-primary btnSmallSize" ToolTip="Attach file!" runat="server">
+                                                        <i class="fa fa-1x fa-paperclip download" aria-hidden="true"> </i>
+                                                    </asp:LinkButton>
+                                                    <asp:Label ID="lblInfoCMessageStatus" CssClass="clsMesageSaved hideProp" Text="Saved!! Please click the update button." runat="server"></asp:Label>
                                                     <div class="form-row">                                                       
                                                         <div class="col-md-6">
                                                             <asp:TextBox ID="txtInfoCust" CssClass="form-control" runat="server" />                                                            
@@ -2610,58 +2620,105 @@
             </div>
 
             <asp:Label runat="server" ID="dummylabel2"></asp:Label>
-            <div id="acknowledgeEmailSection" class="container hideProp" runat="server">                               
-
+            <div id="acknowledgeEmailSection" class="container hideProp" runat="server">  
                 <div id="ackEmailP" runat="server">
-                    <div id="pn1Div" class="row" runat="server">
-                        <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles1" runat="server">
-                            <div id="rwContainerChanged" class="container padding0">
-                                <div class="row">                                    
-                                    <div class="col-md-12 padding0">
-                                        <div id="ackCommentHead" runat="server"><p>Insert the comment here!!</p></div>                                        
-                                    </div>                                    
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 padding0">
-                                        <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
-                                        <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" DisplaySourceTab="false" EnableSanitization="false" runat="server">                                            
-                                        </Atk:HtmlEditorExtender>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div id="pn1Div" class="row" runat="server">
+                                <asp:Panel ID="pnAckEmail" CssClass="pnFilterStyles3" runat="server">
+                                    <div id="rwContainerChanged" class="container padding0">
+                                        <div class="row">
+                                            <div class="col-md-12 padding0">
+                                                <div id="ackCommentHead" runat="server">
+                                                    <p>Insert the comment here!!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 padding0">
+                                                <asp:TextBox runat="server" ID="txtEditorExtender1" TextMode="MultiLine" Width="300" Height="200" placeholder="type your comment here!" />
+                                                <Atk:HtmlEditorExtender ID="htmlEditorExtender1" TargetControlID="txtEditorExtender1" DisplaySourceTab="false" EnableSanitization="false" runat="server">
+                                                </Atk:HtmlEditorExtender>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>                           
-
-                        </asp:Panel>
-                    </div>
-
-                    <div class="row text-uppercase" style="background-color: #feedcd;margin: 0 auto;border: 2px groove whitesmoke;">
-                        <div class="col-md-6 text-left pb-1">
-                            <asp:LinkButton ID="lnkAttachFile" class="boxed-btn-layout btn-sm btn-rounded btnSmallSize" OnClick="lnkAttachFile_Click" runat="server">
+                                </asp:Panel>
+                            </div>
+                            <div class="row text-uppercase" style="background-color: #feedcd; margin: 0 auto; border: 2px groove whitesmoke;">
+                                <div class="col-md-6 text-left pb-1">
+                                    <asp:LinkButton ID="lnkAttachFile" class="boxed-btn-layout btn-sm btn-rounded btnSmallSize" OnClick="lnkAttachFile_Click" runat="server">
                                 <i class="fa fa-1x fa-file-alt" aria-hidden="true"></i>  Attach File  
-                            </asp:LinkButton>                           
-                        </div>
-                        <div class="col-md-6 text-center pb-1">
-                            <asp:Label ID="lblAttachedFiles" Text="No attachments uploaded yet." runat="server"></asp:Label>
-                        </div>
-                    </div>
-
-                    <div id="rwBottomBar" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
-                        <div class="col-md-1 padding0"></div>
-                        <div class="col-md-10 padding0">
-                            <div class="form-row padding0">
-                                <div class="col-md-6 padding0" style="text-align: center !important;">
-                                    <asp:Button ID="btnSaveMessageAck" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageAck_click"  runat="server" />
+                                    </asp:LinkButton>
                                 </div>
-                                <div class="col-md-6 padding0" style="text-align: center !important;">
-                                    <asp:Button ID="BtnBackSeeFiles1" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles1_click" OnClientClick="setVisAckPop(); return false" runat="server" />
+                                <div class="col-md-6 text-center pb-1">
+                                    <asp:Label ID="lblAttachedFiles" CssClass="hideProp" Text="No attachments uploaded yet." runat="server"></asp:Label>
                                 </div>
                             </div>
+                            <div id="rwBottomBar" class="row" style="background-color: #F7F7FD; padding: 15px 0 5px 0; text-align: right; border: 2px groove whitesmoke;">
+                                <div class="col-md-1 padding0"></div>
+                                <div class="col-md-10 padding0">
+                                    <div class="form-row padding0">
+                                        <div class="col-md-6 padding0" style="text-align: center !important;">
+                                            <asp:Button ID="btnSaveMessageAck" Text="   Save   " class="btn btn-primary btn-md btnMidSize" OnClick="btnSaveMessageAck_click" runat="server" />
+                                        </div>
+                                        <div class="col-md-6 padding0" style="text-align: center !important;">
+                                            <asp:Button ID="BtnBackSeeFiles1" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="BtnBackSeeFiles1_click" OnClientClick="setVisAckPop(); return false" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 padding0"></div>
+                            </div>
+                            <div class="row hideProp">
+                                <asp:LinkButton ID="btnSeeFileMsg1" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                            </div>
                         </div>
-                        <div class="col-md-1 padding0"></div>
-                    </div> 
-                    
-                    <div class="row hideProp">
-                        <asp:LinkButton ID="btnSeeFileMsg1" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
+                        <div class="col-md-2 pl-0">
+                            <div id="pn7Div" class="row text-center" runat="server">
+                                <asp:Panel ID="pnClaimExtraData" CssClass="pnFilterStyles3" runat="server">
+                                    <div class="container p-0">
+                                        <div class="row pb-3">
+                                            <div class="col-md-12 padding0">
+                                                <div id="pnVRestockHead" runat="server">
+                                                    <p>Claim Data</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-1">
+                                            <div class="col-md-12">
+                                                <asp:Label ID="lblPartNoExtra" Text="PartNo" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtPartNoExtra" CssClass="form-control custom-rstk-css-input" Enabled="false" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-1">
+                                            <div class="col-md-12">
+                                                <asp:Label ID="lblInvoiceNoExtra" Text="InvoiceNo" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtInvoiceNoExtra" CssClass="form-control custom-rstk-css-input" Enabled="false" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-1">
+                                            <div class="col-md-12">
+                                                <asp:Label ID="lblClientNoExtra" Text="ClientNo" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtClientNoExtra" CssClass="form-control custom-rstk-css-input" Enabled="false" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-1">
+                                            <div class="col-md-12">
+                                                <asp:Label ID="lblVendorNoExtra" Text="VendorNo" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtVendorNoExtra" CssClass="form-control custom-rstk-css-input" Enabled="false" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-1">
+                                            <div class="col-md-12">
+                                                <asp:Label ID="lblTotalAmountExtra" Text="Claim Amount" CssClass="control-label" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTotalAmountExtra" CssClass="form-control custom-rstk-css-input" Enabled="false" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </asp:Panel>
+                            </div>  
+                        </div>
                     </div>
+                    
                 </div>
             </div>
 
@@ -2669,7 +2726,7 @@
             <div id="infoCustSection" class="container hideProp" runat="server"> 
                 <div id="infoCustP" runat="server">
                     <div id="pn2Div" class="row" runat="server">
-                        <asp:Panel ID="pnInfoCust" CssClass="pnFilterStyles1" runat="server">
+                        <asp:Panel ID="pnInfoCust" CssClass="pnFilterStyles3" runat="server">
                             <div id="rwContainerChanged1" class="container padding0">
                                 <div class="row">                                    
                                     <div class="col-md-12 padding0">
@@ -2685,6 +2742,17 @@
                             </div>                           
 
                         </asp:Panel>
+                    </div>
+
+                    <div class="row text-uppercase" style="background-color: #feedcd;margin: 0 auto;border: 2px groove whitesmoke;">
+                        <div class="col-md-6 text-left pb-1">
+                            <asp:LinkButton ID="LnkAttachFileInf" class="boxed-btn-layout btn-sm btn-rounded btnSmallSize" OnClick="LnkAttachFileInf_Click" runat="server">
+                                <i class="fa fa-1x fa-file-alt" aria-hidden="true"></i>  Attach File  
+                            </asp:LinkButton>                           
+                        </div>
+                        <div class="col-md-6 text-center pb-1">
+                            <asp:Label ID="lblAttachFileInf" Text="No attachments uploaded yet." runat="server"></asp:Label>
+                        </div>
                     </div>
 
                     <div id="rwBottomBar1" class="row" style="background-color: #F7F7FD;padding: 15px 0 5px 0;text-align: right;border: 2px groove whitesmoke;">
@@ -2791,55 +2859,7 @@
                         <asp:LinkButton ID="LinkButton2" OnClick="btnSeeFileMsg_Click" runat="server"></asp:LinkButton>
                     </div>
                 </div>
-            </div>            
-
-            <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
-            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
-                <asp:Panel ID="panInnerLogin" runat="server">
-                    <div id="AddFilesSection" class="container hideProp" runat="server">
-                        <div class="row">                            
-                            <div id="pnAddClaimFile" class="modalPanel" runat="server">pnPartImage
-                                <div class="row" style="padding: 30px 0;">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
-                                    <div class="col-md-1"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-8 center-row">
-                                        <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control" runat="server" />
-                                    </div>
-                                    <div class="col-md-2"></div>
-                                </div>
-                                <div class="row" style="padding: 5px 0;">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-8"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
-                                    <div class="col-md-2"></div>
-                                </div>
-                                <div class="row" style="padding: 20px 0;">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-10">
-                                        <div class="row">
-                                            <div class="col-md-6" style="float: right; text-align: right !important;">
-                                                <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" OnClick="btnSaveFile_Click" runat="server" />
-                                            </div>
-                                            <div class="col-md-6" style="float: left;">
-                                                <asp:Button ID="btnBackFile" Text="   Back   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                </div>                    
-                            </div>
-                        </div>                        
-                    </div> 
-                </asp:Panel>
-            </asp:Panel>--%>
-
-            <%--<Atk:ModalPopupExtender ID="popUpLogin" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
-                PopupControlID="panLogin" CancelControlID="btnBackFile">
-            </Atk:ModalPopupExtender>--%>
-
+            </div>          
 
             <asp:Label runat="server" ID="dummylabel"></asp:Label>
             <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" Style="display: none;">
@@ -2889,6 +2909,61 @@
                 </asp:Panel>
             </asp:Panel>
 
+            <asp:Label runat="server" ID="dummylabel5"></asp:Label>
+            <div id="pnVoidRestockSection" class="container hideProp" runat="server">  
+                <div id="voidPanel" runat="server">
+                    <asp:Panel ID="pnRestockVoid" GroupingText="Void Re-Stock Process" CssClass="pnFilterStyles1 pb-1 text-center" style="width:90% !important;" runat="server">
+                        <div id="pn5Div" class="row" style="padding: 10px 0;" runat="server">
+                            <div class="col-md-6">
+                                <div class="row pb-1">
+                                    <div class="col-md-12">
+                                        <asp:Label ID="lblPartNoVR" Text="Part No." CssClass="control-label" runat="server"></asp:Label>
+                                        <asp:TextBox ID="txtPartNoVR" CssClass="form-control custom-rstk-css-input" placeholder="Insert the part number" Enabled="false" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="row pb-1">
+                                    <div class="col-md-12">
+                                        <asp:Label ID="lblClientNoVR" Text="Client No." CssClass="control-label" runat="server"></asp:Label>
+                                        <asp:TextBox ID="txtClientNoVR" CssClass="form-control custom-rstk-css-input" placeholder="Insert the part number" Enabled="false" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row pb-1">
+                                    <div class="col-md-12">
+                                        <asp:Label ID="lblInvoiceNoVR" Text="Invoice No." CssClass="control-label" runat="server"></asp:Label>
+                                        <asp:TextBox ID="txtInvoiceNoVR" CssClass="form-control custom-rstk-css-input" placeholder="Insert the part number" Enabled="false" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="row pb-1">
+                                    <div class="col-md-12">
+                                        <asp:Label ID="lblVendorNoVR" Text="Vendor No." CssClass="control-label" runat="server"></asp:Label>
+                                        <asp:TextBox ID="txtVendorNoVR" CssClass="form-control custom-rstk-css-input" placeholder="Insert the part number" Enabled="false" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding: 15px 0;text-align:center !important;">
+                            <div style="width: 98%;border-top: 1px solid #fbba42;margin-left: 1%;padding: 15px 0 5px 0;">                                        
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6" style="text-align:right !important;">
+                                            <asp:Button ID="btnVoidRestockClick" Text="   Void   " class="btn btn-primary btn-md btnMidSize" OnClick="btnVoidRestock_click" runat="server" />
+                                        </div>
+                                        <div class="col-md-6" style="text-align:left !important;">
+                                            <asp:Button ID="btnVoidRestockCancel" Text="   Close   " class="btn btn-primary btn-md btnMidSize" OnClick="btnVoidRestockCancel_click" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                            </div>
+                        </div>
+                    </asp:Panel>
+                </div>
+            </div>
+
+
             <Atk:ModalPopupExtender ID="popAjUpLog" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
                 PopupControlID="panLogin" CancelControlID="btnBackFile" BackgroundCssClass="modalBackground">
             </Atk:ModalPopupExtender>
@@ -2908,6 +2983,58 @@
             <Atk:ModalPopupExtender ID="popRestock" runat="server" TargetControlID="dummylabel4" BehaviorID="popupCopyCtrl"
                 PopupControlID="rstkPanel" CancelControlID="BtnBackRestock" BackgroundCssClass="modalBackground" >
             </Atk:ModalPopupExtender>
+
+            <Atk:ModalPopupExtender ID="popVoidRestock" runat="server" TargetControlID="dummylabel5" BehaviorID="popupCopyCtrl"
+                PopupControlID="voidPanel" CancelControlID="btnVoidRestockCancel" BackgroundCssClass="modalBackground" >
+            </Atk:ModalPopupExtender>
+
+
+            <%--<asp:Label runat="server" ID="dummylabel"></asp:Label>
+            <asp:Panel ID="panLogin" runat="server" HorizontalAlign="Left" Width="100%" Height="100%" CssClass="modalBackground" Style="display: none;">
+                <asp:Panel ID="panInnerLogin" runat="server">
+                    <div id="AddFilesSection" class="container hideProp" runat="server">
+                        <div class="row">                            
+                            <div id="pnAddClaimFile" class="modalPanel" runat="server">pnPartImage
+                                <div class="row" style="padding: 30px 0;">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10"><span id="spnAddClaimFile">Select the file to atach to the open claim</span></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 center-row">
+                                        <asp:FileUpload ID="fuAddClaimFile" CssClass="form-control" runat="server" />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="row" style="padding: 5px 0;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8"><span id="spnTypeFormatClaimFile">(CSV and XLS formats are allowed)</span></div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="row" style="padding: 20px 0;">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-6" style="float: right; text-align: right !important;">
+                                                <asp:Button ID="btnSaveFile" Text="Upload" class="btn btn-primary btn-lg btnFullSize" OnClick="btnSaveFile_Click" runat="server" />
+                                            </div>
+                                            <div class="col-md-6" style="float: left;">
+                                                <asp:Button ID="btnBackFile" Text="   Back   " class="btn btn-primary btn-lg btnFullSize" runat="server" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>                    
+                            </div>
+                        </div>                        
+                    </div> 
+                </asp:Panel>
+            </asp:Panel>--%>
+
+            <%--<Atk:ModalPopupExtender ID="popUpLogin" runat="server" TargetControlID="dummylabel" BehaviorID="popupCopyCtrl"
+                PopupControlID="panLogin" CancelControlID="btnBackFile">
+            </Atk:ModalPopupExtender>--%>
 
             <br />
         </ContentTemplate>
@@ -3361,13 +3488,14 @@
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
                 $('#<%=hdInfoCustContent.ClientID %>').val("0");
                 $('#<%=hdRestockFlag.ClientID %>').val("0");
+                $('#<%=hdVoidRestock.ClientID %>').val("0");
             } else {
                 $('#<%=hdGridViewContent.ClientID %>').val("1");
                 $('#<%=hdNavTabsContent.ClientID %>').val("0");
                 $('#<%=hdSeeFilesContent.ClientID %>').val("0");
                 $('#<%=hdAckPopContent.ClientID %>').val("0");
                 $('#<%=hdInfoCustContent.ClientID %>').val("0");
-                $('#<%=hdRestockFlag.ClientID %>').val("0");
+                $('#<%=hdVoidRestock.ClientID %>').val("0");
 
             }
 
@@ -3664,18 +3792,13 @@
 
             var hdRestockFlagVisualization = document.getElementById('<%=hdRestockFlag.ClientID%>').value
             if (hdRestockFlagVisualization == "1") {
-
-                debugger
-
                 $('#MainContent_pnRestockSection').closest('.container').removeClass('hideProp')
                 $("#MainContent_pnRestockSection").removeAttr("style");
-
                 //$('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
                 //$('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
                 //$('#MainContent_navsSection').closest('.container').removeClass('hideProp')
             }
             else {
-
                 debugger
 
                 //if (hdTabsVisualization == "1") {
@@ -3695,6 +3818,37 @@
 
                 $('#MainContent_pnRestockSection').closest('.container').addClass('container hideProp')
                 $('#MainContent_pnRestockSection').addClass('container hideProp')
+
+            }
+
+            var hdRestockVoidVisualization = document.getElementById('<%=hdVoidRestock.ClientID%>').value
+            if (hdRestockVoidVisualization == "1") {
+                $('#MainContent_pnVoidRestockSection').closest('.container').removeClass('hideProp')
+                $("#MainContent_pnVoidRestockSection").removeAttr("style");
+                //$('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //$('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+            }
+            else {
+                debugger
+
+                //if (hdTabsVisualization == "1") {
+                //    $('#MainContent_navsSection').closest('.container').removeClass('hideProp')
+                //    $("#MainContent_navsSection").removeAttr("style");
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').addClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').addClass('hideProp')
+                //}
+                //else {
+                //    $('#MainContent_gridviewRow').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_rowFilters').closest('.container-fluid').removeClass('hideProp')
+                //    $('#MainContent_navsSection').closest('.container').addClass('hideProp')
+                //}
+
+                $('#MainContent_pnVoidRestockSection').closest('.container').removeClass('container hideProp')
+                $('#MainContent_pnVoidRestockSection').removeClass('container hideProp')
+
+                $('#MainContent_pnVoidRestockSection').closest('.container').addClass('container hideProp')
+                $('#MainContent_pnVoidRestockSection').addClass('container hideProp')
 
             }
 
@@ -4218,6 +4372,14 @@
 
             $('#<%=hdShowTemplate.ClientID %>').val("1")
             $('#MainContent_btnImportExcel').removeClass('hideProp')
+        });
+
+        $('body').on('click', '#MainContent_LnkAttachFileInf', function (e) {
+            //debugger
+
+            var hdFile = document.getElementById('<%=hdAddClaimFile.ClientID%>').value
+            if (hdFile == "0") { $('#<%=hdAddClaimFile.ClientID %>').val("1"); }
+            else { $('#<%=hdAddClaimFile.ClientID %>').val("0"); }
         });
 
         $('body').on('click', '#MainContent_lnkAttachFile', function (e) {
@@ -5424,6 +5586,7 @@
 
                     $('#<%=lnkAcknowledgeEmail.ClientID %>').removeClass('aspNetDisabled');
                     $('#<%=lnkAcknowledgeEmail.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                    $('#<%=lnkAttachFileEmailAck.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                     $('#<%=txtAcknowledgeEmail.ClientID %>').attr("disabled", "disabled")
                     $('#<%=txtAcknowledgeEmailDate.ClientID %>').attr("disabled", "disabled")
@@ -5454,6 +5617,7 @@
 
                     $('#<%=lnkInfoCust.ClientID %>').removeClass('aspNetDisabled');
                     $('#<%=lnkInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
+                    $('#<%=lnkAttachFileInfoCust.ClientID %>').addClass('btn btn-primary btnSmallSize disableCtr');
 
                     $('#<%=txtInfoCust.ClientID %>').attr("disabled", "disabled")
                     $('#<%=txtInfoCustDate.ClientID %>').attr("disabled", "disabled")

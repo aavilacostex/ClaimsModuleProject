@@ -1139,6 +1139,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
     min-width: 50% !important;
 }
 
+#MainContent_LnkAttachFileInf {
+    height: auto !important;
+}
+
+#MainContent_lblAttachFileInf {
+    font-size: 10px;
+    font-weight: 700;
+}
+
 #MainContent_lnkAttachFile {
     height: auto !important;
 }
@@ -1811,13 +1820,13 @@ input[type="color"]:focus,
     background-color:white !important;
 }
 
-#MainContent_ackCommentHead, #MainContent_infoCustHead {
+#MainContent_ackCommentHead, #MainContent_infoCustHead, #MainContent_pnVRestockHead {
     background-color: #fbba42 !important;
     padding: 0;
     text-align: center;
 }
 
-#MainContent_ackCommentHead > p, #MainContent_infoCustHead > p {
+#MainContent_ackCommentHead > p, #MainContent_infoCustHead > p, #MainContent_pnVRestockHead > p {
     margin: 0 auto !important;
     font-size: 22px;
     color: black !important;
@@ -2075,6 +2084,16 @@ input[type=file]::-ms-value {
     height: 180px;
 }
 
+.pnFilterStyles3 {
+    padding: 6px 15px 26px 15px;
+    background-color: #F7F7FD;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    /*border-left: 4px solid #fbba42;*/
+    box-shadow: 0px 2px 4px rgb(31 30 47 / 10%);
+}
+
 .pnFilterStyles1 {
     padding: 6px 15px 26px 15px;
     background-color: #F7F7FD;
@@ -2197,7 +2216,7 @@ input[type=file]::-ms-value {
         margin: 0 auto;
     }
 
-    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust, #MainContent_pnClaimExtraData {
         min-width: 97% !important;
         margin: 0 auto;
     }
@@ -2236,7 +2255,7 @@ input[type=file]::-ms-value {
         margin: 0 auto !important;
     }
 
-    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust, #MainContent_pnClaimExtraData {
         min-width: 96% !important;
     }
 
@@ -2285,7 +2304,7 @@ input[type=file]::-ms-value {
         height: 370px !important;
     }
 
-    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust, #MainContent_pnClaimExtraData {
         min-width: 95% !important;
     }
 
@@ -2328,7 +2347,7 @@ input[type=file]::-ms-value {
         height: 350px !important;
     }
 
-    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust, #MainContent_pnClaimExtraData {
         min-width: 94% !important;
     }
 
@@ -2374,17 +2393,18 @@ input[type=file]::-ms-value {
         margin: 0 auto;
     }
 
-    #MainContent_pnAckEmail, #MainContent_pnInfoCust {
-        max-width: 94% !important;
+    #MainContent_pnAckEmail, #MainContent_pnInfoCust, #MainContent_pnClaimExtraData {
+        /*max-width: 94% !important;*/
         margin: 0 auto;
     }
 
     .ajax__html_editor_extender_container {
         max-width: 100% !important;
+        width: 100% !important;
     }
 
     .ajax__html_editor_extender_texteditor {
-        height: 465px !important;
+        height: 459px !important;
     }
 
     #MainContent_claimQuickOverview {

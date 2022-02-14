@@ -2611,6 +2611,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lnkAttachFileEmailAck">
+<summary>
+lnkAttachFileEmailAck control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._lblAckMessageStatus">
 <summary>
 lblAckMessageStatus control.
@@ -2686,6 +2695,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._lnkInfoCust">
 <summary>
 lnkInfoCust control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lnkAttachFileInfoCust">
+<summary>
+lnkAttachFileInfoCust control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -4258,6 +4276,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:ClaimsProject.CustomerClaims._lnkAttachFile">
+<summary>
+lnkAttachFile control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblAttachedFiles">
+<summary>
+lblAttachedFiles control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:ClaimsProject.CustomerClaims._btnSaveMessageAck">
 <summary>
 btnSaveMessageAck control.
@@ -4351,6 +4387,24 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:ClaimsProject.CustomerClaims._htmlEditorExtender2">
 <summary>
 htmlEditorExtender2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._LnkAttachFileInf">
+<summary>
+LnkAttachFileInf control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:ClaimsProject.CustomerClaims._lblAttachFileInf">
+<summary>
+lblAttachFileInf control.
 </summary>
 <remarks>
 Auto-generated field.

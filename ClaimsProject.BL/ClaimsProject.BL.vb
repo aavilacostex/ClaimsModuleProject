@@ -1860,6 +1860,18 @@ Public Class ClaimsProject : Implements IDisposable
         End Try
     End Function
 
+    Public Function VoidRestock(userid As String, ByRef dsResult As DataSet) As Integer
+        dsResult = New DataSet()
+        Dim result As Integer = -1
+        Try
+            Dim objDal = New DAL.ClaimsProject()
+            result = objDal.VoidRestock(userid, dsResult)
+            Return result
+        Catch ex As Exception
+            Return result
+        End Try
+    End Function
+
     Public Function GetIfOperationInProcess(userid As String, ByRef dsResult As DataSet) As Integer
         dsResult = New DataSet()
         Dim result As Integer = -1
@@ -1868,7 +1880,7 @@ Public Class ClaimsProject : Implements IDisposable
             result = objDal.GetIfOperationInProcess(userid, dsResult)
             Return result
         Catch ex As Exception
-
+            Return result
         End Try
     End Function
 
@@ -1880,7 +1892,7 @@ Public Class ClaimsProject : Implements IDisposable
             result = objDal.getLastCommentByNumber(value, dsResult)
             Return result
         Catch ex As Exception
-
+            Return result
         End Try
     End Function
 
